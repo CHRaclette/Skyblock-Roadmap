@@ -1,0 +1,58 @@
+name: Roadmap aktualisieren und veröffentlichen
+
+on:
+  schedule:
+    # Täglich 04:17 UTC = 06:17 Uhr Zürich (Sommerzeit) / 05:17 (Winterzeit)
+    - cron: "17 4 * * *"
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths:
+      - "scripts/**"
+      - ".github/workflows/pages.yml"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Neue Daten holen und Seite bauen
+        run: node scripts/run.js
+
+      - name: Neue Daten ins Repo committen
+        run: |
+          git config user.name "roadmap-bot"
+          git config user.email "roadmap-bot@users.noreply.github.com"
+          git add docs
+          git diff --cached --quiet || git commit -m "Roadmap-Update $(date -u +'%Y-%m-%d %H:%M') UTC"
+          git push
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

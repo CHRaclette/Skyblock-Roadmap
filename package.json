@@ -1,0 +1,10 @@
+{
+  "name": "skyblock-roadmap",
+  "private": true,
+  "description": "Raspberry Coop Ironman Roadmap (GitHub Pages)",
+  "scripts": {
+    "update": "node scripts/run.js",
+    "build": "node scripts/run.js --build-only"
+  },
+  "engines": { "node": ">=20" }
+}

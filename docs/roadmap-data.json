@@ -1,0 +1,2628 @@
+{
+ "P": {
+  "relaxo": {
+   "name": "Relaxo_GX",
+   "stats": [
+    [
+     "265",
+     "Magical Power"
+    ],
+    [
+     "160",
+     "SkyBlock Level"
+    ],
+    [
+     "912 M",
+     "Networth · 4,1 M Purse"
+    ],
+    [
+     "33.2",
+     "Skill Average"
+    ],
+    [
+     "19",
+     "Catacombs · Berserk 17"
+    ],
+    [
+     "6·5·5·2·0·0",
+     "Slayer Z·S·W·E·B·V"
+    ],
+    [
+     "63/289",
+     "Fairy Souls"
+    ],
+    [
+     "348",
+     "Farming Weight"
+    ]
+   ],
+   "lead": "Deine Skills sind solide (Mining 52, Taming 50, Farming 45) und dein Wardrobe ist breit: Fermento für Farming, Shadow Assassin für Dungeons, Glacite und Dimensional Yog für Mining. Was bremst, sind Magical Power, Combat 31, die fehlende Crimson Isle und erst 63 Fairy Souls.",
+   "diag": [
+    [
+     "hi",
+     "63 von 289 Fairy Souls",
+     "13 gefundene sind noch nicht bei Tia eingelöst. Eintauschen gibt SkyBlock XP und Backpack-Slots."
+    ],
+    [
+     "hi",
+     "Accessory Power und Tuning prüfen",
+     "Power: Simple, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 26 Tuning-Punkte bei 265 MP."
+    ],
+    [
+     "hi",
+     "Nur 265 Magical Power",
+     "Im Tab Accessories stehen die günstigsten nächsten Accessories in Reihenfolge."
+    ],
+    [
+     "hi",
+     "Crimson Isle: keine Faction",
+     "Mages oder Barbarians wählen, gleich wie im Coop, damit ihr Kuudra zusammen laufen könnt."
+    ],
+    [
+     "md",
+     "Slayer-Rewards nicht abgeholt",
+     "Bei Maddox abholen: Spider 3."
+    ],
+    [
+     "md",
+     "Crop Upgrades unter Tier 8",
+     "13 Crops sind unter dem Maximum für Garden 14. Copper zuerst in eure Haupt-Crops."
+    ],
+    [
+     "md",
+     "Anita: Extra Farming Fortune auf 0",
+     "2 Gold-Medaillen vorhanden, jede Stufe gibt +4 Farming Fortune."
+    ],
+    [
+     "md",
+     "HotM-Kernperks auf Stufe 1",
+     "Mining Fortune, Professional, Efficient Miner brauchen Powder."
+    ]
+   ],
+   "phases": [
+    [
+     "Heute erledigt",
+     "unter 1 Stunde",
+     [
+      [
+       "r0",
+       "13 Fairy Souls bei Tia einlösen",
+       "Gibt SkyBlock XP und Backpack-Slots. Danach die restlichen 226 Insel für Insel sammeln; der Quest Log im SkyBlock Menu zeigt, wo welche fehlen.",
+       "SB XP"
+      ],
+      [
+       "r0b",
+       "Spider Slayer Level 3 Reward abholen",
+       "Bei Maddox ist Level 3 nicht als abgeholt markiert. Level 1, 2, 4 und 5 schon.",
+       "Slayer"
+      ],
+      [
+       "r1",
+       "Maxwell: Power und Tuning setzen",
+       "Silky für Combat, Tuning-Punkte auf Strength und Crit Damage. Die Power global von „Simple“ wegstellen, nicht nur in Loadout 5.",
+       "MP"
+      ],
+      [
+       "r2",
+       "Kollektions-Upgrades craften",
+       "Speed Ring (Sugar Cane), Potion Affinity Artifact (Nether Wart), Sea Creature Artifact, Intimidation Ring, Zombie Ring, Wolf Ring und Red Claw Ring (Wolf Slayer 5 hast du).",
+       "MP"
+      ],
+      [
+       "r3",
+       "Titanium Talisman und Soulflow Pile",
+       "Titanium Talisman: 2 Refined Titanium in der Forge (HotM II), du hast 866 Enchanted Titanium in den Sacks. Soulflow Pile: 90 Null Spheres, Enderman Slayer 2 hast du. Pesthunter Badge bei Phillip für 25 Pests.",
+       "MP"
+      ],
+      [
+       "r4",
+       "/hotm aufräumen",
+       "Mining Fortune, Professional, Efficient Miner und Great Explorer leveln. Das ist dein grösster Mining-Boost.",
+       "Mining"
+      ],
+      [
+       "r5",
+       "Anita: Gold-Medaillen einsetzen",
+       "2 Gold vorhanden. Entweder Anita's Artifact (2 Gold + 100 Jacob's Tickets + Anita's Ring, +3 MP) oder Extra Farming Fortune (Stufe 0). Für MP zuerst das Artifact.",
+       "Farming"
+      ]
+     ]
+    ],
+    [
+     "Diese Woche",
+     "Routine aufbauen",
+     [
+      [
+       "r6",
+       "Rift Prism holen",
+       "Im Rift an der Barrier Street mitbieten (Top 25 gewinnen), danach bei Erihann für 200k einsetzen: dauerhaft +11 MP. Du warst erst 4× im Rift.",
+       "MP"
+      ],
+      [
+       "r7",
+       "Garden-Visitors täglich",
+       "Copper in Crop Upgrades (alle auf 3/9), Plots freischalten, Composter Speed und Multi Drop.",
+       "Farming"
+      ],
+      [
+       "r8",
+       "Experimentation Table täglich",
+       "Enchanting 40 → 50, Guardian Pet (Lvl 100) für Enchanting Wisdom tragen.",
+       "Skill Avg"
+      ],
+      [
+       "r9",
+       "Dark Auction besuchen",
+       "Nach 5 gekauften Dark-Auction-Items verkauft Lucius den Shady Ring (500k), nach 10 das Crooked Artifact (2 M).",
+       "MP"
+      ],
+      [
+       "r10",
+       "Alchemy auf 30+",
+       "Brewing Stands auf der Island, Nether Wart aus den Sacks.",
+       "Skill Avg"
+      ],
+      [
+       "r10b",
+       "Neue Minion-Arten craften",
+       "Cactus, Sugar Cane, Cocoa, Sand, Snow und Co. auf Tier I–III. 44 neue Tiers bis zum nächsten Minion Slot.",
+       "Coop"
+      ]
+     ]
+    ],
+    [
+     "Nächste 2–6 Wochen",
+     "Die grossen Grinds",
+     [
+      [
+       "r11",
+       "Shadow Assassin Chestplate + F6",
+       "F5 auf S+ farmen, bis das SA Set komplett ist. Dann F6 für Giant's Sword und Precursor Eye. Ziel Cata 24.",
+       "Dungeons"
+      ],
+      [
+       "r12",
+       "Mastiff Armor + Wolf Slayer 6",
+       "Mastiff braucht nur Wolf 4: Growth Armor + Golden Teeth. Red Claw Artifact geht schon mit Wolf 5 (Red Claw Egg nötig).",
+       "Slayer"
+      ],
+      [
+       "r13",
+       "Crimson Isle starten",
+       "Faction wählen (gleich wie Amin), Quests, Dojo. Danach Blaze Slayer und Kuudra Basic.",
+       "Combat"
+      ],
+      [
+       "r14",
+       "Enderman Slayer 2 → 5",
+       "Mit Voidwalker Katana und Ender-Set. Soulflow Pile und viel Combat XP.",
+       "Slayer"
+      ],
+      [
+       "r15",
+       "Spider Slayer 5 → 7",
+       "Spider 6: Spider Artifact und Chance auf Tarantula Talisman (T3+). Spider 7: Survivor Cube gratis bei Maddox.",
+       "Slayer · MP"
+      ]
+     ]
+    ],
+    [
+     "Langfristig",
+     "Late Game",
+     [
+      [
+       "r16",
+       "F7 und Necron's Armor",
+       "Ab Cata 24+. Necron's Handle und Wither Catalysts selbst farmen.",
+       "Dungeons"
+      ],
+      [
+       "r17",
+       "Divan's Armor und Drill",
+       "In der Forge ab HotM 6 (hast du). Teile aus den Mines of Divan, 24 h Forge-Zeit pro Teil.",
+       "Mining"
+      ],
+      [
+       "r18",
+       "Pet Score 75 → 100+",
+       "Pet Score gibt Magic Find (+4 bei 75, +5 bei 100). Kat-Upgrades für Mooshroom Cow, Monkey, Wither Skeleton; Griffin über Diana.",
+       "Pets"
+      ]
+     ]
+    ]
+   ],
+   "mp": {
+    "now": 265,
+    "t1": 345,
+    "t2": 460
+   },
+   "acc": [
+    [
+     "Sofort craftbar",
+     [
+      [
+       "Speed Ring → Artifact → Relic",
+       "Sugar Cane IX · Enchanted Sugar Cane",
+       "+2 bis +9",
+       "ok",
+       "jetzt"
+      ],
+      [
+       "Potion Affinity Artifact",
+       "Nether Wart IX · 256 Ench. Nether Wart",
+       "+3",
+       "ok",
+       "jetzt"
+      ],
+      [
+       "Sea Creature Artifact",
+       "Sponge VIII · 64 Enchanted Sponge",
+       "+3",
+       "ok",
+       "jetzt"
+      ],
+      [
+       "Red Claw Ring",
+       "Wolf 5 · 8 Golden Tooth + 96 Enchanted Leather",
+       "+3",
+       "ok",
+       "jetzt"
+      ],
+      [
+       "Zombie Ring · Intimidation Ring",
+       "/recipe",
+       "+2 je",
+       "ok",
+       "jetzt"
+      ],
+      [
+       "Titanium Talisman → Ring",
+       "2 Refined Titanium (HotM II), Ring 6 weitere (HotM III)",
+       "+5 und mehr",
+       "ok",
+       "jetzt"
+      ],
+      [
+       "Soulflow Pile",
+       "Enderman Slayer 2 · 90 Null Sphere",
+       "+5",
+       "ok",
+       "jetzt"
+      ],
+      [
+       "Pesthunter Badge → Ring",
+       "Phillip im Garden, 25 Pests",
+       "+5 und mehr",
+       "ok",
+       "jetzt"
+      ],
+      [
+       "Cropie Talisman → Squash Ring",
+       "256 Cropie (140 vorhanden), dann 128 Squash",
+       "+3 bis +5",
+       "soon",
+       "116 Cropie"
+      ],
+      [
+       "Anita's Artifact",
+       "2 Gold + 100 Jacob's Tickets bei Anita",
+       "+3",
+       "ok",
+       "jetzt"
+      ]
+     ]
+    ],
+    [
+     "Wenige Tage",
+     [
+      [
+       "Rift Prism",
+       "Barrier Street (Rift), bei Erihann einsetzen",
+       "+11",
+       "soon",
+       "Rift"
+      ],
+      [
+       "Shady Ring → Crooked Artifact",
+       "Lucius nach 5 / 10 DA-Käufen",
+       "+5 bis +8",
+       "soon",
+       "DA"
+      ],
+      [
+       "Beastmaster Crest",
+       "Ancient Claws + Griffin Feathers (Diana)",
+       "+3 bis +16",
+       "soon",
+       "Diana"
+      ],
+      [
+       "Red Claw Artifact",
+       "Wolf 5 · Red Claw Egg",
+       "+3",
+       "soon",
+       "Egg"
+      ],
+      [
+       "Abicase",
+       "Abiphone-Shop, +1 MP pro 2 Kontakte",
+       "variiert",
+       "soon",
+       "einfach"
+      ],
+      [
+       "Nether Artifact",
+       "Dark Auction",
+       "+12",
+       "soon",
+       "DA"
+      ],
+      [
+       "Scarf's Thesis",
+       "Upgrade der Studies, nach F2",
+       "+4",
+       "soon",
+       "F2"
+      ],
+      [
+       "Dwarven Metal Talisman",
+       "Forge, HotM 8: 4 Refined Umber + 4 Refined Tungsten + 4 Glacite Amalgamation",
+       "+5",
+       "soon",
+       "Glacite"
+      ]
+     ]
+    ],
+    [
+     "Mit Slayer und Dungeons",
+     [
+      [
+       "Spider Talisman → Ring → Artifact",
+       "Broodmother (Spider's Den), Artifact ab Spider 6",
+       "+5 bis +12",
+       "far",
+       "Spider 6"
+      ],
+      [
+       "Tarantula Talisman",
+       "RNG-Drop ab Spider 6, Tier III+",
+       "+12",
+       "far",
+       "Spider 6"
+      ],
+      [
+       "Survivor Cube",
+       "Gratis bei Maddox mit Spider Slayer 7",
+       "+8",
+       "far",
+       "Spider 7"
+      ],
+      [
+       "Soulflow Battery",
+       "Enderman Slayer 5 · Null Ovoids",
+       "+3",
+       "far",
+       "Eman 5"
+      ],
+      [
+       "Treasure Talisman → Ring → Artifact",
+       "Dungeon Chests",
+       "+8 und mehr",
+       "far",
+       "Cata"
+      ],
+      [
+       "Blaze-Slayer-Accessories",
+       "Blaze Slayer (Crimson Isle)",
+       "variiert",
+       "far",
+       "Blaze"
+      ]
+     ]
+    ],
+    [
+     "Crimson Isle und Events",
+     [
+      [
+       "Blaze Talisman · Burststopper Talisman",
+       "Crimson Isle · Blaze Slayer 3",
+       "+8 je",
+       "far",
+       "Blaze 3"
+      ],
+      [
+       "Odger's Teeth",
+       "Trophy Fishing",
+       "+3 bis +16",
+       "far",
+       "Fishing"
+      ],
+      [
+       "Candy · Great Spook · Bat Talisman",
+       "Spooky Festival (Oktober)",
+       "+3 bis +16",
+       "soon",
+       "bald"
+      ],
+      [
+       "New Year Cake Bag · Gift Talismans",
+       "Winter-Events",
+       "variiert",
+       "far",
+       "saisonal"
+      ]
+     ]
+    ]
+   ],
+   "owned": [
+    "Haste Artifact",
+    "Feather Artifact",
+    "Campfire Scion Badge VIII",
+    "Melody's Hair",
+    "Atmospheric Filter",
+    "Bits Talisman",
+    "Book of Progression",
+    "Fish Affinity Talisman",
+    "Mineral Talisman",
+    "Rich Chocolate Chunk",
+    "Scarf's Studies",
+    "Anita's Ring",
+    "Dull Shark Tooth Necklace",
+    "Emerald Ring",
+    "Farming Talisman",
+    "Gravity Talisman",
+    "Green Jerry Talisman",
+    "Healing Ring",
+    "Jungle Amulet",
+    "Magnetic Talisman",
+    "Moonglade Ring",
+    "Personal Deletor 4000",
+    "Potion Affinity Ring",
+    "Red Claw Talisman",
+    "Runeblade Ring",
+    "Sea Creature Ring",
+    "Soul Campfire Adept Badge IV",
+    "Wolf Paw",
+    "Wolf Talisman",
+    "Wood Affinity Talisman",
+    "Dante's Ring",
+    "Farmer Orb",
+    "Fire Talisman",
+    "Intimidation Talisman",
+    "Mine Affinity Talisman",
+    "Night Vision Charm",
+    "Safety Badge",
+    "Scavenger Talisman",
+    "Skeleton Talisman",
+    "Small Fish Bowl",
+    "Speed Talisman",
+    "Talisman of Coins",
+    "Talisman of Power",
+    "Vaccine Talisman",
+    "Village Affinity Talisman",
+    "Zombie Talisman",
+    "Yellow Rock of Love",
+    "Personal Compactor 7000",
+    "Pink 5th Anniversary Balloon Hat"
+   ],
+   "setups": {
+    "combat": {
+     "label": "Combat / Slayer",
+     "now": [
+      "Spicy Giant Cleaver ✪5, Spicy Void Sword ✪5",
+      "Epic Voidwalker Katana, Deadly Dragon Shortbow ✪5",
+      "Ender Armor + Soft Ender Equipment",
+      "Pet: Wither Skeleton (Epic 80)"
+     ],
+     "next": [
+      "Mastiff Armor (Wolf 4, aus Growth Armor + Golden Teeth)",
+      "Enderman Slayer 3 → Final Destination Armor",
+      "Revenant Armor (Zombie 4), Reaper Armor ab Zombie 7",
+      "Power Silky + Tuning auf Strength"
+     ],
+     "end": [
+      "Final Destination Armor komplett",
+      "Kuudra-Armor (Crimson/Aurora aus Paid Chests)",
+      "Wither Blade aus F7"
+     ],
+     "kv": [
+      [
+       "Reihenfolge",
+       "Wolf 7 → Enderman 5 → Spider 7 → Blaze 4"
+      ],
+      [
+       "Warum",
+       "Wolf und Spider geben MP-Accessories, Enderman die meiste Combat XP."
+      ],
+      [
+       "Skill-Ziel",
+       "Combat 31 → 40"
+      ]
+     ]
+    },
+    "dungeon": {
+     "label": "Dungeons",
+     "now": [
+      "Shadow Assassin Helmet ✪3, Leggings, Boots ✪3",
+      "Zombie Knight Chestplate ✪5 als Lückenfüller",
+      "Necrotic Shadow Goggles ✪5, Young Dragon",
+      "Heroic Dreadlord Sword ✪5 (Mage), Wand of Mending"
+     ],
+     "next": [
+      "Shadow Assassin Chestplate: F5 oder garantiert bei Livid-Collection VI (750 Kills)",
+      "Livid Dagger: Livid-Collection III (150 Livid-Kills)",
+      "Giant's Sword + Precursor Eye aus F6-Chests",
+      "Mage: Spirit Sceptre, Necromancer Lord Helmet ab Sadan-Collection III"
+     ],
+     "end": [
+      "Berserk: Necron's Armor",
+      "Mage: Storm's Armor + Hyperion",
+      "Wither Catalysts selbst farmen"
+     ],
+     "kv": [
+      [
+       "Klassen",
+       "Berserk 17 · Mage 17 · Archer 14 · Healer 7 · Tank 4"
+      ],
+      [
+       "Runs",
+       "F5 17× (Best 305) · F6 1× (148)"
+      ],
+      [
+       "Pet",
+       "Wither Skeleton → Kat Legendary"
+      ]
+     ]
+    },
+    "mining": {
+     "label": "Mining",
+     "now": [
+      "Dimensional Yog Armor (angezogen)",
+      "Glacite Armor (Wise Chestplate), Mineral Armor",
+      "Royal Titanium Equipment",
+      "Pickonimbus 2000, Excellent Jungle Pickaxe",
+      "Pets: Mithril Golem Leg 100, Bal Leg 100"
+     ],
+     "next": [
+      "Mining Fortune, Professional, Efficient Miner leveln (alle auf 1)",
+      "Titanium Drill DR-X355 (Forge, HotM 5)",
+      "Gemstones in die Yog-Slots",
+      "Glacite Tunnels: noch 0 Mineshafts"
+     ],
+     "end": [
+      "Divan's Armor (Forge ab HotM 6) + Divan's Drill",
+      "Dwarven Metal Talisman (HotM 8)"
+     ],
+     "kv": [
+      [
+       "HotM",
+       "Tier 8 · 18/18 Tokens · Core 6"
+      ],
+      [
+       "Crystal Nucleus",
+       "25 Runs · 1'847 Commissions"
+      ],
+      [
+       "Pet-Wahl",
+       "Bal für Magma Fields, Mithril Golem für Dwarven Mines"
+      ],
+      [
+       "Fossils",
+       "1 gespendet (Helix)"
+      ]
+     ]
+    },
+    "farming": {
+     "label": "Farming",
+     "now": [
+      "Bustling Fermento Helmet, Chestplate, Leggings",
+      "Bustling Rancher's Boots",
+      "Elephant Leg 100 (Yellow Bandana)",
+      "Garden 13, Farming Weight 348"
+     ],
+     "next": [
+      "Fermento → Helianthus Armor: je Teil 2 Condensed Helianthus + 64 Compacted Sunflower, Wild Rose, Moonflower",
+      "Greenhouse nutzen (höhere Helianthus-Drop-Chance)",
+      "Crop Upgrades und Anita Extra Fortune"
+     ],
+     "end": [
+      "Helianthus Armor komplett",
+      "Zorro's Cape (Zorro im Chocolate Factory fehlt noch)",
+      "Farming 60 über Anita Level Cap"
+     ],
+     "kv": [
+      [
+       "Stärkste Crops",
+       "Wheat 88 · Melon 47 · Mushroom 43 Weight"
+      ],
+      [
+       "Medaillen",
+       "4× Platin, noch kein Diamond"
+      ]
+     ]
+    },
+    "fishing": {
+     "label": "Fishing",
+     "now": [
+      "Angler Armor, Snorkeling Armor",
+      "Backwater Equipment (Necklace, Cloak, Belt, Gloves)",
+      "Pets: Ammonite Leg 60, Frog Rare 86"
+     ],
+     "next": [
+      "Angler → Backwater Armor: bei Junker Joel je Teil + 4 Rusty Coins (25 in deinen Sacks)",
+      "Trophy Fishing auf der Crimson Isle",
+      "Fishing Festivals nutzen"
+     ],
+     "end": [
+      "Magma Lord Armor (Fishing 45) + Hellfire Rod (Magmafish XII)",
+      "Odger's Teeth bis Diamond"
+     ],
+     "kv": [
+      [
+       "Warum jetzt",
+       "Fishing 21 ist neben Alchemy dein tiefster Skill."
+      ]
+     ]
+    },
+    "foraging": {
+     "label": "Foraging",
+     "now": [
+      "Fig Cap, Canopy Shirt, Canopy Pants, Fig Striders",
+      "Peony Equipment, Moonglade Belt",
+      "Pets: Monkey Uncommon 85, Frog Rare 86",
+      "Agatha Fig Fortune 5"
+     ],
+     "next": [
+      "Torrhus Canyon (Update 0.27)",
+      "Torrhus und Lumberjack Talisman",
+      "Moonglade Ring → Artifact"
+     ],
+     "end": [
+      "Monkey Legendary (Kat)",
+      "Hunting Attributes mit Shards"
+     ],
+     "kv": [
+      [
+       "Foraging",
+       "27 · Hunting 17"
+      ]
+     ]
+    }
+   },
+   "skills": [
+    [
+     "Taming",
+     50,
+     50
+    ],
+    [
+     "Farming",
+     45,
+     50
+    ],
+    [
+     "Mining",
+     52,
+     60
+    ],
+    [
+     "Carpentry",
+     35,
+     50
+    ],
+    [
+     "Enchanting",
+     40,
+     60
+    ],
+    [
+     "Foraging",
+     27,
+     50
+    ],
+    [
+     "Combat",
+     31,
+     60
+    ],
+    [
+     "Fishing",
+     21,
+     50
+    ],
+    [
+     "Hunting",
+     17,
+     50
+    ],
+    [
+     "Alchemy",
+     14,
+     50
+    ]
+   ],
+   "sa": "Skill Average 33.2",
+   "pets": [
+    [
+     "Mithril Golem",
+     "legendary",
+     100,
+     "Titanium Minecart"
+    ],
+    [
+     "Bal",
+     "legendary",
+     100,
+     "Magma Fields"
+    ],
+    [
+     "Elephant",
+     "legendary",
+     100,
+     "Yellow Bandana"
+    ],
+    [
+     "Armadillo",
+     "legendary",
+     66,
+     "Crystal Hollows"
+    ],
+    [
+     "Ammonite",
+     "legendary",
+     60,
+     "Fishing, auf 100"
+    ],
+    [
+     "Grandma Wolf",
+     "legendary",
+     55,
+     "nische"
+    ],
+    [
+     "Rock",
+     "legendary",
+     3,
+     "optional"
+    ],
+    [
+     "Guardian",
+     "epic",
+     100,
+     "Enchanting, Kat → Leg"
+    ],
+    [
+     "Wither Skeleton",
+     "epic",
+     81,
+     "Dungeons, Kat → Leg"
+    ],
+    [
+     "Tarantula",
+     "epic",
+     75,
+     "Spider Slayer"
+    ],
+    [
+     "Bee",
+     "rare",
+     93,
+     "ersetzbar"
+    ],
+    [
+     "Frog",
+     "rare",
+     86,
+     "Foraging Loadout"
+    ],
+    [
+     "Mooshroom Cow",
+     "rare",
+     1,
+     "Mushroom, leveln"
+    ],
+    [
+     "Griffin",
+     "uncommon",
+     96,
+     "Upgrade über Diana"
+    ],
+    [
+     "Monkey",
+     "uncommon",
+     85,
+     "Kat → Legendary"
+    ],
+    [
+     "Silverfish",
+     "uncommon",
+     78,
+     "ersetzbar"
+    ],
+    [
+     "Dolphin",
+     "common",
+     1,
+     "ersetzt"
+    ]
+   ],
+   "petcount": "17 Pets · Pet Score 75",
+   "extra": [
+    [
+     "Essence",
+     "Wither 360 · Undead 208 · Dragon 345 · Spider 496 · Ice 289 · Diamond 4'605 · Gold 9'583."
+    ],
+    [
+     "Rift",
+     "0 Besuche, 6 von 52 Enigma Souls."
+    ],
+    [
+     "Consumables",
+     "Wriggling Larva 2/5 (je +2 Bonus Pest Chance, droppen von Moths). Metaphysical Serum 0/3 aus Grand+ Experiments. Reaper Peppers, McGrubber’s Burgers, Jyrre und Dark Cacao Truffles 0/5."
+    ],
+    [
+     "Diana",
+     "141 Mythological Kills. Griffin Feathers von dort brauchst du für die Beastmaster Crest und den Griffin-Upgrade."
+    ],
+    [
+     "Bestiary",
+     "Level 110.5, 145 Familien. Milestones geben Magic Find und Strength."
+    ],
+    [
+     "Dragons",
+     "Beste Damage 441k, erst 1 Last Hit. Mit mehr Damage gibt es öfter Dragon-Armor-Drops."
+    ],
+    [
+     "Heart of the Forest",
+     "Level 4"
+    ],
+    [
+     "Festivals",
+     "238k Ores im Mining Fiesta, 23 Sharks im Fishing Festival (Amin 72). Shark Teeth für die Shark Tooth Necklace-Linie."
+    ],
+    [
+     "Trophy Fishing",
+     "0 Trophy Fish gefangen. Startet auf der Crimson Isle und gibt die Odger's-Teeth-Accessories."
+    ]
+   ],
+   "petnote": "Pet Score (Höchstwert 75) gibt +4 Magic Find, ab 100 +5. Fehlend und sinnvoll: Enderman (Enderman Slayer), Wolf (Wolf Slayer), Tiger (Combat), Mole (Mining, Amin hat ihn)."
+  },
+  "amin": {
+   "name": "ReverseAmin",
+   "stats": [
+    [
+     "172",
+     "Magical Power"
+    ],
+    [
+     "149",
+     "SkyBlock Level"
+    ],
+    [
+     "518 M",
+     "Networth · 6,1 M Purse"
+    ],
+    [
+     "30.3",
+     "Skill Average"
+    ],
+    [
+     "18",
+     "Catacombs · Berserk 17"
+    ],
+    [
+     "4·3·4·2·0·0",
+     "Slayer Z·S·W·E·B·V"
+    ],
+    [
+     "189/289",
+     "Fairy Souls"
+    ],
+    [
+     "79",
+     "Farming Weight"
+    ]
+   ],
+   "lead": "Mining ist dein Aushängeschild (53, Mythic Yog, starkes HotM, Mole Legendary). Magical Power ist mit 172 aber sehr niedrig, und viele fehlende Accessories sind Commons, die Relaxo längst hat. Da Kollektionen geteilt sind, kannst du die meisten sofort craften.",
+   "diag": [
+    [
+     "hi",
+     "189 von 289 Fairy Souls",
+     "14 gefundene sind noch nicht bei Tia eingelöst. Eintauschen gibt SkyBlock XP und Backpack-Slots."
+    ],
+    [
+     "hi",
+     "Accessory Power und Tuning prüfen",
+     "Power: Inspired, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 17 Tuning-Punkte bei 172 MP."
+    ],
+    [
+     "hi",
+     "Nur 172 Magical Power",
+     "Im Tab Accessories stehen die günstigsten nächsten Accessories in Reihenfolge."
+    ],
+    [
+     "hi",
+     "Crimson Isle: keine Faction",
+     "Mages oder Barbarians wählen, gleich wie im Coop, damit ihr Kuudra zusammen laufen könnt."
+    ],
+    [
+     "md",
+     "Slayer-Rewards nicht abgeholt",
+     "Bei Maddox abholen: Zombie 4 · Enderman 1."
+    ],
+    [
+     "md",
+     "Crop Upgrades unter Tier 8",
+     "13 Crops sind unter dem Maximum für Garden 14. Copper zuerst in eure Haupt-Crops."
+    ],
+    [
+     "md",
+     "Anita: Extra Farming Fortune auf 0",
+     "2 Gold-Medaillen vorhanden, jede Stufe gibt +4 Farming Fortune."
+    ],
+    [
+     "lo",
+     "Alchemy 10",
+     "Günstigster Skill-Average-Boost mit Nether Wart aus den Sacks."
+    ]
+   ],
+   "phases": [
+    [
+     "Heute erledigt",
+     "unter 1 Stunde",
+     [
+      [
+       "a0",
+       "Enderman Slayer Level 1 Reward abholen",
+       "Bei Maddox ist nur Level 2 abgeholt, Level 1 fehlt.",
+       "Slayer"
+      ],
+      [
+       "a1",
+       "Fairy Souls bei Tia einlösen",
+       "14 offene Souls: SkyBlock XP und Backpack-Slots.",
+       "SB XP"
+      ],
+      [
+       "a2",
+       "Maxwell: Power und Tuning",
+       "Silky für Combat auswählen, Tuning-Punkte auf Strength und Crit Damage.",
+       "MP"
+      ],
+      [
+       "a3",
+       "Fehlende Basis-Accessories craften",
+       "Farmer Orb (Pumpkin II), Personal Deletor 4000 (Iron IX), Fire Talisman, Small Fish Bowl, Atmospheric Filter, Runeblade Talisman. Pig's Foot bekommst du für das End-Rennen gegen Guber unter 48 Sekunden.",
+       "MP"
+      ],
+      [
+       "a4",
+       "Bestehende Accessories upgraden",
+       "Haste Ring → Artifact, Feather Ring → Artifact, Healing Talisman → Ring, Moonglade Talisman → Ring, Speed Ring, Intimidation Ring, Zombie Ring → Artifact, Potion Affinity Artifact, Sea Creature Artifact, Raggedy → Dull Shark Tooth.",
+       "MP"
+      ],
+      [
+       "a5",
+       "Soulflow Pile und Pesthunter Badge",
+       "Soulflow Pile: 90 Null Spheres, Enderman Slayer 2 hast du. Pesthunter Badge bei Phillip für 25 Pests.",
+       "MP"
+      ]
+     ]
+    ],
+    [
+     "Diese Woche",
+     "Routine aufbauen",
+     [
+      [
+       "a6",
+       "Rift zum ersten Mal besuchen",
+       "Rift Prism an der Barrier Street ersteigern und bei Erihann für 200k einsetzen: +11 MP.",
+       "MP"
+      ],
+      [
+       "a7",
+       "Wolf Slayer 4 → 5",
+       "Red Claw Ring und Wolf Ring freischalten. Mit Hyper Cleaver und Mastiff Set.",
+       "Slayer · MP"
+      ],
+      [
+       "a8",
+       "Spider Slayer 3 → 5",
+       "Tarantula Armor ab Spider 4. Spider Talisman droppt von der Broodmother im Spider's Den.",
+       "Slayer · MP"
+      ],
+      [
+       "a9",
+       "Experimentation Table täglich",
+       "Enchanting 36 → 45, Guardian Pet (Epic 95) tragen.",
+       "Skill Avg"
+      ],
+      [
+       "a10b",
+       "Rift Enigma Souls sammeln",
+       "0 von 52. Zusammen mit dem Rift Prism ein leichter Einstieg.",
+       "Rift"
+      ],
+      [
+       "a10",
+       "Dark Auction besuchen",
+       "Nach 5 gekauften Dark-Auction-Items gibt es bei Lucius den Shady Ring (500k).",
+       "MP"
+      ]
+     ]
+    ],
+    [
+     "Nächste 2–6 Wochen",
+     "Die grossen Grinds",
+     [
+      [
+       "a11",
+       "Shadow Assassin Set komplett",
+       "Du hast Helmet ✪2 und Leggings. F5 (7 Runs bisher) auf S+ für Chestplate und Boots, dann F6.",
+       "Dungeons"
+      ],
+      [
+       "a12",
+       "Royal Mithril → Titanium Equipment",
+       "Relaxo trägt schon Royal Titanium; die Refined-Titanium-Rezepte sind frei.",
+       "Mining"
+      ],
+      [
+       "a13",
+       "Farming 36 → 40, dann Fermento",
+       "Fermento Armor braucht Farming 40. Crafting aus deinem Squash Set wie bei Relaxo.",
+       "Farming"
+      ],
+      [
+       "a14",
+       "Crimson Isle mit Relaxo starten",
+       "Gleiche Faction wählen, Dojo, danach Kuudra zusammen.",
+       "Combat"
+      ],
+      [
+       "a15",
+       "Zombie 4 → 6 und Enderman 2 → 4",
+       "Combat XP für Combat 29 → 35.",
+       "Slayer"
+      ]
+     ]
+    ],
+    [
+     "Langfristig",
+     "Late Game",
+     [
+      [
+       "a16",
+       "Divan's Armor",
+       "HotM 9, Crystal Nucleus 54×. Divan's Armor wird in der Forge ab HotM 6 gebaut, 24 h pro Teil.",
+       "Mining"
+      ],
+      [
+       "a17",
+       "F7 und Necron's Armor",
+       "Nach Cata 24.",
+       "Dungeons"
+      ],
+      [
+       "a18",
+       "Griffin und Enderman Pet upgraden",
+       "Griffin Common 100 über Diana upgraden, Enderman Rare 53 bei Kat.",
+       "Pets"
+      ]
+     ]
+    ]
+   ],
+   "mp": {
+    "now": 172,
+    "t1": 260,
+    "t2": 380
+   },
+   "acc": [
+    [
+     "Sofort craftbar (Rezepte frei durch Coop)",
+     [
+      [
+       "Small Fish Bowl · Farmer Orb · Fire Talisman",
+       "Collections",
+       "+3 bis +5 je",
+       "ok",
+       "jetzt"
+      ],
+      [
+       "Atmospheric Filter · Personal Deletor 4000",
+       "Collections",
+       "+5 je",
+       "ok",
+       "jetzt"
+      ],
+      [
+       "Runeblade Talisman",
+       "/recipe",
+       "+3",
+       "ok",
+       "jetzt"
+      ],
+      [
+       "Pig's Foot",
+       "End-Rennen gegen Guber unter 48 s",
+       "+8",
+       "ok",
+       "jetzt"
+      ],
+      [
+       "Haste Ring → Haste Artifact",
+       "Mining Collection",
+       "+4",
+       "ok",
+       "jetzt"
+      ],
+      [
+       "Feather Ring → Feather Artifact",
+       "Feather Collection",
+       "+4",
+       "ok",
+       "jetzt"
+      ],
+      [
+       "Healing Ring · Moonglade Ring",
+       "/recipe",
+       "+2 bis +3 je",
+       "ok",
+       "jetzt"
+      ],
+      [
+       "Speed Ring · Intimidation Ring",
+       "Collections",
+       "+2 bis +3 je",
+       "ok",
+       "jetzt"
+      ],
+      [
+       "Zombie Artifact · Potion Affinity Artifact · Sea Creature Artifact",
+       "Collections (Nether Wart IX, Sponge VIII)",
+       "+3 je",
+       "ok",
+       "jetzt"
+      ],
+      [
+       "Dull Shark Tooth Necklace",
+       "Upgrade vom Raggedy",
+       "+2",
+       "ok",
+       "jetzt"
+      ],
+      [
+       "Bits Talisman",
+       "Elizabeth, 15'000 Bits",
+       "+8",
+       "soon",
+       "Bits"
+      ],
+      [
+       "Soulflow Pile",
+       "Enderman Slayer 2 · 90 Null Sphere",
+       "+5",
+       "ok",
+       "jetzt"
+      ],
+      [
+       "Pesthunter Badge",
+       "Phillip im Garden, 25 Pests",
+       "+5",
+       "ok",
+       "jetzt"
+      ]
+     ]
+    ],
+    [
+     "Wenige Tage",
+     [
+      [
+       "Rift Prism",
+       "Barrier Street (Rift), bei Erihann einsetzen",
+       "+11",
+       "soon",
+       "Rift"
+      ],
+      [
+       "Shady Ring → Crooked Artifact",
+       "Lucius nach 5 / 10 DA-Käufen",
+       "+5 bis +8",
+       "soon",
+       "DA"
+      ],
+      [
+       "Anita's Talisman → Ring → Artifact",
+       "Jacob-Medaillen bei Anita",
+       "+3 bis +8",
+       "soon",
+       "Anita"
+      ],
+      [
+       "Nether Artifact",
+       "Dark Auction",
+       "+12",
+       "soon",
+       "DA"
+      ],
+      [
+       "Netherrack-Looking Sunshade",
+       "Smoldering Blaze, Crimson Isle",
+       "+3",
+       "soon",
+       "Crimson"
+      ]
+     ]
+    ],
+    [
+     "Mit Slayer und Dungeons",
+     [
+      [
+       "Red Claw Ring",
+       "Wolf 5 · 8 Golden Tooth + 96 Enchanted Leather",
+       "+3",
+       "soon",
+       "Wolf 4 → 5"
+      ],
+      [
+       "Spider Talisman",
+       "Broodmother im Spider's Den",
+       "+5",
+       "soon",
+       "Miniboss"
+      ],
+      [
+       "Soulflow Battery",
+       "Enderman Slayer 5",
+       "+3",
+       "far",
+       "Eman 5"
+      ],
+      [
+       "Scarf's Thesis",
+       "Upgrade der Studies, nach F2",
+       "+4",
+       "soon",
+       "F2"
+      ],
+      [
+       "Treasure Talisman → Ring → Artifact",
+       "Dungeon Chests",
+       "+8 und mehr",
+       "far",
+       "Cata"
+      ]
+     ]
+    ],
+    [
+     "Crimson Isle und Events",
+     [
+      [
+       "Blaze Talisman · Burststopper Talisman",
+       "Crimson Isle · Blaze Slayer 3",
+       "+8 je",
+       "far",
+       "Blaze 3"
+      ],
+      [
+       "Candy · Great Spook · Bat Talisman",
+       "Spooky Festival (Oktober)",
+       "+3 bis +16",
+       "soon",
+       "bald"
+      ],
+      [
+       "Gratitude · New Year Cake Bag · Gift Talismans",
+       "Saison-Events",
+       "variiert",
+       "far",
+       "saisonal"
+      ]
+     ]
+    ]
+   ],
+   "owned": [
+    "Melody's Hair",
+    "Blue Jerry Talisman",
+    "Fish Affinity Talisman",
+    "Haste Ring",
+    "Mineral Talisman",
+    "Scarf's Studies",
+    "Campfire Adept Badge IV",
+    "Emerald Ring",
+    "Farming Talisman",
+    "Feather Ring",
+    "Gravity Talisman",
+    "Jungle Amulet",
+    "Magnetic Talisman",
+    "Potion Affinity Ring",
+    "Red Claw Talisman",
+    "Sea Creature Ring",
+    "Titanium Talisman",
+    "Wolf Paw",
+    "Wolf Talisman",
+    "Wood Affinity Talisman",
+    "Zombie Ring",
+    "Healing Talisman",
+    "Intimidation Talisman",
+    "Mine Affinity Talisman",
+    "Moonglade Talisman",
+    "Night Vision Charm",
+    "Raggedy Shark Tooth Necklace",
+    "Safety Badge",
+    "Scavenger Talisman",
+    "Skeleton Talisman",
+    "Speed Talisman",
+    "Talisman of Coins",
+    "Talisman of Power",
+    "Vaccine Talisman",
+    "Village Affinity Talisman",
+    "Yellow Rock of Love"
+   ],
+   "setups": {
+    "combat": {
+     "label": "Combat / Slayer",
+     "now": [
+      "Spicy Hyper Cleaver ✪5 (2×)",
+      "Fine Dragon Shortbow ✪5, Hurricane Bow",
+      "Fierce Mastiff Armor (komplett)",
+      "Fierce Unstable Dragon Armor",
+      "Ender Necklace + Belt, Soft Adaptive Belt"
+     ],
+     "next": [
+      "Wolf 4 → 5 mit Mastiff + Hyper Cleaver",
+      "Revenant Armor (Zombie 4 hast du), Tarantula Armor ab Spider 4",
+      "Tuning auf Crit Damage (Mastiff skaliert damit)"
+     ],
+     "end": [
+      "Final Destination Armor (Enderman 3)",
+      "Kuudra-Armor",
+      "Wither Blade aus F7"
+     ],
+     "kv": [
+      [
+       "Reihenfolge",
+       "Wolf 5 → Spider 5 → Zombie 6 → Enderman 4"
+      ],
+      [
+       "Skill-Ziel",
+       "Combat 29 → 35"
+      ]
+     ]
+    },
+    "dungeon": {
+     "label": "Dungeons",
+     "now": [
+      "Fierce Shadow Assassin Helmet ✪2 + Leggings",
+      "Unstable Dragon Set ✪4–5 als Hauptset",
+      "Spicy Hyper Cleaver ✪5, Wand of Healing"
+     ],
+     "next": [
+      "SA Chestplate und Boots aus F5",
+      "Livid Dagger über Livid-Collection III (150 Kills)",
+      "Danach F6: Giant's Sword"
+     ],
+     "end": [
+      "Necron's Armor",
+      "Wither Blade"
+     ],
+     "kv": [
+      [
+       "Klassen",
+       "Berserk 17 · Archer 13 · Mage 12 · Healer 7 · Tank 2"
+      ],
+      [
+       "Runs",
+       "F5 7× (Best 304) · F6 noch nie"
+      ],
+      [
+       "Pet",
+       "Kein Dungeon-Pet: Wither Skeleton oder Enderman leveln"
+      ]
+     ]
+    },
+    "mining": {
+     "label": "Mining",
+     "now": [
+      "Mythic Yog Armor (angezogen)",
+      "Mineral Armor",
+      "Royal Mithril Equipment",
+      "Pets: Mithril Golem Leg 100 (Mining Skill Boost), Mole Leg 75, Bal Epic 57",
+      "HotM: Mining Fortune 35, Professional 58, Efficient Miner 52"
+     ],
+     "next": [
+      "Royal Titanium Equipment",
+      "Glacite Tunnels + Mineshafts (erst 3 besucht, 2 Corpses)",
+      "Dwarven Metal Talisman (Forge, HotM 8)"
+     ],
+     "end": [
+      "Divan's Armor (Forge ab HotM 6) + Divan's Drill",
+      "Bal auf Legendary"
+     ],
+     "kv": [
+      [
+       "HotM",
+       "Tier 9 · 21/21 Tokens · Core 7"
+      ],
+      [
+       "Crystal Nucleus",
+       "54 Runs · 5'851 Commissions"
+      ],
+      [
+       "Fossils",
+       "Claw, Helix"
+      ]
+     ]
+    },
+    "farming": {
+     "label": "Farming",
+     "now": [
+      "Squash Helmet, Chestplate, Leggings",
+      "Rancher's Boots",
+      "Elephant Leg 91",
+      "Farming 36, Weight 79"
+     ],
+     "next": [
+      "Farming 40, dann Fermento Armor",
+      "Elephant auf 100",
+      "Crop Upgrades über Copper"
+     ],
+     "end": [
+      "Farming 50 → 60 über Anita",
+      "Pesthunter-Linie"
+     ],
+     "kv": [
+      [
+       "Medaillen",
+       "1× Platin, 1× Gold earned"
+      ]
+     ]
+    },
+    "fishing": {
+     "label": "Fishing",
+     "now": [
+      "Backwater Armor (komplett)",
+      "Backwater Equipment (Colossal Necklace, Cloak, Belt, Gloves)",
+      "Pets: Ammonite Leg 45, Dolphin Epic 54"
+     ],
+     "next": [
+      "Backwater ist das Ende der Angler-Linie: jetzt Ammonite auf 100",
+      "Trophy Fishing auf der Crimson Isle"
+     ],
+     "end": [
+      "Magma Lord Armor (Fishing 45) + Hellfire Rod (Magmafish XII)"
+     ],
+     "kv": [
+      [
+       "Fishing",
+       "21 · 943 Sea Creatures"
+      ]
+     ]
+    },
+    "foraging": {
+     "label": "Foraging",
+     "now": [
+      "Canopy Mask, Figmail, Canopy Pants, Canopy Sandals",
+      "Peony Belt + Bracelet, David's Cloak",
+      "Monkey Uncommon 87"
+     ],
+     "next": [
+      "HotF 3 → 5 (Center of the Forest)",
+      "Moonglade Talisman → Ring → Artifact"
+     ],
+     "end": [
+      "Monkey Legendary (Kat)"
+     ],
+     "kv": [
+      [
+       "Foraging",
+       "24 · Hunting 17"
+      ]
+     ]
+    }
+   },
+   "skills": [
+    [
+     "Taming",
+     50,
+     50
+    ],
+    [
+     "Mining",
+     53,
+     60
+    ],
+    [
+     "Farming",
+     36,
+     50
+    ],
+    [
+     "Enchanting",
+     36,
+     60
+    ],
+    [
+     "Carpentry",
+     27,
+     50
+    ],
+    [
+     "Combat",
+     29,
+     60
+    ],
+    [
+     "Foraging",
+     24,
+     50
+    ],
+    [
+     "Fishing",
+     21,
+     50
+    ],
+    [
+     "Hunting",
+     17,
+     50
+    ],
+    [
+     "Alchemy",
+     10,
+     50
+    ]
+   ],
+   "sa": "Skill Average 30.3",
+   "pets": [
+    [
+     "Mithril Golem",
+     "legendary",
+     100,
+     "Duplikat"
+    ],
+    [
+     "Elephant",
+     "legendary",
+     91,
+     "Farming, auf 100"
+    ],
+    [
+     "Mole",
+     "legendary",
+     75,
+     "Mining"
+    ],
+    [
+     "Armadillo",
+     "legendary",
+     58,
+     "Crystal Hollows"
+    ],
+    [
+     "Grandma Wolf",
+     "legendary",
+     54,
+     "nische"
+    ],
+    [
+     "Ammonite",
+     "legendary",
+     45,
+     "Fishing"
+    ],
+    [
+     "Skeleton",
+     "legendary",
+     42,
+     "Combat"
+    ],
+    [
+     "Endermite",
+     "legendary",
+     40,
+     "End/Rift"
+    ],
+    [
+     "Rock",
+     "legendary",
+     1,
+     "optional"
+    ],
+    [
+     "Rat",
+     "legendary",
+     1,
+     "Pet Score"
+    ],
+    [
+     "Guardian",
+     "epic",
+     95,
+     "Enchanting"
+    ],
+    [
+     "Mithril Golem",
+     "epic",
+     83,
+     "Duplikat"
+    ],
+    [
+     "Bal",
+     "epic",
+     57,
+     "Kat → Legendary"
+    ],
+    [
+     "Dolphin",
+     "epic",
+     54,
+     "Fishing"
+    ],
+    [
+     "Silverfish",
+     "epic",
+     35,
+     "ersetzbar"
+    ],
+    [
+     "Bee",
+     "rare",
+     90,
+     "ersetzbar"
+    ],
+    [
+     "Enderman",
+     "rare",
+     53,
+     "Enderman Slayer, Kat"
+    ],
+    [
+     "Chicken",
+     "rare",
+     44,
+     "Pet Score"
+    ],
+    [
+     "Mooshroom Cow",
+     "rare",
+     1,
+     "Mushroom"
+    ],
+    [
+     "Monkey",
+     "uncommon",
+     87,
+     "Foraging, Kat"
+    ],
+    [
+     "Silverfish",
+     "uncommon",
+     73,
+     "ersetzbar"
+    ],
+    [
+     "Pig",
+     "uncommon",
+     1,
+     "Pet Score"
+    ],
+    [
+     "Griffin",
+     "common",
+     100,
+     "Kat hochstufen"
+    ]
+   ],
+   "petcount": "23 Pets · Pet Score 85",
+   "extra": [
+    [
+     "Essence",
+     "Wither 231 · Undead 1'863 · Dragon 341 · Spider 214 · Ice 164 · Diamond 3'799 · Gold 4'266."
+    ],
+    [
+     "Rift",
+     "0 Besuche, 0 von 52 Enigma Souls."
+    ],
+    [
+     "Consumables",
+     "Alle 0: Wriggling Larva 0/5 (Moths im Garden), Metaphysical Serum 0/3 (Grand+ Experiments), Reaper Peppers, McGrubber’s Burgers, Jyrre, Dark Cacao Truffles."
+    ],
+    [
+     "Pet Score",
+     "85, gibt +4 Magic Find. Ab 100 gibt es +5. Ein paar billige neue Pets reichen."
+    ],
+    [
+     "Diana",
+     "74 Mythological Kills. Griffin Common 100 wartet auf Feathers für den Tier-Upgrade."
+    ],
+    [
+     "Bestiary",
+     "Level 102.7"
+    ],
+    [
+     "Festivals",
+     "374k Ores im Mining Fiesta, 72 Sharks im Fishing Festival. Damit kannst du die Shark Tooth Necklace von Raggedy aus hochziehen."
+    ],
+    [
+     "Heart of the Forest",
+     "Level 3"
+    ]
+   ],
+   "petnote": "Fehlend und sinnvoll: Wither Skeleton oder Tiger für Combat, Frog, Tarantula (Spider Slayer), Wolf. Griffin wird über Diana hochgestuft."
+  }
+ },
+ "HOTM_TREE": [
+  [
+   1,
+   "mithril",
+   [
+    [
+     "Mining Speed",
+     "+20 bis +1'020 Mining Speed",
+     50
+    ]
+   ]
+  ],
+  [
+   2,
+   "mithril",
+   [
+    [
+     "Mining Speed Boost",
+     "Ability: +200–300 % Mining Speed",
+     0,
+     "ab"
+    ],
+    [
+     "Pickobulus",
+     "Ability: Explosion, 3 Blöcke Radius",
+     0,
+     "ab"
+    ],
+    [
+     "Precision Mining",
+     "+30 % Mining Speed auf dem Ziel-Partikel"
+    ],
+    [
+     "Mining Fortune",
+     "+2 bis +102 Mining Fortune",
+     50
+    ],
+    [
+     "Titanium Insanium",
+     "2,1–7,1 % Mithril wird zu Titanium",
+     50
+    ]
+   ]
+  ],
+  [
+   3,
+   "mithril",
+   [
+    [
+     "Luck of the Cave",
+     "+6–51 % Goblins, Fallen Stars, Powder Ghasts (Dwarven Mines)",
+     45
+    ],
+    [
+     "Efficient Miner",
+     "+3 bis +303 Mining Spread",
+     100
+    ],
+    [
+     "Quick Forge",
+     "−10,5 bis −30 % Forge-Zeit",
+     20
+    ]
+   ]
+  ],
+  [
+   4,
+   "gemstone",
+   [
+    [
+     "Sky Mall",
+     "Täglicher Zufallsbuff auf Mining-Inseln"
+    ],
+    [
+     "Old-School",
+     "+5 bis +105 Ore Fortune",
+     20
+    ],
+    [
+     "Professional",
+     "+55 bis +755 Mining Speed auf Gemstones",
+     140
+    ],
+    [
+     "Mole",
+     "+50 bis +402 Mining Spread auf Hard Stone",
+     200
+    ],
+    [
+     "Gem Lover",
+     "+24 bis +104 Gemstone Fortune"
+    ],
+    [
+     "Seasoned Mineman",
+     "+5 bis +15,1 Mining Wisdom",
+     100
+    ],
+    [
+     "Front Loaded",
+     "Buffs für die ersten 2'500 Gemstones pro Tag"
+    ]
+   ]
+  ],
+  [
+   5,
+   "gemstone",
+   [
+    [
+     "Core of the Mountain",
+     "Mehr Basis-Powder, Ability-Level 2 (irreversibel)",
+     10
+    ],
+    [
+     "Daily Powder",
+     "Erstes Erz pro Tag: 500 × HotM-Tier Powder"
+    ],
+    [
+     "Daily Grind",
+     "Erste Commission pro Insel: 500 × HotM-Tier Powder"
+    ]
+   ]
+  ],
+  [
+   6,
+   "gemstone",
+   [
+    [
+     "Tunnel Vision",
+     "Ability: +30–50 % seltene Events",
+     0,
+     "ab"
+    ],
+    [
+     "Maniac Miner",
+     "Ability: stackende Mining Fortune",
+     0,
+     "ab"
+    ],
+    [
+     "Blockhead",
+     "+5 bis +105 Block Fortune",
+     20
+    ],
+    [
+     "Subterranean Fisher",
+     "Fishing Speed + Sea Creature Chance auf Mining-Inseln",
+     40
+    ],
+    [
+     "Keep It Cool",
+     "+0,4 bis +20,4 Heat Resistance",
+     50
+    ],
+    [
+     "Lonesome Miner",
+     "+5–27,5 % Str, CC, CD, Def, HP auf Mining-Inseln",
+     45
+    ],
+    [
+     "Great Explorer",
+     "+20–100 % Treasure Chests in den Crystal Hollows",
+     20
+    ]
+   ]
+  ],
+  [
+   7,
+   "gemstone",
+   [
+    [
+     "Speedy Mineman",
+     "+40 bis +2'040 Mining Speed",
+     50
+    ],
+    [
+     "Powder Buff",
+     "+1–51 % Powder aus allen Quellen",
+     50
+    ],
+    [
+     "Fortunate Mineman",
+     "+3 bis +153 Mining Fortune",
+     50
+    ]
+   ]
+  ],
+  [
+   8,
+   "glacite",
+   [
+    [
+     "Miner's Blessing",
+     "+30 Magic Find auf Mining-Inseln"
+    ],
+    [
+     "No Stone Unturned",
+     "+0,5–25,5 % Suspicious Scrap in Mineshafts",
+     50
+    ],
+    [
+     "Strong Arm",
+     "+5 bis +505 Mining Speed auf Dwarven Metals",
+     100
+    ],
+    [
+     "Steady Hand",
+     "+0,1 bis +10,1 Gemstone Spread in Mineshafts",
+     100
+    ],
+    [
+     "Warm Heart",
+     "+0,4 bis +20,4 Cold Resistance",
+     50
+    ],
+    [
+     "Surveyor",
+     "+0,75–15,75 % Chance auf Glacite Mineshafts"
+    ],
+    [
+     "Mineshaft Mayhem",
+     "Zufallsbuff beim Betreten einer Mineshaft"
+    ]
+   ]
+  ],
+  [
+   9,
+   "glacite",
+   [
+    [
+     "Metal Head",
+     "+5 bis +105 Dwarven Metal Fortune"
+    ],
+    [
+     "Rags to Riches",
+     "+4 bis +204 Mining Fortune in Mineshafts"
+    ],
+    [
+     "Eager Adventurer",
+     "+4 bis +404 Mining Speed in Mineshafts"
+    ]
+   ]
+  ],
+  [
+   10,
+   "glacite",
+   [
+    [
+     "Gemstone Infusion",
+     "Ability: Gemstones im Drill doppelt so stark",
+     0,
+     "ab"
+    ],
+    [
+     "Sheer Force",
+     "Ability: +200 Mining Spread",
+     0,
+     "ab"
+    ],
+    [
+     "Crystalline",
+     "+0,5–25,5 % Mineshafts mit Kristall"
+    ],
+    [
+     "Gifts from the Departed",
+     "+0,2–20 % Extra-Item aus Frozen Corpses"
+    ],
+    [
+     "Mining Master",
+     "+0,1 bis +1,1 Pristine"
+    ],
+    [
+     "Dead Man's Chest",
+     "+0,5–25,5 % zusätzlicher Frozen Corpse"
+    ],
+    [
+     "Vanguard Seeker",
+     "+1–51 % Mineshafts mit Vanguard Corpse"
+    ]
+   ]
+  ]
+ ],
+ "HOTM_BUILDS": [
+  {
+   "id": "comm",
+   "label": "Commissions & Titanium",
+   "when": "HotM 1–4 · Dwarven Mines",
+   "order": [
+    "Mining Speed",
+    "Mining Fortune",
+    "Quick Forge",
+    "Titanium Insanium",
+    "Efficient Miner",
+    "Daily Powder",
+    "Daily Grind"
+   ],
+   "ability": "Pickobulus",
+   "skip": "Luck of the Cave nur, wenn du lange in den Dwarven Mines bleibst. Mole erst, wenn du Hard Stone für Powder minest.",
+   "why": "Quick Forge auf 20 lohnt sich als Ironman besonders: Refined Titanium, Drills und Drill-Teile laufen alle über die Forge."
+  },
+  {
+   "id": "gem",
+   "label": "Gemstones",
+   "when": "HotM 5–7 · Crystal Hollows",
+   "order": [
+    "Professional",
+    "Gem Lover",
+    "Front Loaded",
+    "Great Explorer",
+    "Powder Buff",
+    "Speedy Mineman",
+    "Fortunate Mineman",
+    "Lonesome Miner",
+    "Core of the Mountain"
+   ],
+   "ability": "Mining Speed Boost, ab HotM 10 Gemstone Infusion",
+   "skip": "Titanium Insanium und Luck of the Cave bringen in den Hollows nichts. Mole nur für Hard-Stone-Powder.",
+   "why": "Professional skaliert nur auf Gemstones und ist der wichtigste Perk dafür. Great Explorer auf 20 macht Treasure Chests häufiger, die Powder geben."
+  },
+  {
+   "id": "glacite",
+   "label": "Glacite & Mineshafts",
+   "when": "HotM 7–10 · Glacite Tunnels",
+   "order": [
+    "Warm Heart",
+    "Surveyor",
+    "Strong Arm",
+    "Metal Head",
+    "Rags to Riches",
+    "Eager Adventurer",
+    "No Stone Unturned",
+    "Dead Man's Chest",
+    "Vanguard Seeker",
+    "Gifts from the Departed",
+    "Mining Master"
+   ],
+   "ability": "Sheer Force oder Tunnel Vision",
+   "skip": "Professional und Gem Lover nur, wenn du in Mineshafts auch Gemstones minest.",
+   "why": "Warm Heart gegen Kälte zuerst. Surveyor findet mehr Mineshafts, die Corpse-Perks bringen die Loot für Glacite-Gear und Fossilien."
+  },
+  {
+   "id": "powder",
+   "label": "Powder farmen",
+   "when": "Hard Stone · alle Inseln",
+   "order": [
+    "Mole",
+    "Efficient Miner",
+    "Powder Buff",
+    "Great Explorer",
+    "Daily Powder",
+    "Daily Grind"
+   ],
+   "ability": "Pickobulus",
+   "skip": "Mining-Fortune-Perks bringen beim Powder-Grind wenig.",
+   "why": "Mole und Efficient Miner erhöhen die Blöcke pro Schlag auf Hard Stone, Powder Buff multipliziert jede Quelle."
+  }
+ ],
+ "HOTM_P": {
+  "relaxo": {
+   "tier": 8,
+   "xp": "607'692",
+   "toNext": "239'308 XP bis Tier 9",
+   "tokens": "18 / 18 verteilt",
+   "peak": 6,
+   "ability": "Pickobulus",
+   "comm": "1'847",
+   "levels": {
+    "Mining Speed": 48,
+    "Pickobulus": 1,
+    "Mining Fortune": 1,
+    "Titanium Insanium": 1,
+    "Efficient Miner": 1,
+    "Quick Forge": 20,
+    "Old-School": 1,
+    "Professional": 1,
+    "Mole": 144,
+    "Seasoned Mineman": 21,
+    "Core of the Mountain": 6,
+    "Keep It Cool": 1,
+    "Lonesome Miner": 1,
+    "Great Explorer": 20,
+    "Powder Buff": 50,
+    "Miner's Blessing": 1,
+    "No Stone Unturned": 1,
+    "Strong Arm": 1,
+    "Steady Hand": 1
+   },
+   "sum": "Alle 18 Tokens sind verteilt. Powder Buff, Great Explorer und Quick Forge sind maxed, Mole steht auf 144/200. Die Fortune- und Gemstone-Perks sind freigeschaltet, aber nur auf Stufe 1. Es fehlt also nur Powder, keine Tokens.",
+   "next": [
+    [
+     "Mining Fortune 1 → 50",
+     "Mithril Powder. Grösster Hebel für jede Mining-Art."
+    ],
+    [
+     "Professional 1 → 60+",
+     "Gemstone Powder. Pflicht für die Crystal Hollows."
+    ],
+    [
+     "Efficient Miner 1 → 50",
+     "Mithril Powder. Mehr Blöcke pro Schlag."
+    ],
+    [
+     "Titanium Insanium hochziehen",
+     "Mehr Titanium für Refined Titanium, Titanium Talisman und Drill."
+    ],
+    [
+     "Tokens neu verteilen?",
+     "Seasoned Mineman (21), Keep It Cool, Strong Arm, Steady Hand und No Stone Unturned binden Tokens. Für Gemstone-Mining lohnen sich Speedy Mineman und Fortunate Mineman mehr; ein Reset gibt Powder und Tokens zurück."
+    ]
+   ],
+   "source": "EliteBot"
+  },
+  "amin": {
+   "tier": 9,
+   "xp": "853'508",
+   "toNext": "393'492 XP bis Tier 10",
+   "tokens": "21 / 21 verteilt",
+   "peak": 7,
+   "ability": "Pickobulus",
+   "comm": "5'851",
+   "levels": {
+    "Mining Speed": 50,
+    "Pickobulus": 1,
+    "Mining Fortune": 35,
+    "Titanium Insanium": 22,
+    "Efficient Miner": 52,
+    "Quick Forge": 20,
+    "Sky Mall": 1,
+    "Old-School": 20,
+    "Professional": 58,
+    "Mole": 131,
+    "Core of the Mountain": 7,
+    "Blockhead": 11,
+    "Subterranean Fisher": 14,
+    "Keep It Cool": 1,
+    "Lonesome Miner": 24,
+    "Great Explorer": 20,
+    "Speedy Mineman": 48,
+    "Powder Buff": 39,
+    "Miner's Blessing": 1,
+    "No Stone Unturned": 6,
+    "Steady Hand": 14,
+    "Warm Heart": 20
+   },
+   "sum": "Solides Gemstone-Setup: Mining Speed, Old-School, Great Explorer und Quick Forge maxed, Professional 58, Speedy Mineman 48. Für Tier 9 und Glacite fehlen noch Surveyor, Strong Arm, Metal Head und Rags to Riches.",
+   "next": [
+    [
+     "Powder Buff 39 → 50",
+     "Wirkt auf jede Powder-Quelle."
+    ],
+    [
+     "Mining Fortune 35 → 50",
+     "Mithril Powder, günstiger als die Gemstone-Perks."
+    ],
+    [
+     "Speedy Mineman 48 → 50, dann Fortunate Mineman",
+     "Fortunate Mineman ist noch nicht freigeschaltet."
+    ],
+    [
+     "Professional 58 → 100+",
+     "Gemstone Powder, für die Hollows."
+    ],
+    [
+     "Tier 9 nutzen",
+     "Du bist Tier 9, hast aber keinen Tier-9-Perk. Metal Head oder Rags to Riches statt Blockhead oder Subterranean Fisher."
+    ]
+   ],
+   "source": "EliteBot"
+  }
+ },
+ "GARDEN": {
+  "status": [
+   [
+    "Garden Level",
+    "14",
+    "4'295 XP bis Level 15"
+   ],
+   [
+    "Crop Upgrades",
+    "3 / 9",
+    "Garden 14 erlaubt bis Tier 8"
+   ],
+   [
+    "Plots",
+    "13 / 24",
+    "+3 Farming Fortune pro Plot"
+   ],
+   [
+    "Composter",
+    "Speed 1 · Multi 1",
+    "Fuel 0 · OM 3 · Cost 0"
+   ],
+   [
+    "Visitors",
+    "118 erledigt",
+    "49 verschiedene"
+   ],
+   [
+    "Anita Extra Fortune",
+    "0 / 15",
+    "+4 Farming Fortune pro Stufe"
+   ]
+  ],
+  "copper": [
+   [
+    "Dedication I",
+    "250",
+    "Crop Fortune pro Crop-Milestone aufs Haupt-Tool",
+    "sofort"
+   ],
+   [
+    "Crop Upgrade IV für Wheat und Melon",
+    "je 50",
+    "+5 Crop Fortune pro Crop",
+    "sofort"
+   ],
+   [
+    "Crop Upgrade V für eure Farm-Crops",
+    "je 100",
+    "+5 Crop Fortune",
+    "sofort"
+   ],
+   [
+    "Composter Speed und Multi Drop, Tier 2–3",
+    "150 / 200",
+    "Mehr Compost für neue Plots",
+    "diese Woche"
+   ],
+   [
+    "Crop Upgrade VI für Wheat, Melon, Mushroom, Pumpkin",
+    "je 500",
+    "+5 Crop Fortune",
+    "diese Woche"
+   ],
+   [
+    "Green Thumb I",
+    "1'500",
+    "Farming Fortune pro unique Visitor aufs Equipment",
+    "diese Woche"
+   ],
+   [
+    "Crop Upgrade VII für die Haupt-Crops",
+    "je 1'000",
+    "+5 Crop Fortune (Garden 13)",
+    "2–4 Wochen"
+   ],
+   [
+    "Copper Talisman",
+    "5'000",
+    "Neues Accessory, MP. Ring 20'000, Artifact 50'000",
+    "2–4 Wochen"
+   ],
+   [
+    "Blossom-Set (braucht Peony-Teile)",
+    "2'500 · 5'000 · 7'500 · 10'000",
+    "Equipment-Upgrade, Farming 20 und Garden 7",
+    "später"
+   ],
+   [
+    "Crop Upgrade VIII und IX",
+    "2'000 · 4'000",
+    "Tier VIII ab Garden 14, Tier IX ab Garden 15",
+    "später"
+   ],
+   [
+    "Greenhouse Upgrades",
+    "50 bis 5'000 pro Tier",
+    "Growth Speed und Yield",
+    "später"
+   ]
+  ],
+  "tiers": [
+   [
+    "I",
+    "Garden 2",
+    "5"
+   ],
+   [
+    "II",
+    "Garden 4",
+    "10"
+   ],
+   [
+    "III",
+    "Garden 6",
+    "20"
+   ],
+   [
+    "IV",
+    "Garden 8",
+    "50"
+   ],
+   [
+    "V",
+    "Garden 10",
+    "100"
+   ],
+   [
+    "VI",
+    "Garden 12",
+    "500"
+   ],
+   [
+    "VII",
+    "Garden 13",
+    "1'000"
+   ],
+   [
+    "VIII",
+    "Garden 14",
+    "2'000"
+   ],
+   [
+    "IX",
+    "Garden 15",
+    "4'000"
+   ]
+  ],
+  "ladder": [
+   {
+    "stage": "Farming 20–40",
+    "armor": "Cropie → Squash Armor",
+    "equip": "Peony-Set (50–500 Copper)",
+    "tool": "Mk. I (250 Copper) → Mk. II (Crop + 64 Jacob's Tickets)",
+    "ench": "Harvesting V, Dedication I, Cultivating (4'000 Bits bei Elizabeth), Reforge Blessed"
+   },
+   {
+    "stage": "Farming 40+",
+    "armor": "Fermento Armor (Farming 40)",
+    "equip": "Blossom-Set (Copper), Reforge Rooted mit Burrowing Spores",
+    "tool": "Mk. III (Crop + 256 Jacob's Tickets)",
+    "ench": "Pesterminator auf Armor (Beetle-Drop), Green Thumb auf Equipment, Reforge Mossy (Overgrown Grass)"
+   },
+   {
+    "stage": "Endgame",
+    "armor": "Helianthus Armor: je Teil 2 Condensed Helianthus + 64 Compacted Sunflower, Wild Rose, Moonflower",
+    "equip": "Zorro's Cape (doppelte Stats im Contest)",
+    "tool": "Tool-Level 40 → 50 mit Overclocker 3000",
+    "ench": "Dedication IV (Librarian / Ravenous Rhino), Turbo-Crop, Harvesting VI (Shiny Pig)"
+   }
+  ],
+  "base": [
+   [
+    "Anita Extra Farming Fortune",
+    "0 / 15",
+    "bis +60",
+    "Gold-Medaillen aus Jacob's Contests"
+   ],
+   [
+    "Garden Plots",
+    "12 / 24",
+    "bis +36 mehr",
+    "Compost für neue Plots"
+   ],
+   [
+    "Crop Upgrades",
+    "Tier III",
+    "bis +45 pro Crop",
+    "Copper"
+   ],
+   [
+    "Crop Analyzer Milestones",
+    "–",
+    "bis +30",
+    "Mutationen analysieren"
+   ],
+   [
+    "Pest Bestiary",
+    "–",
+    "bis +102",
+    "Pests töten"
+   ]
+  ],
+  "player": {
+   "relaxo": {
+    "now": "Bustling Fermento + Bustling Rancher's Boots, Rooted Peony Necklace und Cloak, Peony Belt und Bracelet, Elephant Legendary 100. Overclocker 3000 im Storage.",
+    "next": [
+     "Armor-Reforge von Bustling auf Mossy (Overgrown Grass): +30 statt +10 pro Teil auf Mythic.",
+     "Belt und Bracelet auf Rooted, dann Richtung Blossom-Set.",
+     "Overclocker 3000 in das Haupt-Tool, sobald es Level 40 erreicht.",
+     "Helianthus: sammelt Sunflower, Wild Rose und Moonflower im Greenhouse für die Compacted-Varianten."
+    ]
+   },
+   "amin": {
+    "now": "Squash Armor + Rancher's Boots, Peony Belt und Bracelet, Elephant Legendary 91.",
+    "next": [
+     "Farming 36 → 40, dann Squash zu Fermento craften.",
+     "Peony Necklace (200 Copper) und Cloak (500 Copper) für das komplette Set.",
+     "Elephant auf 100 bringen, Cultivating bei Elizabeth kaufen.",
+     "Copper erst in Crop Upgrades, dann in eigenes Equipment."
+    ]
+   }
+  },
+  "copperBalance": {
+   "relaxo": 153,
+   "amin": 153
+  },
+  "tierBought": 3,
+  "tierMax": 8
+ },
+ "DAILY": [
+  [
+   "Täglich · Garden",
+   [
+    [
+     "d1",
+     "Garden Visitors abarbeiten",
+     "Copper und Garden XP. Level 14 braucht noch 5'985 XP."
+    ],
+    [
+     "d2",
+     "Composter füllen",
+     "Organic Matter und Fuel. Als Ironman eignen sich Enchanted Seeds und Box of Seeds, weil Visitors keine Seeds verlangen."
+    ],
+    [
+     "d3",
+     "Minions leeren",
+     "Sacks und Compactor prüfen, Collections pushen."
+    ]
+   ]
+  ],
+  [
+   "Täglich · Mining",
+   [
+    [
+     "d4",
+     "Erste 4 Commissions",
+     "+900 HotM XP pro Commission zusätzlich."
+    ],
+    [
+     "d5",
+     "Daily Powder und Daily Grind",
+     "Ein Erz und eine Commission pro Insel: Dwarven Mines, Crystal Hollows, Glacite Tunnels."
+    ],
+    [
+     "d6",
+     "Fetchur",
+     "20'000 Coins und 2'500 Mithril Powder für das Item des Tages."
+    ],
+    [
+     "d7",
+     "Puzzler",
+     "2'500 Mithril Powder für das Rätsel."
+    ],
+    [
+     "d8",
+     "Forge-Slots neu belegen",
+     "Refined Titanium, Drill-Teile, Goblin Omelette."
+    ],
+    [
+     "d9",
+     "Crystal Nucleus Run",
+     "+800 HotM XP und Loot."
+    ]
+   ]
+  ],
+  [
+   "Täglich · Skills",
+   [
+    [
+     "d10",
+     "Experimentation Table",
+     "Superpairs, Chronomatron, Ultrasequencer. Enchanting XP, Bücher und Chance auf Metaphysical Serum."
+    ],
+    [
+     "d11",
+     "Crimson Isle Quests",
+     "Sobald eine Faction gewählt ist: tägliche Faction-Quests für Reputation."
+    ]
+   ]
+  ],
+  [
+   "Jede Stunde",
+   [
+    [
+     "h1",
+     "Jacob's Farming Contest",
+     "Alle 3 SkyBlock-Tage (1 Stunde), 20 Minuten lang. Gold-Medaillen für Anita."
+    ],
+    [
+     "h2",
+     "Dark Auction um :55",
+     "Jedes gekaufte Item zählt für Shady Ring (5) und Crooked Artifact (10)."
+    ]
+   ]
+  ],
+  [
+   "Events",
+   [
+    [
+     "e1",
+     "Mayor-Events nutzen",
+     "Mining Fiesta, Fishing Festival, Mythological Ritual (Diana) je nach Mayor."
+    ],
+    [
+     "e2",
+     "Spooky Festival im Oktober",
+     "Candy, Great Spook und Bat Talisman."
+    ],
+    [
+     "e3",
+     "Bits ausgeben",
+     "Booster Cookie aktiv halten, Cultivating für 4'000 Bits bei Elizabeth."
+    ]
+   ]
+  ]
+ ],
+ "meta": {
+  "updated": "26.09.2026 17:52",
+  "url": null,
+  "profile": "Raspberry",
+  "players": {
+   "relaxo": "Relaxo_GX",
+   "amin": "ReverseAmin"
+  },
+  "updatedDate": "2026-09-26",
+  "updatedAt": "2026-09-26T15:52:49.292Z",
+  "reason": "manuell",
+  "sources": [
+   "EliteBot API"
+  ]
+ },
+ "VS": [
+  [
+   "Skill Average",
+   33.2,
+   30.3
+  ],
+  [
+   "Mining",
+   52,
+   53
+  ],
+  [
+   "Farming",
+   45,
+   36
+  ],
+  [
+   "Combat",
+   31,
+   29
+  ],
+  [
+   "Enchanting",
+   40,
+   36
+  ],
+  [
+   "Catacombs",
+   19,
+   18
+  ],
+  [
+   "Magical Power",
+   265,
+   172
+  ],
+  [
+   "Slayer XP",
+   "39.7 k",
+   "6.4 k"
+  ],
+  [
+   "Fairy Souls",
+   63,
+   189
+  ],
+  [
+   "Networth",
+   "912 M",
+   "518 M"
+  ]
+ ]
+}

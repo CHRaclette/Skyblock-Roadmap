@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="de">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Raspberry Coop Roadmap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --background:#ffffff; --foreground:#0a0a0a;
+  --card:#ffffff; --card-foreground:#0a0a0a;
+  --muted:#f5f5f5; --muted-foreground:#737373;
+  --secondary:#f5f5f5; --accent:#f4f4f5;
+  --border:#e5e5e5; --input:#e5e5e5; --ring:#a3a3a3;
+  --primary:#171717; --primary-foreground:#fafafa;
+  --success:#16a34a; --success-bg:#dcfce7; --warning:#b45309; --warning-bg:#fef3c7; --danger:#dc2626; --danger-bg:#fee2e2; --info:#2563eb; --info-bg:#dbeafe;
+  --r-common:#525252; --r-uncommon:#15803d; --r-rare:#2563eb; --r-epic:#9333ea; --r-legendary:#c2410c; --r-mythic:#db2777;
+  --mithril:#0d9488; --gemstone:#c026d3; --glacite:#0284c7;
+  --shadow:0 1px 2px rgba(0,0,0,.05);
+  --radius:10px;
+  --font:"Geist",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"Geist Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --background:#0a0a0a; --foreground:#fafafa; --card:#141414; --card-foreground:#fafafa;
+    --muted:#1f1f1f; --muted-foreground:#a1a1a1; --secondary:#262626; --accent:#262626;
+    --border:#2a2a2a; --input:#333; --ring:#737373; --primary:#e5e5e5; --primary-foreground:#171717;
+    --success:#4ade80; --success-bg:rgba(34,197,94,.14); --warning:#fbbf24; --warning-bg:rgba(245,158,11,.14); --danger:#f87171; --danger-bg:rgba(239,68,68,.14); --info:#60a5fa; --info-bg:rgba(59,130,246,.14);
+    --r-common:#d4d4d4; --r-uncommon:#4ade80; --r-rare:#60a5fa; --r-epic:#c084fc; --r-legendary:#fb923c; --r-mythic:#f472b6;
+    --mithril:#2dd4bf; --gemstone:#e879f9; --glacite:#38bdf8; --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --background:#0a0a0a; --foreground:#fafafa; --card:#141414; --card-foreground:#fafafa;
+  --muted:#1f1f1f; --muted-foreground:#a1a1a1; --secondary:#262626; --accent:#262626;
+  --border:#2a2a2a; --input:#333; --ring:#737373; --primary:#e5e5e5; --primary-foreground:#171717;
+  --success:#4ade80; --success-bg:rgba(34,197,94,.14); --warning:#fbbf24; --warning-bg:rgba(245,158,11,.14); --danger:#f87171; --danger-bg:rgba(239,68,68,.14); --info:#60a5fa; --info-bg:rgba(59,130,246,.14);
+  --r-common:#d4d4d4; --r-uncommon:#4ade80; --r-rare:#60a5fa; --r-epic:#c084fc; --r-legendary:#fb923c; --r-mythic:#f472b6;
+  --mithril:#2dd4bf; --gemstone:#e879f9; --glacite:#38bdf8; --shadow:none;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--background);color:var(--foreground);font-family:var(--font);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{margin:0;text-wrap:balance;letter-spacing:-.01em}
+p{margin:0}
+a{color:inherit;text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--ring);outline-offset:2px;border-radius:6px}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.muted{color:var(--muted-foreground)}
+
+/* header */
+.hdr{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:color-mix(in srgb,var(--background) 85%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+.hdr-in{max-width:1180px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:8px;font-weight:600}
+.logo i{width:26px;height:26px;border-radius:7px;background:var(--primary);color:var(--primary-foreground);display:grid;place-items:center;font-style:normal;font-size:13px}
+.spacer{flex:1}
+.seg{display:inline-flex;background:var(--muted);border-radius:8px;padding:3px;gap:2px}
+.seg button{font:inherit;font-size:13px;font-weight:500;border:0;background:transparent;color:var(--muted-foreground);padding:5px 10px;border-radius:6px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--background);color:var(--foreground);box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.btn{font:inherit;font-size:13px;font-weight:500;border:1px solid var(--border);background:var(--background);color:var(--foreground);height:32px;padding:0 10px;border-radius:8px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{background:var(--accent)}
+
+.wrap{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:24px 64px;display:flex;flex-direction:column;gap:20px}
+.pagehead{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px}
+.pagehead h1{font-size:28px;font-weight:600}
+.pagehead p{color:var(--muted-foreground);max-width:70ch;margin-top:4px}
+
+/* cards */
+.card{background:var(--card);color:var(--card-foreground);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
+.card-h{padding:16px 18px 0;display:flex;flex-direction:column;gap:3px}
+.card-h h3{font-size:15px;font-weight:600}
+.card-h p{font-size:13px;color:var(--muted-foreground)}
+.card-c{padding:14px 18px 18px}
+.grid{display:grid;gap:12px}
+.g4{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.g2{grid-template-columns:repeat(auto-fit,minmax(360px,1fr))}
+@media (max-width:420px){.g2{grid-template-columns:1fr}}
+.kpi{padding:14px 16px;display:flex;flex-direction:column;gap:2px}
+.kpi span{font-size:12.5px;color:var(--muted-foreground)}
+.kpi b{font-size:22px;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.kpi small{font-size:12px;color:var(--muted-foreground)}
+
+/* badge */
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:500;line-height:1;padding:4px 7px;border-radius:6px;border:1px solid var(--border);background:var(--background);color:var(--foreground);white-space:nowrap}
+.badge.sec{background:var(--secondary);border-color:transparent}
+.badge.ok{background:var(--success-bg);color:var(--success);border-color:transparent}
+.badge.warn{background:var(--warning-bg);color:var(--warning);border-color:transparent}
+.badge.bad{background:var(--danger-bg);color:var(--danger);border-color:transparent}
+.badge.info{background:var(--info-bg);color:var(--info);border-color:transparent}
+.badge.mithril{color:var(--mithril)} .badge.gemstone{color:var(--gemstone)} .badge.glacite{color:var(--glacite)}
+
+/* tabs */
+.tabs{display:flex;gap:2px;background:var(--muted);padding:3px;border-radius:9px;overflow-x:auto;scrollbar-width:none;align-self:flex-start;max-width:100%}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{font:inherit;font-size:13px;font-weight:500;border:0;background:transparent;color:var(--muted-foreground);padding:6px 12px;border-radius:7px;cursor:pointer;white-space:nowrap}
+.tabs button[aria-selected="true"]{background:var(--background);color:var(--foreground);box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.view{display:flex;flex-direction:column;gap:16px}
+.subtabs{display:flex;gap:6px;flex-wrap:wrap}
+.subtabs button{font:inherit;font-size:13px;font-weight:500;height:30px;padding:0 10px;border:1px solid var(--border);border-radius:8px;background:var(--background);color:var(--muted-foreground);cursor:pointer}
+.subtabs button[aria-selected="true"]{background:var(--primary);color:var(--primary-foreground);border-color:var(--primary)}
+
+/* alert-ish items */
+.alert{display:flex;flex-direction:column;gap:6px;padding:14px 16px}
+.alert p{color:var(--muted-foreground);font-size:13.5px}
+.alert h4{font-size:14px;font-weight:600}
+
+/* checklist */
+.check{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.check li{display:grid;grid-template-columns:20px 1fr auto;gap:10px;align-items:start;padding:11px 0;border-top:1px solid var(--border)}
+.check li:first-child{border-top:0}
+.check input{appearance:none;-webkit-appearance:none;width:16px;height:16px;margin:2px 0 0;border:1px solid var(--primary);border-radius:4px;display:grid;place-content:center;cursor:pointer;background:var(--background)}
+.check input:checked{background:var(--primary)}
+.check input:checked::after{content:"";width:8px;height:4px;border-left:2px solid var(--primary-foreground);border-bottom:2px solid var(--primary-foreground);transform:rotate(-45deg) translate(1px,-1px)}
+.check label{cursor:pointer;font-weight:500}
+.check label small{display:block;font-weight:400;color:var(--muted-foreground);font-size:13px;margin-top:2px}
+.check li.done label{color:var(--muted-foreground);text-decoration:line-through}
+.newtag{margin-left:6px;vertical-align:1px}
+
+/* progress */
+.progress{height:8px;border-radius:999px;background:var(--muted);overflow:hidden;position:relative}
+.progress i{display:block;height:100%;background:var(--primary);border-radius:999px}
+.progress .t1{position:absolute;top:0;left:0;height:100%;background:color-mix(in srgb,var(--primary) 30%,transparent)}
+.progress .t2{position:absolute;top:0;left:0;height:100%;background:color-mix(in srgb,var(--primary) 14%,transparent)}
+.progress .now{position:absolute;top:0;left:0;height:100%;background:var(--primary);border-radius:999px}
+
+/* table */
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+th{font-weight:500;color:var(--muted-foreground);font-size:12.5px;height:38px;vertical-align:middle}
+tbody tr:hover td{background:color-mix(in srgb,var(--muted) 60%,transparent)}
+tr:last-child td{border-bottom:0}
+td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.group td{background:var(--muted);font-weight:600;font-size:12.5px;color:var(--muted-foreground)}
+.minw{min-width:720px}
+.r{font-weight:600}
+.r.common{color:var(--r-common)} .r.uncommon{color:var(--r-uncommon)} .r.rare{color:var(--r-rare)} .r.epic{color:var(--r-epic)} .r.legendary{color:var(--r-legendary)} .r.mythic{color:var(--r-mythic)}
+
+/* lists */
+.ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px;font-size:13.5px}
+.col3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:820px){.col3{grid-template-columns:1fr}}
+.stepnum{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:999px;background:var(--primary);color:var(--primary-foreground);font-size:12px;font-weight:600;flex:none}
+.row{display:flex;gap:10px;align-items:flex-start}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.kv div{border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:13.5px}
+.kv b{display:block;font-size:12px;font-weight:500;color:var(--muted-foreground);margin-bottom:2px}
+
+/* skills */
+.skill{display:grid;grid-template-columns:90px 1fr 48px;gap:10px;align-items:center;font-size:13.5px}
+.skill .v{font-family:var(--mono);text-align:right;color:var(--muted-foreground)}
+.skill .progress i.low{background:var(--warning)}
+
+/* pets */
+.pets{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px}
+.pet{border:1px solid var(--border);border-radius:8px;padding:9px 12px;display:flex;flex-direction:column;gap:2px;font-size:13.5px}
+.pet .top{display:flex;justify-content:space-between;gap:8px}
+.pet small{color:var(--muted-foreground)}
+
+/* hotm */
+.tier{display:grid;grid-template-columns:64px 1fr;gap:12px;padding:12px 0;border-top:1px solid var(--border)}
+.tier:first-child{border-top:0}
+.tier .tn{font-weight:600}
+.tier .tn small{display:block;font-weight:400;color:var(--muted-foreground);font-size:12px}
+.perks{display:flex;flex-wrap:wrap;gap:6px}
+.perk{border:1px solid var(--border);border-radius:8px;padding:6px 9px;font-size:12.5px;display:flex;flex-direction:column;gap:1px;min-width:150px;flex:1 1 170px;max-width:260px}
+.perk b{font-weight:600;font-size:13px;display:flex;justify-content:space-between;gap:6px}
+.perk span{color:var(--muted-foreground)}
+.perk.have{border-color:color-mix(in srgb,var(--success) 45%,var(--border))}
+.perk.low{border-color:color-mix(in srgb,var(--warning) 55%,var(--border))}
+.perk .lv{font-family:var(--mono);font-weight:500;font-size:12px}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:12.5px;color:var(--muted-foreground)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px;border:1px solid}
+
+/* compare */
+.vs{display:grid;grid-template-columns:minmax(110px,1fr) 1fr 1fr;font-size:13.5px}
+.vs > div{padding:8px 12px;border-bottom:1px solid var(--border);font-variant-numeric:tabular-nums}
+.vs > div:nth-last-child(-n+3){border-bottom:0}
+.vs .h{font-weight:500;color:var(--muted-foreground);font-size:12.5px}
+.vs .win{color:var(--success);font-weight:600}
+
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+details.acc{border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px}
+details.acc summary{cursor:pointer;font-weight:500}
+.note{font-size:12.5px;color:var(--muted-foreground)}
+footer{font-size:12.5px;color:var(--muted-foreground);border-top:1px solid var(--border);padding-top:16px;display:flex;flex-direction:column;gap:6px}
+footer ul{margin:0;padding-left:18px}
+.fade{transition:opacity .2s ease}
+.fade.out{opacity:0}
+@media (prefers-reduced-motion:reduce){.fade{transition:none}}
+@media (max-width:560px){
+  .check li{grid-template-columns:20px 1fr}
+  .check li .badge.cat{grid-column:2;justify-self:start}
+  .tier{grid-template-columns:1fr}
+  .pagehead h1{font-size:24px}
+}
+</style>
+
+<header class="hdr"><div class="hdr-in">
+  <div class="logo"><i>R</i>Raspberry <span class="badge sec">♲ Ironman Coop</span></div>
+  <div class="spacer"></div>
+  <div class="seg" role="group" aria-label="Spieler" id="switch">
+    <button type="button" id="pick-relaxo" data-p="relaxo" aria-pressed="true">Relaxo_GX</button>
+    <button type="button" id="pick-amin" data-p="amin" aria-pressed="false">ReverseAmin</button>
+  </div>
+  <button type="button" class="btn" id="theme" aria-label="Farbschema wechseln">◐ <span id="themelabel">System</span></button>
+</div></header>
+
+<div class="wrap">
+  <div class="pagehead">
+    <div>
+      <h1 id="pname">Relaxo_GX</h1>
+      <p id="lead"></p>
+    </div>
+    <div class="chips"><span class="badge">Profil seit 19.04.2024</span><span class="badge" id="asof">Daten 26.09.2026</span><span class="badge">Coop mit <span id="mate">&nbsp;ReverseAmin</span></span></div>
+  </div>
+
+  <div class="grid g4" id="stats"></div>
+
+  <div class="tabs" role="tablist" id="viewtabs">
+    <button role="tab" id="t-overview" aria-controls="v-overview" aria-selected="true">Übersicht</button>
+    <button role="tab" id="t-steps" aria-controls="v-steps" aria-selected="false">Next Steps</button>
+    <button role="tab" id="t-daily" aria-controls="v-daily" aria-selected="false">Daily</button>
+    <button role="tab" id="t-acc" aria-controls="v-acc" aria-selected="false">Accessories</button>
+    <button role="tab" id="t-setups" aria-controls="v-setups" aria-selected="false">Setups</button>
+    <button role="tab" id="t-hotm" aria-controls="v-hotm" aria-selected="false">HotM</button>
+    <button role="tab" id="t-garden" aria-controls="v-garden" aria-selected="false">Garden & Farming</button>
+    <button role="tab" id="t-coop" aria-controls="v-coop" aria-selected="false">Coop</button>
+    <button role="tab" id="t-bot" aria-controls="v-bot" aria-selected="false">Discord Bot</button>
+  </div>
+
+  <main id="main" class="fade">
+    <section class="view" id="v-overview" role="tabpanel" aria-labelledby="t-overview">
+      <div class="grid g3" id="diag"></div>
+      <div class="grid g2">
+        <div class="card"><div class="card-h"><h3>Skills</h3><p id="sa"></p></div><div class="card-c" style="display:flex;flex-direction:column;gap:9px" id="skillgrid"></div></div>
+        <div class="card"><div class="card-h"><h3>Extras</h3><p>Essence, Rift, Consumables und mehr aus SkyCrypt</p></div><div class="card-c"><div class="kv" id="extra"></div></div></div>
+      </div>
+      <div class="card"><div class="card-h"><h3>Pets</h3><p id="petcount"></p></div><div class="card-c" style="display:flex;flex-direction:column;gap:10px"><div class="pets" id="petgrid"></div><p class="note" id="petnote"></p></div></div>
+    </section>
+
+    <section class="view" id="v-steps" role="tabpanel" aria-labelledby="t-steps" hidden>
+      <div class="row" style="justify-content:space-between;flex-wrap:wrap"><p class="muted">Abhaken speichert nur in deinem Browser, getrennt pro Spieler.</p><span class="badge" id="prog"></span></div>
+      <div class="grid g2" id="phases"></div>
+    </section>
+
+    <section class="view" id="v-daily" role="tabpanel" aria-labelledby="t-daily" hidden></section>
+
+    <section class="view" id="v-acc" role="tabpanel" aria-labelledby="t-acc" hidden>
+      <div class="card"><div class="card-h"><h3>Magical Power</h3><p>MP pro Rarity: Common 3 · Uncommon 5 · Rare 8 · Epic 12 · Legendary 16 · Mythic 22. Collections sind im Coop geteilt, jedes freigeschaltete Rezept gilt für beide.</p></div><div class="card-c" id="mpbar"></div></div>
+      <div class="card"><div class="tablewrap"><table class="minw"><thead><tr><th>#</th><th>Accessory</th><th>Quelle (Ironman)</th><th>+MP ca.</th><th>Status</th></tr></thead><tbody id="acctable"></tbody></table></div></div>
+      <p class="note">Rezepte und Requirements im Spiel mit <span class="mono">/recipe &lt;Name&gt;</span> prüfen.</p>
+      <details class="acc"><summary id="owned-sum">Accessories im Bag</summary><div class="chips" id="owned" style="margin-top:10px"></div></details>
+    </section>
+
+    <section class="view" id="v-setups" role="tabpanel" aria-labelledby="t-setups" hidden>
+      <div class="subtabs" role="tablist" id="tabs"></div>
+      <div id="panels"></div>
+    </section>
+
+    <section class="view" id="v-hotm" role="tabpanel" aria-labelledby="t-hotm" hidden></section>
+    <section class="view" id="v-garden" role="tabpanel" aria-labelledby="t-garden" hidden></section>
+
+    <section class="view" id="v-coop" role="tabpanel" aria-labelledby="t-coop" hidden>
+      <div class="card"><div class="card-h"><h3>Vergleich</h3><p>Grün = vorne</p></div><div class="card-c"><div class="vs" id="vs"></div></div></div>
+      <div class="grid g3">
+        <div class="card alert"><span class="badge bad" style="align-self:flex-start">Gemeinsam</span><h4>Crimson Isle: noch keine Faction</h4><p>Ihr habt beide weder Mages noch Barbarians gewählt, keine Dojo-Punkte, keine Kuudra-Runs. Wählt dieselbe Faction, damit ihr Kuudra zusammen laufen könnt.</p></div>
+        <div class="card alert"><span class="badge warn" style="align-self:flex-start">Gemeinsam</span><h4>Coop-Bank ist leer</h4><p>Zusammen tragt ihr rund 10 M im Purse, die Bank steht auf 0. Vor Dungeons, Slayern und Crimson Isle einzahlen: Beim Tod verliert man die Hälfte des Purse.</p></div>
+        <div class="card alert"><span class="badge warn" style="align-self:flex-start">Aufteilen</span><h4>Wer farmt was</h4><p>Amin hat das stärkere HotM und Mole Legendary, Relaxo hat Fermento und die bessere Farming Fortune. Amin pusht Mining-Collections, Relaxo die Crops; die Rezepte werden für beide frei.</p></div>
+        <div class="card alert"><span class="badge warn" style="align-self:flex-start">Gemeinsam</span><h4>Minion Slots: 44 Tiers bis Slot 20</h4><p>306 unique Minion-Tiers, 19 Slots plus 5 aus Profile Upgrades. Nie gecraftet: Cactus, Sugar Cane, Cocoa, Sunflower, Sand, Red Sand, Snow, Flower, Mycelium, Sheep, Rabbit, Magma Cube, Ghast, Voidling, Inferno, Vampire.</p></div>
+        <div class="card alert"><span class="badge ok" style="align-self:flex-start">Gemeinsam</span><h4>51 von 90 Collections maxed</h4><p>Neue Collection-Stufen schalten Accessory-Rezepte und Minion-Tiers für beide frei.</p></div>
+        <div class="card alert"><span class="badge info" style="align-self:flex-start">Garden</span><h4>Garden und Copper sind geteilt</h4><p>Crop Upgrades, Plots, Composter und Copper gehören dem Coop (Copper ist co-op-gebunden). Stimmt ab, wer welche Upgrades kauft, damit nichts doppelt ausgegeben wird.</p></div>
+      </div>
+    </section>
+
+    <section class="view" id="v-bot" role="tabpanel" aria-labelledby="t-bot" hidden>
+      <div class="grid g2">
+        <div class="card"><div class="card-h"><h3>Roadmap-Befehle im Bot</h3><p>Neu im Skyblock-Bot. Jede Antwort hat einen Button, der diese Seite öffnet.</p></div>
+          <div class="tablewrap"><table><thead><tr><th>Befehl</th><th>Zeigt</th></tr></thead><tbody>
+            <tr><td class="num">/update</td><td class="muted">Holt neue Profildaten und rechnet Stats, HotM, Garden und die grössten Hebel neu. Läuft zusätzlich jeden Tag automatisch.</td></tr>
+            <tr><td class="num">/roadmap [spieler]</td><td class="muted">Top-Hebel und die Next Steps von heute</td></tr>
+            <tr><td class="num">/daily</td><td class="muted">Tägliche und stündliche Ironman-Aufgaben</td></tr>
+            <tr><td class="num">/hotm [spieler] [setup]</td><td class="muted">HotM-Stand und Perk-Reihenfolge für Commissions, Gemstones, Glacite oder Powder</td></tr>
+            <tr><td class="num">/garden [spieler]</td><td class="muted">Copper-Plan, Crop Upgrades, Farming-Setup</td></tr>
+            <tr><td class="num">/mp [spieler]</td><td class="muted">Magical Power und die nächsten Accessories</td></tr>
+            <tr><td class="num">/setup [spieler] [bereich]</td><td class="muted">Armor, Equipment und Waffen für Combat, Dungeons, Mining, Farming, Fishing, Foraging</td></tr>
+            <tr><td class="num">/website</td><td class="muted">Öffentlicher Link zu dieser Seite, sonst die Seite als HTML-Datei</td></tr>
+          </tbody></table></div></div>
+        <div class="card"><div class="card-h"><h3>Bot starten</h3><p>Der Bot hostet diese Seite selbst.</p></div><div class="card-c"><ol class="check" style="list-style:none">
+          <li style="grid-template-columns:22px 1fr"><span class="stepnum">1</span><div>Die ZIP entpacken und deine bestehende <span class="mono">.env</span> in den Ordner <span class="mono">bot/</span> kopieren.</div></li>
+          <li style="grid-template-columns:22px 1fr"><span class="stepnum">2</span><div><span class="mono">docker compose up -d --build</span>. Startet den Bot und einen Cloudflare-Tunnel, der die Seite öffentlich macht.</div></li>
+          <li style="grid-template-columns:22px 1fr"><span class="stepnum">3</span><div>Der öffentliche Link steht im Bot-Log und kommt mit jedem Befehl als Button. Auf dem Bot-Rechner: <span class="mono">localhost:3001/roadmap</span>.</div></li>
+          <li style="grid-template-columns:22px 1fr"><span class="stepnum">4</span><div>Ohne Tunnel schickt der Bot die Seite als HTML-Datei, die man im Browser öffnet.</div></li>
+        </ol></div></div>
+      </div>
+      <div class="grid g2">
+        <div class="card alert"><span class="badge warn" style="align-self:flex-start">Ironman</span><h4>Bazaar-Befehle nur als Info</h4><p>/bz, /flips und /npcflip lesen Bazaar-Preise. Als Ironman könnt ihr nicht handeln; nutzt sie höchstens, um NPC-Verkaufspreise einzuschätzen.</p></div>
+        <div class="card alert"><span class="badge bad" style="align-self:flex-start">Sicherheit</span><h4>Token neu erstellen</h4><p>Die ursprüngliche ZIP enthielt den Bot-Token in der .env. Wenn sie geteilt wurde: im Discord Developer Portal einen neuen Token erzeugen.</p></div>
+        <div class="card alert"><span class="badge ok" style="align-self:flex-start">Automatisch</span><h4>Tägliches Update</h4><p>Der Bot aktualisiert die Daten mindestens einmal pro Tag ab 6:00 (Zürich) und postet die Änderungen in den Kanal aus ROADMAP_CHANNEL_ID. Die Seite unter /roadmap zeigt dann „· live“.</p></div>
+        <div class="card alert"><span class="badge info" style="align-self:flex-start">Link</span><h4>Öffentlicher Link</h4><p>Fester Link über GitHub Pages: GITHUB_REPO und GITHUB_TOKEN in der .env setzen, dann zeigen alle Buttons dorthin und /update baut die Seite neu. Ohne GitHub nimmt der Bot den Cloudflare-Tunnel.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Daten: SkyCrypt (Wardrobe, Accessories, Pets, Minions), EliteSkyblock-API (Skills, Slayer, HotM, Garden, Jacob), SkyPrizm. Fakten zu HotM, Copper, Farming-Gear und Dailies vom Hypixel SkyBlock Wiki (Stand 26.09.2026). HotM-Werte aus der API immer in /hotm gegenprüfen.</p>
+    <ul>
+      <li><a href="https://sky.shiiyu.moe/stats/Relaxo_GX/Raspberry" target="_blank" rel="noopener">SkyCrypt · Relaxo_GX</a> · <a href="https://sky.shiiyu.moe/stats/7b8b783fd39348b297a20e6771bdfff6/Raspberry" target="_blank" rel="noopener">SkyCrypt · ReverseAmin</a> · <a href="https://eliteskyblock.com/@Relaxo_GX/Raspberry" target="_blank" rel="noopener">EliteSkyblock</a></li>
+      <li><a href="https://hypixelskyblock.minecraft.wiki/w/Heart_of_the_Mountain" target="_blank" rel="noopener">Wiki · Heart of the Mountain</a> · <a href="https://hypixelskyblock.minecraft.wiki/w/Copper" target="_blank" rel="noopener">Wiki · Copper</a> · <a href="https://hypixelskyblock.minecraft.wiki/w/Farming_Fortune" target="_blank" rel="noopener">Wiki · Farming Fortune</a> · <a href="https://hypixelskyblock.minecraft.wiki/w/Commissions" target="_blank" rel="noopener">Wiki · Commissions</a></li>
+    </ul>
+  </footer>
+</div>
+<script>
+var P={"relaxo":{"name":"Relaxo_GX","stats":[["265","Magical Power"],["160","SkyBlock Level"],["912 M","Networth · 4,1 M Purse"],["33.2","Skill Average"],["19","Catacombs · Berserk 17"],["6·5·5·2·0·0","Slayer Z·S·W·E·B·V"],["63/289","Fairy Souls"],["348","Farming Weight"]],"lead":"Deine Skills sind solide (Mining 52, Taming 50, Farming 45) und dein Wardrobe ist breit: Fermento für Farming, Shadow Assassin für Dungeons, Glacite und Dimensional Yog für Mining. Was bremst, sind Magical Power, Combat 31, die fehlende Crimson Isle und erst 63 Fairy Souls.","diag":[["hi","63 von 289 Fairy Souls","13 gefundene sind noch nicht bei Tia eingelöst. Eintauschen gibt SkyBlock XP und Backpack-Slots."],["hi","Accessory Power und Tuning prüfen","Power: Simple, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 26 Tuning-Punkte bei 265 MP."],["hi","Nur 265 Magical Power","Im Tab Accessories stehen die günstigsten nächsten Accessories in Reihenfolge."],["hi","Crimson Isle: keine Faction","Mages oder Barbarians wählen, gleich wie im Coop, damit ihr Kuudra zusammen laufen könnt."],["md","Slayer-Rewards nicht abgeholt","Bei Maddox abholen: Spider 3."],["md","Crop Upgrades unter Tier 8","13 Crops sind unter dem Maximum für Garden 14. Copper zuerst in eure Haupt-Crops."],["md","Anita: Extra Farming Fortune auf 0","2 Gold-Medaillen vorhanden, jede Stufe gibt +4 Farming Fortune."],["md","HotM-Kernperks auf Stufe 1","Mining Fortune, Professional, Efficient Miner brauchen Powder."]],"phases":[["Heute erledigt","unter 1 Stunde",[["r0","13 Fairy Souls bei Tia einlösen","Gibt SkyBlock XP und Backpack-Slots. Danach die restlichen 226 Insel für Insel sammeln; der Quest Log im SkyBlock Menu zeigt, wo welche fehlen.","SB XP"],["r0b","Spider Slayer Level 3 Reward abholen","Bei Maddox ist Level 3 nicht als abgeholt markiert. Level 1, 2, 4 und 5 schon.","Slayer"],["r1","Maxwell: Power und Tuning setzen","Silky für Combat, Tuning-Punkte auf Strength und Crit Damage. Die Power global von „Simple“ wegstellen, nicht nur in Loadout 5.","MP"],["r2","Kollektions-Upgrades craften","Speed Ring (Sugar Cane), Potion Affinity Artifact (Nether Wart), Sea Creature Artifact, Intimidation Ring, Zombie Ring, Wolf Ring und Red Claw Ring (Wolf Slayer 5 hast du).","MP"],["r3","Titanium Talisman und Soulflow Pile","Titanium Talisman: 2 Refined Titanium in der Forge (HotM II), du hast 866 Enchanted Titanium in den Sacks. Soulflow Pile: 90 Null Spheres, Enderman Slayer 2 hast du. Pesthunter Badge bei Phillip für 25 Pests.","MP"],["r4","/hotm aufräumen","Mining Fortune, Professional, Efficient Miner und Great Explorer leveln. Das ist dein grösster Mining-Boost.","Mining"],["r5","Anita: Gold-Medaillen einsetzen","2 Gold vorhanden. Entweder Anita's Artifact (2 Gold + 100 Jacob's Tickets + Anita's Ring, +3 MP) oder Extra Farming Fortune (Stufe 0). Für MP zuerst das Artifact.","Farming"]]],["Diese Woche","Routine aufbauen",[["r6","Rift Prism holen","Im Rift an der Barrier Street mitbieten (Top 25 gewinnen), danach bei Erihann für 200k einsetzen: dauerhaft +11 MP. Du warst erst 4× im Rift.","MP"],["r7","Garden-Visitors täglich","Copper in Crop Upgrades (alle auf 3/9), Plots freischalten, Composter Speed und Multi Drop.","Farming"],["r8","Experimentation Table täglich","Enchanting 40 → 50, Guardian Pet (Lvl 100) für Enchanting Wisdom tragen.","Skill Avg"],["r9","Dark Auction besuchen","Nach 5 gekauften Dark-Auction-Items verkauft Lucius den Shady Ring (500k), nach 10 das Crooked Artifact (2 M).","MP"],["r10","Alchemy auf 30+","Brewing Stands auf der Island, Nether Wart aus den Sacks.","Skill Avg"],["r10b","Neue Minion-Arten craften","Cactus, Sugar Cane, Cocoa, Sand, Snow und Co. auf Tier I–III. 44 neue Tiers bis zum nächsten Minion Slot.","Coop"]]],["Nächste 2–6 Wochen","Die grossen Grinds",[["r11","Shadow Assassin Chestplate + F6","F5 auf S+ farmen, bis das SA Set komplett ist. Dann F6 für Giant's Sword und Precursor Eye. Ziel Cata 24.","Dungeons"],["r12","Mastiff Armor + Wolf Slayer 6","Mastiff braucht nur Wolf 4: Growth Armor + Golden Teeth. Red Claw Artifact geht schon mit Wolf 5 (Red Claw Egg nötig).","Slayer"],["r13","Crimson Isle starten","Faction wählen (gleich wie Amin), Quests, Dojo. Danach Blaze Slayer und Kuudra Basic.","Combat"],["r14","Enderman Slayer 2 → 5","Mit Voidwalker Katana und Ender-Set. Soulflow Pile und viel Combat XP.","Slayer"],["r15","Spider Slayer 5 → 7","Spider 6: Spider Artifact und Chance auf Tarantula Talisman (T3+). Spider 7: Survivor Cube gratis bei Maddox.","Slayer · MP"]]],["Langfristig","Late Game",[["r16","F7 und Necron's Armor","Ab Cata 24+. Necron's Handle und Wither Catalysts selbst farmen.","Dungeons"],["r17","Divan's Armor und Drill","In der Forge ab HotM 6 (hast du). Teile aus den Mines of Divan, 24 h Forge-Zeit pro Teil.","Mining"],["r18","Pet Score 75 → 100+","Pet Score gibt Magic Find (+4 bei 75, +5 bei 100). Kat-Upgrades für Mooshroom Cow, Monkey, Wither Skeleton; Griffin über Diana.","Pets"]]]],"mp":{"now":265,"t1":345,"t2":460},"acc":[["Sofort craftbar",[["Speed Ring → Artifact → Relic","Sugar Cane IX · Enchanted Sugar Cane","+2 bis +9","ok","jetzt"],["Potion Affinity Artifact","Nether Wart IX · 256 Ench. Nether Wart","+3","ok","jetzt"],["Sea Creature Artifact","Sponge VIII · 64 Enchanted Sponge","+3","ok","jetzt"],["Red Claw Ring","Wolf 5 · 8 Golden Tooth + 96 Enchanted Leather","+3","ok","jetzt"],["Zombie Ring · Intimidation Ring","/recipe","+2 je","ok","jetzt"],["Titanium Talisman → Ring","2 Refined Titanium (HotM II), Ring 6 weitere (HotM III)","+5 und mehr","ok","jetzt"],["Soulflow Pile","Enderman Slayer 2 · 90 Null Sphere","+5","ok","jetzt"],["Pesthunter Badge → Ring","Phillip im Garden, 25 Pests","+5 und mehr","ok","jetzt"],["Cropie Talisman → Squash Ring","256 Cropie (140 vorhanden), dann 128 Squash","+3 bis +5","soon","116 Cropie"],["Anita's Artifact","2 Gold + 100 Jacob's Tickets bei Anita","+3","ok","jetzt"]]],["Wenige Tage",[["Rift Prism","Barrier Street (Rift), bei Erihann einsetzen","+11","soon","Rift"],["Shady Ring → Crooked Artifact","Lucius nach 5 / 10 DA-Käufen","+5 bis +8","soon","DA"],["Beastmaster Crest","Ancient Claws + Griffin Feathers (Diana)","+3 bis +16","soon","Diana"],["Red Claw Artifact","Wolf 5 · Red Claw Egg","+3","soon","Egg"],["Abicase","Abiphone-Shop, +1 MP pro 2 Kontakte","variiert","soon","einfach"],["Nether Artifact","Dark Auction","+12","soon","DA"],["Scarf's Thesis","Upgrade der Studies, nach F2","+4","soon","F2"],["Dwarven Metal Talisman","Forge, HotM 8: 4 Refined Umber + 4 Refined Tungsten + 4 Glacite Amalgamation","+5","soon","Glacite"]]],["Mit Slayer und Dungeons",[["Spider Talisman → Ring → Artifact","Broodmother (Spider's Den), Artifact ab Spider 6","+5 bis +12","far","Spider 6"],["Tarantula Talisman","RNG-Drop ab Spider 6, Tier III+","+12","far","Spider 6"],["Survivor Cube","Gratis bei Maddox mit Spider Slayer 7","+8","far","Spider 7"],["Soulflow Battery","Enderman Slayer 5 · Null Ovoids","+3","far","Eman 5"],["Treasure Talisman → Ring → Artifact","Dungeon Chests","+8 und mehr","far","Cata"],["Blaze-Slayer-Accessories","Blaze Slayer (Crimson Isle)","variiert","far","Blaze"]]],["Crimson Isle und Events",[["Blaze Talisman · Burststopper Talisman","Crimson Isle · Blaze Slayer 3","+8 je","far","Blaze 3"],["Odger's Teeth","Trophy Fishing","+3 bis +16","far","Fishing"],["Candy · Great Spook · Bat Talisman","Spooky Festival (Oktober)","+3 bis +16","soon","bald"],["New Year Cake Bag · Gift Talismans","Winter-Events","variiert","far","saisonal"]]]],"owned":["Haste Artifact","Feather Artifact","Campfire Scion Badge VIII","Melody's Hair","Atmospheric Filter","Bits Talisman","Book of Progression","Fish Affinity Talisman","Mineral Talisman","Rich Chocolate Chunk","Scarf's Studies","Anita's Ring","Dull Shark Tooth Necklace","Emerald Ring","Farming Talisman","Gravity Talisman","Green Jerry Talisman","Healing Ring","Jungle Amulet","Magnetic Talisman","Moonglade Ring","Personal Deletor 4000","Potion Affinity Ring","Red Claw Talisman","Runeblade Ring","Sea Creature Ring","Soul Campfire Adept Badge IV","Wolf Paw","Wolf Talisman","Wood Affinity Talisman","Dante's Ring","Farmer Orb","Fire Talisman","Intimidation Talisman","Mine Affinity Talisman","Night Vision Charm","Safety Badge","Scavenger Talisman","Skeleton Talisman","Small Fish Bowl","Speed Talisman","Talisman of Coins","Talisman of Power","Vaccine Talisman","Village Affinity Talisman","Zombie Talisman","Yellow Rock of Love","Personal Compactor 7000","Pink 5th Anniversary Balloon Hat"],"setups":{"combat":{"label":"Combat / Slayer","now":["Spicy Giant Cleaver ✪5, Spicy Void Sword ✪5","Epic Voidwalker Katana, Deadly Dragon Shortbow ✪5","Ender Armor + Soft Ender Equipment","Pet: Wither Skeleton (Epic 80)"],"next":["Mastiff Armor (Wolf 4, aus Growth Armor + Golden Teeth)","Enderman Slayer 3 → Final Destination Armor","Revenant Armor (Zombie 4), Reaper Armor ab Zombie 7","Power Silky + Tuning auf Strength"],"end":["Final Destination Armor komplett","Kuudra-Armor (Crimson/Aurora aus Paid Chests)","Wither Blade aus F7"],"kv":[["Reihenfolge","Wolf 7 → Enderman 5 → Spider 7 → Blaze 4"],["Warum","Wolf und Spider geben MP-Accessories, Enderman die meiste Combat XP."],["Skill-Ziel","Combat 31 → 40"]]},"dungeon":{"label":"Dungeons","now":["Shadow Assassin Helmet ✪3, Leggings, Boots ✪3","Zombie Knight Chestplate ✪5 als Lückenfüller","Necrotic Shadow Goggles ✪5, Young Dragon","Heroic Dreadlord Sword ✪5 (Mage), Wand of Mending"],"next":["Shadow Assassin Chestplate: F5 oder garantiert bei Livid-Collection VI (750 Kills)","Livid Dagger: Livid-Collection III (150 Livid-Kills)","Giant's Sword + Precursor Eye aus F6-Chests","Mage: Spirit Sceptre, Necromancer Lord Helmet ab Sadan-Collection III"],"end":["Berserk: Necron's Armor","Mage: Storm's Armor + Hyperion","Wither Catalysts selbst farmen"],"kv":[["Klassen","Berserk 17 · Mage 17 · Archer 14 · Healer 7 · Tank 4"],["Runs","F5 17× (Best 305) · F6 1× (148)"],["Pet","Wither Skeleton → Kat Legendary"]]},"mining":{"label":"Mining","now":["Dimensional Yog Armor (angezogen)","Glacite Armor (Wise Chestplate), Mineral Armor","Royal Titanium Equipment","Pickonimbus 2000, Excellent Jungle Pickaxe","Pets: Mithril Golem Leg 100, Bal Leg 100"],"next":["Mining Fortune, Professional, Efficient Miner leveln (alle auf 1)","Titanium Drill DR-X355 (Forge, HotM 5)","Gemstones in die Yog-Slots","Glacite Tunnels: noch 0 Mineshafts"],"end":["Divan's Armor (Forge ab HotM 6) + Divan's Drill","Dwarven Metal Talisman (HotM 8)"],"kv":[["HotM","Tier 8 · 18/18 Tokens · Core 6"],["Crystal Nucleus","25 Runs · 1'847 Commissions"],["Pet-Wahl","Bal für Magma Fields, Mithril Golem für Dwarven Mines"],["Fossils","1 gespendet (Helix)"]]},"farming":{"label":"Farming","now":["Bustling Fermento Helmet, Chestplate, Leggings","Bustling Rancher's Boots","Elephant Leg 100 (Yellow Bandana)","Garden 13, Farming Weight 348"],"next":["Fermento → Helianthus Armor: je Teil 2 Condensed Helianthus + 64 Compacted Sunflower, Wild Rose, Moonflower","Greenhouse nutzen (höhere Helianthus-Drop-Chance)","Crop Upgrades und Anita Extra Fortune"],"end":["Helianthus Armor komplett","Zorro's Cape (Zorro im Chocolate Factory fehlt noch)","Farming 60 über Anita Level Cap"],"kv":[["Stärkste Crops","Wheat 88 · Melon 47 · Mushroom 43 Weight"],["Medaillen","4× Platin, noch kein Diamond"]]},"fishing":{"label":"Fishing","now":["Angler Armor, Snorkeling Armor","Backwater Equipment (Necklace, Cloak, Belt, Gloves)","Pets: Ammonite Leg 60, Frog Rare 86"],"next":["Angler → Backwater Armor: bei Junker Joel je Teil + 4 Rusty Coins (25 in deinen Sacks)","Trophy Fishing auf der Crimson Isle","Fishing Festivals nutzen"],"end":["Magma Lord Armor (Fishing 45) + Hellfire Rod (Magmafish XII)","Odger's Teeth bis Diamond"],"kv":[["Warum jetzt","Fishing 21 ist neben Alchemy dein tiefster Skill."]]},"foraging":{"label":"Foraging","now":["Fig Cap, Canopy Shirt, Canopy Pants, Fig Striders","Peony Equipment, Moonglade Belt","Pets: Monkey Uncommon 85, Frog Rare 86","Agatha Fig Fortune 5"],"next":["Torrhus Canyon (Update 0.27)","Torrhus und Lumberjack Talisman","Moonglade Ring → Artifact"],"end":["Monkey Legendary (Kat)","Hunting Attributes mit Shards"],"kv":[["Foraging","27 · Hunting 17"]]}},"skills":[["Taming",50,50],["Farming",45,50],["Mining",52,60],["Carpentry",35,50],["Enchanting",40,60],["Foraging",27,50],["Combat",31,60],["Fishing",21,50],["Hunting",17,50],["Alchemy",14,50]],"sa":"Skill Average 33.2","pets":[["Mithril Golem","legendary",100,"Titanium Minecart"],["Bal","legendary",100,"Magma Fields"],["Elephant","legendary",100,"Yellow Bandana"],["Armadillo","legendary",66,"Crystal Hollows"],["Ammonite","legendary",60,"Fishing, auf 100"],["Grandma Wolf","legendary",55,"nische"],["Rock","legendary",3,"optional"],["Guardian","epic",100,"Enchanting, Kat → Leg"],["Wither Skeleton","epic",81,"Dungeons, Kat → Leg"],["Tarantula","epic",75,"Spider Slayer"],["Bee","rare",93,"ersetzbar"],["Frog","rare",86,"Foraging Loadout"],["Mooshroom Cow","rare",1,"Mushroom, leveln"],["Griffin","uncommon",96,"Upgrade über Diana"],["Monkey","uncommon",85,"Kat → Legendary"],["Silverfish","uncommon",78,"ersetzbar"],["Dolphin","common",1,"ersetzt"]],"petcount":"17 Pets · Pet Score 75","extra":[["Essence","Wither 360 · Undead 208 · Dragon 345 · Spider 496 · Ice 289 · Diamond 4'605 · Gold 9'583."],["Rift","0 Besuche, 6 von 52 Enigma Souls."],["Consumables","Wriggling Larva 2/5 (je +2 Bonus Pest Chance, droppen von Moths). Metaphysical Serum 0/3 aus Grand+ Experiments. Reaper Peppers, McGrubber’s Burgers, Jyrre und Dark Cacao Truffles 0/5."],["Diana","141 Mythological Kills. Griffin Feathers von dort brauchst du für die Beastmaster Crest und den Griffin-Upgrade."],["Bestiary","Level 110.5, 145 Familien. Milestones geben Magic Find und Strength."],["Dragons","Beste Damage 441k, erst 1 Last Hit. Mit mehr Damage gibt es öfter Dragon-Armor-Drops."],["Heart of the Forest","Level 4"],["Festivals","238k Ores im Mining Fiesta, 23 Sharks im Fishing Festival (Amin 72). Shark Teeth für die Shark Tooth Necklace-Linie."],["Trophy Fishing","0 Trophy Fish gefangen. Startet auf der Crimson Isle und gibt die Odger's-Teeth-Accessories."]],"petnote":"Pet Score (Höchstwert 75) gibt +4 Magic Find, ab 100 +5. Fehlend und sinnvoll: Enderman (Enderman Slayer), Wolf (Wolf Slayer), Tiger (Combat), Mole (Mining, Amin hat ihn)."},"amin":{"name":"ReverseAmin","stats":[["172","Magical Power"],["149","SkyBlock Level"],["518 M","Networth · 6,1 M Purse"],["30.3","Skill Average"],["18","Catacombs · Berserk 17"],["4·3·4·2·0·0","Slayer Z·S·W·E·B·V"],["189/289","Fairy Souls"],["79","Farming Weight"]],"lead":"Mining ist dein Aushängeschild (53, Mythic Yog, starkes HotM, Mole Legendary). Magical Power ist mit 172 aber sehr niedrig, und viele fehlende Accessories sind Commons, die Relaxo längst hat. Da Kollektionen geteilt sind, kannst du die meisten sofort craften.","diag":[["hi","189 von 289 Fairy Souls","14 gefundene sind noch nicht bei Tia eingelöst. Eintauschen gibt SkyBlock XP und Backpack-Slots."],["hi","Accessory Power und Tuning prüfen","Power: Inspired, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 17 Tuning-Punkte bei 172 MP."],["hi","Nur 172 Magical Power","Im Tab Accessories stehen die günstigsten nächsten Accessories in Reihenfolge."],["hi","Crimson Isle: keine Faction","Mages oder Barbarians wählen, gleich wie im Coop, damit ihr Kuudra zusammen laufen könnt."],["md","Slayer-Rewards nicht abgeholt","Bei Maddox abholen: Zombie 4 · Enderman 1."],["md","Crop Upgrades unter Tier 8","13 Crops sind unter dem Maximum für Garden 14. Copper zuerst in eure Haupt-Crops."],["md","Anita: Extra Farming Fortune auf 0","2 Gold-Medaillen vorhanden, jede Stufe gibt +4 Farming Fortune."],["lo","Alchemy 10","Günstigster Skill-Average-Boost mit Nether Wart aus den Sacks."]],"phases":[["Heute erledigt","unter 1 Stunde",[["a0","Enderman Slayer Level 1 Reward abholen","Bei Maddox ist nur Level 2 abgeholt, Level 1 fehlt.","Slayer"],["a1","Fairy Souls bei Tia einlösen","14 offene Souls: SkyBlock XP und Backpack-Slots.","SB XP"],["a2","Maxwell: Power und Tuning","Silky für Combat auswählen, Tuning-Punkte auf Strength und Crit Damage.","MP"],["a3","Fehlende Basis-Accessories craften","Farmer Orb (Pumpkin II), Personal Deletor 4000 (Iron IX), Fire Talisman, Small Fish Bowl, Atmospheric Filter, Runeblade Talisman. Pig's Foot bekommst du für das End-Rennen gegen Guber unter 48 Sekunden.","MP"],["a4","Bestehende Accessories upgraden","Haste Ring → Artifact, Feather Ring → Artifact, Healing Talisman → Ring, Moonglade Talisman → Ring, Speed Ring, Intimidation Ring, Zombie Ring → Artifact, Potion Affinity Artifact, Sea Creature Artifact, Raggedy → Dull Shark Tooth.","MP"],["a5","Soulflow Pile und Pesthunter Badge","Soulflow Pile: 90 Null Spheres, Enderman Slayer 2 hast du. Pesthunter Badge bei Phillip für 25 Pests.","MP"]]],["Diese Woche","Routine aufbauen",[["a6","Rift zum ersten Mal besuchen","Rift Prism an der Barrier Street ersteigern und bei Erihann für 200k einsetzen: +11 MP.","MP"],["a7","Wolf Slayer 4 → 5","Red Claw Ring und Wolf Ring freischalten. Mit Hyper Cleaver und Mastiff Set.","Slayer · MP"],["a8","Spider Slayer 3 → 5","Tarantula Armor ab Spider 4. Spider Talisman droppt von der Broodmother im Spider's Den.","Slayer · MP"],["a9","Experimentation Table täglich","Enchanting 36 → 45, Guardian Pet (Epic 95) tragen.","Skill Avg"],["a10b","Rift Enigma Souls sammeln","0 von 52. Zusammen mit dem Rift Prism ein leichter Einstieg.","Rift"],["a10","Dark Auction besuchen","Nach 5 gekauften Dark-Auction-Items gibt es bei Lucius den Shady Ring (500k).","MP"]]],["Nächste 2–6 Wochen","Die grossen Grinds",[["a11","Shadow Assassin Set komplett","Du hast Helmet ✪2 und Leggings. F5 (7 Runs bisher) auf S+ für Chestplate und Boots, dann F6.","Dungeons"],["a12","Royal Mithril → Titanium Equipment","Relaxo trägt schon Royal Titanium; die Refined-Titanium-Rezepte sind frei.","Mining"],["a13","Farming 36 → 40, dann Fermento","Fermento Armor braucht Farming 40. Crafting aus deinem Squash Set wie bei Relaxo.","Farming"],["a14","Crimson Isle mit Relaxo starten","Gleiche Faction wählen, Dojo, danach Kuudra zusammen.","Combat"],["a15","Zombie 4 → 6 und Enderman 2 → 4","Combat XP für Combat 29 → 35.","Slayer"]]],["Langfristig","Late Game",[["a16","Divan's Armor","HotM 9, Crystal Nucleus 54×. Divan's Armor wird in der Forge ab HotM 6 gebaut, 24 h pro Teil.","Mining"],["a17","F7 und Necron's Armor","Nach Cata 24.","Dungeons"],["a18","Griffin und Enderman Pet upgraden","Griffin Common 100 über Diana upgraden, Enderman Rare 53 bei Kat.","Pets"]]]],"mp":{"now":172,"t1":260,"t2":380},"acc":[["Sofort craftbar (Rezepte frei durch Coop)",[["Small Fish Bowl · Farmer Orb · Fire Talisman","Collections","+3 bis +5 je","ok","jetzt"],["Atmospheric Filter · Personal Deletor 4000","Collections","+5 je","ok","jetzt"],["Runeblade Talisman","/recipe","+3","ok","jetzt"],["Pig's Foot","End-Rennen gegen Guber unter 48 s","+8","ok","jetzt"],["Haste Ring → Haste Artifact","Mining Collection","+4","ok","jetzt"],["Feather Ring → Feather Artifact","Feather Collection","+4","ok","jetzt"],["Healing Ring · Moonglade Ring","/recipe","+2 bis +3 je","ok","jetzt"],["Speed Ring · Intimidation Ring","Collections","+2 bis +3 je","ok","jetzt"],["Zombie Artifact · Potion Affinity Artifact · Sea Creature Artifact","Collections (Nether Wart IX, Sponge VIII)","+3 je","ok","jetzt"],["Dull Shark Tooth Necklace","Upgrade vom Raggedy","+2","ok","jetzt"],["Bits Talisman","Elizabeth, 15'000 Bits","+8","soon","Bits"],["Soulflow Pile","Enderman Slayer 2 · 90 Null Sphere","+5","ok","jetzt"],["Pesthunter Badge","Phillip im Garden, 25 Pests","+5","ok","jetzt"]]],["Wenige Tage",[["Rift Prism","Barrier Street (Rift), bei Erihann einsetzen","+11","soon","Rift"],["Shady Ring → Crooked Artifact","Lucius nach 5 / 10 DA-Käufen","+5 bis +8","soon","DA"],["Anita's Talisman → Ring → Artifact","Jacob-Medaillen bei Anita","+3 bis +8","soon","Anita"],["Nether Artifact","Dark Auction","+12","soon","DA"],["Netherrack-Looking Sunshade","Smoldering Blaze, Crimson Isle","+3","soon","Crimson"]]],["Mit Slayer und Dungeons",[["Red Claw Ring","Wolf 5 · 8 Golden Tooth + 96 Enchanted Leather","+3","soon","Wolf 4 → 5"],["Spider Talisman","Broodmother im Spider's Den","+5","soon","Miniboss"],["Soulflow Battery","Enderman Slayer 5","+3","far","Eman 5"],["Scarf's Thesis","Upgrade der Studies, nach F2","+4","soon","F2"],["Treasure Talisman → Ring → Artifact","Dungeon Chests","+8 und mehr","far","Cata"]]],["Crimson Isle und Events",[["Blaze Talisman · Burststopper Talisman","Crimson Isle · Blaze Slayer 3","+8 je","far","Blaze 3"],["Candy · Great Spook · Bat Talisman","Spooky Festival (Oktober)","+3 bis +16","soon","bald"],["Gratitude · New Year Cake Bag · Gift Talismans","Saison-Events","variiert","far","saisonal"]]]],"owned":["Melody's Hair","Blue Jerry Talisman","Fish Affinity Talisman","Haste Ring","Mineral Talisman","Scarf's Studies","Campfire Adept Badge IV","Emerald Ring","Farming Talisman","Feather Ring","Gravity Talisman","Jungle Amulet","Magnetic Talisman","Potion Affinity Ring","Red Claw Talisman","Sea Creature Ring","Titanium Talisman","Wolf Paw","Wolf Talisman","Wood Affinity Talisman","Zombie Ring","Healing Talisman","Intimidation Talisman","Mine Affinity Talisman","Moonglade Talisman","Night Vision Charm","Raggedy Shark Tooth Necklace","Safety Badge","Scavenger Talisman","Skeleton Talisman","Speed Talisman","Talisman of Coins","Talisman of Power","Vaccine Talisman","Village Affinity Talisman","Yellow Rock of Love"],"setups":{"combat":{"label":"Combat / Slayer","now":["Spicy Hyper Cleaver ✪5 (2×)","Fine Dragon Shortbow ✪5, Hurricane Bow","Fierce Mastiff Armor (komplett)","Fierce Unstable Dragon Armor","Ender Necklace + Belt, Soft Adaptive Belt"],"next":["Wolf 4 → 5 mit Mastiff + Hyper Cleaver","Revenant Armor (Zombie 4 hast du), Tarantula Armor ab Spider 4","Tuning auf Crit Damage (Mastiff skaliert damit)"],"end":["Final Destination Armor (Enderman 3)","Kuudra-Armor","Wither Blade aus F7"],"kv":[["Reihenfolge","Wolf 5 → Spider 5 → Zombie 6 → Enderman 4"],["Skill-Ziel","Combat 29 → 35"]]},"dungeon":{"label":"Dungeons","now":["Fierce Shadow Assassin Helmet ✪2 + Leggings","Unstable Dragon Set ✪4–5 als Hauptset","Spicy Hyper Cleaver ✪5, Wand of Healing"],"next":["SA Chestplate und Boots aus F5","Livid Dagger über Livid-Collection III (150 Kills)","Danach F6: Giant's Sword"],"end":["Necron's Armor","Wither Blade"],"kv":[["Klassen","Berserk 17 · Archer 13 · Mage 12 · Healer 7 · Tank 2"],["Runs","F5 7× (Best 304) · F6 noch nie"],["Pet","Kein Dungeon-Pet: Wither Skeleton oder Enderman leveln"]]},"mining":{"label":"Mining","now":["Mythic Yog Armor (angezogen)","Mineral Armor","Royal Mithril Equipment","Pets: Mithril Golem Leg 100 (Mining Skill Boost), Mole Leg 75, Bal Epic 57","HotM: Mining Fortune 35, Professional 58, Efficient Miner 52"],"next":["Royal Titanium Equipment","Glacite Tunnels + Mineshafts (erst 3 besucht, 2 Corpses)","Dwarven Metal Talisman (Forge, HotM 8)"],"end":["Divan's Armor (Forge ab HotM 6) + Divan's Drill","Bal auf Legendary"],"kv":[["HotM","Tier 9 · 21/21 Tokens · Core 7"],["Crystal Nucleus","54 Runs · 5'851 Commissions"],["Fossils","Claw, Helix"]]},"farming":{"label":"Farming","now":["Squash Helmet, Chestplate, Leggings","Rancher's Boots","Elephant Leg 91","Farming 36, Weight 79"],"next":["Farming 40, dann Fermento Armor","Elephant auf 100","Crop Upgrades über Copper"],"end":["Farming 50 → 60 über Anita","Pesthunter-Linie"],"kv":[["Medaillen","1× Platin, 1× Gold earned"]]},"fishing":{"label":"Fishing","now":["Backwater Armor (komplett)","Backwater Equipment (Colossal Necklace, Cloak, Belt, Gloves)","Pets: Ammonite Leg 45, Dolphin Epic 54"],"next":["Backwater ist das Ende der Angler-Linie: jetzt Ammonite auf 100","Trophy Fishing auf der Crimson Isle"],"end":["Magma Lord Armor (Fishing 45) + Hellfire Rod (Magmafish XII)"],"kv":[["Fishing","21 · 943 Sea Creatures"]]},"foraging":{"label":"Foraging","now":["Canopy Mask, Figmail, Canopy Pants, Canopy Sandals","Peony Belt + Bracelet, David's Cloak","Monkey Uncommon 87"],"next":["HotF 3 → 5 (Center of the Forest)","Moonglade Talisman → Ring → Artifact"],"end":["Monkey Legendary (Kat)"],"kv":[["Foraging","24 · Hunting 17"]]}},"skills":[["Taming",50,50],["Mining",53,60],["Farming",36,50],["Enchanting",36,60],["Carpentry",27,50],["Combat",29,60],["Foraging",24,50],["Fishing",21,50],["Hunting",17,50],["Alchemy",10,50]],"sa":"Skill Average 30.3","pets":[["Mithril Golem","legendary",100,"Duplikat"],["Elephant","legendary",91,"Farming, auf 100"],["Mole","legendary",75,"Mining"],["Armadillo","legendary",58,"Crystal Hollows"],["Grandma Wolf","legendary",54,"nische"],["Ammonite","legendary",45,"Fishing"],["Skeleton","legendary",42,"Combat"],["Endermite","legendary",40,"End/Rift"],["Rock","legendary",1,"optional"],["Rat","legendary",1,"Pet Score"],["Guardian","epic",95,"Enchanting"],["Mithril Golem","epic",83,"Duplikat"],["Bal","epic",57,"Kat → Legendary"],["Dolphin","epic",54,"Fishing"],["Silverfish","epic",35,"ersetzbar"],["Bee","rare",90,"ersetzbar"],["Enderman","rare",53,"Enderman Slayer, Kat"],["Chicken","rare",44,"Pet Score"],["Mooshroom Cow","rare",1,"Mushroom"],["Monkey","uncommon",87,"Foraging, Kat"],["Silverfish","uncommon",73,"ersetzbar"],["Pig","uncommon",1,"Pet Score"],["Griffin","common",100,"Kat hochstufen"]],"petcount":"23 Pets · Pet Score 85","extra":[["Essence","Wither 231 · Undead 1'863 · Dragon 341 · Spider 214 · Ice 164 · Diamond 3'799 · Gold 4'266."],["Rift","0 Besuche, 0 von 52 Enigma Souls."],["Consumables","Alle 0: Wriggling Larva 0/5 (Moths im Garden), Metaphysical Serum 0/3 (Grand+ Experiments), Reaper Peppers, McGrubber’s Burgers, Jyrre, Dark Cacao Truffles."],["Pet Score","85, gibt +4 Magic Find. Ab 100 gibt es +5. Ein paar billige neue Pets reichen."],["Diana","74 Mythological Kills. Griffin Common 100 wartet auf Feathers für den Tier-Upgrade."],["Bestiary","Level 102.7"],["Festivals","374k Ores im Mining Fiesta, 72 Sharks im Fishing Festival. Damit kannst du die Shark Tooth Necklace von Raggedy aus hochziehen."],["Heart of the Forest","Level 3"]],"petnote":"Fehlend und sinnvoll: Wither Skeleton oder Tiger für Combat, Frog, Tarantula (Spider Slayer), Wolf. Griffin wird über Diana hochgestuft."}};
+var HOTM_TREE=[[1,"mithril",[["Mining Speed","+20 bis +1'020 Mining Speed",50]]],[2,"mithril",[["Mining Speed Boost","Ability: +200–300 % Mining Speed",0,"ab"],["Pickobulus","Ability: Explosion, 3 Blöcke Radius",0,"ab"],["Precision Mining","+30 % Mining Speed auf dem Ziel-Partikel"],["Mining Fortune","+2 bis +102 Mining Fortune",50],["Titanium Insanium","2,1–7,1 % Mithril wird zu Titanium",50]]],[3,"mithril",[["Luck of the Cave","+6–51 % Goblins, Fallen Stars, Powder Ghasts (Dwarven Mines)",45],["Efficient Miner","+3 bis +303 Mining Spread",100],["Quick Forge","−10,5 bis −30 % Forge-Zeit",20]]],[4,"gemstone",[["Sky Mall","Täglicher Zufallsbuff auf Mining-Inseln"],["Old-School","+5 bis +105 Ore Fortune",20],["Professional","+55 bis +755 Mining Speed auf Gemstones",140],["Mole","+50 bis +402 Mining Spread auf Hard Stone",200],["Gem Lover","+24 bis +104 Gemstone Fortune"],["Seasoned Mineman","+5 bis +15,1 Mining Wisdom",100],["Front Loaded","Buffs für die ersten 2'500 Gemstones pro Tag"]]],[5,"gemstone",[["Core of the Mountain","Mehr Basis-Powder, Ability-Level 2 (irreversibel)",10],["Daily Powder","Erstes Erz pro Tag: 500 × HotM-Tier Powder"],["Daily Grind","Erste Commission pro Insel: 500 × HotM-Tier Powder"]]],[6,"gemstone",[["Tunnel Vision","Ability: +30–50 % seltene Events",0,"ab"],["Maniac Miner","Ability: stackende Mining Fortune",0,"ab"],["Blockhead","+5 bis +105 Block Fortune",20],["Subterranean Fisher","Fishing Speed + Sea Creature Chance auf Mining-Inseln",40],["Keep It Cool","+0,4 bis +20,4 Heat Resistance",50],["Lonesome Miner","+5–27,5 % Str, CC, CD, Def, HP auf Mining-Inseln",45],["Great Explorer","+20–100 % Treasure Chests in den Crystal Hollows",20]]],[7,"gemstone",[["Speedy Mineman","+40 bis +2'040 Mining Speed",50],["Powder Buff","+1–51 % Powder aus allen Quellen",50],["Fortunate Mineman","+3 bis +153 Mining Fortune",50]]],[8,"glacite",[["Miner's Blessing","+30 Magic Find auf Mining-Inseln"],["No Stone Unturned","+0,5–25,5 % Suspicious Scrap in Mineshafts",50],["Strong Arm","+5 bis +505 Mining Speed auf Dwarven Metals",100],["Steady Hand","+0,1 bis +10,1 Gemstone Spread in Mineshafts",100],["Warm Heart","+0,4 bis +20,4 Cold Resistance",50],["Surveyor","+0,75–15,75 % Chance auf Glacite Mineshafts"],["Mineshaft Mayhem","Zufallsbuff beim Betreten einer Mineshaft"]]],[9,"glacite",[["Metal Head","+5 bis +105 Dwarven Metal Fortune"],["Rags to Riches","+4 bis +204 Mining Fortune in Mineshafts"],["Eager Adventurer","+4 bis +404 Mining Speed in Mineshafts"]]],[10,"glacite",[["Gemstone Infusion","Ability: Gemstones im Drill doppelt so stark",0,"ab"],["Sheer Force","Ability: +200 Mining Spread",0,"ab"],["Crystalline","+0,5–25,5 % Mineshafts mit Kristall"],["Gifts from the Departed","+0,2–20 % Extra-Item aus Frozen Corpses"],["Mining Master","+0,1 bis +1,1 Pristine"],["Dead Man's Chest","+0,5–25,5 % zusätzlicher Frozen Corpse"],["Vanguard Seeker","+1–51 % Mineshafts mit Vanguard Corpse"]]]];
+var HOTM_BUILDS=[{"id":"comm","label":"Commissions & Titanium","when":"HotM 1–4 · Dwarven Mines","order":["Mining Speed","Mining Fortune","Quick Forge","Titanium Insanium","Efficient Miner","Daily Powder","Daily Grind"],"ability":"Pickobulus","skip":"Luck of the Cave nur, wenn du lange in den Dwarven Mines bleibst. Mole erst, wenn du Hard Stone für Powder minest.","why":"Quick Forge auf 20 lohnt sich als Ironman besonders: Refined Titanium, Drills und Drill-Teile laufen alle über die Forge."},{"id":"gem","label":"Gemstones","when":"HotM 5–7 · Crystal Hollows","order":["Professional","Gem Lover","Front Loaded","Great Explorer","Powder Buff","Speedy Mineman","Fortunate Mineman","Lonesome Miner","Core of the Mountain"],"ability":"Mining Speed Boost, ab HotM 10 Gemstone Infusion","skip":"Titanium Insanium und Luck of the Cave bringen in den Hollows nichts. Mole nur für Hard-Stone-Powder.","why":"Professional skaliert nur auf Gemstones und ist der wichtigste Perk dafür. Great Explorer auf 20 macht Treasure Chests häufiger, die Powder geben."},{"id":"glacite","label":"Glacite & Mineshafts","when":"HotM 7–10 · Glacite Tunnels","order":["Warm Heart","Surveyor","Strong Arm","Metal Head","Rags to Riches","Eager Adventurer","No Stone Unturned","Dead Man's Chest","Vanguard Seeker","Gifts from the Departed","Mining Master"],"ability":"Sheer Force oder Tunnel Vision","skip":"Professional und Gem Lover nur, wenn du in Mineshafts auch Gemstones minest.","why":"Warm Heart gegen Kälte zuerst. Surveyor findet mehr Mineshafts, die Corpse-Perks bringen die Loot für Glacite-Gear und Fossilien."},{"id":"powder","label":"Powder farmen","when":"Hard Stone · alle Inseln","order":["Mole","Efficient Miner","Powder Buff","Great Explorer","Daily Powder","Daily Grind"],"ability":"Pickobulus","skip":"Mining-Fortune-Perks bringen beim Powder-Grind wenig.","why":"Mole und Efficient Miner erhöhen die Blöcke pro Schlag auf Hard Stone, Powder Buff multipliziert jede Quelle."}];
+var HOTM_P={"relaxo":{"tier":8,"xp":"607'692","toNext":"239'308 XP bis Tier 9","tokens":"18 / 18 verteilt","peak":6,"ability":"Pickobulus","comm":"1'847","levels":{"Mining Speed":48,"Pickobulus":1,"Mining Fortune":1,"Titanium Insanium":1,"Efficient Miner":1,"Quick Forge":20,"Old-School":1,"Professional":1,"Mole":144,"Seasoned Mineman":21,"Core of the Mountain":6,"Keep It Cool":1,"Lonesome Miner":1,"Great Explorer":20,"Powder Buff":50,"Miner's Blessing":1,"No Stone Unturned":1,"Strong Arm":1,"Steady Hand":1},"sum":"Alle 18 Tokens sind verteilt. Powder Buff, Great Explorer und Quick Forge sind maxed, Mole steht auf 144/200. Die Fortune- und Gemstone-Perks sind freigeschaltet, aber nur auf Stufe 1. Es fehlt also nur Powder, keine Tokens.","next":[["Mining Fortune 1 → 50","Mithril Powder. Grösster Hebel für jede Mining-Art."],["Professional 1 → 60+","Gemstone Powder. Pflicht für die Crystal Hollows."],["Efficient Miner 1 → 50","Mithril Powder. Mehr Blöcke pro Schlag."],["Titanium Insanium hochziehen","Mehr Titanium für Refined Titanium, Titanium Talisman und Drill."],["Tokens neu verteilen?","Seasoned Mineman (21), Keep It Cool, Strong Arm, Steady Hand und No Stone Unturned binden Tokens. Für Gemstone-Mining lohnen sich Speedy Mineman und Fortunate Mineman mehr; ein Reset gibt Powder und Tokens zurück."]],"source":"EliteBot"},"amin":{"tier":9,"xp":"853'508","toNext":"393'492 XP bis Tier 10","tokens":"21 / 21 verteilt","peak":7,"ability":"Pickobulus","comm":"5'851","levels":{"Mining Speed":50,"Pickobulus":1,"Mining Fortune":35,"Titanium Insanium":22,"Efficient Miner":52,"Quick Forge":20,"Sky Mall":1,"Old-School":20,"Professional":58,"Mole":131,"Core of the Mountain":7,"Blockhead":11,"Subterranean Fisher":14,"Keep It Cool":1,"Lonesome Miner":24,"Great Explorer":20,"Speedy Mineman":48,"Powder Buff":39,"Miner's Blessing":1,"No Stone Unturned":6,"Steady Hand":14,"Warm Heart":20},"sum":"Solides Gemstone-Setup: Mining Speed, Old-School, Great Explorer und Quick Forge maxed, Professional 58, Speedy Mineman 48. Für Tier 9 und Glacite fehlen noch Surveyor, Strong Arm, Metal Head und Rags to Riches.","next":[["Powder Buff 39 → 50","Wirkt auf jede Powder-Quelle."],["Mining Fortune 35 → 50","Mithril Powder, günstiger als die Gemstone-Perks."],["Speedy Mineman 48 → 50, dann Fortunate Mineman","Fortunate Mineman ist noch nicht freigeschaltet."],["Professional 58 → 100+","Gemstone Powder, für die Hollows."],["Tier 9 nutzen","Du bist Tier 9, hast aber keinen Tier-9-Perk. Metal Head oder Rags to Riches statt Blockhead oder Subterranean Fisher."]],"source":"EliteBot"}};
+var GARDEN={"status":[["Garden Level","14","4'295 XP bis Level 15"],["Crop Upgrades","3 / 9","Garden 14 erlaubt bis Tier 8"],["Plots","13 / 24","+3 Farming Fortune pro Plot"],["Composter","Speed 1 · Multi 1","Fuel 0 · OM 3 · Cost 0"],["Visitors","118 erledigt","49 verschiedene"],["Anita Extra Fortune","0 / 15","+4 Farming Fortune pro Stufe"]],"copper":[["Dedication I","250","Crop Fortune pro Crop-Milestone aufs Haupt-Tool","sofort"],["Crop Upgrade IV für Wheat und Melon","je 50","+5 Crop Fortune pro Crop","sofort"],["Crop Upgrade V für eure Farm-Crops","je 100","+5 Crop Fortune","sofort"],["Composter Speed und Multi Drop, Tier 2–3","150 / 200","Mehr Compost für neue Plots","diese Woche"],["Crop Upgrade VI für Wheat, Melon, Mushroom, Pumpkin","je 500","+5 Crop Fortune","diese Woche"],["Green Thumb I","1'500","Farming Fortune pro unique Visitor aufs Equipment","diese Woche"],["Crop Upgrade VII für die Haupt-Crops","je 1'000","+5 Crop Fortune (Garden 13)","2–4 Wochen"],["Copper Talisman","5'000","Neues Accessory, MP. Ring 20'000, Artifact 50'000","2–4 Wochen"],["Blossom-Set (braucht Peony-Teile)","2'500 · 5'000 · 7'500 · 10'000","Equipment-Upgrade, Farming 20 und Garden 7","später"],["Crop Upgrade VIII und IX","2'000 · 4'000","Tier VIII ab Garden 14, Tier IX ab Garden 15","später"],["Greenhouse Upgrades","50 bis 5'000 pro Tier","Growth Speed und Yield","später"]],"tiers":[["I","Garden 2","5"],["II","Garden 4","10"],["III","Garden 6","20"],["IV","Garden 8","50"],["V","Garden 10","100"],["VI","Garden 12","500"],["VII","Garden 13","1'000"],["VIII","Garden 14","2'000"],["IX","Garden 15","4'000"]],"ladder":[{"stage":"Farming 20–40","armor":"Cropie → Squash Armor","equip":"Peony-Set (50–500 Copper)","tool":"Mk. I (250 Copper) → Mk. II (Crop + 64 Jacob's Tickets)","ench":"Harvesting V, Dedication I, Cultivating (4'000 Bits bei Elizabeth), Reforge Blessed"},{"stage":"Farming 40+","armor":"Fermento Armor (Farming 40)","equip":"Blossom-Set (Copper), Reforge Rooted mit Burrowing Spores","tool":"Mk. III (Crop + 256 Jacob's Tickets)","ench":"Pesterminator auf Armor (Beetle-Drop), Green Thumb auf Equipment, Reforge Mossy (Overgrown Grass)"},{"stage":"Endgame","armor":"Helianthus Armor: je Teil 2 Condensed Helianthus + 64 Compacted Sunflower, Wild Rose, Moonflower","equip":"Zorro's Cape (doppelte Stats im Contest)","tool":"Tool-Level 40 → 50 mit Overclocker 3000","ench":"Dedication IV (Librarian / Ravenous Rhino), Turbo-Crop, Harvesting VI (Shiny Pig)"}],"base":[["Anita Extra Farming Fortune","0 / 15","bis +60","Gold-Medaillen aus Jacob's Contests"],["Garden Plots","12 / 24","bis +36 mehr","Compost für neue Plots"],["Crop Upgrades","Tier III","bis +45 pro Crop","Copper"],["Crop Analyzer Milestones","–","bis +30","Mutationen analysieren"],["Pest Bestiary","–","bis +102","Pests töten"]],"player":{"relaxo":{"now":"Bustling Fermento + Bustling Rancher's Boots, Rooted Peony Necklace und Cloak, Peony Belt und Bracelet, Elephant Legendary 100. Overclocker 3000 im Storage.","next":["Armor-Reforge von Bustling auf Mossy (Overgrown Grass): +30 statt +10 pro Teil auf Mythic.","Belt und Bracelet auf Rooted, dann Richtung Blossom-Set.","Overclocker 3000 in das Haupt-Tool, sobald es Level 40 erreicht.","Helianthus: sammelt Sunflower, Wild Rose und Moonflower im Greenhouse für die Compacted-Varianten."]},"amin":{"now":"Squash Armor + Rancher's Boots, Peony Belt und Bracelet, Elephant Legendary 91.","next":["Farming 36 → 40, dann Squash zu Fermento craften.","Peony Necklace (200 Copper) und Cloak (500 Copper) für das komplette Set.","Elephant auf 100 bringen, Cultivating bei Elizabeth kaufen.","Copper erst in Crop Upgrades, dann in eigenes Equipment."]}},"copperBalance":{"relaxo":153,"amin":153},"tierBought":3,"tierMax":8};
+var DAILY=[["Täglich · Garden",[["d1","Garden Visitors abarbeiten","Copper und Garden XP. Level 14 braucht noch 5'985 XP."],["d2","Composter füllen","Organic Matter und Fuel. Als Ironman eignen sich Enchanted Seeds und Box of Seeds, weil Visitors keine Seeds verlangen."],["d3","Minions leeren","Sacks und Compactor prüfen, Collections pushen."]]],["Täglich · Mining",[["d4","Erste 4 Commissions","+900 HotM XP pro Commission zusätzlich."],["d5","Daily Powder und Daily Grind","Ein Erz und eine Commission pro Insel: Dwarven Mines, Crystal Hollows, Glacite Tunnels."],["d6","Fetchur","20'000 Coins und 2'500 Mithril Powder für das Item des Tages."],["d7","Puzzler","2'500 Mithril Powder für das Rätsel."],["d8","Forge-Slots neu belegen","Refined Titanium, Drill-Teile, Goblin Omelette."],["d9","Crystal Nucleus Run","+800 HotM XP und Loot."]]],["Täglich · Skills",[["d10","Experimentation Table","Superpairs, Chronomatron, Ultrasequencer. Enchanting XP, Bücher und Chance auf Metaphysical Serum."],["d11","Crimson Isle Quests","Sobald eine Faction gewählt ist: tägliche Faction-Quests für Reputation."]]],["Jede Stunde",[["h1","Jacob's Farming Contest","Alle 3 SkyBlock-Tage (1 Stunde), 20 Minuten lang. Gold-Medaillen für Anita."],["h2","Dark Auction um :55","Jedes gekaufte Item zählt für Shady Ring (5) und Crooked Artifact (10)."]]],["Events",[["e1","Mayor-Events nutzen","Mining Fiesta, Fishing Festival, Mythological Ritual (Diana) je nach Mayor."],["e2","Spooky Festival im Oktober","Candy, Great Spook und Bat Talisman."],["e3","Bits ausgeben","Booster Cookie aktiv halten, Cultivating für 4'000 Bits bei Elizabeth."]]]];
+var VS=[["Skill Average",33.2,30.3],["Mining",52,53],["Farming",45,36],["Combat",31,29],["Enchanting",40,36],["Catacombs",19,18],["Magical Power",265,172],["Slayer XP","39.7 k","6.4 k"],["Fairy Souls",63,189],["Networth","912 M","518 M"]];
+var META={"updated":"26.09.2026 17:52","url":null,"profile":"Raspberry","players":{"relaxo":"Relaxo_GX","amin":"ReverseAmin"},"updatedDate":"2026-09-26","updatedAt":"2026-09-26T15:52:49.292Z","reason":"manuell","sources":["EliteBot API"]};
+
+
+const NEW=new Set(['r0','r0b','a0','r10b','a10b']);
+const RAR=[[/^Rift Prism|^Speed Ring|^Potion Affinity Artifact|^Sea Creature Artifact|^Red Claw Ring|^Anita's Artifact|^Red Claw Artifact/,'rare'],[/^Titanium|^Soulflow|^Pesthunter|^Shady|^Atmospheric|^Personal Deletor/,'uncommon'],[/^Cropie|^Potato|^Small Fish|^Farmer Orb|^Fire Talisman/,'common'],[/^Survivor Cube/,'epic']];
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function rar(a){const m=RAR.find(([re])=>re.test(a));return m?`<span class="r ${m[1]}">${esc(a)}</span>`:esc(a)}
+function store(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
+const tabsDef=["combat","dungeon","mining","farming","fishing","foraging"];
+const VIEWS=["overview","steps","daily","acc","setups","hotm","garden","coop","bot"];
+let cur="relaxo",tab="combat",view="overview",build="gem";
+const sevBadge={hi:["bad","Hoch"],md:["warn","Mittel"],lo:["ok","Leicht"]};
+const pillMap={ok:"ok",soon:"warn",far:"sec"};
+
+function bindChecks(root,key){
+ let saved={};try{saved=JSON.parse(store(key)||'{}')}catch(e){}
+ const boxes=[...root.querySelectorAll('input[type=checkbox]')];
+ boxes.forEach(b=>{b.checked=!!saved[b.id.split('--')[0]];b.closest('li').classList.toggle('done',b.checked);b.addEventListener('change',()=>{saved[b.id.split('--')[0]]=b.checked;b.closest('li').classList.toggle('done',b.checked);store(key,JSON.stringify(saved));root.dispatchEvent(new Event('progress'))})});
+ return boxes;
+}
+
+function renderOverview(p){
+ $('diag').innerHTML=p.diag.map(([s,h,t])=>`<div class="card alert"><span class="badge ${sevBadge[s][0]}" style="align-self:flex-start">${sevBadge[s][1]}</span><h4>${esc(h)}</h4><p>${esc(t)}</p></div>`).join('');
+ $('sa').textContent=p.sa;
+ $('skillgrid').innerHTML=p.skills.map(([s,l,mx])=>`<div class="skill"><span>${s}</span><div class="progress"><i class="${l/mx<0.45?'low':''}" style="width:${(l/mx*100).toFixed(1)}%"></i></div><span class="v">${l}/${mx}</span></div>`).join('');
+ $('extra').innerHTML=p.extra.map(([a,b])=>`<div><b>${esc(a)}</b>${esc(b)}</div>`).join('');
+ $('petcount').textContent=p.petcount;
+ $('petgrid').innerHTML=p.pets.map(([nm,r,l,t])=>`<div class="pet"><div class="top"><span class="r ${r}">${esc(nm)}</span><span class="mono muted">Lvl ${l}</span></div><small>${esc(t)}</small></div>`).join('');
+ $('petnote').textContent=p.petnote;
+}
+function renderSteps(p){
+ $('phases').innerHTML=p.phases.map(([h,sub,items])=>`<div class="card"><div class="card-h"><h3>${esc(h)}</h3><p>${esc(sub)}</p></div><div class="card-c"><ul class="check">${items.map(([id,t,s,c])=>`<li><input type="checkbox" id="${id}--${cur}"><label for="${id}--${cur}">${esc(t)}${NEW.has(id)?'<span class="badge info newtag">Neu</span>':''}<small>${esc(s)}</small></label><span class="badge sec cat">${esc(c)}</span></li>`).join('')}</ul></div></div>`).join('');
+ const boxes=bindChecks($('phases'),'rb3-'+cur);
+ const upd=()=>{$('prog').textContent=`${boxes.filter(b=>b.checked).length} / ${boxes.length} erledigt`};
+ $('phases').addEventListener('progress',upd);upd();
+}
+function renderDaily(){
+ const d=new Date();const day=d.toISOString().slice(0,10);const key='rb3-daily-'+cur+'-'+day;
+ const v=$('v-daily');
+ v.innerHTML=`<div class="row" style="justify-content:space-between;flex-wrap:wrap;align-items:center"><p class="muted">Setzt sich jeden Tag zurück (${day}), getrennt pro Spieler. Alles davon ist ohne Auction House und Bazaar machbar.</p><div class="row" style="align-items:center"><span class="badge" id="dprog"></span><button class="btn" id="dreset" type="button">Zurücksetzen</button></div></div>
+ <div class="grid g2">${DAILY.map(([h,items])=>`<div class="card"><div class="card-h"><h3>${esc(h)}</h3></div><div class="card-c"><ul class="check">${items.map(([id,t,s])=>`<li><input type="checkbox" id="${id}--d"><label for="${id}--d">${esc(t)}<small>${esc(s)}</small></label></li>`).join('')}</ul></div></div>`).join('')}</div>`;
+ const boxes=bindChecks(v,key);
+ const upd=()=>{$('dprog').textContent=`${boxes.filter(b=>b.checked).length} / ${boxes.length} heute`};
+ v.addEventListener('progress',upd);upd();
+ $('dreset').addEventListener('click',()=>{store(key,'{}');renderDaily();});
+}
+function renderAcc(p){
+ const m=p.mp,max=600,pc=v=>(v/max*100).toFixed(2)+'%';
+ $('mpbar').innerHTML=`<div style="display:flex;flex-direction:column;gap:10px"><div class="row" style="justify-content:space-between;flex-wrap:wrap"><div><span class="mono" style="font-size:26px;font-weight:600">${m.now}</span> <span class="muted">MP jetzt</span></div><div class="legend"><span><i style="background:var(--primary);border-color:var(--primary)"></i>Jetzt ${m.now}</span><span><i style="background:color-mix(in srgb,var(--primary) 30%,transparent);border-color:transparent"></i>Sofort + wenige Tage ≈ ${m.t1}</span><span><i style="background:color-mix(in srgb,var(--primary) 14%,transparent);border-color:transparent"></i>Mit Slayer, Dungeons, Crimson ≈ ${m.t2}</span></div></div>
+ <div class="progress" style="height:12px" role="img" aria-label="Magical Power ${m.now}, Ziele ${m.t1} und ${m.t2} von ${max}"><div class="t2" style="width:${pc(m.t2)}"></div><div class="t1" style="width:${pc(m.t1)}"></div><div class="now" style="width:${pc(m.now)}"></div></div>
+ <div class="row mono muted" style="justify-content:space-between;font-size:12px"><span>0</span><span>200</span><span>400</span><span>600</span></div></div>`;
+ let n=0;
+ $('acctable').innerHTML=p.acc.map(([h,rows])=>`<tr class="group"><td colspan="5">${esc(h)}</td></tr>`+rows.map(([a,src,mp,st,lab])=>`<tr><td class="num muted">${++n}</td><td>${rar(a)}</td><td class="muted">${esc(src)}</td><td class="num">${esc(mp)}</td><td><span class="badge ${pillMap[st]}">${esc(lab)}</span></td></tr>`).join('')).join('');
+ $('owned-sum').textContent=`${p.name}: ${p.owned.length} Accessories im Bag`;
+ $('owned').innerHTML=p.owned.map(o=>`<span class="badge sec">${esc(o)}</span>`).join('');
+}
+function renderSetups(p){
+ $('tabs').innerHTML=tabsDef.map(k=>`<button role="tab" id="tab-${k}" aria-selected="${k===tab}" aria-controls="p-${k}">${esc(p.setups[k].label)}</button>`).join('');
+ const li=a=>a.map(x=>`<li>${esc(x)}</li>`).join('');
+ $('panels').innerHTML=tabsDef.map(k=>{const s=p.setups[k];return `<div id="p-${k}" role="tabpanel" aria-labelledby="tab-${k}" ${k===tab?'':'hidden'} style="display:flex;flex-direction:column;gap:12px"><div class="col3"><div class="card"><div class="card-h"><span class="badge sec" style="align-self:flex-start">Jetzt</span><h3>Im Wardrobe</h3></div><div class="card-c"><ul class="ul">${li(s.now)}</ul></div></div><div class="card" style="border-color:var(--primary)"><div class="card-h"><span class="badge" style="align-self:flex-start;background:var(--primary);color:var(--primary-foreground);border-color:var(--primary)">Next</span><h3>Nächster Ironman-Schritt</h3></div><div class="card-c"><ul class="ul">${li(s.next)}</ul></div></div><div class="card"><div class="card-h"><span class="badge sec" style="align-self:flex-start">Endziel</span><h3>Late Game</h3></div><div class="card-c"><ul class="ul">${li(s.end)}</ul></div></div></div><div class="kv">${s.kv.map(([a,b])=>`<div><b>${esc(a)}</b>${esc(b)}</div>`).join('')}</div></div>`}).join('');
+ document.querySelectorAll('#tabs button').forEach(b=>b.addEventListener('click',()=>{tab=b.id.slice(4);store('rb3-tab',tab);document.querySelectorAll('#tabs button').forEach(x=>x.setAttribute('aria-selected',x===b));tabsDef.forEach(k=>$('p-'+k).hidden=k!==tab);}));
+}
+function renderHotm(){
+ const hp=HOTM_P[cur];const lv=hp.levels;const b=HOTM_BUILDS.find(x=>x.id===build);
+ const inBuild=new Set(b.order);
+ const tree=HOTM_TREE.slice().reverse().map(([t,pw,perks])=>`<div class="tier"><div class="tn">Tier ${t}<small><span class="badge ${pw}">${pw==='mithril'?'Mithril':pw==='gemstone'?'Gemstone':'Glacite'}</span></small></div><div class="perks">${perks.map(([n,d,max,ab])=>{const l=lv[n];const cls=l===undefined?'':(l<=1&&!ab?'low':'have');const mark=inBuild.has(n)?'box-shadow:inset 0 0 0 1px var(--primary);':'';return `<div class="perk ${cls}" style="${mark}"><b>${esc(n)}<span class="lv">${l!==undefined?(l+(max?'/'+max:'')):(ab?'Ability':'–')}</span></b><span>${esc(d)}</span></div>`}).join('')}</div></div>`).join('');
+ $('v-hotm').innerHTML=`
+ <div class="grid g4">${[['HotM Tier',hp.tier+' / 10',hp.toNext],['Tokens',hp.tokens,'Reset gibt sie zurück'],['Core of the Mountain',hp.peak+' / 10','irreversibel'],['Commissions',hp.comm,'Ability: '+hp.ability]].map(([a,b,c])=>`<div class="card kpi"><span>${esc(a)}</span><b>${esc(b)}</b><small>${esc(c)}</small></div>`).join('')}</div>
+ <div class="grid g2">
+  <div class="card"><div class="card-h"><h3>Dein Stand</h3><p>${esc(hp.sum)}</p></div><div class="card-c"><ol class="check" style="list-style:none">${hp.next.map(([a,d],i)=>`<li style="grid-template-columns:22px 1fr"><span class="stepnum">${i+1}</span><div><b style="font-weight:500">${esc(a)}</b><div class="muted" style="font-size:13px">${esc(d)}</div></div></li>`).join('')}</ol></div></div>
+  <div class="card"><div class="card-h"><h3>So funktioniert der Tree</h3><p>Stand Wiki, 26.09.2026</p></div><div class="card-c"><ul class="ul">
+   <li>Bis HotM 10 gibt es insgesamt 20 Tokens, der Tree hat 45 Perks. Du musst also auswählen.</li>
+   <li>Reset gibt alle Powder und Tokens zurück. Core of the Mountain und dein Tier bleiben, Powder dafür ist weg.</li>
+   <li>Pro Tier ein Powder-Typ: Tier 1–3 Mithril, 4–7 Gemstone, 8–10 Glacite.</li>
+   <li>Nur eine Pickaxe Ability ist aktiv. Level 2 über Core of the Mountain, Level 3 über Blue Cheese Goblin Omelette im Drill.</li>
+   <li>HotM XP: Commissions (Dwarven 400, Hollows 400, Tunnels 750), die ersten 4 pro Tag +900, Nucleus Run 800.</li>
+   <li>Stufen aus SkyCrypt vom 26.09.2026. Im Spiel mit /hotm gegenprüfen.</li></ul></div></div>
+ </div>
+ <div class="card"><div class="card-h"><h3>Setup wählen</h3><p>Die Perks des gewählten Setups sind im Tree umrandet, in dieser Reihenfolge leveln.</p></div><div class="card-c" style="display:flex;flex-direction:column;gap:14px">
+  <div class="subtabs" role="tablist">${HOTM_BUILDS.map(x=>`<button role="tab" data-b="${x.id}" aria-selected="${x.id===build}">${esc(x.label)}</button>`).join('')}</div>
+  <div class="row" style="flex-wrap:wrap;gap:6px"><span class="badge sec">${esc(b.when)}</span><span class="badge">Ability: ${esc(b.ability)}</span></div>
+  <div class="row" style="flex-wrap:wrap;gap:6px">${b.order.map((n,i)=>{const l=lv[n];return `<span class="badge ${l===undefined?'':(l<=1?'warn':'ok')}"><span class="mono">${i+1}</span> ${esc(n)}${l!==undefined?' · '+l:' · fehlt'}</span>`}).join('')}</div>
+  <p style="font-size:13.5px">${esc(b.why)}</p><p class="note">Weglassen: ${esc(b.skip)}</p>
+ </div></div>
+ <div class="card"><div class="card-h"><h3>Kompletter Tree</h3><div class="legend" style="margin-top:4px"><span><i style="border-color:var(--success)"></i>gelevelt</span><span><i style="border-color:var(--warning)"></i>nur Stufe 1</span><span><i style="border-color:var(--border)"></i>nicht freigeschaltet</span><span><i style="border-color:var(--primary)"></i>im gewählten Setup</span></div></div><div class="card-c">${tree}</div></div>`;
+ $('v-hotm').querySelectorAll('[data-b]').forEach(x=>x.addEventListener('click',()=>{build=x.dataset.b;store('rb3-build',build);renderHotm();}));
+}
+function renderGarden(){
+ const g=GARDEN,pp=g.player[cur];
+ $('v-garden').innerHTML=`
+ <div class="grid g4">${g.status.map(([a,b,c])=>`<div class="card kpi"><span>${esc(a)}</span><b>${esc(b)}</b><small>${esc(c)}</small></div>`).join('')}</div>
+ <div class="grid g2">
+  <div class="card"><div class="card-h"><h3>Dein Farming-Setup</h3><p>${esc(pp.now)}</p></div><div class="card-c"><ol class="check" style="list-style:none">${pp.next.map((a,i)=>`<li style="grid-template-columns:22px 1fr"><span class="stepnum">${i+1}</span><div style="font-size:13.5px">${esc(a)}</div></li>`).join('')}</ol></div></div>
+  <div class="card"><div class="card-h"><h3>Basis Farming Fortune</h3><p>Dauerhafte Quellen, unabhängig vom Gear</p></div><div class="card-c"><div class="tablewrap"><table><thead><tr><th>Quelle</th><th>Stand</th><th>Potenzial</th><th>Wie</th></tr></thead><tbody>${g.base.map(r=>`<tr><td>${esc(r[0])}</td><td class="num">${esc(r[1])}</td><td class="num">${esc(r[2])}</td><td class="muted">${esc(r[3])}</td></tr>`).join('')}</tbody></table></div></div></div>
+ </div>
+ <div class="card"><div class="card-h"><h3>Copper-Plan</h3><p>Copper ist co-op-gebunden: ${copperText()}. Reihenfolge nach Fortune pro Copper.</p></div><div class="tablewrap"><table class="minw"><thead><tr><th>#</th><th>Kauf</th><th>Copper</th><th>Effekt</th><th>Wann</th></tr></thead><tbody>${g.copper.map((r,i)=>`<tr><td class="num muted">${i+1}</td><td style="font-weight:500">${esc(r[0])}</td><td class="num">${esc(r[1])}</td><td class="muted">${esc(r[2])}</td><td><span class="badge ${r[3]==='sofort'?'ok':r[3]==='später'?'sec':'warn'}">${esc(r[3])}</span></td></tr>`).join('')}</tbody></table></div></div>
+ <div class="grid g2">
+  <div class="card"><div class="card-h"><h3>Crop Upgrades</h3><p>+5 Crop Fortune pro Tier, pro Crop. Ihr steht auf Tier ${g.tierBought??3}, Garden erlaubt Tier ${g.tierMax??7}.</p></div><div class="tablewrap"><table><thead><tr><th>Tier</th><th>Braucht</th><th>Copper</th><th>Status</th></tr></thead><tbody>${g.tiers.map(([t,req,c],i)=>`<tr><td class="num">${t}</td><td>${esc(req)}</td><td class="num">${esc(c)}</td><td>${i<(g.tierBought??3)?'<span class="badge ok">gekauft</span>':i<(g.tierMax??7)?'<span class="badge warn">verfügbar</span>':'<span class="badge sec">'+esc(req)+'</span>'}</td></tr>`).join('')}</tbody></table></div></div>
+  <div class="card"><div class="card-h"><h3>Composter</h3><p>5 Upgrade-Zweige, Tier 1–25. Kosten steigen von 100 auf 4'000 Copper pro Tier.</p></div><div class="card-c"><ul class="ul"><li>Speed zuerst: mehr Compost pro Stunde für Plots und Greenhouse.</li><li>Multi Drop: Chance auf doppelten Compost.</li><li>Organic Matter Cap und Fuel Cap: seltener nachfüllen.</li><li>Cost Reduction zuletzt.</li><li>Ironman-Füllung: Enchanted Seeds oder Box of Seeds (160 bzw. 25'600 Organic Matter), später Squash und Fermento.</li></ul></div></div>
+ </div>
+ <div class="card"><div class="card-h"><h3>Farming-Gear nach Stufe</h3><p>Armor-Linie laut Wiki: Farmhand → Haymaker → Sprout → Tater → Cropie → Squash → Fermento → Helianthus</p></div><div class="tablewrap"><table class="minw"><thead><tr><th>Stufe</th><th>Armor</th><th>Equipment</th><th>Tool</th><th>Enchants & Reforges</th></tr></thead><tbody>${g.ladder.map(r=>`<tr><td style="font-weight:600;white-space:nowrap">${esc(r.stage)}</td><td>${esc(r.armor)}</td><td>${esc(r.equip)}</td><td>${esc(r.tool)}</td><td class="muted">${esc(r.ench)}</td></tr>`).join('')}</tbody></table></div></div>`;
+}
+function copperText(){const c=GARDEN.copperBalance;if(!c)return 'gemeinsamer Stand 153';const v=[...new Set(Object.values(c).filter(x=>x!=null))];return v.length===1?`gemeinsamer Stand ${v[0]}`:`Relaxo ${c.relaxo}, Amin ${c.amin}`}
+function vs(){
+ const rows=(typeof VS!=='undefined'&&VS)?VS:[["Skill Average",33.2,30.3],["Mining",52,53],["Farming",45,36],["Combat",31,29],["Enchanting",40,36],["Catacombs",19,18],["Magical Power",265,172],["Slayer XP","39.7 k","6.4 k"],["Fairy Souls",63,189],["Accessories",49,36]];
+ $('vs').innerHTML=`<div class="h">&nbsp;</div><div class="h">Relaxo_GX</div><div class="h">ReverseAmin</div>`+rows.map(([k,a,b])=>{const na=parseFloat(a),nb=parseFloat(b);return `<div class="muted">${k}</div><div class="${na>nb?'win':''}">${a}</div><div class="${nb>na?'win':''}">${b}</div>`}).join('');
+}
+function render(){
+ const p=P[cur];
+ document.querySelectorAll('#switch button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.p===cur));
+ $('pname').textContent=p.name;$('mate').textContent=' '+(cur==='relaxo'?'ReverseAmin':'Relaxo_GX');$('lead').textContent=p.lead;
+ $('stats').innerHTML=p.stats.slice(0,4).map(([v,l])=>`<div class="card kpi"><span>${esc(l)}</span><b>${esc(v)}</b></div>`).join('')+p.stats.slice(4).map(([v,l])=>`<div class="card kpi"><span>${esc(l)}</span><b>${esc(v)}</b></div>`).join('');
+ renderOverview(p);renderSteps(p);renderDaily();renderAcc(p);renderSetups(p);renderHotm();renderGarden();
+}
+function showView(v){view=v;store('rb3-view',v);VIEWS.forEach(k=>{$('v-'+k).hidden=k!==v;$('t-'+k).setAttribute('aria-selected',k===v)});}
+VIEWS.forEach(k=>$('t-'+k).addEventListener('click',()=>showView(k)));
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+document.querySelectorAll('#switch button').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.p===cur)return;cur=b.dataset.p;store('rb3-p',cur);if(reduce){render();return}$('main').classList.add('out');setTimeout(()=>{render();$('main').classList.remove('out')},180)}));
+// theme
+const themes=["system","light","dark"];let th=store('rb3-theme')||"system";
+function applyTheme(){if(th==="system")document.documentElement.removeAttribute('data-theme');else document.documentElement.setAttribute('data-theme',th);$('themelabel').textContent=th==="system"?"System":th==="light"?"Hell":"Dunkel";}
+$('theme').addEventListener('click',()=>{th=themes[(themes.indexOf(th)+1)%3];store('rb3-theme',th);applyTheme();});
+applyTheme();
+const sp=store('rb3-p');if(sp&&P[sp])cur=sp;const st=store('rb3-tab');if(st&&tabsDef.includes(st))tab=st;const sb=store('rb3-build');if(sb&&HOTM_BUILDS.some(x=>x.id===sb))build=sb;
+const h=location.hash.slice(1);if(h==='amin'||h==='relaxo')cur=h;
+async function liveLoad(){if(!/^https?:$/.test(location.protocol))return false;try{const ctl=new AbortController();const t=setTimeout(()=>ctl.abort(),2500);let d=null;for(const u of ['api/roadmap','roadmap-data.json']){try{const res=await fetch(u,{signal:ctl.signal,cache:'no-store'});if(res.ok){d=await res.json();break}}catch(e){}}clearTimeout(t);if(!d||!d.P||!d.HOTM_P)return false;P=d.P;HOTM_TREE=d.HOTM_TREE;HOTM_BUILDS=d.HOTM_BUILDS;HOTM_P=d.HOTM_P;GARDEN=d.GARDEN;DAILY=d.DAILY;VS=d.VS||null;META=Object.assign({},META,d.meta);return true}catch(e){return false}}
+function showMeta(live){const el=$('asof');if(el)el.textContent='Daten '+(META.updated||'')+(live?' · live':'');}
+render();vs();showMeta(false);
+liveLoad().then(ok=>{if(ok){render();vs();showMeta(true);showView(view);}});
+const sv=store('rb3-view');showView(VIEWS.includes(h)?h:(sv&&VIEWS.includes(sv)?sv:'overview'));
+
+</script>
