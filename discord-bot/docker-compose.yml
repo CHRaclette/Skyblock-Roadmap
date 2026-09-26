@@ -1,0 +1,32 @@
+services:
+  skyblock-bot:
+    build: ./bot
+    container_name: skyblock-bot
+    restart: unless-stopped
+    env_file: ./bot/.env
+    environment:
+      - ROADMAP_DATA_DIR=/app/data
+      - ROADMAP_PORT=3001
+      - CLOUDFLARED_METRICS_URL=http://cloudflared:2000
+    ports:
+      # Dashboard mit Admin-Funktionen: nur auf diesem Rechner erreichbar
+      - "127.0.0.1:3000:3000"
+      # Roadmap-Seite (nur Lesen)
+      - "3001:3001"
+    volumes:
+      - ./bot/skyblock-bot-state.json:/app/skyblock-bot-state.json
+      - roadmap-data:/app/data
+
+  # Macht NUR die Roadmap-Seite (Port 3001) öffentlich erreichbar, ohne Port-Freigabe am Router.
+  # Kostenloser Cloudflare Quick Tunnel, kein Account nötig. Der Link ändert sich bei jedem Neustart;
+  # der Bot liest ihn automatisch aus und zeigt ihn in Discord.
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: skyblock-roadmap-tunnel
+    restart: unless-stopped
+    command: tunnel --no-autoupdate --metrics 0.0.0.0:2000 --url http://skyblock-bot:3001
+    depends_on:
+      - skyblock-bot
+
+volumes:
+  roadmap-data:

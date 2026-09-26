@@ -1,0 +1,27 @@
+{
+  "activeTargets": [],
+  "selectedDoneChannelByGuild": {
+    "1552778425553657898": "1552998420371738634"
+  },
+  "lastApiSync": "2026-09-25T18:11:55.793Z",
+  "featureChannelsByGuild": {
+    "1552778425553657898": {
+      "skyhelper": "1552997644614500372",
+      "bazaar": "1552997646799736903",
+      "npc": "1552997648729112598",
+      "recipes": "1552997650956157028",
+      "targets": "1552997652835078226"
+    }
+  },
+  "featureMessagesByGuild": {
+    "1552778425553657898": {
+      "skyhelper": "1552997654982688839",
+      "recipes": "1552997655888658475",
+      "targets": "1552997657381834833",
+      "bazaar": "1552997658417827952",
+      "npc": "1552997659227201569"
+    }
+  },
+  "flipSettingsByGuild": {},
+  "npcBuyPricesByGuild": {}
+}
