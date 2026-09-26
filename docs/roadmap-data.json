@@ -8,11 +8,11 @@
      "Magical Power"
     ],
     [
-     "160",
+     "161",
      "SkyBlock Level"
     ],
     [
-     "912 M",
+     "733 M",
      "Networth · 4,2 M Purse"
     ],
     [
@@ -32,7 +32,7 @@
      "Fairy Souls"
     ],
     [
-     "348",
+     "355",
      "Farming Weight"
     ]
    ],
@@ -71,7 +71,7 @@
     [
      "md",
      "Anita: Extra Farming Fortune auf 0",
-     "2 Gold-Medaillen vorhanden, jede Stufe gibt +4 Farming Fortune."
+     "3 Gold-Medaillen vorhanden, jede Stufe gibt +4 Farming Fortune."
     ],
     [
      "md",
@@ -850,7 +850,7 @@
    "extra": [
     [
      "Essence",
-     "Wither 360 · Undead 208 · Dragon 345 · Spider 496 · Ice 289 · Diamond 4'605 · Gold 9'586."
+     "Wither 360 · Undead 208 · Dragon 345 · Spider 496 · Ice 289 · Diamond 5'055 · Gold 9'964."
     ],
     [
      "Rift",
@@ -899,7 +899,7 @@
      "SkyBlock Level"
     ],
     [
-     "528 M",
+     "525 M",
      "Networth · 7,1 M Purse"
     ],
     [
@@ -1718,7 +1718,7 @@
    "extra": [
     [
      "Essence",
-     "Wither 231 · Undead 1'863 · Dragon 341 · Spider 214 · Ice 164 · Diamond 3'799 · Gold 4'266."
+     "Wither 231 · Undead 1'863 · Dragon 341 · Spider 214 · Ice 164 · Diamond 3'809 · Gold 4'280."
     ],
     [
      "Rift",
@@ -2114,7 +2114,7 @@
    "xp": "607'692",
    "toNext": "239'308 XP bis Tier 9",
    "tokens": "18 / 18 verteilt",
-   "peak": 6,
+   "peak": 7,
    "ability": "Pickobulus",
    "comm": "1'847",
    "levels": {
@@ -2128,7 +2128,7 @@
     "Professional": 1,
     "Mole": 144,
     "Seasoned Mineman": 21,
-    "Core of the Mountain": 6,
+    "Core of the Mountain": 7,
     "Keep It Cool": 1,
     "Lonesome Miner": 1,
     "Great Explorer": 20,
@@ -2136,7 +2136,7 @@
     "Miner's Blessing": 1,
     "No Stone Unturned": 1,
     "Strong Arm": 1,
-    "Steady Hand": 1
+    "Steady Hand": 25
    },
    "sum": "Alle 18 Tokens sind verteilt. Powder Buff, Great Explorer und Quick Forge sind maxed, Mole steht auf 144/200. Die Fortune- und Gemstone-Perks sind freigeschaltet, aber nur auf Stufe 1. Es fehlt also nur Powder, keine Tokens.",
    "next": [
@@ -2445,7 +2445,7 @@
    }
   },
   "copperBalance": {
-   "relaxo": 153,
+   "relaxo": 113,
    "amin": 153
   },
   "tierBought": 3,
@@ -2559,7 +2559,7 @@
   ]
  ],
  "meta": {
-  "updated": "26.09.2026 18:12",
+  "updated": "26.09.2026 21:21",
   "url": null,
   "profile": "Raspberry",
   "players": {
@@ -2567,7 +2567,7 @@
    "amin": "ReverseAmin"
   },
   "updatedDate": "2026-09-26",
-  "updatedAt": "2026-09-26T16:12:03.122Z",
+  "updatedAt": "2026-09-26T19:21:39.037Z",
   "reason": "manuell",
   "sources": [
    "EliteBot API"
@@ -2621,8 +2621,8 @@
   ],
   [
    "Networth",
-   "912 M",
-   "528 M"
+   "733 M",
+   "525 M"
   ]
  ]
 }
