@@ -23,8 +23,10 @@ Stand: 26.09.2026. Alles Wichtige liegt in diesem Repository, nichts nur in eine
 - Pet Score gibt Magic Find (nicht Magical Power).
 - Handgeschriebene Pläne (Next Steps, Accessory-Reihenfolge, Setups) stehen in `docs/roadmap-data.json` unter `P.<spieler>.phases/acc/setups` und werden vom Update nicht überschrieben.
 
+## Erledigt
+- 26.09.2026: GitHub Pages auf Source „GitHub Actions“ gestellt, Workflow läuft erfolgreich, Seite ist live.
+
 ## Offene Punkte
-- GitHub → Settings → Pages → Source „GitHub Actions“ (falls noch nicht gesetzt).
 - Bot-Token neu erstellen (alte ZIP enthielt ihn) und in `discord-bot/bot/.env` eintragen.
 - `GITHUB_TOKEN` (fine-grained, nur dieses Repo, Actions: Read and write) in die Bot-`.env`.
 
