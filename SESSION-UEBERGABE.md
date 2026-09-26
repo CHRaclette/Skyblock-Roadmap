@@ -22,6 +22,7 @@ Stand: 26.09.2026. Alles Wichtige liegt in diesem Repository, nichts nur in eine
 - Fairy Souls total 289; Eintauschen gibt SkyBlock XP + Backpack-Slots (keine Stats).
 - Pet Score gibt Magic Find (nicht Magical Power).
 - Handgeschriebene Pläne (Next Steps, Accessory-Reihenfolge, Setups) stehen in `docs/roadmap-data.json` unter `P.<spieler>.phases/acc/setups` und werden vom Update nicht überschrieben.
+- Mining-Fahrplan (HotM-Tab) und Pest-Farming-Guide (Garden-Tab) stehen in `scripts/guides-data.js` → schreibt `MINING_GUIDE` / `PEST_GUIDE` in die Daten. Ändern: Datei bearbeiten, `node scripts/guides-data.js`, dann `node scripts/run.js --build-only`.
 
 ## Erledigt
 - 26.09.2026: GitHub Pages auf Source „GitHub Actions“ gestellt, Workflow läuft erfolgreich, Seite ist live.

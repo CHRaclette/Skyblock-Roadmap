@@ -26,6 +26,8 @@ function buildPage(data) {
         `var GARDEN=${js(data.GARDEN)};\n` +
         `var DAILY=${js(data.DAILY)};\n` +
         `var VS=${js(data.VS)};\n` +
+        `var MINING_GUIDE=${js(data.MINING_GUIDE)};\n` +
+        `var PEST_GUIDE=${js(data.PEST_GUIDE)};\n` +
         `var META=${js(data.meta)};\n`;
     const date = String(data.meta?.updated || "").split(" ")[0];
     const html = template
