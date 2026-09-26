@@ -13,7 +13,7 @@
     ],
     [
      "912 M",
-     "Networth · 4,1 M Purse"
+     "Networth · 4,2 M Purse"
     ],
     [
      "33.2",
@@ -850,7 +850,7 @@
    "extra": [
     [
      "Essence",
-     "Wither 360 · Undead 208 · Dragon 345 · Spider 496 · Ice 289 · Diamond 4'605 · Gold 9'583."
+     "Wither 360 · Undead 208 · Dragon 345 · Spider 496 · Ice 289 · Diamond 4'605 · Gold 9'586."
     ],
     [
      "Rift",
@@ -899,11 +899,11 @@
      "SkyBlock Level"
     ],
     [
-     "518 M",
-     "Networth · 6,1 M Purse"
+     "528 M",
+     "Networth · 7,1 M Purse"
     ],
     [
-     "30.3",
+     "30.4",
      "Skill Average"
     ],
     [
@@ -1529,7 +1529,7 @@
     ],
     [
      "Mining",
-     53,
+     54,
      60
     ],
     [
@@ -1573,7 +1573,7 @@
      50
     ]
    ],
-   "sa": "Skill Average 30.3",
+   "sa": "Skill Average 30.4",
    "pets": [
     [
      "Mithril Golem",
@@ -2559,7 +2559,7 @@
   ]
  ],
  "meta": {
-  "updated": "26.09.2026 17:52",
+  "updated": "26.09.2026 18:12",
   "url": null,
   "profile": "Raspberry",
   "players": {
@@ -2567,7 +2567,7 @@
    "amin": "ReverseAmin"
   },
   "updatedDate": "2026-09-26",
-  "updatedAt": "2026-09-26T15:52:49.292Z",
+  "updatedAt": "2026-09-26T16:12:03.122Z",
   "reason": "manuell",
   "sources": [
    "EliteBot API"
@@ -2577,12 +2577,12 @@
   [
    "Skill Average",
    33.2,
-   30.3
+   30.4
   ],
   [
    "Mining",
    52,
-   53
+   54
   ],
   [
    "Farming",
@@ -2622,7 +2622,7 @@
   [
    "Networth",
    "912 M",
-   "518 M"
+   "528 M"
   ]
  ]
 }
