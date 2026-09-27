@@ -8,15 +8,15 @@
      "Magical Power"
     ],
     [
-     "161",
+     "164",
      "SkyBlock Level"
     ],
     [
-     "734 M",
-     "Networth · 4,2 M Purse"
+     "730 M",
+     "Networth · 4,5 M Purse"
     ],
     [
-     "33.2",
+     "33.3",
      "Skill Average"
     ],
     [
@@ -28,7 +28,7 @@
      "Slayer Z·S·W·E·B·V"
     ],
     [
-     "63/289",
+     "70/289",
      "Fairy Souls"
     ],
     [
@@ -40,8 +40,8 @@
    "diag": [
     [
      "hi",
-     "63 von 289 Fairy Souls",
-     "13 gefundene sind noch nicht bei Tia eingelöst. Eintauschen gibt SkyBlock XP und Backpack-Slots."
+     "70 von 289 Fairy Souls",
+     "20 gefundene sind noch nicht bei Tia eingelöst. Eintauschen gibt SkyBlock XP und Backpack-Slots."
     ],
     [
      "hi",
@@ -717,7 +717,7 @@
     ],
     [
      "Foraging",
-     27,
+     28,
      50
     ],
     [
@@ -741,7 +741,7 @@
      50
     ]
    ],
-   "sa": "Skill Average 33.2",
+   "sa": "Skill Average 33.3",
    "pets": [
     [
      "Mithril Golem",
@@ -812,7 +812,7 @@
     [
      "Frog",
      "rare",
-     86,
+     89,
      "Foraging Loadout"
     ],
     [
@@ -850,7 +850,7 @@
    "extra": [
     [
      "Essence",
-     "Wither 360 · Undead 208 · Dragon 345 · Spider 496 · Ice 289 · Diamond 5'055 · Gold 9'964."
+     "Wither 360 · Undead 208 · Dragon 345 · Spider 496 · Ice 289 · Diamond 5'465 · Gold 10'404."
     ],
     [
      "Rift",
@@ -874,7 +874,7 @@
     ],
     [
      "Heart of the Forest",
-     "Level 4"
+     "Level 5"
     ],
     [
      "Festivals",
@@ -895,12 +895,12 @@
      "Magical Power"
     ],
     [
-     "149",
+     "150",
      "SkyBlock Level"
     ],
     [
-     "524 M",
-     "Networth · 7,1 M Purse"
+     "728 M",
+     "Networth · 7,2 M Purse"
     ],
     [
      "30.4",
@@ -961,9 +961,9 @@
      "2 Gold-Medaillen vorhanden, jede Stufe gibt +4 Farming Fortune."
     ],
     [
-     "lo",
-     "Alchemy 10",
-     "Günstigster Skill-Average-Boost mit Nether Wart aus den Sacks."
+     "md",
+     "HotM-Kernperks auf Stufe 1",
+     "Mining Fortune, Professional, Efficient Miner brauchen Powder."
     ]
    ],
    "phases": [
@@ -1590,7 +1590,7 @@
     [
      "Mole",
      "legendary",
-     75,
+     80,
      "Mining"
     ],
     [
@@ -1608,7 +1608,7 @@
     [
      "Ammonite",
      "legendary",
-     45,
+     46,
      "Fishing"
     ],
     [
@@ -1718,7 +1718,7 @@
    "extra": [
     [
      "Essence",
-     "Wither 231 · Undead 1'863 · Dragon 341 · Spider 214 · Ice 164 · Diamond 3'809 · Gold 4'280."
+     "Wither 231 · Undead 1'863 · Dragon 341 · Spider 214 · Ice 164 · Diamond 3'824 · Gold 4'297."
     ],
     [
      "Rift",
@@ -2130,13 +2130,16 @@
     "Seasoned Mineman": 21,
     "Core of the Mountain": 7,
     "Keep It Cool": 1,
-    "Lonesome Miner": 1,
+    "Lonesome Miner": 45,
     "Great Explorer": 20,
     "Powder Buff": 50,
     "Miner's Blessing": 1,
     "No Stone Unturned": 1,
     "Strong Arm": 1,
-    "Steady Hand": 25
+    "Steady Hand": 25,
+    "Blockhead": 1,
+    "Speedy Mineman": 1,
+    "Subterranean Fisher": 40
    },
    "sum": "Alle 18 Tokens sind verteilt. Powder Buff, Great Explorer und Quick Forge sind maxed, Mole steht auf 144/200. Die Fortune- und Gemstone-Perks sind freigeschaltet, aber nur auf Stufe 1. Es fehlt also nur Powder, keine Tokens.",
    "next": [
@@ -2184,16 +2187,23 @@
     "Mole": 131,
     "Core of the Mountain": 7,
     "Blockhead": 11,
-    "Subterranean Fisher": 14,
-    "Keep It Cool": 1,
-    "Lonesome Miner": 24,
+    "Subterranean Fisher": 40,
+    "Keep It Cool": 50,
+    "Lonesome Miner": 45,
     "Great Explorer": 20,
     "Speedy Mineman": 48,
-    "Powder Buff": 39,
+    "Powder Buff": 50,
     "Miner's Blessing": 1,
     "No Stone Unturned": 6,
     "Steady Hand": 14,
-    "Warm Heart": 20
+    "Warm Heart": 20,
+    "Gem Lover": 1,
+    "Daily Grind": 1,
+    "Daily Powder": 1,
+    "Front Loaded": 1,
+    "Anomalous Desire": 1,
+    "Luck of the Cave": 1,
+    "Seasoned Mineman": 1
    },
    "sum": "Solides Gemstone-Setup: Mining Speed, Old-School, Great Explorer und Quick Forge maxed, Professional 58, Speedy Mineman 48. Für Tier 9 und Glacite fehlen noch Surveyor, Strong Arm, Metal Head und Rags to Riches.",
    "next": [
@@ -2559,16 +2569,16 @@
   ]
  ],
  "meta": {
-  "updated": "26.09.2026 21:36",
+  "updated": "27.09.2026 12:03",
   "url": null,
   "profile": "Raspberry",
   "players": {
    "relaxo": "Relaxo_GX",
    "amin": "ReverseAmin"
   },
-  "updatedDate": "2026-09-26",
-  "updatedAt": "2026-09-26T19:36:00.952Z",
-  "reason": "manuell",
+  "updatedDate": "2026-09-27",
+  "updatedAt": "2026-09-27T10:03:18.024Z",
+  "reason": "automatisch",
   "sources": [
    "EliteBot API"
   ]
@@ -2576,7 +2586,7 @@
  "VS": [
   [
    "Skill Average",
-   33.2,
+   33.3,
    30.4
   ],
   [
@@ -2616,13 +2626,13 @@
   ],
   [
    "Fairy Souls",
-   63,
+   70,
    189
   ],
   [
    "Networth",
-   "734 M",
-   "524 M"
+   "730 M",
+   "728 M"
   ]
  ],
  "MINING_GUIDE": {
