@@ -8,15 +8,15 @@
      "Magical Power"
     ],
     [
-     "164",
+     "167",
      "SkyBlock Level"
     ],
     [
-     "730 M",
-     "Networth · 4,5 M Purse"
+     "741 M",
+     "Networth · 4,4 M Purse"
     ],
     [
-     "33.3",
+     "33.6",
      "Skill Average"
     ],
     [
@@ -24,7 +24,7 @@
      "Catacombs · Berserk 17"
     ],
     [
-     "6·5·5·2·0·0",
+     "6·5·6·2·0·0",
      "Slayer Z·S·W·E·B·V"
     ],
     [
@@ -32,7 +32,7 @@
      "Fairy Souls"
     ],
     [
-     "355",
+     "381",
      "Farming Weight"
     ]
    ],
@@ -60,23 +60,23 @@
     ],
     [
      "md",
-     "Slayer-Rewards nicht abgeholt",
-     "Bei Maddox abholen: Spider 3."
-    ],
-    [
-     "md",
      "Crop Upgrades unter Tier 8",
      "13 Crops sind unter dem Maximum für Garden 14. Copper zuerst in eure Haupt-Crops."
     ],
     [
      "md",
      "Anita: Extra Farming Fortune auf 0",
-     "3 Gold-Medaillen vorhanden, jede Stufe gibt +4 Farming Fortune."
+     "2 Gold-Medaillen vorhanden, jede Stufe gibt +4 Farming Fortune."
     ],
     [
      "md",
      "HotM-Kernperks auf Stufe 1",
      "Mining Fortune, Professional, Efficient Miner brauchen Powder."
+    ],
+    [
+     "lo",
+     "Alchemy 14",
+     "Günstigster Skill-Average-Boost mit Nether Wart aus den Sacks."
     ]
    ],
    "phases": [
@@ -697,7 +697,7 @@
     ],
     [
      "Farming",
-     45,
+     46,
      50
     ],
     [
@@ -707,7 +707,7 @@
     ],
     [
      "Carpentry",
-     35,
+     36,
      50
     ],
     [
@@ -722,7 +722,7 @@
     ],
     [
      "Combat",
-     31,
+     32,
      60
     ],
     [
@@ -741,7 +741,7 @@
      50
     ]
    ],
-   "sa": "Skill Average 33.3",
+   "sa": "Skill Average 33.6",
    "pets": [
     [
      "Mithril Golem",
@@ -804,6 +804,18 @@
      "Spider Slayer"
     ],
     [
+     "Tiger",
+     "epic",
+     67,
+     ""
+    ],
+    [
+     "Enderman",
+     "epic",
+     1,
+     ""
+    ],
+    [
      "Bee",
      "rare",
      93,
@@ -812,7 +824,7 @@
     [
      "Frog",
      "rare",
-     89,
+     90,
      "Foraging Loadout"
     ],
     [
@@ -846,11 +858,11 @@
      "ersetzt"
     ]
    ],
-   "petcount": "17 Pets · Pet Score 75",
+   "petcount": "19 Pets · Pet Score 75",
    "extra": [
     [
      "Essence",
-     "Wither 360 · Undead 208 · Dragon 345 · Spider 496 · Ice 289 · Diamond 5'465 · Gold 10'404."
+     "Wither 422 · Undead 613 · Dragon 402 · Spider 529 · Ice 299 · Diamond 5'521 · Gold 10'412."
     ],
     [
      "Rift",
@@ -895,15 +907,15 @@
      "Magical Power"
     ],
     [
-     "150",
+     "156",
      "SkyBlock Level"
     ],
     [
-     "728 M",
-     "Networth · 7,2 M Purse"
+     "760 M",
+     "Networth · 11,4 M Purse"
     ],
     [
-     "30.4",
+     "30.8",
      "Skill Average"
     ],
     [
@@ -1529,7 +1541,7 @@
     ],
     [
      "Mining",
-     54,
+     57,
      60
     ],
     [
@@ -1549,7 +1561,7 @@
     ],
     [
      "Combat",
-     29,
+     30,
      60
     ],
     [
@@ -1573,7 +1585,7 @@
      50
     ]
    ],
-   "sa": "Skill Average 30.4",
+   "sa": "Skill Average 30.8",
    "pets": [
     [
      "Mithril Golem",
@@ -1582,16 +1594,16 @@
      "Duplikat"
     ],
     [
+     "Mole",
+     "legendary",
+     100,
+     "Mining"
+    ],
+    [
      "Elephant",
      "legendary",
      91,
      "Farming, auf 100"
-    ],
-    [
-     "Mole",
-     "legendary",
-     80,
-     "Mining"
     ],
     [
      "Armadillo",
@@ -1600,16 +1612,16 @@
      "Crystal Hollows"
     ],
     [
+     "Ammonite",
+     "legendary",
+     56,
+     "Fishing"
+    ],
+    [
      "Grandma Wolf",
      "legendary",
      54,
      "nische"
-    ],
-    [
-     "Ammonite",
-     "legendary",
-     46,
-     "Fishing"
     ],
     [
      "Skeleton",
@@ -1708,17 +1720,23 @@
      "Pet Score"
     ],
     [
+     "Dolphin",
+     "uncommon",
+     1,
+     "Fishing"
+    ],
+    [
      "Griffin",
      "common",
      100,
      "Kat hochstufen"
     ]
    ],
-   "petcount": "23 Pets · Pet Score 85",
+   "petcount": "24 Pets · Pet Score 86",
    "extra": [
     [
      "Essence",
-     "Wither 231 · Undead 1'863 · Dragon 341 · Spider 214 · Ice 164 · Diamond 3'824 · Gold 4'297."
+     "Wither 231 · Undead 1'863 · Dragon 341 · Spider 214 · Ice 380 · Diamond 3'824 · Gold 4'297."
     ],
     [
      "Rift",
@@ -2455,7 +2473,7 @@
    }
   },
   "copperBalance": {
-   "relaxo": 113,
+   "relaxo": 919,
    "amin": 153
   },
   "tierBought": 3,
@@ -2569,15 +2587,15 @@
   ]
  ],
  "meta": {
-  "updated": "27.09.2026 12:03",
+  "updated": "28.09.2026 12:59",
   "url": null,
   "profile": "Raspberry",
   "players": {
    "relaxo": "Relaxo_GX",
    "amin": "ReverseAmin"
   },
-  "updatedDate": "2026-09-27",
-  "updatedAt": "2026-09-27T10:03:18.024Z",
+  "updatedDate": "2026-09-28",
+  "updatedAt": "2026-09-28T10:59:50.222Z",
   "reason": "automatisch",
   "sources": [
    "EliteBot API"
@@ -2586,23 +2604,23 @@
  "VS": [
   [
    "Skill Average",
-   33.3,
-   30.4
+   33.6,
+   30.8
   ],
   [
    "Mining",
    52,
-   54
+   57
   ],
   [
    "Farming",
-   45,
+   46,
    36
   ],
   [
    "Combat",
-   31,
-   29
+   32,
+   30
   ],
   [
    "Enchanting",
@@ -2621,7 +2639,7 @@
   ],
   [
    "Slayer XP",
-   "39.7 k",
+   "51.8 k",
    "6.4 k"
   ],
   [
@@ -2631,8 +2649,8 @@
   ],
   [
    "Networth",
-   "730 M",
-   "728 M"
+   "741 M",
+   "760 M"
   ]
  ],
  "MINING_GUIDE": {
