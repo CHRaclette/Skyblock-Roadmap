@@ -8,15 +8,15 @@
      "Magical Power"
     ],
     [
-     "170",
+     "171",
      "SkyBlock Level"
     ],
     [
-     "810 M",
+     "799 M",
      "Networth · 2,9 M Purse"
     ],
     [
-     "33.8",
+     "33.9",
      "Skill Average"
     ],
     [
@@ -41,7 +41,7 @@
     [
      "hi",
      "70 von 289 Fairy Souls",
-     "20 gefundene sind noch nicht bei Tia eingelöst. Eintauschen gibt SkyBlock XP und Backpack-Slots."
+     "0 gefundene sind noch nicht bei Tia eingelöst. Eintauschen gibt SkyBlock XP und Backpack-Slots."
     ],
     [
      "hi",
@@ -722,7 +722,7 @@
     ],
     [
      "Combat",
-     32,
+     33,
      60
     ],
     [
@@ -741,7 +741,7 @@
      50
     ]
    ],
-   "sa": "Skill Average 33.8",
+   "sa": "Skill Average 33.9",
    "pets": [
     [
      "Mithril Golem",
@@ -798,16 +798,16 @@
      "Dungeons, Kat → Leg"
     ],
     [
+     "Tiger",
+     "epic",
+     79,
+     ""
+    ],
+    [
      "Tarantula",
      "epic",
      75,
      "Spider Slayer"
-    ],
-    [
-     "Tiger",
-     "epic",
-     70,
-     ""
     ],
     [
      "Enderman",
@@ -834,12 +834,6 @@
      "Mushroom, leveln"
     ],
     [
-     "Griffin",
-     "uncommon",
-     96,
-     "Upgrade über Diana"
-    ],
-    [
      "Monkey",
      "uncommon",
      85,
@@ -858,7 +852,7 @@
      "ersetzt"
     ]
    ],
-   "petcount": "19 Pets · Pet Score 75",
+   "petcount": "18 Pets · Pet Score 75",
    "extra": [
     [
      "Essence",
@@ -866,7 +860,7 @@
     ],
     [
      "Rift",
-     "0 Besuche, 6 von 52 Enigma Souls."
+     "0 Besuche, 7 von 52 Enigma Souls."
     ],
     [
      "Consumables",
@@ -907,15 +901,15 @@
      "Magical Power"
     ],
     [
-     "156",
+     "157",
      "SkyBlock Level"
     ],
     [
-     "717 M",
-     "Networth · 1,0 M Purse"
+     "707 M",
+     "Networth · 2,3 M Purse"
     ],
     [
-     "30.8",
+     "31",
      "Skill Average"
     ],
     [
@@ -1541,7 +1535,7 @@
     ],
     [
      "Mining",
-     57,
+     58,
      60
     ],
     [
@@ -1556,7 +1550,7 @@
     ],
     [
      "Carpentry",
-     27,
+     28,
      50
     ],
     [
@@ -1585,7 +1579,7 @@
      50
     ]
    ],
-   "sa": "Skill Average 30.8",
+   "sa": "Skill Average 31",
    "pets": [
     [
      "Mithril Golem",
@@ -2587,15 +2581,15 @@
   ]
  ],
  "meta": {
-  "updated": "01.10.2026 13:00",
+  "updated": "02.10.2026 12:33",
   "url": null,
   "profile": "Raspberry",
   "players": {
    "relaxo": "Relaxo_GX",
    "amin": "ReverseAmin"
   },
-  "updatedDate": "2026-10-01",
-  "updatedAt": "2026-10-01T11:00:22.243Z",
+  "updatedDate": "2026-10-02",
+  "updatedAt": "2026-10-02T10:33:31.682Z",
   "reason": "automatisch",
   "sources": [
    "EliteBot API"
@@ -2604,13 +2598,13 @@
  "VS": [
   [
    "Skill Average",
-   33.8,
-   30.8
+   33.9,
+   31
   ],
   [
    "Mining",
    52,
-   57
+   58
   ],
   [
    "Farming",
@@ -2619,7 +2613,7 @@
   ],
   [
    "Combat",
-   32,
+   33,
    30
   ],
   [
@@ -2649,8 +2643,8 @@
   ],
   [
    "Networth",
-   "810 M",
-   "717 M"
+   "799 M",
+   "707 M"
   ]
  ],
  "MINING_GUIDE": {
