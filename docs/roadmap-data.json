@@ -8,20 +8,20 @@
      "Magical Power"
     ],
     [
-     "171",
+     "172",
      "SkyBlock Level"
     ],
     [
-     "799 M",
-     "Networth · 2,9 M Purse"
+     "808 M",
+     "Networth · 3,9 M Purse"
     ],
     [
-     "33.9",
+     "34",
      "Skill Average"
     ],
     [
      "19",
-     "Catacombs · Berserk 17"
+     "Catacombs · Berserk 18"
     ],
     [
      "6·6·6·2·0·0",
@@ -32,7 +32,7 @@
      "Fairy Souls"
     ],
     [
-     "394",
+     "419",
      "Farming Weight"
     ]
    ],
@@ -697,7 +697,7 @@
     ],
     [
      "Farming",
-     46,
+     47,
      50
     ],
     [
@@ -741,7 +741,7 @@
      50
     ]
    ],
-   "sa": "Skill Average 33.9",
+   "sa": "Skill Average 34",
    "pets": [
     [
      "Mithril Golem",
@@ -786,6 +786,12 @@
      "optional"
     ],
     [
+     "Rat",
+     "legendary",
+     1,
+     ""
+    ],
+    [
      "Guardian",
      "epic",
      100,
@@ -800,7 +806,7 @@
     [
      "Tiger",
      "epic",
-     79,
+     80,
      ""
     ],
     [
@@ -828,6 +834,12 @@
      "ersetzbar"
     ],
     [
+     "Griffin",
+     "rare",
+     91,
+     ""
+    ],
+    [
      "Mooshroom Cow",
      "rare",
      1,
@@ -852,11 +864,11 @@
      "ersetzt"
     ]
    ],
-   "petcount": "18 Pets · Pet Score 75",
+   "petcount": "20 Pets · Pet Score 81",
    "extra": [
     [
      "Essence",
-     "Wither 4 · Undead 1'173 · Dragon 459 · Spider 549 · Ice 388 · Diamond 5'565 · Gold 10'434."
+     "Wither 16 · Undead 1'315 · Dragon 487 · Spider 577 · Ice 412 · Diamond 5'580 · Gold 10'455."
     ],
     [
      "Rift",
@@ -901,11 +913,11 @@
      "Magical Power"
     ],
     [
-     "157",
+     "159",
      "SkyBlock Level"
     ],
     [
-     "707 M",
+     "708 M",
      "Networth · 2,3 M Purse"
     ],
     [
@@ -2248,7 +2260,7 @@
    [
     "Garden Level",
     "14",
-    "2'180 XP bis Level 15"
+    "1'890 XP bis Level 15"
    ],
    [
     "Crop Upgrades",
@@ -2581,15 +2593,15 @@
   ]
  ],
  "meta": {
-  "updated": "02.10.2026 12:33",
+  "updated": "03.10.2026 11:54",
   "url": null,
   "profile": "Raspberry",
   "players": {
    "relaxo": "Relaxo_GX",
    "amin": "ReverseAmin"
   },
-  "updatedDate": "2026-10-02",
-  "updatedAt": "2026-10-02T10:33:31.682Z",
+  "updatedDate": "2026-10-03",
+  "updatedAt": "2026-10-03T09:54:47.098Z",
   "reason": "automatisch",
   "sources": [
    "EliteBot API"
@@ -2598,7 +2610,7 @@
  "VS": [
   [
    "Skill Average",
-   33.9,
+   34,
    31
   ],
   [
@@ -2608,7 +2620,7 @@
   ],
   [
    "Farming",
-   46,
+   47,
    36
   ],
   [
@@ -2633,7 +2645,7 @@
   ],
   [
    "Slayer XP",
-   "67 k",
+   "71.5 k",
    "6.4 k"
   ],
   [
@@ -2643,8 +2655,8 @@
   ],
   [
    "Networth",
-   "799 M",
-   "707 M"
+   "808 M",
+   "708 M"
   ]
  ],
  "MINING_GUIDE": {
