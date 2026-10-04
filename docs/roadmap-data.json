@@ -12,11 +12,11 @@
      "SkyBlock Level"
     ],
     [
-     "808 M",
-     "Networth · 3,9 M Purse"
+     "818 M",
+     "Networth · 4,3 M Purse"
     ],
     [
-     "34",
+     "34.1",
      "Skill Average"
     ],
     [
@@ -46,7 +46,7 @@
     [
      "hi",
      "Accessory Power und Tuning prüfen",
-     "Power: Silky, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 26 Tuning-Punkte bei 265 MP."
+     "Power: Simple, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 26 Tuning-Punkte bei 265 MP."
     ],
     [
      "hi",
@@ -717,7 +717,7 @@
     ],
     [
      "Foraging",
-     30,
+     31,
      50
     ],
     [
@@ -741,7 +741,7 @@
      50
     ]
    ],
-   "sa": "Skill Average 34",
+   "sa": "Skill Average 34.1",
    "pets": [
     [
      "Mithril Golem",
@@ -822,12 +822,6 @@
      ""
     ],
     [
-     "Frog",
-     "rare",
-     95,
-     "Foraging Loadout"
-    ],
-    [
      "Bee",
      "rare",
      93,
@@ -864,7 +858,7 @@
      "ersetzt"
     ]
    ],
-   "petcount": "20 Pets · Pet Score 81",
+   "petcount": "19 Pets · Pet Score 81",
    "extra": [
     [
      "Essence",
@@ -872,7 +866,7 @@
     ],
     [
      "Rift",
-     "0 Besuche, 7 von 52 Enigma Souls."
+     "0 Besuche, 8 von 52 Enigma Souls."
     ],
     [
      "Consumables",
@@ -913,11 +907,11 @@
      "Magical Power"
     ],
     [
-     "159",
+     "160",
      "SkyBlock Level"
     ],
     [
-     "708 M",
+     "705 M",
      "Networth · 2,3 M Purse"
     ],
     [
@@ -2260,7 +2254,7 @@
    [
     "Garden Level",
     "14",
-    "1'890 XP bis Level 15"
+    "680 XP bis Level 15"
    ],
    [
     "Crop Upgrades",
@@ -2269,7 +2263,7 @@
    ],
    [
     "Plots",
-    "13 / 24",
+    "14 / 24",
     "+3 Farming Fortune pro Plot"
    ],
    [
@@ -2593,15 +2587,15 @@
   ]
  ],
  "meta": {
-  "updated": "03.10.2026 11:54",
+  "updated": "04.10.2026 12:37",
   "url": null,
   "profile": "Raspberry",
   "players": {
    "relaxo": "Relaxo_GX",
    "amin": "ReverseAmin"
   },
-  "updatedDate": "2026-10-03",
-  "updatedAt": "2026-10-03T09:54:47.098Z",
+  "updatedDate": "2026-10-04",
+  "updatedAt": "2026-10-04T10:37:20.729Z",
   "reason": "automatisch",
   "sources": [
    "EliteBot API"
@@ -2610,7 +2604,7 @@
  "VS": [
   [
    "Skill Average",
-   34,
+   34.1,
    31
   ],
   [
@@ -2655,8 +2649,8 @@
   ],
   [
    "Networth",
-   "808 M",
-   "708 M"
+   "818 M",
+   "705 M"
   ]
  ],
  "MINING_GUIDE": {
