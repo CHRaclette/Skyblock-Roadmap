@@ -8,15 +8,15 @@
      "Magical Power"
     ],
     [
-     "172",
+     "175",
      "SkyBlock Level"
     ],
     [
-     "818 M",
-     "Networth · 4,3 M Purse"
+     "843 M",
+     "Networth · 2,6 M Purse"
     ],
     [
-     "34.1",
+     "34.5",
      "Skill Average"
     ],
     [
@@ -60,8 +60,8 @@
     ],
     [
      "md",
-     "Crop Upgrades unter Tier 8",
-     "13 Crops sind unter dem Maximum für Garden 14. Copper zuerst in eure Haupt-Crops."
+     "Crop Upgrades unter Tier 9",
+     "13 Crops sind unter dem Maximum für Garden 15. Copper zuerst in eure Haupt-Crops."
     ],
     [
      "md",
@@ -71,7 +71,7 @@
     [
      "md",
      "HotM-Kernperks auf Stufe 1",
-     "Mining Fortune, Professional, Efficient Miner brauchen Powder."
+     "Mining Fortune, Professional brauchen Powder."
     ],
     [
      "lo",
@@ -722,17 +722,17 @@
     ],
     [
      "Combat",
-     33,
+     34,
      60
     ],
     [
      "Fishing",
-     21,
+     22,
      50
     ],
     [
      "Hunting",
-     17,
+     19,
      50
     ],
     [
@@ -741,7 +741,7 @@
      50
     ]
    ],
-   "sa": "Skill Average 34.1",
+   "sa": "Skill Average 34.5",
    "pets": [
     [
      "Mithril Golem",
@@ -770,7 +770,7 @@
     [
      "Ammonite",
      "legendary",
-     61,
+     66,
      "Fishing, auf 100"
     ],
     [
@@ -798,16 +798,22 @@
      "Enchanting, Kat → Leg"
     ],
     [
-     "Wither Skeleton",
+     "Frog",
      "epic",
-     81,
-     "Dungeons, Kat → Leg"
+     94,
+     ""
     ],
     [
      "Tiger",
      "epic",
-     80,
+     85,
      ""
+    ],
+    [
+     "Wither Skeleton",
+     "epic",
+     81,
+     "Dungeons, Kat → Leg"
     ],
     [
      "Tarantula",
@@ -853,16 +859,28 @@
     ],
     [
      "Dolphin",
+     "uncommon",
+     1,
+     "ersetzt"
+    ],
+    [
+     "Dolphin",
      "common",
      1,
      "ersetzt"
+    ],
+    [
+     "Hermit Crab",
+     "common",
+     1,
+     ""
     ]
    ],
-   "petcount": "19 Pets · Pet Score 81",
+   "petcount": "22 Pets · Pet Score 84",
    "extra": [
     [
      "Essence",
-     "Wither 16 · Undead 1'315 · Dragon 487 · Spider 577 · Ice 412 · Diamond 5'580 · Gold 10'455."
+     "Wither 16 · Undead 1'315 · Dragon 487 · Spider 577 · Ice 412 · Diamond 5'789 · Gold 10'670."
     ],
     [
      "Rift",
@@ -907,15 +925,15 @@
      "Magical Power"
     ],
     [
-     "160",
+     "162",
      "SkyBlock Level"
     ],
     [
-     "705 M",
-     "Networth · 2,3 M Purse"
+     "854 M",
+     "Networth · 3,4 M Purse"
     ],
     [
-     "31",
+     "31.2",
      "Skill Average"
     ],
     [
@@ -931,7 +949,7 @@
      "Fairy Souls"
     ],
     [
-     "79",
+     "87",
      "Farming Weight"
     ]
    ],
@@ -964,8 +982,8 @@
     ],
     [
      "md",
-     "Crop Upgrades unter Tier 8",
-     "13 Crops sind unter dem Maximum für Garden 14. Copper zuerst in eure Haupt-Crops."
+     "Crop Upgrades unter Tier 9",
+     "13 Crops sind unter dem Maximum für Garden 15. Copper zuerst in eure Haupt-Crops."
     ],
     [
      "md",
@@ -1561,7 +1579,7 @@
     ],
     [
      "Combat",
-     30,
+     31,
      60
     ],
     [
@@ -1571,7 +1589,7 @@
     ],
     [
      "Fishing",
-     21,
+     22,
      50
     ],
     [
@@ -1585,7 +1603,7 @@
      50
     ]
    ],
-   "sa": "Skill Average 31",
+   "sa": "Skill Average 31.2",
    "pets": [
     [
      "Mithril Golem",
@@ -1602,20 +1620,20 @@
     [
      "Elephant",
      "legendary",
-     91,
+     92,
      "Farming, auf 100"
+    ],
+    [
+     "Ammonite",
+     "legendary",
+     64,
+     "Fishing"
     ],
     [
      "Armadillo",
      "legendary",
      58,
      "Crystal Hollows"
-    ],
-    [
-     "Ammonite",
-     "legendary",
-     56,
-     "Fishing"
     ],
     [
      "Grandma Wolf",
@@ -1736,7 +1754,7 @@
    "extra": [
     [
      "Essence",
-     "Wither 231 · Undead 1'863 · Dragon 341 · Spider 214 · Ice 380 · Diamond 3'824 · Gold 4'297."
+     "Wither 231 · Undead 1'863 · Dragon 341 · Spider 214 · Ice 380 · Diamond 3'829 · Gold 4'304."
     ],
     [
      "Rift",
@@ -2140,11 +2158,11 @@
     "Pickobulus": 1,
     "Mining Fortune": 1,
     "Titanium Insanium": 1,
-    "Efficient Miner": 1,
+    "Efficient Miner": 43,
     "Quick Forge": 20,
     "Old-School": 1,
     "Professional": 1,
-    "Mole": 144,
+    "Mole": 151,
     "Seasoned Mineman": 21,
     "Core of the Mountain": 7,
     "Keep It Cool": 1,
@@ -2221,7 +2239,10 @@
     "Front Loaded": 1,
     "Anomalous Desire": 1,
     "Luck of the Cave": 1,
-    "Seasoned Mineman": 1
+    "Seasoned Mineman": 1,
+    "Surveyor": 1,
+    "Strong Arm": 1,
+    "Fortunate Mineman": 1
    },
    "sum": "Solides Gemstone-Setup: Mining Speed, Old-School, Great Explorer und Quick Forge maxed, Professional 58, Speedy Mineman 48. Für Tier 9 und Glacite fehlen noch Surveyor, Strong Arm, Metal Head und Rags to Riches.",
    "next": [
@@ -2253,13 +2274,13 @@
   "status": [
    [
     "Garden Level",
-    "14",
-    "680 XP bis Level 15"
+    "15",
+    "Maximum"
    ],
    [
     "Crop Upgrades",
     "3 / 9",
-    "Garden 14 erlaubt bis Tier 8"
+    "Garden 15 erlaubt bis Tier 9"
    ],
    [
     "Plots",
@@ -2473,11 +2494,11 @@
    }
   },
   "copperBalance": {
-   "relaxo": 1005,
+   "relaxo": 805,
    "amin": 153
   },
   "tierBought": 3,
-  "tierMax": 8
+  "tierMax": 9
  },
  "DAILY": [
   [
@@ -2587,15 +2608,15 @@
   ]
  ],
  "meta": {
-  "updated": "04.10.2026 12:37",
+  "updated": "05.10.2026 13:35",
   "url": null,
   "profile": "Raspberry",
   "players": {
    "relaxo": "Relaxo_GX",
    "amin": "ReverseAmin"
   },
-  "updatedDate": "2026-10-04",
-  "updatedAt": "2026-10-04T10:37:20.729Z",
+  "updatedDate": "2026-10-05",
+  "updatedAt": "2026-10-05T11:35:33.915Z",
   "reason": "automatisch",
   "sources": [
    "EliteBot API"
@@ -2604,8 +2625,8 @@
  "VS": [
   [
    "Skill Average",
-   34.1,
-   31
+   34.5,
+   31.2
   ],
   [
    "Mining",
@@ -2619,8 +2640,8 @@
   ],
   [
    "Combat",
-   33,
-   30
+   34,
+   31
   ],
   [
    "Enchanting",
@@ -2649,8 +2670,8 @@
   ],
   [
    "Networth",
-   "818 M",
-   "705 M"
+   "843 M",
+   "854 M"
   ]
  ],
  "MINING_GUIDE": {
