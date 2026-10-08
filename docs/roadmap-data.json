@@ -4,19 +4,19 @@
    "name": "Relaxo_GX",
    "stats": [
     [
-     "265",
+     "270",
      "Magical Power"
     ],
     [
-     "176",
+     "178",
      "SkyBlock Level"
     ],
     [
-     "849 M",
-     "Networth · 17,6 M Purse"
+     "863 M",
+     "Networth · 18,1 M Purse"
     ],
     [
-     "34.7",
+     "34.8",
      "Skill Average"
     ],
     [
@@ -46,11 +46,11 @@
     [
      "hi",
      "Accessory Power und Tuning prüfen",
-     "Power: Silky, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 26 Tuning-Punkte bei 265 MP."
+     "Power: Simple, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 27 Tuning-Punkte bei 270 MP."
     ],
     [
      "hi",
-     "Nur 265 Magical Power",
+     "Nur 270 Magical Power",
      "Im Tab Accessories stehen die günstigsten nächsten Accessories in Reihenfolge."
     ],
     [
@@ -232,9 +232,9 @@
     ]
    ],
    "mp": {
-    "now": 265,
-    "t1": 345,
-    "t2": 460
+    "now": 270,
+    "t1": 350,
+    "t2": 465
    },
    "acc": [
     [
@@ -712,7 +712,7 @@
     ],
     [
      "Enchanting",
-     40,
+     41,
      60
     ],
     [
@@ -741,7 +741,7 @@
      50
     ]
    ],
-   "sa": "Skill Average 34.7",
+   "sa": "Skill Average 34.8",
    "pets": [
     [
      "Mithril Golem",
@@ -762,16 +762,16 @@
      "Yellow Bandana"
     ],
     [
+     "Armadillo",
+     "legendary",
+     71,
+     "Crystal Hollows"
+    ],
+    [
      "Ammonite",
      "legendary",
      71,
      "Fishing, auf 100"
-    ],
-    [
-     "Armadillo",
-     "legendary",
-     66,
-     "Crystal Hollows"
     ],
     [
      "Grandma Wolf",
@@ -792,6 +792,12 @@
      ""
     ],
     [
+     "Wolf",
+     "legendary",
+     1,
+     ""
+    ],
+    [
      "Guardian",
      "epic",
      100,
@@ -800,7 +806,7 @@
     [
      "Frog",
      "epic",
-     96,
+     97,
      ""
     ],
     [
@@ -828,10 +834,10 @@
      ""
     ],
     [
-     "Bee",
-     "rare",
-     93,
-     "ersetzbar"
+     "Lion",
+     "epic",
+     1,
+     ""
     ],
     [
      "Griffin",
@@ -864,19 +870,13 @@
      "ersetzt"
     ],
     [
-     "Dolphin",
-     "common",
-     1,
-     "ersetzt"
-    ],
-    [
      "Hermit Crab",
      "common",
      1,
      ""
     ]
    ],
-   "petcount": "22 Pets · Pet Score 84",
+   "petcount": "22 Pets · Pet Score 93",
    "extra": [
     [
      "Essence",
@@ -925,12 +925,12 @@
      "Magical Power"
     ],
     [
-     "162",
+     "166",
      "SkyBlock Level"
     ],
     [
-     "571 M",
-     "Networth · 6,3 M Purse"
+     "800 M",
+     "Networth · 2,4 M Purse"
     ],
     [
      "31.3",
@@ -1666,9 +1666,15 @@
      "Pet Score"
     ],
     [
+     "Owl",
+     "legendary",
+     1,
+     ""
+    ],
+    [
      "Guardian",
      "epic",
-     97,
+     98,
      "Enchanting"
     ],
     [
@@ -1696,10 +1702,10 @@
      "ersetzbar"
     ],
     [
-     "Bee",
-     "rare",
-     90,
-     "ersetzbar"
+     "Lion",
+     "epic",
+     1,
+     ""
     ],
     [
      "Enderman",
@@ -1750,7 +1756,7 @@
      "Kat hochstufen"
     ]
    ],
-   "petcount": "24 Pets · Pet Score 86",
+   "petcount": "25 Pets · Pet Score 92",
    "extra": [
     [
      "Essence",
@@ -2608,15 +2614,15 @@
   ]
  ],
  "meta": {
-  "updated": "07.10.2026 13:08",
+  "updated": "08.10.2026 13:25",
   "url": null,
   "profile": "Raspberry",
   "players": {
    "relaxo": "Relaxo_GX",
    "amin": "ReverseAmin"
   },
-  "updatedDate": "2026-10-07",
-  "updatedAt": "2026-10-07T11:08:08.750Z",
+  "updatedDate": "2026-10-08",
+  "updatedAt": "2026-10-08T11:25:58.547Z",
   "reason": "automatisch",
   "sources": [
    "EliteBot API"
@@ -2625,7 +2631,7 @@
  "VS": [
   [
    "Skill Average",
-   34.7,
+   34.8,
    31.3
   ],
   [
@@ -2645,7 +2651,7 @@
   ],
   [
    "Enchanting",
-   40,
+   41,
    37
   ],
   [
@@ -2655,12 +2661,12 @@
   ],
   [
    "Magical Power",
-   265,
+   270,
    172
   ],
   [
    "Slayer XP",
-   "82.5 k",
+   "83 k",
    "6.4 k"
   ],
   [
@@ -2670,8 +2676,8 @@
   ],
   [
    "Networth",
-   "849 M",
-   "571 M"
+   "863 M",
+   "800 M"
   ]
  ],
  "MINING_GUIDE": {
