@@ -8,19 +8,19 @@
      "Magical Power"
     ],
     [
-     "178",
+     "180",
      "SkyBlock Level"
     ],
     [
-     "863 M",
-     "Networth · 18,1 M Purse"
+     "859 M",
+     "Networth · 7,1 M Purse"
     ],
     [
      "34.8",
      "Skill Average"
     ],
     [
-     "19",
+     "20",
      "Catacombs · Berserk 18"
     ],
     [
@@ -28,11 +28,11 @@
      "Slayer Z·S·W·E·B·V"
     ],
     [
-     "70/289",
+     "71/289",
      "Fairy Souls"
     ],
     [
-     "420",
+     "431",
      "Farming Weight"
     ]
    ],
@@ -40,8 +40,8 @@
    "diag": [
     [
      "hi",
-     "70 von 289 Fairy Souls",
-     "0 gefundene sind noch nicht bei Tia eingelöst. Eintauschen gibt SkyBlock XP und Backpack-Slots."
+     "71 von 289 Fairy Souls",
+     "1 gefundene sind noch nicht bei Tia eingelöst. Eintauschen gibt SkyBlock XP und Backpack-Slots."
     ],
     [
      "hi",
@@ -774,6 +774,12 @@
      "Fishing, auf 100"
     ],
     [
+     "Wolf",
+     "legendary",
+     61,
+     ""
+    ],
+    [
      "Grandma Wolf",
      "legendary",
      55,
@@ -787,12 +793,6 @@
     ],
     [
      "Rat",
-     "legendary",
-     1,
-     ""
-    ],
-    [
-     "Wolf",
      "legendary",
      1,
      ""
@@ -880,11 +880,11 @@
    "extra": [
     [
      "Essence",
-     "Wither 16 · Undead 1'315 · Dragon 487 · Spider 577 · Ice 412 · Diamond 5'789 · Gold 10'670."
+     "Wither 24 · Undead 1'451 · Dragon 487 · Spider 577 · Ice 629 · Diamond 5'803 · Gold 10'701."
     ],
     [
      "Rift",
-     "0 Besuche, 8 von 52 Enigma Souls."
+     "0 Besuche, 9 von 52 Enigma Souls."
     ],
     [
      "Consumables",
@@ -904,7 +904,7 @@
     ],
     [
      "Heart of the Forest",
-     "Level 5"
+     "Level 6"
     ],
     [
      "Festivals",
@@ -929,11 +929,11 @@
      "SkyBlock Level"
     ],
     [
-     "800 M",
-     "Networth · 2,4 M Purse"
+     "846 M",
+     "Networth · 3,2 M Purse"
     ],
     [
-     "31.3",
+     "31.5",
      "Skill Average"
     ],
     [
@@ -949,7 +949,7 @@
      "Fairy Souls"
     ],
     [
-     "88",
+     "100",
      "Farming Weight"
     ]
    ],
@@ -988,7 +988,7 @@
     [
      "md",
      "Anita: Extra Farming Fortune auf 0",
-     "2 Gold-Medaillen vorhanden, jede Stufe gibt +4 Farming Fortune."
+     "3 Gold-Medaillen vorhanden, jede Stufe gibt +4 Farming Fortune."
     ],
     [
      "md",
@@ -1564,7 +1564,7 @@
     ],
     [
      "Farming",
-     36,
+     37,
      50
     ],
     [
@@ -1574,7 +1574,7 @@
     ],
     [
      "Carpentry",
-     28,
+     29,
      50
     ],
     [
@@ -1603,7 +1603,7 @@
      50
     ]
    ],
-   "sa": "Skill Average 31.3",
+   "sa": "Skill Average 31.5",
    "pets": [
     [
      "Mithril Golem",
@@ -1620,7 +1620,7 @@
     [
      "Elephant",
      "legendary",
-     92,
+     93,
      "Farming, auf 100"
     ],
     [
@@ -2501,7 +2501,7 @@
   },
   "copperBalance": {
    "relaxo": 805,
-   "amin": 34
+   "amin": 123
   },
   "tierBought": 3,
   "tierMax": 9
@@ -2614,15 +2614,15 @@
   ]
  ],
  "meta": {
-  "updated": "08.10.2026 13:25",
+  "updated": "09.10.2026 13:22",
   "url": null,
   "profile": "Raspberry",
   "players": {
    "relaxo": "Relaxo_GX",
    "amin": "ReverseAmin"
   },
-  "updatedDate": "2026-10-08",
-  "updatedAt": "2026-10-08T11:25:58.547Z",
+  "updatedDate": "2026-10-09",
+  "updatedAt": "2026-10-09T11:22:36.563Z",
   "reason": "automatisch",
   "sources": [
    "EliteBot API"
@@ -2632,7 +2632,7 @@
   [
    "Skill Average",
    34.8,
-   31.3
+   31.5
   ],
   [
    "Mining",
@@ -2642,7 +2642,7 @@
   [
    "Farming",
    47,
-   36
+   37
   ],
   [
    "Combat",
@@ -2656,7 +2656,7 @@
   ],
   [
    "Catacombs",
-   19,
+   20,
    18
   ],
   [
@@ -2666,18 +2666,18 @@
   ],
   [
    "Slayer XP",
-   "83 k",
+   "83.5 k",
    "6.4 k"
   ],
   [
    "Fairy Souls",
-   70,
+   71,
    189
   ],
   [
    "Networth",
-   "863 M",
-   "800 M"
+   "859 M",
+   "846 M"
   ]
  ],
  "MINING_GUIDE": {
