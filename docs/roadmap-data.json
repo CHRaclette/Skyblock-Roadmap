@@ -4,27 +4,27 @@
    "name": "Relaxo_GX",
    "stats": [
     [
-     "270",
+     "333",
      "Magical Power"
     ],
     [
-     "180",
+     "185",
      "SkyBlock Level"
     ],
     [
-     "859 M",
-     "Networth · 7,1 M Purse"
+     "883 M",
+     "Networth · 1,1 M Purse"
     ],
     [
-     "34.8",
+     "35.1",
      "Skill Average"
     ],
     [
      "20",
-     "Catacombs · Berserk 18"
+     "Catacombs · Berserk 19"
     ],
     [
-     "6·6·6·2·0·0",
+     "6·6·6·5·0·0",
      "Slayer Z·S·W·E·B·V"
     ],
     [
@@ -32,7 +32,7 @@
      "Fairy Souls"
     ],
     [
-     "431",
+     "434",
      "Farming Weight"
     ]
    ],
@@ -42,16 +42,6 @@
      "hi",
      "71 von 289 Fairy Souls",
      "1 gefundene sind noch nicht bei Tia eingelöst. Eintauschen gibt SkyBlock XP und Backpack-Slots."
-    ],
-    [
-     "hi",
-     "Accessory Power und Tuning prüfen",
-     "Power: Simple, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 27 Tuning-Punkte bei 270 MP."
-    ],
-    [
-     "hi",
-     "Nur 270 Magical Power",
-     "Im Tab Accessories stehen die günstigsten nächsten Accessories in Reihenfolge."
     ],
     [
      "hi",
@@ -66,7 +56,7 @@
     [
      "md",
      "Anita: Extra Farming Fortune auf 0",
-     "2 Gold-Medaillen vorhanden, jede Stufe gibt +4 Farming Fortune."
+     "3 Gold-Medaillen vorhanden, jede Stufe gibt +4 Farming Fortune."
     ],
     [
      "md",
@@ -77,6 +67,11 @@
      "lo",
      "Alchemy 14",
      "Günstigster Skill-Average-Boost mit Nether Wart aus den Sacks."
+    ],
+    [
+     "lo",
+     "Rift kaum besucht",
+     "0 Besuche, 9 von 52 Enigma Souls. Rift Prism gibt +11 MP."
     ]
    ],
    "phases": [
@@ -232,9 +227,9 @@
     ]
    ],
    "mp": {
-    "now": 270,
-    "t1": 350,
-    "t2": 465
+    "now": 333,
+    "t1": 413,
+    "t2": 528
    },
    "acc": [
     [
@@ -707,7 +702,7 @@
     ],
     [
      "Carpentry",
-     36,
+     37,
      50
     ],
     [
@@ -722,7 +717,7 @@
     ],
     [
      "Combat",
-     34,
+     35,
      60
     ],
     [
@@ -732,7 +727,7 @@
     ],
     [
      "Hunting",
-     19,
+     20,
      50
     ],
     [
@@ -741,7 +736,7 @@
      50
     ]
    ],
-   "sa": "Skill Average 34.8",
+   "sa": "Skill Average 35.1",
    "pets": [
     [
      "Mithril Golem",
@@ -812,7 +807,7 @@
     [
      "Tiger",
      "epic",
-     86,
+     90,
      ""
     ],
     [
@@ -880,7 +875,7 @@
    "extra": [
     [
      "Essence",
-     "Wither 24 · Undead 1'451 · Dragon 487 · Spider 577 · Ice 629 · Diamond 5'803 · Gold 10'701."
+     "Wither 114 · Undead 2'075 · Dragon 559 · Spider 660 · Ice 703 · Diamond 5'897 · Gold 10'833."
     ],
     [
      "Rift",
@@ -921,15 +916,15 @@
    "name": "ReverseAmin",
    "stats": [
     [
-     "172",
+     "217",
      "Magical Power"
     ],
     [
-     "166",
+     "167",
      "SkyBlock Level"
     ],
     [
-     "846 M",
+     "826 M",
      "Networth · 3,2 M Purse"
     ],
     [
@@ -963,11 +958,11 @@
     [
      "hi",
      "Accessory Power und Tuning prüfen",
-     "Power: Inspired, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 17 Tuning-Punkte bei 172 MP."
+     "Power: Silky, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 21 Tuning-Punkte bei 217 MP."
     ],
     [
      "hi",
-     "Nur 172 Magical Power",
+     "Nur 217 Magical Power",
      "Im Tab Accessories stehen die günstigsten nächsten Accessories in Reihenfolge."
     ],
     [
@@ -1143,9 +1138,9 @@
     ]
    ],
    "mp": {
-    "now": 172,
-    "t1": 260,
-    "t2": 380
+    "now": 217,
+    "t1": 305,
+    "t2": 425
    },
    "acc": [
     [
@@ -1624,16 +1619,16 @@
      "Farming, auf 100"
     ],
     [
+     "Armadillo",
+     "legendary",
+     66,
+     "Crystal Hollows"
+    ],
+    [
      "Ammonite",
      "legendary",
      64,
      "Fishing"
-    ],
-    [
-     "Armadillo",
-     "legendary",
-     58,
-     "Crystal Hollows"
     ],
     [
      "Grandma Wolf",
@@ -1676,6 +1671,12 @@
      "epic",
      98,
      "Enchanting"
+    ],
+    [
+     "Bee",
+     "epic",
+     85,
+     ""
     ],
     [
      "Mithril Golem",
@@ -1756,7 +1757,7 @@
      "Kat hochstufen"
     ]
    ],
-   "petcount": "25 Pets · Pet Score 92",
+   "petcount": "26 Pets · Pet Score 96",
    "extra": [
     [
      "Essence",
@@ -2171,7 +2172,7 @@
     "Mole": 151,
     "Seasoned Mineman": 21,
     "Core of the Mountain": 7,
-    "Keep It Cool": 1,
+    "Keep It Cool": 3,
     "Lonesome Miner": 45,
     "Great Explorer": 20,
     "Powder Buff": 50,
@@ -2179,9 +2180,12 @@
     "No Stone Unturned": 1,
     "Strong Arm": 1,
     "Steady Hand": 25,
-    "Blockhead": 1,
-    "Speedy Mineman": 1,
-    "Subterranean Fisher": 40
+    "Blockhead": 6,
+    "Speedy Mineman": 14,
+    "Subterranean Fisher": 40,
+    "Surveyor": 1,
+    "Warm Heart": 2,
+    "Fortunate Mineman": 15
    },
    "sum": "Alle 18 Tokens sind verteilt. Powder Buff, Great Explorer und Quick Forge sind maxed, Mole steht auf 144/200. Die Fortune- und Gemstone-Perks sind freigeschaltet, aber nur auf Stufe 1. Es fehlt also nur Powder, keine Tokens.",
    "next": [
@@ -2290,7 +2294,7 @@
    ],
    [
     "Plots",
-    "14 / 24",
+    "15 / 24",
     "+3 Farming Fortune pro Plot"
    ],
    [
@@ -2300,8 +2304,8 @@
    ],
    [
     "Visitors",
-    "131 erledigt",
-    "51 verschiedene"
+    "141 erledigt",
+    "52 verschiedene"
    ],
    [
     "Anita Extra Fortune",
@@ -2500,8 +2504,8 @@
    }
   },
   "copperBalance": {
-   "relaxo": 805,
-   "amin": 123
+   "relaxo": 993,
+   "amin": 174
   },
   "tierBought": 3,
   "tierMax": 9
@@ -2614,15 +2618,15 @@
   ]
  ],
  "meta": {
-  "updated": "09.10.2026 13:22",
+  "updated": "10.10.2026 12:39",
   "url": null,
   "profile": "Raspberry",
   "players": {
    "relaxo": "Relaxo_GX",
    "amin": "ReverseAmin"
   },
-  "updatedDate": "2026-10-09",
-  "updatedAt": "2026-10-09T11:22:36.563Z",
+  "updatedDate": "2026-10-10",
+  "updatedAt": "2026-10-10T10:39:41.640Z",
   "reason": "automatisch",
   "sources": [
    "EliteBot API"
@@ -2631,7 +2635,7 @@
  "VS": [
   [
    "Skill Average",
-   34.8,
+   35.1,
    31.5
   ],
   [
@@ -2646,7 +2650,7 @@
   ],
   [
    "Combat",
-   34,
+   35,
    31
   ],
   [
@@ -2661,12 +2665,12 @@
   ],
   [
    "Magical Power",
-   270,
-   172
+   333,
+   217
   ],
   [
    "Slayer XP",
-   "83.5 k",
+   "88.8 k",
    "6.4 k"
   ],
   [
@@ -2676,8 +2680,8 @@
   ],
   [
    "Networth",
-   "859 M",
-   "846 M"
+   "883 M",
+   "826 M"
   ]
  ],
  "MINING_GUIDE": {
