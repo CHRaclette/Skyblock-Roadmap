@@ -4,23 +4,23 @@
    "name": "Relaxo_GX",
    "stats": [
     [
-     "333",
+     "346",
      "Magical Power"
     ],
     [
-     "185",
+     "189",
      "SkyBlock Level"
     ],
     [
-     "883 M",
-     "Networth · 1,1 M Purse"
+     "959 M",
+     "Networth · 3,6 M Purse"
     ],
     [
-     "35.1",
+     "35.3",
      "Skill Average"
     ],
     [
-     "20",
+     "21",
      "Catacombs · Berserk 19"
     ],
     [
@@ -32,7 +32,7 @@
      "Fairy Souls"
     ],
     [
-     "434",
+     "496",
      "Farming Weight"
     ]
    ],
@@ -42,6 +42,11 @@
      "hi",
      "71 von 289 Fairy Souls",
      "1 gefundene sind noch nicht bei Tia eingelöst. Eintauschen gibt SkyBlock XP und Backpack-Slots."
+    ],
+    [
+     "hi",
+     "Accessory Power und Tuning prüfen",
+     "Power: Simple, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 34 Tuning-Punkte bei 346 MP."
     ],
     [
      "hi",
@@ -56,7 +61,7 @@
     [
      "md",
      "Anita: Extra Farming Fortune auf 0",
-     "3 Gold-Medaillen vorhanden, jede Stufe gibt +4 Farming Fortune."
+     "5 Gold-Medaillen vorhanden, jede Stufe gibt +4 Farming Fortune."
     ],
     [
      "md",
@@ -71,7 +76,7 @@
     [
      "lo",
      "Rift kaum besucht",
-     "0 Besuche, 9 von 52 Enigma Souls. Rift Prism gibt +11 MP."
+     "0 Besuche, 13 von 52 Enigma Souls. Rift Prism gibt +11 MP."
     ]
    ],
    "phases": [
@@ -227,9 +232,9 @@
     ]
    ],
    "mp": {
-    "now": 333,
-    "t1": 413,
-    "t2": 528
+    "now": 346,
+    "t1": 426,
+    "t2": 541
    },
    "acc": [
     [
@@ -692,8 +697,8 @@
     ],
     [
      "Farming",
-     47,
-     50
+     48,
+     51
     ],
     [
      "Mining",
@@ -717,7 +722,7 @@
     ],
     [
      "Combat",
-     35,
+     36,
      60
     ],
     [
@@ -736,7 +741,7 @@
      50
     ]
    ],
-   "sa": "Skill Average 35.1",
+   "sa": "Skill Average 35.3",
    "pets": [
     [
      "Mithril Golem",
@@ -755,6 +760,12 @@
      "legendary",
      100,
      "Yellow Bandana"
+    ],
+    [
+     "Bee",
+     "legendary",
+     84,
+     ""
     ],
     [
      "Armadillo",
@@ -825,11 +836,17 @@
     [
      "Enderman",
      "epic",
-     1,
+     60,
      ""
     ],
     [
      "Lion",
+     "epic",
+     1,
+     ""
+    ],
+    [
+     "Slug",
      "epic",
      1,
      ""
@@ -871,15 +888,15 @@
      ""
     ]
    ],
-   "petcount": "22 Pets · Pet Score 93",
+   "petcount": "24 Pets · Pet Score 99",
    "extra": [
     [
      "Essence",
-     "Wither 114 · Undead 2'075 · Dragon 559 · Spider 660 · Ice 703 · Diamond 5'897 · Gold 10'833."
+     "Wither 236 · Undead 2'667 · Dragon 651 · Spider 694 · Ice 767 · Diamond 5'997 · Gold 10'895."
     ],
     [
      "Rift",
-     "0 Besuche, 9 von 52 Enigma Souls."
+     "0 Besuche, 13 von 52 Enigma Souls."
     ],
     [
      "Consumables",
@@ -916,27 +933,27 @@
    "name": "ReverseAmin",
    "stats": [
     [
-     "217",
+     "225",
      "Magical Power"
     ],
     [
-     "167",
+     "170",
      "SkyBlock Level"
     ],
     [
-     "826 M",
-     "Networth · 3,2 M Purse"
+     "844 M",
+     "Networth · 0,5 M Purse"
     ],
     [
-     "31.5",
+     "31.6",
      "Skill Average"
     ],
     [
-     "18",
-     "Catacombs · Berserk 17"
+     "19",
+     "Catacombs · Archer 14"
     ],
     [
-     "4·3·4·2·0·0",
+     "4·3·5·2·0·0",
      "Slayer Z·S·W·E·B·V"
     ],
     [
@@ -944,7 +961,7 @@
      "Fairy Souls"
     ],
     [
-     "100",
+     "101",
      "Farming Weight"
     ]
    ],
@@ -958,11 +975,11 @@
     [
      "hi",
      "Accessory Power und Tuning prüfen",
-     "Power: Silky, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 21 Tuning-Punkte bei 217 MP."
+     "Power: Silky, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 22 Tuning-Punkte bei 225 MP."
     ],
     [
      "hi",
-     "Nur 217 Magical Power",
+     "Nur 225 Magical Power",
      "Im Tab Accessories stehen die günstigsten nächsten Accessories in Reihenfolge."
     ],
     [
@@ -988,7 +1005,7 @@
     [
      "md",
      "HotM-Kernperks auf Stufe 1",
-     "Mining Fortune, Professional, Efficient Miner brauchen Powder."
+     "Professional, Efficient Miner brauchen Powder."
     ]
    ],
    "phases": [
@@ -1138,9 +1155,9 @@
     ]
    ],
    "mp": {
-    "now": 217,
-    "t1": 305,
-    "t2": 425
+    "now": 225,
+    "t1": 313,
+    "t2": 433
    },
    "acc": [
     [
@@ -1554,7 +1571,7 @@
     ],
     [
      "Mining",
-     58,
+     59,
      60
     ],
     [
@@ -1598,7 +1615,7 @@
      50
     ]
    ],
-   "sa": "Skill Average 31.5",
+   "sa": "Skill Average 31.6",
    "pets": [
     [
      "Mithril Golem",
@@ -1615,13 +1632,13 @@
     [
      "Elephant",
      "legendary",
-     93,
+     94,
      "Farming, auf 100"
     ],
     [
      "Armadillo",
      "legendary",
-     66,
+     84,
      "Crystal Hollows"
     ],
     [
@@ -1755,13 +1772,19 @@
      "common",
      100,
      "Kat hochstufen"
+    ],
+    [
+     "Rabbit",
+     "common",
+     1,
+     ""
     ]
    ],
-   "petcount": "26 Pets · Pet Score 96",
+   "petcount": "27 Pets · Pet Score 97",
    "extra": [
     [
      "Essence",
-     "Wither 231 · Undead 1'863 · Dragon 341 · Spider 214 · Ice 380 · Diamond 3'829 · Gold 4'304."
+     "Wither 405 · Undead 2'502 · Dragon 428 · Spider 248 · Ice 444 · Diamond 3'932 · Gold 4'366."
     ],
     [
      "Rift",
@@ -2223,7 +2246,7 @@
    "levels": {
     "Mining Speed": 50,
     "Pickobulus": 1,
-    "Mining Fortune": 35,
+    "Mining Fortune": 45,
     "Titanium Insanium": 22,
     "Efficient Miner": 52,
     "Quick Forge": 20,
@@ -2240,8 +2263,8 @@
     "Speedy Mineman": 48,
     "Powder Buff": 50,
     "Miner's Blessing": 1,
-    "No Stone Unturned": 6,
-    "Steady Hand": 14,
+    "No Stone Unturned": 31,
+    "Steady Hand": 74,
     "Warm Heart": 20,
     "Gem Lover": 1,
     "Daily Grind": 1,
@@ -2251,7 +2274,7 @@
     "Luck of the Cave": 1,
     "Seasoned Mineman": 1,
     "Surveyor": 1,
-    "Strong Arm": 1,
+    "Strong Arm": 31,
     "Fortunate Mineman": 1
    },
    "sum": "Solides Gemstone-Setup: Mining Speed, Old-School, Great Explorer und Quick Forge maxed, Professional 58, Speedy Mineman 48. Für Tier 9 und Glacite fehlen noch Surveyor, Strong Arm, Metal Head und Rags to Riches.",
@@ -2304,8 +2327,8 @@
    ],
    [
     "Visitors",
-    "141 erledigt",
-    "52 verschiedene"
+    "168 erledigt",
+    "58 verschiedene"
    ],
    [
     "Anita Extra Fortune",
@@ -2504,7 +2527,7 @@
    }
   },
   "copperBalance": {
-   "relaxo": 993,
+   "relaxo": 155,
    "amin": 174
   },
   "tierBought": 3,
@@ -2618,15 +2641,15 @@
   ]
  ],
  "meta": {
-  "updated": "10.10.2026 12:39",
+  "updated": "11.10.2026 12:52",
   "url": null,
   "profile": "Raspberry",
   "players": {
    "relaxo": "Relaxo_GX",
    "amin": "ReverseAmin"
   },
-  "updatedDate": "2026-10-10",
-  "updatedAt": "2026-10-10T10:39:41.640Z",
+  "updatedDate": "2026-10-11",
+  "updatedAt": "2026-10-11T10:52:32.469Z",
   "reason": "automatisch",
   "sources": [
    "EliteBot API"
@@ -2635,22 +2658,22 @@
  "VS": [
   [
    "Skill Average",
-   35.1,
-   31.5
+   35.3,
+   31.6
   ],
   [
    "Mining",
    52,
-   58
+   59
   ],
   [
    "Farming",
-   47,
+   48,
    37
   ],
   [
    "Combat",
-   35,
+   36,
    31
   ],
   [
@@ -2660,18 +2683,18 @@
   ],
   [
    "Catacombs",
-   20,
-   18
+   21,
+   19
   ],
   [
    "Magical Power",
-   333,
-   217
+   346,
+   225
   ],
   [
    "Slayer XP",
    "88.8 k",
-   "6.4 k"
+   "9.4 k"
   ],
   [
    "Fairy Souls",
@@ -2680,8 +2703,8 @@
   ],
   [
    "Networth",
-   "883 M",
-   "826 M"
+   "959 M",
+   "844 M"
   ]
  ],
  "MINING_GUIDE": {
