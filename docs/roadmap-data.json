@@ -4,24 +4,24 @@
    "name": "Relaxo_GX",
    "stats": [
     [
-     "346",
+     "354",
      "Magical Power"
     ],
     [
-     "192",
+     "194",
      "SkyBlock Level"
     ],
     [
-     "1,34 B",
-     "Networth · 26,3 M Purse"
+     "953 M",
+     "Networth · 0,3 M Purse"
     ],
     [
      "35.6",
      "Skill Average"
     ],
     [
-     "21",
-     "Catacombs · Berserk 19"
+     "22",
+     "Catacombs · Berserk 20"
     ],
     [
      "6·6·6·5·0·0",
@@ -32,7 +32,7 @@
      "Fairy Souls"
     ],
     [
-     "496",
+     "498",
      "Farming Weight"
     ]
    ],
@@ -46,7 +46,7 @@
     [
      "hi",
      "Accessory Power und Tuning prüfen",
-     "Power: Simple, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 34 Tuning-Punkte bei 346 MP."
+     "Power: Silky, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 35 Tuning-Punkte bei 354 MP."
     ],
     [
      "hi",
@@ -76,7 +76,7 @@
     [
      "lo",
      "Rift kaum besucht",
-     "0 Besuche, 13 von 52 Enigma Souls. Rift Prism gibt +11 MP."
+     "0 Besuche, 16 von 52 Enigma Souls. Rift Prism gibt +11 MP."
     ]
    ],
    "phases": [
@@ -232,9 +232,9 @@
     ]
    ],
    "mp": {
-    "now": 346,
-    "t1": 426,
-    "t2": 541
+    "now": 354,
+    "t1": 434,
+    "t2": 549
    },
    "acc": [
     [
@@ -818,7 +818,7 @@
     [
      "Tiger",
      "epic",
-     90,
+     91,
      ""
     ],
     [
@@ -842,7 +842,7 @@
     [
      "Slug",
      "epic",
-     18,
+     29,
      ""
     ],
     [
@@ -860,7 +860,7 @@
     [
      "Mooshroom Cow",
      "rare",
-     1,
+     40,
      "Mushroom, leveln"
     ],
     [
@@ -892,11 +892,11 @@
    "extra": [
     [
      "Essence",
-     "Wither 236 · Undead 2'667 · Dragon 651 · Spider 694 · Ice 767 · Diamond 5'997 · Gold 10'895."
+     "Wither 66 · Undead 4'121 · Dragon 748 · Spider 820 · Ice 957 · Diamond 6'272 · Gold 11'029."
     ],
     [
      "Rift",
-     "0 Besuche, 13 von 52 Enigma Souls."
+     "0 Besuche, 16 von 52 Enigma Souls."
     ],
     [
      "Consumables",
@@ -933,16 +933,16 @@
    "name": "ReverseAmin",
    "stats": [
     [
-     "225",
+     "233",
      "Magical Power"
     ],
     [
-     "170",
+     "171",
      "SkyBlock Level"
     ],
     [
-     "475 M",
-     "Networth · 0,5 M Purse"
+     "458 M",
+     "Networth · 0,1 M Purse"
     ],
     [
      "31.6",
@@ -950,7 +950,7 @@
     ],
     [
      "19",
-     "Catacombs · Archer 14"
+     "Catacombs · Berserk 19"
     ],
     [
      "4·3·5·2·0·0",
@@ -975,11 +975,11 @@
     [
      "hi",
      "Accessory Power und Tuning prüfen",
-     "Power: Silky, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 22 Tuning-Punkte bei 225 MP."
+     "Power: Silky, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 23 Tuning-Punkte bei 233 MP."
     ],
     [
      "hi",
-     "Nur 225 Magical Power",
+     "Nur 233 Magical Power",
      "Im Tab Accessories stehen die günstigsten nächsten Accessories in Reihenfolge."
     ],
     [
@@ -1155,9 +1155,9 @@
     ]
    ],
    "mp": {
-    "now": 225,
-    "t1": 313,
-    "t2": 433
+    "now": 233,
+    "t1": 321,
+    "t2": 441
    },
    "acc": [
     [
@@ -1778,11 +1778,11 @@
    "extra": [
     [
      "Essence",
-     "Wither 405 · Undead 2'502 · Dragon 428 · Spider 248 · Ice 444 · Diamond 3'932 · Gold 4'366."
+     "Wither 4 · Undead 2'992 · Dragon 467 · Spider 318 · Ice 524 · Diamond 4'079 · Gold 4'440."
     ],
     [
      "Rift",
-     "0 Besuche, 0 von 52 Enigma Souls."
+     "0 Besuche, 7 von 52 Enigma Souls."
     ],
     [
      "Consumables",
@@ -2321,8 +2321,8 @@
    ],
    [
     "Visitors",
-    "178 erledigt",
-    "61 verschiedene"
+    "183 erledigt",
+    "62 verschiedene"
    ],
    [
     "Anita Extra Fortune",
@@ -2521,7 +2521,7 @@
    }
   },
   "copperBalance": {
-   "relaxo": 442,
+   "relaxo": 748,
    "amin": 174
   },
   "tierBought": 3,
@@ -2635,15 +2635,15 @@
   ]
  ],
  "meta": {
-  "updated": "12.10.2026 14:07",
+  "updated": "13.10.2026 13:53",
   "url": null,
   "profile": "Raspberry",
   "players": {
    "relaxo": "Relaxo_GX",
    "amin": "ReverseAmin"
   },
-  "updatedDate": "2026-10-12",
-  "updatedAt": "2026-10-12T12:07:24.551Z",
+  "updatedDate": "2026-10-13",
+  "updatedAt": "2026-10-13T11:53:07.829Z",
   "reason": "automatisch",
   "sources": [
    "EliteBot API"
@@ -2677,13 +2677,13 @@
   ],
   [
    "Catacombs",
-   21,
+   22,
    19
   ],
   [
    "Magical Power",
-   346,
-   225
+   354,
+   233
   ],
   [
    "Slayer XP",
@@ -2697,8 +2697,8 @@
   ],
   [
    "Networth",
-   "1,34 B",
-   "475 M"
+   "953 M",
+   "458 M"
   ]
  ],
  "MINING_GUIDE": {
