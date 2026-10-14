@@ -8,20 +8,20 @@
      "Magical Power"
     ],
     [
-     "194",
+     "195",
      "SkyBlock Level"
     ],
     [
-     "953 M",
-     "Networth · 0,3 M Purse"
+     "967 M",
+     "Networth · 0,0 M Purse"
     ],
     [
-     "35.6",
+     "35.7",
      "Skill Average"
     ],
     [
      "22",
-     "Catacombs · Berserk 20"
+     "Catacombs · Berserk 21"
     ],
     [
      "6·6·6·5·0·0",
@@ -46,7 +46,7 @@
     [
      "hi",
      "Accessory Power und Tuning prüfen",
-     "Power: Silky, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 35 Tuning-Punkte bei 354 MP."
+     "Power: Simple, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 35 Tuning-Punkte bei 354 MP."
     ],
     [
      "hi",
@@ -76,7 +76,7 @@
     [
      "lo",
      "Rift kaum besucht",
-     "0 Besuche, 16 von 52 Enigma Souls. Rift Prism gibt +11 MP."
+     "0 Besuche, 18 von 52 Enigma Souls. Rift Prism gibt +11 MP."
     ]
    ],
    "phases": [
@@ -722,7 +722,7 @@
     ],
     [
      "Combat",
-     36,
+     37,
      60
     ],
     [
@@ -741,7 +741,7 @@
      50
     ]
    ],
-   "sa": "Skill Average 35.6",
+   "sa": "Skill Average 35.7",
    "pets": [
     [
      "Mithril Golem",
@@ -818,7 +818,7 @@
     [
      "Tiger",
      "epic",
-     91,
+     94,
      ""
     ],
     [
@@ -842,7 +842,7 @@
     [
      "Slug",
      "epic",
-     29,
+     39,
      ""
     ],
     [
@@ -892,11 +892,11 @@
    "extra": [
     [
      "Essence",
-     "Wither 66 · Undead 4'121 · Dragon 748 · Spider 820 · Ice 957 · Diamond 6'272 · Gold 11'029."
+     "Wither 212 · Undead 5'125 · Dragon 817 · Spider 929 · Ice 1'072 · Diamond 6'380 · Gold 11'104."
     ],
     [
      "Rift",
-     "0 Besuche, 16 von 52 Enigma Souls."
+     "0 Besuche, 18 von 52 Enigma Souls."
     ],
     [
      "Consumables",
@@ -2321,7 +2321,7 @@
    ],
    [
     "Visitors",
-    "183 erledigt",
+    "185 erledigt",
     "62 verschiedene"
    ],
    [
@@ -2521,7 +2521,7 @@
    }
   },
   "copperBalance": {
-   "relaxo": 748,
+   "relaxo": 790,
    "amin": 174
   },
   "tierBought": 3,
@@ -2635,15 +2635,15 @@
   ]
  ],
  "meta": {
-  "updated": "13.10.2026 13:53",
+  "updated": "14.10.2026 11:34",
   "url": null,
   "profile": "Raspberry",
   "players": {
    "relaxo": "Relaxo_GX",
    "amin": "ReverseAmin"
   },
-  "updatedDate": "2026-10-13",
-  "updatedAt": "2026-10-13T11:53:07.829Z",
+  "updatedDate": "2026-10-14",
+  "updatedAt": "2026-10-14T09:34:27.657Z",
   "reason": "automatisch",
   "sources": [
    "EliteBot API"
@@ -2652,7 +2652,7 @@
  "VS": [
   [
    "Skill Average",
-   35.6,
+   35.7,
    31.6
   ],
   [
@@ -2667,7 +2667,7 @@
   ],
   [
    "Combat",
-   36,
+   37,
    31
   ],
   [
@@ -2697,7 +2697,7 @@
   ],
   [
    "Networth",
-   "953 M",
+   "967 M",
    "458 M"
   ]
  ],
