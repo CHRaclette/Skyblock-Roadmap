@@ -12,7 +12,7 @@
      "SkyBlock Level"
     ],
     [
-     "967 M",
+     "982 M",
      "Networth · 0,0 M Purse"
     ],
     [
@@ -46,7 +46,7 @@
     [
      "hi",
      "Accessory Power und Tuning prüfen",
-     "Power: Simple, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 35 Tuning-Punkte bei 354 MP."
+     "Power: Silky, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 35 Tuning-Punkte bei 354 MP."
     ],
     [
      "hi",
@@ -2635,15 +2635,15 @@
   ]
  ],
  "meta": {
-  "updated": "14.10.2026 11:34",
+  "updated": "15.10.2026 11:12",
   "url": null,
   "profile": "Raspberry",
   "players": {
    "relaxo": "Relaxo_GX",
    "amin": "ReverseAmin"
   },
-  "updatedDate": "2026-10-14",
-  "updatedAt": "2026-10-14T09:34:27.657Z",
+  "updatedDate": "2026-10-15",
+  "updatedAt": "2026-10-15T09:12:25.433Z",
   "reason": "automatisch",
   "sources": [
    "EliteBot API"
@@ -2697,7 +2697,7 @@
   ],
   [
    "Networth",
-   "967 M",
+   "982 M",
    "458 M"
   ]
  ],
