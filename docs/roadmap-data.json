@@ -8,11 +8,11 @@
      "Magical Power"
     ],
     [
-     "195",
+     "196",
      "SkyBlock Level"
     ],
     [
-     "982 M",
+     "999 M",
      "Networth · 0,0 M Purse"
     ],
     [
@@ -32,7 +32,7 @@
      "Fairy Souls"
     ],
     [
-     "498",
+     "504",
      "Farming Weight"
     ]
    ],
@@ -46,7 +46,7 @@
     [
      "hi",
      "Accessory Power und Tuning prüfen",
-     "Power: Silky, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 35 Tuning-Punkte bei 354 MP."
+     "Power: Simple, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 35 Tuning-Punkte bei 354 MP."
     ],
     [
      "hi",
@@ -76,7 +76,7 @@
     [
      "lo",
      "Rift kaum besucht",
-     "0 Besuche, 18 von 52 Enigma Souls. Rift Prism gibt +11 MP."
+     "0 Besuche, 21 von 52 Enigma Souls. Rift Prism gibt +11 MP."
     ]
    ],
    "phases": [
@@ -896,7 +896,7 @@
     ],
     [
      "Rift",
-     "0 Besuche, 18 von 52 Enigma Souls."
+     "0 Besuche, 21 von 52 Enigma Souls."
     ],
     [
      "Consumables",
@@ -2321,7 +2321,7 @@
    ],
    [
     "Visitors",
-    "185 erledigt",
+    "186 erledigt",
     "62 verschiedene"
    ],
    [
@@ -2521,7 +2521,7 @@
    }
   },
   "copperBalance": {
-   "relaxo": 790,
+   "relaxo": 164,
    "amin": 174
   },
   "tierBought": 3,
@@ -2635,15 +2635,15 @@
   ]
  ],
  "meta": {
-  "updated": "15.10.2026 11:12",
+  "updated": "16.10.2026 11:04",
   "url": null,
   "profile": "Raspberry",
   "players": {
    "relaxo": "Relaxo_GX",
    "amin": "ReverseAmin"
   },
-  "updatedDate": "2026-10-15",
-  "updatedAt": "2026-10-15T09:12:25.433Z",
+  "updatedDate": "2026-10-16",
+  "updatedAt": "2026-10-16T09:04:58.706Z",
   "reason": "automatisch",
   "sources": [
    "EliteBot API"
@@ -2697,7 +2697,7 @@
   ],
   [
    "Networth",
-   "982 M",
+   "999 M",
    "458 M"
   ]
  ],
