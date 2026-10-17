@@ -8,19 +8,19 @@
      "Magical Power"
     ],
     [
-     "196",
+     "197",
      "SkyBlock Level"
     ],
     [
-     "999 M",
-     "Networth · 0,0 M Purse"
+     "1,01 B",
+     "Networth · 3,1 M Purse"
     ],
     [
-     "35.7",
+     "35.9",
      "Skill Average"
     ],
     [
-     "22",
+     "23",
      "Catacombs · Berserk 21"
     ],
     [
@@ -32,7 +32,7 @@
      "Fairy Souls"
     ],
     [
-     "504",
+     "511",
      "Farming Weight"
     ]
    ],
@@ -46,7 +46,7 @@
     [
      "hi",
      "Accessory Power und Tuning prüfen",
-     "Power: Simple, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 35 Tuning-Punkte bei 354 MP."
+     "Power: Silky, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 35 Tuning-Punkte bei 354 MP."
     ],
     [
      "hi",
@@ -61,7 +61,7 @@
     [
      "md",
      "Anita: Extra Farming Fortune auf 0",
-     "5 Gold-Medaillen vorhanden, jede Stufe gibt +4 Farming Fortune."
+     "6 Gold-Medaillen vorhanden, jede Stufe gibt +4 Farming Fortune."
     ],
     [
      "md",
@@ -76,7 +76,7 @@
     [
      "lo",
      "Rift kaum besucht",
-     "0 Besuche, 21 von 52 Enigma Souls. Rift Prism gibt +11 MP."
+     "0 Besuche, 23 von 52 Enigma Souls. Rift Prism gibt +11 MP."
     ]
    ],
    "phases": [
@@ -692,12 +692,12 @@
    "skills": [
     [
      "Taming",
-     50,
-     50
+     51,
+     51
     ],
     [
      "Farming",
-     48,
+     49,
      51
     ],
     [
@@ -741,7 +741,7 @@
      50
     ]
    ],
-   "sa": "Skill Average 35.7",
+   "sa": "Skill Average 35.9",
    "pets": [
     [
      "Mithril Golem",
@@ -842,7 +842,7 @@
     [
      "Slug",
      "epic",
-     39,
+     43,
      ""
     ],
     [
@@ -884,7 +884,7 @@
     [
      "Hermit Crab",
      "common",
-     1,
+     37,
      ""
     ]
    ],
@@ -892,11 +892,11 @@
    "extra": [
     [
      "Essence",
-     "Wither 212 · Undead 5'125 · Dragon 817 · Spider 929 · Ice 1'072 · Diamond 6'380 · Gold 11'104."
+     "Wither 257 · Undead 5'699 · Dragon 895 · Spider 993 · Ice 1'154 · Diamond 6'485 · Gold 11'179."
     ],
     [
      "Rift",
-     "0 Besuche, 21 von 52 Enigma Souls."
+     "0 Besuche, 23 von 52 Enigma Souls."
     ],
     [
      "Consumables",
@@ -937,27 +937,27 @@
      "Magical Power"
     ],
     [
-     "171",
+     "172",
      "SkyBlock Level"
     ],
     [
-     "458 M",
-     "Networth · 0,1 M Purse"
+     "456 M",
+     "Networth · 0,7 M Purse"
     ],
     [
-     "31.6",
+     "31.7",
      "Skill Average"
     ],
     [
-     "19",
-     "Catacombs · Berserk 19"
+     "20",
+     "Catacombs · Berserk 20"
     ],
     [
      "4·3·5·2·0·0",
      "Slayer Z·S·W·E·B·V"
     ],
     [
-     "189/289",
+     "190/289",
      "Fairy Souls"
     ],
     [
@@ -969,8 +969,8 @@
    "diag": [
     [
      "hi",
-     "189 von 289 Fairy Souls",
-     "14 gefundene sind noch nicht bei Tia eingelöst. Eintauschen gibt SkyBlock XP und Backpack-Slots."
+     "190 von 289 Fairy Souls",
+     "15 gefundene sind noch nicht bei Tia eingelöst. Eintauschen gibt SkyBlock XP und Backpack-Slots."
     ],
     [
      "hi",
@@ -1591,7 +1591,7 @@
     ],
     [
      "Combat",
-     31,
+     32,
      60
     ],
     [
@@ -1615,7 +1615,7 @@
      50
     ]
    ],
-   "sa": "Skill Average 31.6",
+   "sa": "Skill Average 31.7",
    "pets": [
     [
      "Mithril Golem",
@@ -1744,6 +1744,12 @@
      "Pet Score"
     ],
     [
+     "Rabbit",
+     "rare",
+     1,
+     ""
+    ],
+    [
      "Monkey",
      "uncommon",
      87,
@@ -1774,11 +1780,11 @@
      "Kat hochstufen"
     ]
    ],
-   "petcount": "26 Pets · Pet Score 97",
+   "petcount": "27 Pets · Pet Score 99",
    "extra": [
     [
      "Essence",
-     "Wither 4 · Undead 2'992 · Dragon 467 · Spider 318 · Ice 524 · Diamond 4'079 · Gold 4'440."
+     "Wither 113 · Undead 524 · Dragon 532 · Spider 378 · Ice 593 · Diamond 4'170 · Gold 4'503."
     ],
     [
      "Rift",
@@ -2521,7 +2527,7 @@
    }
   },
   "copperBalance": {
-   "relaxo": 164,
+   "relaxo": 133,
    "amin": 174
   },
   "tierBought": 3,
@@ -2635,15 +2641,15 @@
   ]
  ],
  "meta": {
-  "updated": "16.10.2026 11:04",
+  "updated": "17.10.2026 10:37",
   "url": null,
   "profile": "Raspberry",
   "players": {
    "relaxo": "Relaxo_GX",
    "amin": "ReverseAmin"
   },
-  "updatedDate": "2026-10-16",
-  "updatedAt": "2026-10-16T09:04:58.706Z",
+  "updatedDate": "2026-10-17",
+  "updatedAt": "2026-10-17T08:37:58.692Z",
   "reason": "automatisch",
   "sources": [
    "EliteBot API"
@@ -2652,8 +2658,8 @@
  "VS": [
   [
    "Skill Average",
-   35.7,
-   31.6
+   35.9,
+   31.7
   ],
   [
    "Mining",
@@ -2662,13 +2668,13 @@
   ],
   [
    "Farming",
-   48,
+   49,
    37
   ],
   [
    "Combat",
    37,
-   31
+   32
   ],
   [
    "Enchanting",
@@ -2677,8 +2683,8 @@
   ],
   [
    "Catacombs",
-   22,
-   19
+   23,
+   20
   ],
   [
    "Magical Power",
@@ -2693,12 +2699,12 @@
   [
    "Fairy Souls",
    71,
-   189
+   190
   ],
   [
    "Networth",
-   "999 M",
-   "458 M"
+   "1,01 B",
+   "456 M"
   ]
  ],
  "MINING_GUIDE": {
