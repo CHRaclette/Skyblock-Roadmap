@@ -8,12 +8,12 @@
      "Magical Power"
     ],
     [
-     "197",
+     "198",
      "SkyBlock Level"
     ],
     [
-     "1,01 B",
-     "Networth · 3,1 M Purse"
+     "1,02 B",
+     "Networth · 1,7 M Purse"
     ],
     [
      "35.9",
@@ -21,7 +21,7 @@
     ],
     [
      "23",
-     "Catacombs · Berserk 21"
+     "Catacombs · Berserk 22"
     ],
     [
      "6·6·6·5·0·0",
@@ -818,7 +818,7 @@
     [
      "Tiger",
      "epic",
-     94,
+     95,
      ""
     ],
     [
@@ -836,7 +836,7 @@
     [
      "Enderman",
      "epic",
-     60,
+     67,
      ""
     ],
     [
@@ -888,11 +888,11 @@
      ""
     ]
    ],
-   "petcount": "24 Pets · Pet Score 99",
+   "petcount": "24 Pets · Pet Score 100",
    "extra": [
     [
      "Essence",
-     "Wither 257 · Undead 5'699 · Dragon 895 · Spider 993 · Ice 1'154 · Diamond 6'485 · Gold 11'179."
+     "Wither 25 · Undead 6'293 · Dragon 1'063 · Spider 1'027 · Ice 1'229 · Diamond 6'519 · Gold 11'250."
     ],
     [
      "Rift",
@@ -933,7 +933,7 @@
    "name": "ReverseAmin",
    "stats": [
     [
-     "233",
+     "241",
      "Magical Power"
     ],
     [
@@ -941,8 +941,8 @@
      "SkyBlock Level"
     ],
     [
-     "456 M",
-     "Networth · 0,7 M Purse"
+     "468 M",
+     "Networth · 0,6 M Purse"
     ],
     [
      "31.7",
@@ -975,11 +975,11 @@
     [
      "hi",
      "Accessory Power und Tuning prüfen",
-     "Power: Silky, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 23 Tuning-Punkte bei 233 MP."
+     "Power: Silky, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 24 Tuning-Punkte bei 241 MP."
     ],
     [
      "hi",
-     "Nur 233 Magical Power",
+     "Nur 241 Magical Power",
      "Im Tab Accessories stehen die günstigsten nächsten Accessories in Reihenfolge."
     ],
     [
@@ -1155,9 +1155,9 @@
     ]
    ],
    "mp": {
-    "now": 233,
-    "t1": 321,
-    "t2": 441
+    "now": 241,
+    "t1": 329,
+    "t2": 449
    },
    "acc": [
     [
@@ -1784,7 +1784,7 @@
    "extra": [
     [
      "Essence",
-     "Wither 113 · Undead 524 · Dragon 532 · Spider 378 · Ice 593 · Diamond 4'170 · Gold 4'503."
+     "Wither 102 · Undead 1'002 · Dragon 586 · Spider 388 · Ice 617 · Diamond 4'188 · Gold 4'567."
     ],
     [
      "Rift",
@@ -2327,8 +2327,8 @@
    ],
    [
     "Visitors",
-    "186 erledigt",
-    "62 verschiedene"
+    "205 erledigt",
+    "65 verschiedene"
    ],
    [
     "Anita Extra Fortune",
@@ -2527,7 +2527,7 @@
    }
   },
   "copperBalance": {
-   "relaxo": 133,
+   "relaxo": 308,
    "amin": 174
   },
   "tierBought": 3,
@@ -2641,15 +2641,15 @@
   ]
  ],
  "meta": {
-  "updated": "17.10.2026 10:37",
+  "updated": "18.10.2026 10:53",
   "url": null,
   "profile": "Raspberry",
   "players": {
    "relaxo": "Relaxo_GX",
    "amin": "ReverseAmin"
   },
-  "updatedDate": "2026-10-17",
-  "updatedAt": "2026-10-17T08:37:58.692Z",
+  "updatedDate": "2026-10-18",
+  "updatedAt": "2026-10-18T08:53:49.230Z",
   "reason": "automatisch",
   "sources": [
    "EliteBot API"
@@ -2689,11 +2689,11 @@
   [
    "Magical Power",
    354,
-   233
+   241
   ],
   [
    "Slayer XP",
-   "88.8 k",
+   "91 k",
    "9.4 k"
   ],
   [
@@ -2703,8 +2703,8 @@
   ],
   [
    "Networth",
-   "1,01 B",
-   "456 M"
+   "1,02 B",
+   "468 M"
   ]
  ],
  "MINING_GUIDE": {
