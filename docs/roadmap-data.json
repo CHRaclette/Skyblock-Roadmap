@@ -12,8 +12,8 @@
      "SkyBlock Level"
     ],
     [
-     "1,02 B",
-     "Networth · 1,7 M Purse"
+     "1,01 B",
+     "Networth · 25,7 M Purse"
     ],
     [
      "35.9",
@@ -46,7 +46,7 @@
     [
      "hi",
      "Accessory Power und Tuning prüfen",
-     "Power: Silky, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 35 Tuning-Punkte bei 354 MP."
+     "Power: Simple, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 35 Tuning-Punkte bei 354 MP."
     ],
     [
      "hi",
@@ -842,7 +842,7 @@
     [
      "Slug",
      "epic",
-     43,
+     44,
      ""
     ],
     [
@@ -2327,7 +2327,7 @@
    ],
    [
     "Visitors",
-    "205 erledigt",
+    "206 erledigt",
     "65 verschiedene"
    ],
    [
@@ -2527,7 +2527,7 @@
    }
   },
   "copperBalance": {
-   "relaxo": 308,
+   "relaxo": 336,
    "amin": 174
   },
   "tierBought": 3,
@@ -2641,15 +2641,15 @@
   ]
  ],
  "meta": {
-  "updated": "18.10.2026 10:53",
+  "updated": "19.10.2026 11:59",
   "url": null,
   "profile": "Raspberry",
   "players": {
    "relaxo": "Relaxo_GX",
    "amin": "ReverseAmin"
   },
-  "updatedDate": "2026-10-18",
-  "updatedAt": "2026-10-18T08:53:49.230Z",
+  "updatedDate": "2026-10-19",
+  "updatedAt": "2026-10-19T09:59:44.113Z",
   "reason": "automatisch",
   "sources": [
    "EliteBot API"
@@ -2703,7 +2703,7 @@
   ],
   [
    "Networth",
-   "1,02 B",
+   "1,01 B",
    "468 M"
   ]
  ],
