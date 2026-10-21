@@ -8,15 +8,15 @@
      "Magical Power"
     ],
     [
-     "200",
+     "201",
      "SkyBlock Level"
     ],
     [
-     "1,33 B",
-     "Networth · 18,1 M Purse"
+     "1,38 B",
+     "Networth · 16,6 M Purse"
     ],
     [
-     "35.9",
+     "36",
      "Skill Average"
     ],
     [
@@ -32,7 +32,7 @@
      "Fairy Souls"
     ],
     [
-     "511",
+     "515",
      "Farming Weight"
     ]
    ],
@@ -46,7 +46,7 @@
     [
      "hi",
      "Accessory Power und Tuning prüfen",
-     "Power: Silky, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 35 Tuning-Punkte bei 354 MP."
+     "Power: Simple, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 35 Tuning-Punkte bei 354 MP."
     ],
     [
      "hi",
@@ -76,7 +76,7 @@
     [
      "lo",
      "Rift kaum besucht",
-     "0 Besuche, 24 von 52 Enigma Souls. Rift Prism gibt +11 MP."
+     "0 Besuche, 25 von 52 Enigma Souls. Rift Prism gibt +11 MP."
     ]
    ],
    "phases": [
@@ -702,7 +702,7 @@
     ],
     [
      "Mining",
-     54,
+     55,
      60
     ],
     [
@@ -741,7 +741,7 @@
      50
     ]
    ],
-   "sa": "Skill Average 35.9",
+   "sa": "Skill Average 36",
    "pets": [
     [
      "Mithril Golem",
@@ -864,6 +864,12 @@
      "Mushroom, leveln"
     ],
     [
+     "Glacite Golem",
+     "uncommon",
+     91,
+     ""
+    ],
+    [
      "Monkey",
      "uncommon",
      85,
@@ -888,15 +894,15 @@
      "ersetzt"
     ]
    ],
-   "petcount": "24 Pets · Pet Score 100",
+   "petcount": "25 Pets · Pet Score 102",
    "extra": [
     [
      "Essence",
-     "Wither 173 · Undead 6'685 · Dragon 1'080 · Spider 1'047 · Ice 1'264 · Diamond 6'559 · Gold 11'284."
+     "Wither 173 · Undead 6'685 · Dragon 1'080 · Spider 1'047 · Ice 1'264 · Diamond 6'559 · Gold 11'286."
     ],
     [
      "Rift",
-     "0 Besuche, 24 von 52 Enigma Souls."
+     "0 Besuche, 25 von 52 Enigma Souls."
     ],
     [
      "Consumables",
@@ -937,15 +943,15 @@
      "Magical Power"
     ],
     [
-     "174",
+     "175",
      "SkyBlock Level"
     ],
     [
-     "449 M",
-     "Networth · 1,1 M Purse"
+     "465 M",
+     "Networth · 1,8 M Purse"
     ],
     [
-     "31.8",
+     "31.9",
      "Skill Average"
     ],
     [
@@ -961,7 +967,7 @@
      "Fairy Souls"
     ],
     [
-     "105",
+     "122",
      "Farming Weight"
     ]
    ],
@@ -1576,7 +1582,7 @@
     ],
     [
      "Farming",
-     38,
+     39,
      50
     ],
     [
@@ -1615,7 +1621,7 @@
      50
     ]
    ],
-   "sa": "Skill Average 31.8",
+   "sa": "Skill Average 31.9",
    "pets": [
     [
      "Mithril Golem",
@@ -1728,20 +1734,20 @@
     [
      "Rabbit",
      "rare",
-     72,
+     87,
      ""
+    ],
+    [
+     "Mooshroom Cow",
+     "rare",
+     57,
+     "Mushroom"
     ],
     [
      "Enderman",
      "rare",
      53,
      "Enderman Slayer, Kat"
-    ],
-    [
-     "Mooshroom Cow",
-     "rare",
-     53,
-     "Mushroom"
     ],
     [
      "Chicken",
@@ -2188,9 +2194,9 @@
     "Pickobulus": 1,
     "Mining Fortune": 1,
     "Titanium Insanium": 1,
-    "Efficient Miner": 43,
+    "Efficient Miner": 51,
     "Quick Forge": 20,
-    "Old-School": 1,
+    "Old-School": 20,
     "Professional": 1,
     "Mole": 151,
     "Seasoned Mineman": 21,
@@ -2200,15 +2206,16 @@
     "Great Explorer": 20,
     "Powder Buff": 50,
     "Miner's Blessing": 1,
-    "No Stone Unturned": 11,
-    "Strong Arm": 1,
+    "No Stone Unturned": 23,
+    "Strong Arm": 51,
     "Steady Hand": 26,
-    "Blockhead": 6,
+    "Blockhead": 20,
     "Speedy Mineman": 14,
     "Subterranean Fisher": 40,
     "Surveyor": 1,
     "Warm Heart": 33,
-    "Fortunate Mineman": 15
+    "Fortunate Mineman": 15,
+    "Precision Mining": 1
    },
    "sum": "Alle 18 Tokens sind verteilt. Powder Buff, Great Explorer und Quick Forge sind maxed, Mole steht auf 144/200. Die Fortune- und Gemstone-Perks sind freigeschaltet, aber nur auf Stufe 1. Es fehlt also nur Powder, keine Tokens.",
    "next": [
@@ -2327,7 +2334,7 @@
    ],
    [
     "Visitors",
-    "206 erledigt",
+    "207 erledigt",
     "65 verschiedene"
    ],
    [
@@ -2528,7 +2535,7 @@
   },
   "copperBalance": {
    "relaxo": 336,
-   "amin": 174
+   "amin": 200
   },
   "tierBought": 3,
   "tierMax": 9
@@ -2641,15 +2648,15 @@
   ]
  ],
  "meta": {
-  "updated": "20.10.2026 11:29",
+  "updated": "21.10.2026 11:24",
   "url": null,
   "profile": "Raspberry",
   "players": {
    "relaxo": "Relaxo_GX",
    "amin": "ReverseAmin"
   },
-  "updatedDate": "2026-10-20",
-  "updatedAt": "2026-10-20T09:29:09.410Z",
+  "updatedDate": "2026-10-21",
+  "updatedAt": "2026-10-21T09:24:51.691Z",
   "reason": "automatisch",
   "sources": [
    "EliteBot API"
@@ -2658,18 +2665,18 @@
  "VS": [
   [
    "Skill Average",
-   35.9,
-   31.8
+   36,
+   31.9
   ],
   [
    "Mining",
-   54,
+   55,
    59
   ],
   [
    "Farming",
    49,
-   38
+   39
   ],
   [
    "Combat",
@@ -2703,8 +2710,8 @@
   ],
   [
    "Networth",
-   "1,33 B",
-   "449 M"
+   "1,38 B",
+   "465 M"
   ]
  ],
  "MINING_GUIDE": {
