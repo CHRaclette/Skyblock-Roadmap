@@ -8,15 +8,15 @@
      "Magical Power"
     ],
     [
-     "201",
+     "203",
      "SkyBlock Level"
     ],
     [
-     "1,38 B",
-     "Networth · 16,6 M Purse"
+     "1,40 B",
+     "Networth · 12,9 M Purse"
     ],
     [
-     "36",
+     "36.1",
      "Skill Average"
     ],
     [
@@ -24,7 +24,7 @@
      "Catacombs · Berserk 22"
     ],
     [
-     "6·6·6·5·0·0",
+     "6·6·7·5·0·0",
      "Slayer Z·S·W·E·B·V"
     ],
     [
@@ -46,7 +46,7 @@
     [
      "hi",
      "Accessory Power und Tuning prüfen",
-     "Power: Simple, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 35 Tuning-Punkte bei 354 MP."
+     "Power: Silky, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 35 Tuning-Punkte bei 354 MP."
     ],
     [
      "hi",
@@ -76,7 +76,7 @@
     [
      "lo",
      "Rift kaum besucht",
-     "0 Besuche, 25 von 52 Enigma Souls. Rift Prism gibt +11 MP."
+     "0 Besuche, 28 von 52 Enigma Souls. Rift Prism gibt +11 MP."
     ]
    ],
    "phases": [
@@ -722,7 +722,7 @@
     ],
     [
      "Combat",
-     37,
+     38,
      60
     ],
     [
@@ -741,7 +741,7 @@
      50
     ]
    ],
-   "sa": "Skill Average 36",
+   "sa": "Skill Average 36.1",
    "pets": [
     [
      "Mithril Golem",
@@ -782,7 +782,7 @@
     [
      "Wolf",
      "legendary",
-     64,
+     70,
      ""
     ],
     [
@@ -852,6 +852,12 @@
      ""
     ],
     [
+     "Hound",
+     "epic",
+     1,
+     ""
+    ],
+    [
      "Griffin",
      "rare",
      91,
@@ -894,7 +900,7 @@
      "ersetzt"
     ]
    ],
-   "petcount": "25 Pets · Pet Score 102",
+   "petcount": "26 Pets · Pet Score 106",
    "extra": [
     [
      "Essence",
@@ -902,7 +908,7 @@
     ],
     [
      "Rift",
-     "0 Besuche, 25 von 52 Enigma Souls."
+     "0 Besuche, 28 von 52 Enigma Souls."
     ],
     [
      "Consumables",
@@ -947,15 +953,15 @@
      "SkyBlock Level"
     ],
     [
-     "465 M",
-     "Networth · 1,8 M Purse"
+     "475 M",
+     "Networth · 11,5 M Purse"
     ],
     [
-     "31.9",
+     "32",
      "Skill Average"
     ],
     [
-     "20",
+     "21",
      "Catacombs · Berserk 20"
     ],
     [
@@ -963,11 +969,11 @@
      "Slayer Z·S·W·E·B·V"
     ],
     [
-     "190/289",
+     "191/289",
      "Fairy Souls"
     ],
     [
-     "122",
+     "124",
      "Farming Weight"
     ]
    ],
@@ -975,8 +981,8 @@
    "diag": [
     [
      "hi",
-     "190 von 289 Fairy Souls",
-     "15 gefundene sind noch nicht bei Tia eingelöst. Eintauschen gibt SkyBlock XP und Backpack-Slots."
+     "191 von 289 Fairy Souls",
+     "16 gefundene sind noch nicht bei Tia eingelöst. Eintauschen gibt SkyBlock XP und Backpack-Slots."
     ],
     [
      "hi",
@@ -1612,7 +1618,7 @@
     ],
     [
      "Hunting",
-     17,
+     18,
      50
     ],
     [
@@ -1621,7 +1627,7 @@
      50
     ]
    ],
-   "sa": "Skill Average 31.9",
+   "sa": "Skill Average 32",
    "pets": [
     [
      "Mithril Golem",
@@ -1734,7 +1740,7 @@
     [
      "Rabbit",
      "rare",
-     87,
+     89,
      ""
     ],
     [
@@ -1790,7 +1796,7 @@
    "extra": [
     [
      "Essence",
-     "Wither 102 · Undead 1'002 · Dragon 586 · Spider 388 · Ice 617 · Diamond 4'188 · Gold 4'567."
+     "Wither 158 · Undead 1'179 · Dragon 615 · Spider 399 · Ice 642 · Diamond 4'191 · Gold 4'634."
     ],
     [
      "Rift",
@@ -2334,7 +2340,7 @@
    ],
    [
     "Visitors",
-    "207 erledigt",
+    "209 erledigt",
     "65 verschiedene"
    ],
    [
@@ -2535,7 +2541,7 @@
   },
   "copperBalance": {
    "relaxo": 336,
-   "amin": 200
+   "amin": 299
   },
   "tierBought": 3,
   "tierMax": 9
@@ -2648,15 +2654,15 @@
   ]
  ],
  "meta": {
-  "updated": "21.10.2026 11:24",
+  "updated": "22.10.2026 11:27",
   "url": null,
   "profile": "Raspberry",
   "players": {
    "relaxo": "Relaxo_GX",
    "amin": "ReverseAmin"
   },
-  "updatedDate": "2026-10-21",
-  "updatedAt": "2026-10-21T09:24:51.691Z",
+  "updatedDate": "2026-10-22",
+  "updatedAt": "2026-10-22T09:27:45.510Z",
   "reason": "automatisch",
   "sources": [
    "EliteBot API"
@@ -2665,8 +2671,8 @@
  "VS": [
   [
    "Skill Average",
-   36,
-   31.9
+   36.1,
+   32
   ],
   [
    "Mining",
@@ -2680,7 +2686,7 @@
   ],
   [
    "Combat",
-   37,
+   38,
    32
   ],
   [
@@ -2691,7 +2697,7 @@
   [
    "Catacombs",
    24,
-   20
+   21
   ],
   [
    "Magical Power",
@@ -2700,18 +2706,18 @@
   ],
   [
    "Slayer XP",
-   "113 k",
+   "159 k",
    "9.4 k"
   ],
   [
    "Fairy Souls",
    71,
-   190
+   191
   ],
   [
    "Networth",
-   "1,38 B",
-   "465 M"
+   "1,40 B",
+   "475 M"
   ]
  ],
  "MINING_GUIDE": {
