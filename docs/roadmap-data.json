@@ -12,7 +12,7 @@
      "SkyBlock Level"
     ],
     [
-     "1,40 B",
+     "1,07 B",
      "Networth · 9,2 M Purse"
     ],
     [
@@ -953,8 +953,8 @@
      "SkyBlock Level"
     ],
     [
-     "504 M",
-     "Networth · 1,3 M Purse"
+     "507 M",
+     "Networth · 2,0 M Purse"
     ],
     [
      "32.1",
@@ -973,7 +973,7 @@
      "Fairy Souls"
     ],
     [
-     "125",
+     "128",
      "Farming Weight"
     ]
    ],
@@ -1654,6 +1654,12 @@
      "Crystal Hollows"
     ],
     [
+     "Rabbit",
+     "legendary",
+     81,
+     ""
+    ],
+    [
      "Ammonite",
      "legendary",
      64,
@@ -1738,12 +1744,6 @@
      ""
     ],
     [
-     "Rabbit",
-     "rare",
-     89,
-     ""
-    ],
-    [
      "Mooshroom Cow",
      "rare",
      57,
@@ -1792,7 +1792,7 @@
      "Kat hochstufen"
     ]
    ],
-   "petcount": "27 Pets · Pet Score 99",
+   "petcount": "27 Pets · Pet Score 101",
    "extra": [
     [
      "Essence",
@@ -2340,7 +2340,7 @@
    ],
    [
     "Visitors",
-    "209 erledigt",
+    "211 erledigt",
     "65 verschiedene"
    ],
    [
@@ -2541,7 +2541,7 @@
   },
   "copperBalance": {
    "relaxo": 336,
-   "amin": 299
+   "amin": 445
   },
   "tierBought": 3,
   "tierMax": 9
@@ -2654,7 +2654,7 @@
   ]
  ],
  "meta": {
-  "updated": "23.10.2026 11:24",
+  "updated": "23.10.2026 12:27",
   "url": null,
   "profile": "Raspberry",
   "players": {
@@ -2662,8 +2662,8 @@
    "amin": "ReverseAmin"
   },
   "updatedDate": "2026-10-23",
-  "updatedAt": "2026-10-23T09:24:03.901Z",
-  "reason": "automatisch",
+  "updatedAt": "2026-10-23T10:27:36.972Z",
+  "reason": "manuell",
   "sources": [
    "EliteBot API"
   ]
@@ -2716,8 +2716,8 @@
   ],
   [
    "Networth",
-   "1,40 B",
-   "504 M"
+   "1,07 B",
+   "507 M"
   ]
  ],
  "MINING_GUIDE": {
