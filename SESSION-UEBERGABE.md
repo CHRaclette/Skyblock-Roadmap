@@ -10,10 +10,10 @@ Stand: 26.09.2026. Alles Wichtige liegt in diesem Repository, nichts nur in eine
 - **Discord-Bot** in `discord-bot/` (ohne `.env`): Befehle /update /roadmap /daily /hotm /garden /mp /setup /website; tägliches Auto-Update; öffentlicher Roadmap-Server auf Port 3001; Cloudflare-Quick-Tunnel in docker-compose; GitHub-Anbindung (`GITHUB_REPO`, `GITHUB_TOKEN` → startet den Pages-Workflow).
 
 - **3D-Minecraft-Karte** unter https://chraclette.github.io/Skyblock-Roadmap/map/ (BlueMap, wie bei Papaplatte in Craft Attack 14)
-  - Welt-Zip liegt als Asset im Release `karte-welt` (Map: „The Apothecary Diaries“ von Planet Minecraft).
+  - Welt-Zip liegt in `map/welt/` (bis 100 MB) oder als Asset im Release `karte-welt` (Map: „The Apothecary Diaries“ von Planet Minecraft).
   - Workflow `.github/workflows/map.yml` (nur manuell): rendert mit BlueMap-CLI (Java 25, `compression: none` für Pages), Einstellungen über `map/setup_config.py`, Hinweis-Box `map/credit.js`, legt `map-web.tar.gz` im Release `karte-web` ab und startet `pages.yml`.
   - `pages.yml` entpackt die Karte vor dem Deploy nach `docs/map/` (nicht im Repo, steht in `.gitignore`).
-  - Andere Map: Zip im Release `karte-welt` ersetzen, dann Actions → „3D-Karte rendern“ → Run workflow.
+  - Andere Map: Zip in `map/welt/` bzw. im Release `karte-welt` ersetzen, dann Actions → „3D-Karte rendern“ → Run workflow.
 
 ## Profil
 - Profil „Raspberry“ (Ironman), Profil-ID `db1dd88b25b64e998c5082d8c0548274`

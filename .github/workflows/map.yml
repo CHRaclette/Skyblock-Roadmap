@@ -1,6 +1,6 @@
 name: 3D-Karte rendern
 
-# Rendert die Minecraft-Welt aus dem Release "karte-welt" mit BlueMap
+# Rendert die Minecraft-Welt (map/welt/*.zip oder Release "karte-welt") mit BlueMap
 # und legt die fertige Web-Karte im Release "karte-web" ab.
 # Danach wird die Seite neu veröffentlicht; die Karte liegt unter /map/.
 
@@ -43,7 +43,12 @@ jobs:
       - name: Welt holen und entpacken
         run: |
           mkdir -p work/zip work/unpacked
-          gh release download karte-welt --pattern '*.zip' --dir work/zip
+          # Welt-Zip entweder im Repo (map/welt/*.zip) oder im Release "karte-welt"
+          if ls map/welt/*.zip >/dev/null 2>&1; then
+            cp map/welt/*.zip work/zip/
+          else
+            gh release download karte-welt --pattern '*.zip' --dir work/zip
+          fi
           for z in work/zip/*.zip; do unzip -q -o "$z" -d work/unpacked; done
           lvl=$(find work/unpacked -name level.dat -not -path '*/__MACOSX/*' | awk '{ print length, $0 }' | sort -n | head -1 | cut -d' ' -f2-)
           if [ -z "$lvl" ]; then echo "::error::Keine level.dat in der Zip gefunden"; exit 1; fi
