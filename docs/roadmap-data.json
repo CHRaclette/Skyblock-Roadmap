@@ -4,16 +4,16 @@
    "name": "Relaxo_GX",
    "stats": [
     [
-     "354",
+     "361",
      "Magical Power"
     ],
     [
-     "203",
+     "204",
      "SkyBlock Level"
     ],
     [
      "1,40 B",
-     "Networth · 12,9 M Purse"
+     "Networth · 9,2 M Purse"
     ],
     [
      "36.1",
@@ -46,7 +46,7 @@
     [
      "hi",
      "Accessory Power und Tuning prüfen",
-     "Power: Silky, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 35 Tuning-Punkte bei 354 MP."
+     "Power: Shaded, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 36 Tuning-Punkte bei 361 MP."
     ],
     [
      "hi",
@@ -232,9 +232,9 @@
     ]
    ],
    "mp": {
-    "now": 354,
-    "t1": 434,
-    "t2": 549
+    "now": 361,
+    "t1": 441,
+    "t2": 556
    },
    "acc": [
     [
@@ -782,7 +782,7 @@
     [
      "Wolf",
      "legendary",
-     70,
+     71,
      ""
     ],
     [
@@ -818,7 +818,7 @@
     [
      "Tiger",
      "epic",
-     95,
+     96,
      ""
     ],
     [
@@ -904,7 +904,7 @@
    "extra": [
     [
      "Essence",
-     "Wither 173 · Undead 6'685 · Dragon 1'080 · Spider 1'047 · Ice 1'264 · Diamond 6'559 · Gold 11'286."
+     "Wither 295 · Undead 7'447 · Dragon 1'160 · Spider 1'160 · Ice 1'344 · Diamond 6'772 · Gold 11'425."
     ],
     [
      "Rift",
@@ -949,23 +949,23 @@
      "Magical Power"
     ],
     [
-     "175",
+     "181",
      "SkyBlock Level"
     ],
     [
-     "475 M",
-     "Networth · 11,5 M Purse"
+     "504 M",
+     "Networth · 1,3 M Purse"
     ],
     [
-     "32",
+     "32.1",
      "Skill Average"
     ],
     [
-     "21",
-     "Catacombs · Berserk 20"
+     "22",
+     "Catacombs · Berserk 21"
     ],
     [
-     "4·3·5·2·0·0",
+     "6·3·7·2·0·0",
      "Slayer Z·S·W·E·B·V"
     ],
     [
@@ -973,7 +973,7 @@
      "Fairy Souls"
     ],
     [
-     "124",
+     "125",
      "Farming Weight"
     ]
    ],
@@ -1001,11 +1001,6 @@
     ],
     [
      "md",
-     "Slayer-Rewards nicht abgeholt",
-     "Bei Maddox abholen: Zombie 4 · Enderman 1."
-    ],
-    [
-     "md",
      "Crop Upgrades unter Tier 9",
      "13 Crops sind unter dem Maximum für Garden 15. Copper zuerst in eure Haupt-Crops."
     ],
@@ -1018,6 +1013,11 @@
      "md",
      "HotM-Kernperks auf Stufe 1",
      "Professional, Efficient Miner brauchen Powder."
+    ],
+    [
+     "lo",
+     "Alchemy 10",
+     "Günstigster Skill-Average-Boost mit Nether Wart aus den Sacks."
     ]
    ],
    "phases": [
@@ -1603,7 +1603,7 @@
     ],
     [
      "Combat",
-     32,
+     33,
      60
     ],
     [
@@ -1627,7 +1627,7 @@
      50
     ]
    ],
-   "sa": "Skill Average 32",
+   "sa": "Skill Average 32.1",
    "pets": [
     [
      "Mithril Golem",
@@ -1796,7 +1796,7 @@
    "extra": [
     [
      "Essence",
-     "Wither 158 · Undead 1'179 · Dragon 615 · Spider 399 · Ice 642 · Diamond 4'191 · Gold 4'634."
+     "Wither 20 · Undead 2'222 · Dragon 695 · Spider 512 · Ice 722 · Diamond 429 · Gold 4'779."
     ],
     [
      "Rift",
@@ -2654,15 +2654,15 @@
   ]
  ],
  "meta": {
-  "updated": "22.10.2026 11:27",
+  "updated": "23.10.2026 11:24",
   "url": null,
   "profile": "Raspberry",
   "players": {
    "relaxo": "Relaxo_GX",
    "amin": "ReverseAmin"
   },
-  "updatedDate": "2026-10-22",
-  "updatedAt": "2026-10-22T09:27:45.510Z",
+  "updatedDate": "2026-10-23",
+  "updatedAt": "2026-10-23T09:24:03.901Z",
   "reason": "automatisch",
   "sources": [
    "EliteBot API"
@@ -2672,7 +2672,7 @@
   [
    "Skill Average",
    36.1,
-   32
+   32.1
   ],
   [
    "Mining",
@@ -2687,7 +2687,7 @@
   [
    "Combat",
    38,
-   32
+   33
   ],
   [
    "Enchanting",
@@ -2697,17 +2697,17 @@
   [
    "Catacombs",
    24,
-   21
+   22
   ],
   [
    "Magical Power",
-   354,
+   361,
    241
   ],
   [
    "Slayer XP",
-   "159 k",
-   "9.4 k"
+   "194.5 k",
+   "121.8 k"
   ],
   [
    "Fairy Souls",
@@ -2717,7 +2717,7 @@
   [
    "Networth",
    "1,40 B",
-   "475 M"
+   "504 M"
   ]
  ],
  "MINING_GUIDE": {
