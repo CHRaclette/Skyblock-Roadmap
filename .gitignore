@@ -5,3 +5,4 @@ node_modules/
 **/node_modules/
 *.prev.json
 discord-bot/bot/roadmap.html
+docs/map/

@@ -1,0 +1,85 @@
+name: 3D-Karte rendern
+
+# Rendert die Minecraft-Welt aus dem Release "karte-welt" mit BlueMap
+# und legt die fertige Web-Karte im Release "karte-web" ab.
+# Danach wird die Seite neu veröffentlicht; die Karte liegt unter /map/.
+
+on:
+  workflow_dispatch:
+    inputs:
+      mc_version:
+        description: "Minecraft-Version der Welt (leer = automatisch)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: karte
+  cancel-in-progress: false
+
+env:
+  BLUEMAP_VERSION: "5.29"
+  GH_TOKEN: ${{ github.token }}
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "25"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Welt holen und entpacken
+        run: |
+          mkdir -p work/zip work/unpacked
+          gh release download karte-welt --pattern '*.zip' --dir work/zip
+          for z in work/zip/*.zip; do unzip -q -o "$z" -d work/unpacked; done
+          lvl=$(find work/unpacked -name level.dat -not -path '*/__MACOSX/*' | awk '{ print length, $0 }' | sort -n | head -1 | cut -d' ' -f2-)
+          if [ -z "$lvl" ]; then echo "::error::Keine level.dat in der Zip gefunden"; exit 1; fi
+          mv "$(dirname "$lvl")" work/world
+          echo "Welt gefunden:"; ls work/world
+
+      - name: BlueMap holen
+        run: |
+          curl -sSfL -o work/bluemap.jar \
+            "https://github.com/BlueMap-Minecraft/BlueMap/releases/download/v${BLUEMAP_VERSION}/bluemap-${BLUEMAP_VERSION}-cli.jar"
+
+      - name: Einstellungen schreiben
+        run: |
+          cd work
+          java -jar bluemap.jar -c config || true
+          pip install --quiet nbtlib
+          python ../map/setup_config.py config world
+
+      - name: Karte rendern
+        run: |
+          cd work
+          ver="${{ inputs.mc_version }}"
+          java -Xmx12g -jar bluemap.jar -c config ${ver:+-v "$ver"} -r -g -s
+
+      - name: Ersteller-Hinweis und Paket
+        run: |
+          cp map/credit.js work/web/credit.js
+          tar -czf map-web.tar.gz -C work/web .
+          ls -lh map-web.tar.gz
+
+      - name: Fertige Karte ablegen
+        run: |
+          gh release view karte-web >/dev/null 2>&1 || \
+            gh release create karte-web --title "3D-Karte (gerendert)" \
+              --notes "Automatisch von BlueMap gerendert. Nicht von Hand ändern."
+          gh release upload karte-web map-web.tar.gz --clobber
+
+      - name: Seite neu veröffentlichen
+        run: gh workflow run pages.yml --ref "${{ github.ref_name }}"

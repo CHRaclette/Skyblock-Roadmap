@@ -41,6 +41,18 @@ jobs:
           git diff --cached --quiet || git commit -m "Roadmap-Update $(date -u +'%Y-%m-%d %H:%M') UTC"
           git push
 
+      - name: 3D-Karte einbinden (falls schon gerendert)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release download karte-web --pattern map-web.tar.gz --dir /tmp/karte; then
+            mkdir -p docs/map
+            tar -xzf /tmp/karte/map-web.tar.gz -C docs/map
+            echo "Karte eingebunden"
+          else
+            echo "Noch keine Karte gerendert"
+          fi
+
       - uses: actions/configure-pages@v5
 
       - uses: actions/upload-pages-artifact@v3
