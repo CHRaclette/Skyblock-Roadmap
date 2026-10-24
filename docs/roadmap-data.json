@@ -12,8 +12,8 @@
      "SkyBlock Level"
     ],
     [
-     "1,07 B",
-     "Networth · 9,2 M Purse"
+     "1,06 B",
+     "Networth · 1,1 M Purse"
     ],
     [
      "36.1",
@@ -46,7 +46,7 @@
     [
      "hi",
      "Accessory Power und Tuning prüfen",
-     "Power: Shaded, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 36 Tuning-Punkte bei 361 MP."
+     "Power: Simple, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 36 Tuning-Punkte bei 361 MP."
     ],
     [
      "hi",
@@ -949,15 +949,15 @@
      "Magical Power"
     ],
     [
-     "181",
+     "182",
      "SkyBlock Level"
     ],
     [
-     "507 M",
-     "Networth · 2,0 M Purse"
+     "516 M",
+     "Networth · 3,2 M Purse"
     ],
     [
-     "32.1",
+     "32.3",
      "Skill Average"
     ],
     [
@@ -973,7 +973,7 @@
      "Fairy Souls"
     ],
     [
-     "128",
+     "132",
      "Farming Weight"
     ]
    ],
@@ -1588,7 +1588,7 @@
     ],
     [
      "Farming",
-     39,
+     40,
      50
     ],
     [
@@ -1603,7 +1603,7 @@
     ],
     [
      "Combat",
-     33,
+     34,
      60
     ],
     [
@@ -1627,7 +1627,7 @@
      50
     ]
    ],
-   "sa": "Skill Average 32.1",
+   "sa": "Skill Average 32.3",
    "pets": [
     [
      "Mithril Golem",
@@ -1656,7 +1656,7 @@
     [
      "Rabbit",
      "legendary",
-     81,
+     84,
      ""
     ],
     [
@@ -2340,7 +2340,7 @@
    ],
    [
     "Visitors",
-    "211 erledigt",
+    "217 erledigt",
     "65 verschiedene"
    ],
    [
@@ -2541,7 +2541,7 @@
   },
   "copperBalance": {
    "relaxo": 336,
-   "amin": 445
+   "amin": 211
   },
   "tierBought": 3,
   "tierMax": 9
@@ -2654,16 +2654,16 @@
   ]
  ],
  "meta": {
-  "updated": "23.10.2026 12:27",
+  "updated": "24.10.2026 10:55",
   "url": null,
   "profile": "Raspberry",
   "players": {
    "relaxo": "Relaxo_GX",
    "amin": "ReverseAmin"
   },
-  "updatedDate": "2026-10-23",
-  "updatedAt": "2026-10-23T10:27:36.972Z",
-  "reason": "manuell",
+  "updatedDate": "2026-10-24",
+  "updatedAt": "2026-10-24T08:55:22.953Z",
+  "reason": "automatisch",
   "sources": [
    "EliteBot API"
   ]
@@ -2672,7 +2672,7 @@
   [
    "Skill Average",
    36.1,
-   32.1
+   32.3
   ],
   [
    "Mining",
@@ -2682,12 +2682,12 @@
   [
    "Farming",
    49,
-   39
+   40
   ],
   [
    "Combat",
    38,
-   33
+   34
   ],
   [
    "Enchanting",
@@ -2716,8 +2716,8 @@
   ],
   [
    "Networth",
-   "1,07 B",
-   "507 M"
+   "1,06 B",
+   "516 M"
   ]
  ],
  "MINING_GUIDE": {
