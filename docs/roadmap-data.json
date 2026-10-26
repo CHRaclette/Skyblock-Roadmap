@@ -8,15 +8,15 @@
      "Magical Power"
     ],
     [
-     "206",
+     "208",
      "SkyBlock Level"
     ],
     [
-     "1,13 B",
-     "Networth · 4,6 M Purse"
+     "1,14 B",
+     "Networth · 21,1 M Purse"
     ],
     [
-     "36.4",
+     "36.7",
      "Skill Average"
     ],
     [
@@ -32,7 +32,7 @@
      "Fairy Souls"
     ],
     [
-     "668",
+     "736",
      "Farming Weight"
     ]
    ],
@@ -46,7 +46,7 @@
     [
      "hi",
      "Accessory Power und Tuning prüfen",
-     "Power: Simple, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 36 Tuning-Punkte bei 361 MP."
+     "Power: Simple. Bei Maxwell setzen: rund 36 Tuning-Punkte bei 361 MP."
     ],
     [
      "hi",
@@ -61,7 +61,7 @@
     [
      "md",
      "Anita: Extra Farming Fortune auf 0",
-     "7 Gold-Medaillen vorhanden, jede Stufe gibt +4 Farming Fortune."
+     "6 Gold-Medaillen vorhanden, jede Stufe gibt +4 Farming Fortune."
     ],
     [
      "md",
@@ -697,8 +697,8 @@
     ],
     [
      "Farming",
-     50,
-     51
+     51,
+     53
     ],
     [
      "Mining",
@@ -707,7 +707,7 @@
     ],
     [
      "Carpentry",
-     39,
+     41,
      50
     ],
     [
@@ -741,7 +741,7 @@
      50
     ]
    ],
-   "sa": "Skill Average 36.4",
+   "sa": "Skill Average 36.7",
    "pets": [
     [
      "Mithril Golem",
@@ -955,15 +955,15 @@
      "Magical Power"
     ],
     [
-     "184",
+     "186",
      "SkyBlock Level"
     ],
     [
-     "522 M",
-     "Networth · 2,2 M Purse"
+     "588 M",
+     "Networth · 5,7 M Purse"
     ],
     [
-     "32.5",
+     "33",
      "Skill Average"
     ],
     [
@@ -979,7 +979,7 @@
      "Fairy Souls"
     ],
     [
-     "158",
+     "225",
      "Farming Weight"
     ]
    ],
@@ -1012,11 +1012,6 @@
     ],
     [
      "md",
-     "Anita: Extra Farming Fortune auf 0",
-     "3 Gold-Medaillen vorhanden, jede Stufe gibt +4 Farming Fortune."
-    ],
-    [
-     "md",
      "HotM-Kernperks auf Stufe 1",
      "Professional, Efficient Miner brauchen Powder."
     ],
@@ -1024,6 +1019,11 @@
      "lo",
      "Alchemy 10",
      "Günstigster Skill-Average-Boost mit Nether Wart aus den Sacks."
+    ],
+    [
+     "lo",
+     "Rift kaum besucht",
+     "0 Besuche, 7 von 52 Enigma Souls. Rift Prism gibt +11 MP."
     ]
    ],
    "phases": [
@@ -1594,7 +1594,12 @@
     ],
     [
      "Farming",
-     41,
+     43,
+     51
+    ],
+    [
+     "Carpentry",
+     32,
      50
     ],
     [
@@ -1603,18 +1608,13 @@
      60
     ],
     [
-     "Carpentry",
-     30,
-     50
-    ],
-    [
      "Combat",
      34,
      60
     ],
     [
      "Foraging",
-     24,
+     25,
      50
     ],
     [
@@ -1633,7 +1633,7 @@
      50
     ]
    ],
-   "sa": "Skill Average 32.5",
+   "sa": "Skill Average 33",
    "pets": [
     [
      "Mithril Golem",
@@ -1642,16 +1642,16 @@
      "Duplikat"
     ],
     [
+     "Elephant",
+     "legendary",
+     100,
+     "Farming, auf 100"
+    ],
+    [
      "Mole",
      "legendary",
      100,
      "Mining"
-    ],
-    [
-     "Elephant",
-     "legendary",
-     95,
-     "Farming, auf 100"
     ],
     [
      "Rabbit",
@@ -2358,8 +2358,8 @@
    ],
    [
     "Visitors",
-    "233 erledigt",
-    "67 verschiedene"
+    "246 erledigt",
+    "68 verschiedene"
    ],
    [
     "Anita Extra Fortune",
@@ -2558,8 +2558,8 @@
    }
   },
   "copperBalance": {
-   "relaxo": 1055,
-   "amin": 1234
+   "relaxo": 1033,
+   "amin": 56
   },
   "tierBought": 3,
   "tierMax": 9
@@ -2672,15 +2672,15 @@
   ]
  ],
  "meta": {
-  "updated": "25.10.2026 10:12",
+  "updated": "26.10.2026 11:14",
   "url": null,
   "profile": "Raspberry",
   "players": {
    "relaxo": "Relaxo_GX",
    "amin": "ReverseAmin"
   },
-  "updatedDate": "2026-10-25",
-  "updatedAt": "2026-10-25T09:12:24.854Z",
+  "updatedDate": "2026-10-26",
+  "updatedAt": "2026-10-26T10:14:02.528Z",
   "reason": "automatisch",
   "sources": [
    "EliteBot API"
@@ -2689,8 +2689,8 @@
  "VS": [
   [
    "Skill Average",
-   36.4,
-   32.5
+   36.7,
+   33
   ],
   [
    "Mining",
@@ -2699,8 +2699,8 @@
   ],
   [
    "Farming",
-   50,
-   41
+   51,
+   43
   ],
   [
    "Combat",
@@ -2734,8 +2734,8 @@
   ],
   [
    "Networth",
-   "1,13 B",
-   "522 M"
+   "1,14 B",
+   "588 M"
   ]
  ],
  "MINING_GUIDE": {
