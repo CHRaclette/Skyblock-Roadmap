@@ -12,8 +12,8 @@
      "SkyBlock Level"
     ],
     [
-     "1,14 B",
-     "Networth · 21,1 M Purse"
+     "1,00 B",
+     "Networth · 8,9 M Purse"
     ],
     [
      "36.7",
@@ -32,7 +32,7 @@
      "Fairy Souls"
     ],
     [
-     "736",
+     "753",
      "Farming Weight"
     ]
    ],
@@ -828,16 +828,16 @@
      "Dungeons, Kat → Leg"
     ],
     [
+     "Enderman",
+     "epic",
+     76,
+     ""
+    ],
+    [
      "Tarantula",
      "epic",
      75,
      "Spider Slayer"
-    ],
-    [
-     "Enderman",
-     "epic",
-     67,
-     ""
     ],
     [
      "Megalodon",
@@ -959,11 +959,11 @@
      "SkyBlock Level"
     ],
     [
-     "588 M",
-     "Networth · 5,7 M Purse"
+     "598 M",
+     "Networth · 6,7 M Purse"
     ],
     [
-     "33",
+     "33.1",
      "Skill Average"
     ],
     [
@@ -979,7 +979,7 @@
      "Fairy Souls"
     ],
     [
-     "225",
+     "240",
      "Farming Weight"
     ]
    ],
@@ -1594,7 +1594,7 @@
     ],
     [
      "Farming",
-     43,
+     44,
      51
     ],
     [
@@ -1633,7 +1633,7 @@
      50
     ]
    ],
-   "sa": "Skill Average 33",
+   "sa": "Skill Average 33.1",
    "pets": [
     [
      "Mithril Golem",
@@ -1656,7 +1656,7 @@
     [
      "Rabbit",
      "legendary",
-     90,
+     91,
      ""
     ],
     [
@@ -2358,7 +2358,7 @@
    ],
    [
     "Visitors",
-    "246 erledigt",
+    "251 erledigt",
     "68 verschiedene"
    ],
    [
@@ -2558,7 +2558,7 @@
    }
   },
   "copperBalance": {
-   "relaxo": 1033,
+   "relaxo": 1188,
    "amin": 56
   },
   "tierBought": 3,
@@ -2672,15 +2672,15 @@
   ]
  ],
  "meta": {
-  "updated": "26.10.2026 11:14",
+  "updated": "27.10.2026 10:52",
   "url": null,
   "profile": "Raspberry",
   "players": {
    "relaxo": "Relaxo_GX",
    "amin": "ReverseAmin"
   },
-  "updatedDate": "2026-10-26",
-  "updatedAt": "2026-10-26T10:14:02.528Z",
+  "updatedDate": "2026-10-27",
+  "updatedAt": "2026-10-27T09:52:09.984Z",
   "reason": "automatisch",
   "sources": [
    "EliteBot API"
@@ -2690,7 +2690,7 @@
   [
    "Skill Average",
    36.7,
-   33
+   33.1
   ],
   [
    "Mining",
@@ -2700,7 +2700,7 @@
   [
    "Farming",
    51,
-   43
+   44
   ],
   [
    "Combat",
@@ -2734,8 +2734,8 @@
   ],
   [
    "Networth",
-   "1,14 B",
-   "588 M"
+   "1,00 B",
+   "598 M"
   ]
  ],
  "MINING_GUIDE": {
