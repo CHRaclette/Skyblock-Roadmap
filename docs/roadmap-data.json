@@ -8,12 +8,12 @@
      "Magical Power"
     ],
     [
-     "208",
+     "209",
      "SkyBlock Level"
     ],
     [
-     "1,00 B",
-     "Networth · 8,9 M Purse"
+     "995 M",
+     "Networth · 3,2 M Purse"
     ],
     [
      "36.7",
@@ -32,7 +32,7 @@
      "Fairy Souls"
     ],
     [
-     "753",
+     "771",
      "Farming Weight"
     ]
    ],
@@ -61,7 +61,7 @@
     [
      "md",
      "Anita: Extra Farming Fortune auf 0",
-     "6 Gold-Medaillen vorhanden, jede Stufe gibt +4 Farming Fortune."
+     "7 Gold-Medaillen vorhanden, jede Stufe gibt +4 Farming Fortune."
     ],
     [
      "md",
@@ -792,6 +792,12 @@
      "nische"
     ],
     [
+     "Hedgehog",
+     "legendary",
+     15,
+     ""
+    ],
+    [
      "Rock",
      "legendary",
      3,
@@ -848,7 +854,7 @@
     [
      "Slug",
      "epic",
-     44,
+     47,
      ""
     ],
     [
@@ -906,7 +912,7 @@
      "ersetzt"
     ]
    ],
-   "petcount": "27 Pets · Pet Score 110",
+   "petcount": "28 Pets · Pet Score 115",
    "extra": [
     [
      "Essence",
@@ -951,7 +957,7 @@
    "name": "ReverseAmin",
    "stats": [
     [
-     "249",
+     "257",
      "Magical Power"
     ],
     [
@@ -959,11 +965,11 @@
      "SkyBlock Level"
     ],
     [
-     "598 M",
-     "Networth · 6,7 M Purse"
+     "624 M",
+     "Networth · 13,1 M Purse"
     ],
     [
-     "33.1",
+     "33.2",
      "Skill Average"
     ],
     [
@@ -979,7 +985,7 @@
      "Fairy Souls"
     ],
     [
-     "240",
+     "259",
      "Farming Weight"
     ]
    ],
@@ -993,11 +999,11 @@
     [
      "hi",
      "Accessory Power und Tuning prüfen",
-     "Power: Silky, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 24 Tuning-Punkte bei 249 MP."
+     "Power: Silky, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 25 Tuning-Punkte bei 257 MP."
     ],
     [
      "hi",
-     "Nur 249 Magical Power",
+     "Nur 257 Magical Power",
      "Im Tab Accessories stehen die günstigsten nächsten Accessories in Reihenfolge."
     ],
     [
@@ -1173,9 +1179,9 @@
     ]
    ],
    "mp": {
-    "now": 249,
-    "t1": 337,
-    "t2": 457
+    "now": 257,
+    "t1": 345,
+    "t2": 465
    },
    "acc": [
     [
@@ -1594,7 +1600,7 @@
     ],
     [
      "Farming",
-     44,
+     45,
      51
     ],
     [
@@ -1633,7 +1639,7 @@
      50
     ]
    ],
-   "sa": "Skill Average 33.1",
+   "sa": "Skill Average 33.2",
    "pets": [
     [
      "Mithril Golem",
@@ -1656,7 +1662,7 @@
     [
      "Rabbit",
      "legendary",
-     91,
+     94,
      ""
     ],
     [
@@ -2358,8 +2364,8 @@
    ],
    [
     "Visitors",
-    "251 erledigt",
-    "68 verschiedene"
+    "265 erledigt",
+    "69 verschiedene"
    ],
    [
     "Anita Extra Fortune",
@@ -2558,8 +2564,8 @@
    }
   },
   "copperBalance": {
-   "relaxo": 1188,
-   "amin": 56
+   "relaxo": 1934,
+   "amin": 176
   },
   "tierBought": 3,
   "tierMax": 9
@@ -2672,15 +2678,15 @@
   ]
  ],
  "meta": {
-  "updated": "27.10.2026 10:52",
+  "updated": "28.10.2026 11:38",
   "url": null,
   "profile": "Raspberry",
   "players": {
    "relaxo": "Relaxo_GX",
    "amin": "ReverseAmin"
   },
-  "updatedDate": "2026-10-27",
-  "updatedAt": "2026-10-27T09:52:09.984Z",
+  "updatedDate": "2026-10-28",
+  "updatedAt": "2026-10-28T10:38:50.221Z",
   "reason": "automatisch",
   "sources": [
    "EliteBot API"
@@ -2690,7 +2696,7 @@
   [
    "Skill Average",
    36.7,
-   33.1
+   33.2
   ],
   [
    "Mining",
@@ -2700,7 +2706,7 @@
   [
    "Farming",
    51,
-   44
+   45
   ],
   [
    "Combat",
@@ -2720,7 +2726,7 @@
   [
    "Magical Power",
    361,
-   249
+   257
   ],
   [
    "Slayer XP",
@@ -2734,8 +2740,8 @@
   ],
   [
    "Networth",
-   "1,00 B",
-   "598 M"
+   "995 M",
+   "624 M"
   ]
  ],
  "MINING_GUIDE": {
