@@ -12,11 +12,11 @@
      "SkyBlock Level"
     ],
     [
-     "995 M",
-     "Networth · 3,2 M Purse"
+     "1,10 B",
+     "Networth · 7,9 M Purse"
     ],
     [
-     "36.7",
+     "37",
      "Skill Average"
     ],
     [
@@ -32,7 +32,7 @@
      "Fairy Souls"
     ],
     [
-     "771",
+     "820",
      "Farming Weight"
     ]
    ],
@@ -697,7 +697,7 @@
     ],
     [
      "Farming",
-     51,
+     52,
      53
     ],
     [
@@ -707,7 +707,7 @@
     ],
     [
      "Carpentry",
-     41,
+     43,
      50
     ],
     [
@@ -741,7 +741,7 @@
      50
     ]
    ],
-   "sa": "Skill Average 36.7",
+   "sa": "Skill Average 37",
    "pets": [
     [
      "Mithril Golem",
@@ -794,7 +794,7 @@
     [
      "Hedgehog",
      "legendary",
-     15,
+     50,
      ""
     ],
     [
@@ -882,12 +882,6 @@
      "Mushroom, leveln"
     ],
     [
-     "Glacite Golem",
-     "uncommon",
-     91,
-     ""
-    ],
-    [
      "Monkey",
      "uncommon",
      85,
@@ -912,7 +906,7 @@
      "ersetzt"
     ]
    ],
-   "petcount": "28 Pets · Pet Score 115",
+   "petcount": "27 Pets · Pet Score 115",
    "extra": [
     [
      "Essence",
@@ -961,15 +955,15 @@
      "Magical Power"
     ],
     [
-     "186",
+     "188",
      "SkyBlock Level"
     ],
     [
-     "624 M",
-     "Networth · 13,1 M Purse"
+     "1,00 B",
+     "Networth · 0,0 M Purse"
     ],
     [
-     "33.2",
+     "33.3",
      "Skill Average"
     ],
     [
@@ -985,7 +979,7 @@
      "Fairy Souls"
     ],
     [
-     "259",
+     "278",
      "Farming Weight"
     ]
    ],
@@ -999,7 +993,7 @@
     [
      "hi",
      "Accessory Power und Tuning prüfen",
-     "Power: Silky, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 25 Tuning-Punkte bei 257 MP."
+     "Power: Itchy, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 25 Tuning-Punkte bei 257 MP."
     ],
     [
      "hi",
@@ -1015,11 +1009,6 @@
      "md",
      "Crop Upgrades unter Tier 9",
      "13 Crops sind unter dem Maximum für Garden 15. Copper zuerst in eure Haupt-Crops."
-    ],
-    [
-     "md",
-     "HotM-Kernperks auf Stufe 1",
-     "Professional, Efficient Miner brauchen Powder."
     ],
     [
      "lo",
@@ -1605,7 +1594,7 @@
     ],
     [
      "Carpentry",
-     32,
+     33,
      50
     ],
     [
@@ -1639,7 +1628,7 @@
      50
     ]
    ],
-   "sa": "Skill Average 33.2",
+   "sa": "Skill Average 33.3",
    "pets": [
     [
      "Mithril Golem",
@@ -1816,7 +1805,7 @@
      "Kat hochstufen"
     ]
    ],
-   "petcount": "29 Pets · Pet Score 109",
+   "petcount": "29 Pets · Pet Score 112",
    "extra": [
     [
      "Essence",
@@ -2277,7 +2266,7 @@
    "xp": "853'508",
    "toNext": "393'492 XP bis Tier 10",
    "tokens": "21 / 21 verteilt",
-   "peak": 7,
+   "peak": 8,
    "ability": "Pickobulus",
    "comm": "5'851",
    "levels": {
@@ -2289,9 +2278,9 @@
     "Quick Forge": 20,
     "Sky Mall": 1,
     "Old-School": 20,
-    "Professional": 58,
-    "Mole": 131,
-    "Core of the Mountain": 7,
+    "Professional": 91,
+    "Mole": 171,
+    "Core of the Mountain": 8,
     "Blockhead": 11,
     "Subterranean Fisher": 40,
     "Keep It Cool": 50,
@@ -2310,9 +2299,14 @@
     "Anomalous Desire": 1,
     "Luck of the Cave": 1,
     "Seasoned Mineman": 1,
-    "Surveyor": 1,
+    "Surveyor": 20,
     "Strong Arm": 31,
-    "Fortunate Mineman": 1
+    "Fortunate Mineman": 13,
+    "Mining Master": 1,
+    "Rags to Riches": 14,
+    "Dead Man's Chest": 1,
+    "Eager Adventurer": 64,
+    "Gifts from the Departed": 1
    },
    "sum": "Solides Gemstone-Setup: Mining Speed, Old-School, Great Explorer und Quick Forge maxed, Professional 58, Speedy Mineman 48. Für Tier 9 und Glacite fehlen noch Surveyor, Strong Arm, Metal Head und Rags to Riches.",
    "next": [
@@ -2359,13 +2353,13 @@
    ],
    [
     "Composter",
-    "Speed 1 · Multi 1",
-    "Fuel 0 · OM 4 · Cost 0"
+    "Speed 1 · Multi 2",
+    "Fuel 0 · OM 4 · Cost 1"
    ],
    [
     "Visitors",
-    "265 erledigt",
-    "69 verschiedene"
+    "280 erledigt",
+    "70 verschiedene"
    ],
    [
     "Anita Extra Fortune",
@@ -2564,8 +2558,8 @@
    }
   },
   "copperBalance": {
-   "relaxo": 1934,
-   "amin": 176
+   "relaxo": 2392,
+   "amin": 166
   },
   "tierBought": 3,
   "tierMax": 9
@@ -2678,15 +2672,15 @@
   ]
  ],
  "meta": {
-  "updated": "28.10.2026 11:38",
+  "updated": "29.10.2026 11:56",
   "url": null,
   "profile": "Raspberry",
   "players": {
    "relaxo": "Relaxo_GX",
    "amin": "ReverseAmin"
   },
-  "updatedDate": "2026-10-28",
-  "updatedAt": "2026-10-28T10:38:50.221Z",
+  "updatedDate": "2026-10-29",
+  "updatedAt": "2026-10-29T10:56:13.469Z",
   "reason": "automatisch",
   "sources": [
    "EliteBot API"
@@ -2695,8 +2689,8 @@
  "VS": [
   [
    "Skill Average",
-   36.7,
-   33.2
+   37,
+   33.3
   ],
   [
    "Mining",
@@ -2705,7 +2699,7 @@
   ],
   [
    "Farming",
-   51,
+   52,
    45
   ],
   [
@@ -2740,8 +2734,8 @@
   ],
   [
    "Networth",
-   "995 M",
-   "624 M"
+   "1,10 B",
+   "1,00 B"
   ]
  ],
  "MINING_GUIDE": {
