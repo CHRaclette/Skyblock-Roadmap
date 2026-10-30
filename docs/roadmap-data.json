@@ -8,12 +8,12 @@
      "Magical Power"
     ],
     [
-     "209",
+     "210",
      "SkyBlock Level"
     ],
     [
-     "1,10 B",
-     "Networth · 7,9 M Purse"
+     "954 M",
+     "Networth · 9,4 M Purse"
     ],
     [
      "37",
@@ -32,7 +32,7 @@
      "Fairy Souls"
     ],
     [
-     "820",
+     "849",
      "Farming Weight"
     ]
    ],
@@ -46,7 +46,7 @@
     [
      "hi",
      "Accessory Power und Tuning prüfen",
-     "Power: Simple. Bei Maxwell setzen: rund 36 Tuning-Punkte bei 361 MP."
+     "Power: Simple, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 36 Tuning-Punkte bei 361 MP."
     ],
     [
      "hi",
@@ -794,7 +794,7 @@
     [
      "Hedgehog",
      "legendary",
-     50,
+     52,
      ""
     ],
     [
@@ -951,19 +951,19 @@
    "name": "ReverseAmin",
    "stats": [
     [
-     "257",
+     "260",
      "Magical Power"
     ],
     [
-     "188",
+     "190",
      "SkyBlock Level"
     ],
     [
-     "1,00 B",
-     "Networth · 0,0 M Purse"
+     "836 M",
+     "Networth · 5,8 M Purse"
     ],
     [
-     "33.3",
+     "33.7",
      "Skill Average"
     ],
     [
@@ -979,7 +979,7 @@
      "Fairy Souls"
     ],
     [
-     "278",
+     "345",
      "Farming Weight"
     ]
    ],
@@ -993,11 +993,11 @@
     [
      "hi",
      "Accessory Power und Tuning prüfen",
-     "Power: Itchy, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 25 Tuning-Punkte bei 257 MP."
+     "Power: Itchy, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 26 Tuning-Punkte bei 260 MP."
     ],
     [
      "hi",
-     "Nur 257 Magical Power",
+     "Nur 260 Magical Power",
      "Im Tab Accessories stehen die günstigsten nächsten Accessories in Reihenfolge."
     ],
     [
@@ -1168,9 +1168,9 @@
     ]
    ],
    "mp": {
-    "now": 257,
-    "t1": 345,
-    "t2": 465
+    "now": 260,
+    "t1": 348,
+    "t2": 468
    },
    "acc": [
     [
@@ -1589,12 +1589,12 @@
     ],
     [
      "Farming",
-     45,
+     47,
      51
     ],
     [
      "Carpentry",
-     33,
+     35,
      50
     ],
     [
@@ -1628,7 +1628,7 @@
      50
     ]
    ],
-   "sa": "Skill Average 33.3",
+   "sa": "Skill Average 33.7",
    "pets": [
     [
      "Mithril Golem",
@@ -2348,7 +2348,7 @@
    ],
    [
     "Plots",
-    "16 / 24",
+    "17 / 24",
     "+3 Farming Fortune pro Plot"
    ],
    [
@@ -2358,7 +2358,7 @@
    ],
    [
     "Visitors",
-    "280 erledigt",
+    "296 erledigt",
     "70 verschiedene"
    ],
    [
@@ -2558,8 +2558,8 @@
    }
   },
   "copperBalance": {
-   "relaxo": 2392,
-   "amin": 166
+   "relaxo": 18,
+   "amin": 120
   },
   "tierBought": 3,
   "tierMax": 9
@@ -2672,15 +2672,15 @@
   ]
  ],
  "meta": {
-  "updated": "29.10.2026 11:56",
+  "updated": "30.10.2026 11:54",
   "url": null,
   "profile": "Raspberry",
   "players": {
    "relaxo": "Relaxo_GX",
    "amin": "ReverseAmin"
   },
-  "updatedDate": "2026-10-29",
-  "updatedAt": "2026-10-29T10:56:13.469Z",
+  "updatedDate": "2026-10-30",
+  "updatedAt": "2026-10-30T10:54:26.852Z",
   "reason": "automatisch",
   "sources": [
    "EliteBot API"
@@ -2690,7 +2690,7 @@
   [
    "Skill Average",
    37,
-   33.3
+   33.7
   ],
   [
    "Mining",
@@ -2700,7 +2700,7 @@
   [
    "Farming",
    52,
-   45
+   47
   ],
   [
    "Combat",
@@ -2720,7 +2720,7 @@
   [
    "Magical Power",
    361,
-   257
+   260
   ],
   [
    "Slayer XP",
@@ -2734,8 +2734,8 @@
   ],
   [
    "Networth",
-   "1,10 B",
-   "1,00 B"
+   "954 M",
+   "836 M"
   ]
  ],
  "MINING_GUIDE": {
