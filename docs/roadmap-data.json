@@ -8,15 +8,15 @@
      "Magical Power"
     ],
     [
-     "212",
+     "214",
      "SkyBlock Level"
     ],
     [
-     "1,07 B",
-     "Networth · 46,6 M Purse"
+     "1,00 B",
+     "Networth · 29,8 M Purse"
     ],
     [
-     "37.3",
+     "37.4",
      "Skill Average"
     ],
     [
@@ -24,7 +24,7 @@
      "Catacombs · Berserk 22"
     ],
     [
-     "6·6·7·5·0·0",
+     "7·6·7·5·0·0",
      "Slayer Z·S·W·E·B·V"
     ],
     [
@@ -32,7 +32,7 @@
      "Fairy Souls"
     ],
     [
-     "910",
+     "913",
      "Farming Weight"
     ]
    ],
@@ -55,6 +55,11 @@
     ],
     [
      "md",
+     "Slayer-Rewards nicht abgeholt",
+     "Bei Maddox abholen: Zombie 7."
+    ],
+    [
+     "md",
      "Crop Upgrades unter Tier 9",
      "13 Crops sind unter dem Maximum für Garden 15. Copper zuerst in eure Haupt-Crops."
     ],
@@ -72,11 +77,6 @@
      "lo",
      "Alchemy 14",
      "Günstigster Skill-Average-Boost mit Nether Wart aus den Sacks."
-    ],
-    [
-     "lo",
-     "Rift kaum besucht",
-     "0 Besuche, 28 von 52 Enigma Souls. Rift Prism gibt +11 MP."
     ]
    ],
    "phases": [
@@ -698,7 +698,7 @@
     [
      "Farming",
      53,
-     54
+     55
     ],
     [
      "Mining",
@@ -716,14 +716,14 @@
      60
     ],
     [
+     "Combat",
+     40,
+     60
+    ],
+    [
      "Foraging",
      33,
      50
-    ],
-    [
-     "Combat",
-     39,
-     60
     ],
     [
      "Fishing",
@@ -741,7 +741,7 @@
      50
     ]
    ],
-   "sa": "Skill Average 37.3",
+   "sa": "Skill Average 37.4",
    "pets": [
     [
      "Mithril Golem",
@@ -770,7 +770,7 @@
     [
      "Wolf",
      "legendary",
-     73,
+     80,
      ""
     ],
     [
@@ -830,7 +830,7 @@
     [
      "Tiger",
      "epic",
-     96,
+     97,
      ""
     ],
     [
@@ -955,15 +955,15 @@
      "Magical Power"
     ],
     [
-     "190",
+     "192",
      "SkyBlock Level"
     ],
     [
-     "840 M",
-     "Networth · 6,9 M Purse"
+     "836 M",
+     "Networth · 3,7 M Purse"
     ],
     [
-     "33.9",
+     "34.5",
      "Skill Average"
     ],
     [
@@ -979,7 +979,7 @@
      "Fairy Souls"
     ],
     [
-     "384",
+     "469",
      "Farming Weight"
     ]
    ],
@@ -1579,8 +1579,8 @@
    "skills": [
     [
      "Taming",
-     50,
-     50
+     51,
+     51
     ],
     [
      "Mining",
@@ -1589,12 +1589,12 @@
     ],
     [
      "Farming",
-     47,
+     49,
      51
     ],
     [
      "Carpentry",
-     37,
+     39,
      50
     ],
     [
@@ -1604,7 +1604,7 @@
     ],
     [
      "Combat",
-     34,
+     35,
      60
     ],
     [
@@ -1628,7 +1628,7 @@
      50
     ]
    ],
-   "sa": "Skill Average 33.9",
+   "sa": "Skill Average 34.5",
    "pets": [
     [
      "Mithril Golem",
@@ -1671,6 +1671,12 @@
      "legendary",
      54,
      "nische"
+    ],
+    [
+     "Hedgehog",
+     "legendary",
+     48,
+     ""
     ],
     [
      "Skeleton",
@@ -1805,7 +1811,7 @@
      "Kat hochstufen"
     ]
    ],
-   "petcount": "29 Pets · Pet Score 112",
+   "petcount": "30 Pets · Pet Score 115",
    "extra": [
     [
      "Essence",
@@ -2358,8 +2364,8 @@
    ],
    [
     "Visitors",
-    "318 erledigt",
-    "72 verschiedene"
+    "351 erledigt",
+    "73 verschiedene"
    ],
    [
     "Anita Extra Fortune",
@@ -2558,8 +2564,8 @@
    }
   },
   "copperBalance": {
-   "relaxo": 1288,
-   "amin": 68
+   "relaxo": 1598,
+   "amin": 577
   },
   "tierBought": 3,
   "tierMax": 9
@@ -2672,15 +2678,15 @@
   ]
  ],
  "meta": {
-  "updated": "31.10.2026 11:26",
+  "updated": "01.11.2026 12:20",
   "url": null,
   "profile": "Raspberry",
   "players": {
    "relaxo": "Relaxo_GX",
    "amin": "ReverseAmin"
   },
-  "updatedDate": "2026-10-31",
-  "updatedAt": "2026-10-31T10:26:52.396Z",
+  "updatedDate": "2026-11-01",
+  "updatedAt": "2026-11-01T11:20:12.912Z",
   "reason": "automatisch",
   "sources": [
    "EliteBot API"
@@ -2689,8 +2695,8 @@
  "VS": [
   [
    "Skill Average",
-   37.3,
-   33.9
+   37.4,
+   34.5
   ],
   [
    "Mining",
@@ -2700,12 +2706,12 @@
   [
    "Farming",
    53,
-   47
+   49
   ],
   [
    "Combat",
-   39,
-   34
+   40,
+   35
   ],
   [
    "Enchanting",
@@ -2724,7 +2730,7 @@
   ],
   [
    "Slayer XP",
-   "233.5 k",
+   "390.4 k",
    "121.8 k"
   ],
   [
@@ -2734,8 +2740,8 @@
   ],
   [
    "Networth",
-   "1,07 B",
-   "840 M"
+   "1,00 B",
+   "836 M"
   ]
  ],
  "MINING_GUIDE": {
