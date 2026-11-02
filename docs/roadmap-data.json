@@ -8,15 +8,15 @@
      "Magical Power"
     ],
     [
-     "214",
+     "215",
      "SkyBlock Level"
     ],
     [
-     "1,00 B",
-     "Networth · 29,8 M Purse"
+     "1,31 B",
+     "Networth · 0,0 M Purse"
     ],
     [
-     "37.4",
+     "37.6",
      "Skill Average"
     ],
     [
@@ -32,7 +32,7 @@
      "Fairy Souls"
     ],
     [
-     "913",
+     "973",
      "Farming Weight"
     ]
    ],
@@ -46,7 +46,7 @@
     [
      "hi",
      "Accessory Power und Tuning prüfen",
-     "Power: Silky, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 37 Tuning-Punkte bei 373 MP."
+     "Power: Simple, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 37 Tuning-Punkte bei 373 MP."
     ],
     [
      "hi",
@@ -66,7 +66,7 @@
     [
      "md",
      "Anita: Extra Farming Fortune auf 0",
-     "7 Gold-Medaillen vorhanden, jede Stufe gibt +4 Farming Fortune."
+     "10 Gold-Medaillen vorhanden, jede Stufe gibt +4 Farming Fortune."
     ],
     [
      "md",
@@ -697,7 +697,7 @@
     ],
     [
      "Farming",
-     53,
+     54,
      55
     ],
     [
@@ -707,7 +707,7 @@
     ],
     [
      "Carpentry",
-     44,
+     45,
      50
     ],
     [
@@ -741,7 +741,7 @@
      50
     ]
    ],
-   "sa": "Skill Average 37.4",
+   "sa": "Skill Average 37.6",
    "pets": [
     [
      "Mithril Golem",
@@ -770,7 +770,7 @@
     [
      "Wolf",
      "legendary",
-     80,
+     81,
      ""
     ],
     [
@@ -951,19 +951,19 @@
    "name": "ReverseAmin",
    "stats": [
     [
-     "260",
+     "267",
      "Magical Power"
     ],
     [
-     "192",
+     "193",
      "SkyBlock Level"
     ],
     [
-     "836 M",
-     "Networth · 3,7 M Purse"
+     "852 M",
+     "Networth · 6,1 M Purse"
     ],
     [
-     "34.5",
+     "34.7",
      "Skill Average"
     ],
     [
@@ -979,7 +979,7 @@
      "Fairy Souls"
     ],
     [
-     "469",
+     "646",
      "Farming Weight"
     ]
    ],
@@ -993,11 +993,11 @@
     [
      "hi",
      "Accessory Power und Tuning prüfen",
-     "Power: Itchy, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 26 Tuning-Punkte bei 260 MP."
+     "Power: Itchy, Tuning-Punkte nicht verteilt. Bei Maxwell setzen: rund 26 Tuning-Punkte bei 267 MP."
     ],
     [
      "hi",
-     "Nur 260 Magical Power",
+     "Nur 267 Magical Power",
      "Im Tab Accessories stehen die günstigsten nächsten Accessories in Reihenfolge."
     ],
     [
@@ -1168,9 +1168,9 @@
     ]
    ],
    "mp": {
-    "now": 260,
-    "t1": 348,
-    "t2": 468
+    "now": 267,
+    "t1": 355,
+    "t2": 475
    },
    "acc": [
     [
@@ -1589,12 +1589,12 @@
     ],
     [
      "Farming",
-     49,
+     50,
      51
     ],
     [
      "Carpentry",
-     39,
+     40,
      50
     ],
     [
@@ -1628,7 +1628,7 @@
      50
     ]
    ],
-   "sa": "Skill Average 34.5",
+   "sa": "Skill Average 34.7",
    "pets": [
     [
      "Mithril Golem",
@@ -1651,7 +1651,7 @@
     [
      "Rabbit",
      "legendary",
-     94,
+     95,
      ""
     ],
     [
@@ -1667,16 +1667,16 @@
      "Fishing"
     ],
     [
+     "Hedgehog",
+     "legendary",
+     57,
+     ""
+    ],
+    [
      "Grandma Wolf",
      "legendary",
      54,
      "nische"
-    ],
-    [
-     "Hedgehog",
-     "legendary",
-     48,
-     ""
     ],
     [
      "Skeleton",
@@ -2364,8 +2364,8 @@
    ],
    [
     "Visitors",
-    "351 erledigt",
-    "73 verschiedene"
+    "391 erledigt",
+    "74 verschiedene"
    ],
    [
     "Anita Extra Fortune",
@@ -2564,8 +2564,8 @@
    }
   },
   "copperBalance": {
-   "relaxo": 1598,
-   "amin": 577
+   "relaxo": 2720,
+   "amin": 1707
   },
   "tierBought": 3,
   "tierMax": 9
@@ -2678,15 +2678,15 @@
   ]
  ],
  "meta": {
-  "updated": "01.11.2026 12:20",
+  "updated": "02.11.2026 13:34",
   "url": null,
   "profile": "Raspberry",
   "players": {
    "relaxo": "Relaxo_GX",
    "amin": "ReverseAmin"
   },
-  "updatedDate": "2026-11-01",
-  "updatedAt": "2026-11-01T11:20:12.912Z",
+  "updatedDate": "2026-11-02",
+  "updatedAt": "2026-11-02T12:34:08.796Z",
   "reason": "automatisch",
   "sources": [
    "EliteBot API"
@@ -2695,8 +2695,8 @@
  "VS": [
   [
    "Skill Average",
-   37.4,
-   34.5
+   37.6,
+   34.7
   ],
   [
    "Mining",
@@ -2705,8 +2705,8 @@
   ],
   [
    "Farming",
-   53,
-   49
+   54,
+   50
   ],
   [
    "Combat",
@@ -2726,7 +2726,7 @@
   [
    "Magical Power",
    373,
-   260
+   267
   ],
   [
    "Slayer XP",
@@ -2740,8 +2740,8 @@
   ],
   [
    "Networth",
-   "1,00 B",
-   "836 M"
+   "1,31 B",
+   "852 M"
   ]
  ],
  "MINING_GUIDE": {
