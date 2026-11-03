@@ -3,6 +3,7 @@ package dev.chraclette.butcher.client;
 import dev.chraclette.butcher.core.Category;
 import dev.chraclette.butcher.core.Drop;
 import dev.chraclette.butcher.core.DropParser;
+import dev.chraclette.butcher.core.FarmEvent;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
@@ -38,7 +39,10 @@ public final class ButcherClient implements ClientModInitializer {
             if (!overlay) onChat(message);
         });
 
-        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> CutsceneManager.clear());
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
+            CutsceneManager.clear();
+            Farming.clear();
+        });
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> Prices.refreshIfNeeded());
 
         Commands.register();
@@ -49,7 +53,16 @@ public final class ButcherClient implements ClientModInitializer {
         Config.Data cfg = Config.get();
         if (!cfg.enabled) return;
         if (cfg.onlyOnHypixel && !onHypixel()) return;
-        String text = message.getString();
+        handle(message.getString(), false);
+    }
+
+    /** Runs one chat line through everything. Also used by the test commands. */
+    static void handle(String text, boolean test) {
+        FarmEvent farm = FarmEvent.parse(text);
+        if (farm != null) {
+            Farming.onEvent(farm);
+            return;
+        }
 
         Category hint = DropParser.contextFrom(text);
         if (hint != null) {
@@ -58,9 +71,12 @@ public final class ButcherClient implements ClientModInitializer {
         }
         Category recent = System.currentTimeMillis() - contextAt < 20_000 ? context : null;
 
-        Drop drop = DropParser.parse(text, ownName(), recent);
+        Drop drop = DropParser.parse(text, test ? "You" : ownName(), recent);
         if (drop != null) {
-            CutsceneManager.enqueue(drop, false);
+            drop = Farming.onDrop(drop);
+            if (drop != null) {
+                CutsceneManager.enqueue(drop, test);
+            }
         }
     }
 

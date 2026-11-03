@@ -26,8 +26,6 @@ public final class DropParser {
     private static final Pattern REWARD = Pattern.compile(
             "^RARE REWARD!\\s+(?:\\[[^\\]]+\\]\\s*)?(\\w{1,16}) found (?:an? )?(.+?) in (?:their|the) .+?!?\\s*$");
 
-    private static final Pattern CROP_FEVER = Pattern.compile("\\bCROP FEVER\\b");
-
     private static final Pattern BONUS = Pattern.compile(
             "\\s*\\((\\+[^()]*)\\)(?:\\s*\\(automatically donated\\))?\\s*$");
 
@@ -74,8 +72,6 @@ public final class DropParser {
             }
             tier = DropTier.REWARD;
             rest = m.group(2);
-        } else if (CROP_FEVER.matcher(text).find() && !text.contains("DROP!")) {
-            return build(DropTier.CROP_FEVER, "Crop Fever", 1, "", false, Category.FARMING, text);
         } else {
             return null;
         }
@@ -90,6 +86,7 @@ public final class DropParser {
             rest = rest.substring(0, b.start()).trim();
         }
 
+        boolean fever = rest.startsWith("You dropped ");
         Matcher w = WRAPPER.matcher(rest);
         if (w.matches()) {
             rest = w.group(1).trim();
@@ -122,20 +119,20 @@ public final class DropParser {
             return null;
         }
 
-        Category category = Themes.category(rest, context);
+        Category category = fever ? Category.FARMING : Themes.category(rest, context);
         if (tier == DropTier.RARE_CROP || tier == DropTier.VERY_RARE_CROP) {
             if (category != Category.PEST) {
                 category = Category.FARMING;
             }
         }
-        return build(tier, rest, count, bonus, book, category, text);
+        return build(tier, rest, count, bonus, book, category, text, fever);
     }
 
     private static Drop build(DropTier tier, String name, int count, String bonus, boolean book,
-                              Category category, String raw) {
+                              Category category, String raw, boolean fever) {
         Effect effect = Themes.effect(name, book, tier, category);
         int color = Themes.color(name, effect);
-        return new Drop(tier, name, Math.max(1, count), bonus, book, category, effect, color, raw);
+        return new Drop(tier, name, Math.max(1, count), bonus, book, category, effect, color, raw, fever, "");
     }
 
     private static String unwrap(String s) {
@@ -179,9 +176,6 @@ public final class DropParser {
         }
         if (text.contains("The Catacombs - Floor") || text.contains("Master Mode The Catacombs")) {
             return Category.DUNGEON;
-        }
-        if (text.startsWith("YUCK! You spawned") || text.contains("Pest") && text.contains("spawned")) {
-            return Category.PEST;
         }
         return null;
     }

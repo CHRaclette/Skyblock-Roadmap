@@ -135,6 +135,10 @@ public final class Particles {
         }
     }
 
+    public void forEach(java.util.function.Consumer<P> action) {
+        list.forEach(action);
+    }
+
     public void clear() {
         list.clear();
     }

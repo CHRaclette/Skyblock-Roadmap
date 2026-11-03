@@ -70,7 +70,7 @@ final class McCanvas implements Canvas {
 
     @Override
     public void blit(String texture, int x, int y, int u, int v, int w, int h, int texW, int texH) {
-        Identifier id = IDS.computeIfAbsent(texture, Identifier::withDefaultNamespace);
+        Identifier id = IDS.computeIfAbsent(texture, t -> t.contains(":") ? Identifier.parse(t) : Identifier.withDefaultNamespace(t));
         g.blit(RenderPipelines.GUI_TEXTURED, id, x, y, (float) u, (float) v, w, h, texW, texH);
     }
 

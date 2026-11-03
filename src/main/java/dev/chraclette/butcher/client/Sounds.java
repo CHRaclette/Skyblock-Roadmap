@@ -37,6 +37,21 @@ final class Sounds {
             case BELL -> sound(SoundEvents.NOTE_BLOCK_BELL, pitch, v);
             case TOTEM -> sound(SoundEvents.TOTEM_USE, pitch, v * 0.6f);
             case POP -> sound(SoundEvents.AMETHYST_BLOCK_CHIME, pitch, v);
+            case BUZZ -> sound(SoundEvents.SILVERFISH_AMBIENT, pitch, v);
+            case SUCK -> sound(SoundEvents.BUBBLE_COLUMN_WHIRLPOOL_INSIDE, pitch, v);
+            case SLURP -> sound(SoundEvents.GENERIC_DRINK, pitch, v);
+            case RATTLE -> sound(SoundEvents.PISTON_EXTEND, pitch, v * 0.6f);
+            case SPIT -> sound(SoundEvents.CHICKEN_EGG, pitch * 0.8f, v);
+            case FEVER -> {
+                sound(SoundEvents.FIRECHARGE_USE, 0.8f, v);
+                sound(SoundEvents.BLAZE_SHOOT, 1.2f, v * 0.6f);
+            }
+            case FEVER_END -> sound(SoundEvents.FIRE_EXTINGUISH, 1.0f, v * 0.7f);
+            case TOAST -> sound(SoundEvents.ITEM_PICKUP, pitch, v);
+            case PEST_ALERT -> {
+                sound(SoundEvents.SILVERFISH_AMBIENT, 1.4f, v);
+                sound(SoundEvents.NOTE_BLOCK_BIT, 1.6f, v * 0.6f);
+            }
         }
     }
 

@@ -76,6 +76,41 @@ public final class Skins {
     public static final CubeSkin HAY = block(b("hay_block_top"), b("hay_block_side"), 0xD9B44A, 0x9C7A22);
     public static final CubeSkin CACTUS = block(b("cactus_top"), b("cactus_side"), 0xB5D67A, 0x5E8A2C);
 
+    private static CubeSkin pest(String file, int flesh, int fleshDark) {
+        return box("butcherdrops:textures/pest/" + file + ".png", 64, 32, 0, 0, 8, 8, 8, flesh, fleshDark, null);
+    }
+
+    private static final int GOO = 0x9BD13A, GOO_DARK = 0x5C8A1C;
+
+    /** Pest heads, keyed by the pest name Hypixel uses. */
+    public static final java.util.Map<String, CubeSkin> PESTS = java.util.Map.ofEntries(
+            java.util.Map.entry("beetle", pest("beetle", GOO, GOO_DARK)),
+            java.util.Map.entry("mite", pest("mite", GOO, GOO_DARK)),
+            java.util.Map.entry("cricket", pest("cricket", GOO, GOO_DARK)),
+            java.util.Map.entry("locust", pest("locust", GOO, GOO_DARK)),
+            java.util.Map.entry("praying mantis", pest("mantis", GOO, GOO_DARK)),
+            java.util.Map.entry("fly", pest("fly", GOO, GOO_DARK)),
+            java.util.Map.entry("mosquito", pest("mosquito", MEAT, MEAT_DARK)),
+            java.util.Map.entry("moth", pest("moth", GOO, GOO_DARK)),
+            java.util.Map.entry("lunar moth", pest("moth", 0xBFD7FF, 0x6A86B8)),
+            java.util.Map.entry("dragonfly", pest("dragonfly", GOO, GOO_DARK)),
+            java.util.Map.entry("firefly", pest("firefly", 0xFFE65A, 0xC9A21E)),
+            java.util.Map.entry("rat", pest("rat", MEAT, MEAT_DARK)),
+            java.util.Map.entry("field mouse", pest("mouse", MEAT, MEAT_DARK)),
+            java.util.Map.entry("earthworm", pest("worm", MEAT, MEAT_DARK)),
+            java.util.Map.entry("slug", pest("slug", GOO, GOO_DARK)));
+
+    /** Pests that fly get flapping wings. */
+    public static boolean flies(String pest) {
+        String p = pest.toLowerCase(Locale.ROOT);
+        return p.contains("fly") || p.contains("moth") || p.contains("mosquito");
+    }
+
+    public static CubeSkin pestSkin(String pest) {
+        CubeSkin skin = PESTS.get(pest.toLowerCase(Locale.ROOT));
+        return skin != null ? skin : PESTS.get("beetle");
+    }
+
     /** The chopping board. */
     public static final CubeSkin BOARD = block(b("stripped_spruce_log"), b("stripped_spruce_log"), 0, 0);
 
@@ -92,7 +127,7 @@ public final class Skins {
             case DUNGEON -> WITHER_SKELETON;
             case DIANA -> PIGLIN;
             case FISHING -> DROWNED;
-            case PEST -> lower.contains("melon") ? MELON : PUMPKIN;
+            case PEST -> pestSkin(drop.pest());
             case FARMING -> lower.contains("melon") ? MELON
                     : lower.contains("pumpkin") || lower.contains("squash") ? PUMPKIN
                     : lower.contains("cactus") ? CACTUS

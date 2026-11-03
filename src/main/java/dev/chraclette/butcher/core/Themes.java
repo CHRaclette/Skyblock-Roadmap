@@ -45,7 +45,7 @@ public final class Themes {
                 "washed-up souvenir", "manti-core", "fateful stinger", "brain food", "dwarf turtle",
                 "inquisitor", "sphinx", "king minos", "fabled", "hilt of revelations"));
         KEYWORDS.put(Category.PEST, List.of(
-                "pest", "atmospheric filter", "burrowing spores", "chirping stereo", "beady eyes",
+                "pest", "vinyl", "squeaky mousemat", "atmospheric filter", "burrowing spores", "chirping stereo", "beady eyes",
                 "clipped wings", "bookworm's favorite book", "overclocker", "tasty cheese",
                 "squeaky", "fire in a bottle", "vermin vaporizer", "mantid claw", "wriggling larva",
                 "pesthunting", "sunder vi", "dung", "honey jar", "plant matter", "compost", "jelly"));

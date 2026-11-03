@@ -13,8 +13,14 @@ import java.util.Deque;
 /** Plays one cutscene at a time; drops that arrive meanwhile wait in a queue. */
 public final class CutsceneManager {
 
-    private record Pending(Drop drop, boolean test) {
+    private record Pending(Drop drop, boolean test, long queuedAt) {
+        Pending(Drop drop, boolean test) {
+            this(drop, test, System.nanoTime());
+        }
     }
+
+    /** Drops wait this long before playing, so a "killed a Beetle" line right after can still label them. */
+    private static final long HOLD_NANOS = 600_000_000L;
 
     private static final Deque<Pending> QUEUE = new ArrayDeque<>();
     private static final int MAX_QUEUE = 12;
@@ -34,13 +40,27 @@ public final class CutsceneManager {
         Pending last = QUEUE.peekLast();
         if (last != null && last.drop.name().equals(drop.name()) && last.drop.tier() == drop.tier()) {
             QUEUE.pollLast();
-            QUEUE.addLast(new Pending(last.drop.withCount(last.drop.count() + drop.count()), test));
+            QUEUE.addLast(new Pending(last.drop.withCount(last.drop.count() + drop.count()), test, last.queuedAt));
             return;
         }
         if (QUEUE.size() >= MAX_QUEUE) {
             QUEUE.pollFirst();
         }
         QUEUE.addLast(new Pending(drop, test));
+    }
+
+    /** A pest was just killed: label waiting drops that look like they came from it. */
+    static void attachPest(String pest) {
+        Pending[] all = QUEUE.toArray(new Pending[0]);
+        QUEUE.clear();
+        for (Pending p : all) {
+            boolean recent = System.nanoTime() - p.queuedAt < 2_000_000_000L;
+            if (recent && p.drop.pest().isEmpty() && !p.drop.fever() && Farming.isPestish(p.drop)) {
+                QUEUE.addLast(new Pending(p.drop.withPest(pest), p.test, p.queuedAt));
+            } else {
+                QUEUE.addLast(p);
+            }
+        }
     }
 
     public static void skip() {
@@ -92,7 +112,7 @@ public final class CutsceneManager {
             public void sound(Cutscene.Cue cue, float pitch, float volume) {
                 Sounds.play(cue, drop.effect(), pitch, volume);
             }
-        }, compact, p.test, cfg.music);
+        }, compact, p.test, cfg.music, cfg.vacuum);
         startNanos = System.nanoTime();
     }
 
@@ -103,15 +123,22 @@ public final class CutsceneManager {
             clear();
             return;
         }
+        McCanvas canvas = new McCanvas(graphics);
         if (active == null) {
-            Pending next = QUEUE.pollFirst();
-            if (next == null) return;
-            start(next);
+            Pending next = QUEUE.peekFirst();
+            if (next != null && System.nanoTime() - next.queuedAt >= HOLD_NANOS) {
+                QUEUE.pollFirst();
+                start(next);
+            }
+        }
+        if (active == null) {
+            Farming.render(canvas, false);
+            return;
         }
         float speed = Math.max(0.25f, Math.min(3f, Config.get().speed));
         float t = (System.nanoTime() - startNanos) / 1_000_000_000f * speed;
         try {
-            active.render(new McCanvas(graphics), t);
+            active.render(canvas, t);
         } catch (RuntimeException e) {
             ButcherClient.LOG.error("Cutscene crashed, skipping it", e);
             active = null;
@@ -120,5 +147,6 @@ public final class CutsceneManager {
         if (active.finished(t)) {
             active = null;
         }
+        Farming.render(canvas, true);
     }
 }

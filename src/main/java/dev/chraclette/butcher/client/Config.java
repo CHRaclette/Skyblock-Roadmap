@@ -24,6 +24,18 @@ public final class Config {
         public boolean onlyOnHypixel = true;
         public float volume = 1.0f;
         public float speed = 1.0f;
+        // Garden
+        public boolean feverIntro = true;
+        public boolean feverTimer = true;
+        public boolean feverSummary = true;
+        public boolean feverToasts = true;
+        /** Crop Fever rolls at or above this rank get a full cutscene (4 = CRAZY RARE). */
+        public int feverCutsceneFromRank = 4;
+        public boolean pestSpawn = true;
+        public boolean pestKills = true;
+        /** Vacuum scene for pest drops (false = chopping board like everything else). */
+        public boolean vacuum = true;
+
         /** Per tier: FULL cutscene, COMPACT (reveal only) or OFF. */
         public Map<String, Mode> modes = new LinkedHashMap<>();
     }
@@ -60,7 +72,7 @@ public final class Config {
 
     private static Mode defaultMode(DropTier tier) {
         return switch (tier) {
-            case UNCOMMON, RARE_CROP, CROP_FEVER -> Mode.COMPACT;
+            case UNCOMMON, RARE_CROP -> Mode.COMPACT;
             default -> Mode.FULL;
         };
     }

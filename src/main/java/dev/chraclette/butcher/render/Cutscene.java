@@ -39,7 +39,8 @@ public final class Cutscene {
     public record Price(long coins, String label) {
     }
 
-    public enum Cue { WHOOSH, THUMP, CHOP, SQUISH, SPLIT, MAGIC, REVEAL, LEVELUP, FIREWORK, TWINKLE, NOTE, BELL, TOTEM, POP }
+    public enum Cue { WHOOSH, THUMP, CHOP, SQUISH, SPLIT, MAGIC, REVEAL, LEVELUP, FIREWORK, TWINKLE, NOTE, BELL, TOTEM, POP,
+        BUZZ, SUCK, SLURP, RATTLE, SPIT, FEVER, FEVER_END, TOAST, PEST_ALERT }
 
     private record SoundAt(float time, Cue cue, float pitch, float volume) {
     }
@@ -52,12 +53,18 @@ public final class Cutscene {
     private static final float FLASH = 3.15f;
     private static final float REVEAL_FULL = 3.25f;
     private static final float REVEAL_TIME = 4.6f;
+    // pest (vacuum) scene
+    private static final float VAC_IN = 0.75f;
+    private static final float SUCK_START = 1.1f;
+    private static final float SUCK_END = 2.05f;
+    private static final float SPIT = 2.6f;
 
     private final Drop drop;
     private final Hooks hooks;
     private final boolean compact;
     private final boolean test;
     private final boolean music;
+    private final boolean pestScene;
     private final CubeSkin skin;
     private final long seed;
     private final Particles fx;
@@ -76,12 +83,17 @@ public final class Cutscene {
     private float nextFirework;
 
     public Cutscene(Drop drop, Hooks hooks, boolean compact, boolean test, boolean music) {
+        this(drop, hooks, compact, test, music, true);
+    }
+
+    public Cutscene(Drop drop, Hooks hooks, boolean compact, boolean test, boolean music, boolean vacuum) {
         this.drop = drop;
         this.hooks = hooks;
         this.compact = compact;
         this.test = test;
         this.music = music;
         this.skin = Skins.forDrop(drop);
+        this.pestScene = vacuum && drop.category() == dev.chraclette.butcher.core.Category.PEST && !drop.fever();
         this.seed = drop.name().hashCode() * 31L + drop.tier().ordinal();
         this.fx = new Particles(seed);
         this.random = new Random(seed ^ 0x5DEECE66DL);
@@ -114,7 +126,20 @@ public final class Cutscene {
 
     private void scheduleSounds() {
         int rank = drop.tier().rank;
-        if (!compact) {
+        if (!compact && pestScene) {
+            at(0.02f, Cue.WHOOSH, 0.8f, 0.6f);
+            at(LAND - 0.05f, Cue.THUMP, 1.4f, 0.7f);
+            at(0.3f, Cue.BUZZ, 1.6f, 0.8f);
+            at(VAC_IN, Cue.WHOOSH, 0.7f, 0.8f);
+            at(SUCK_START, Cue.SUCK, 1.0f, 0.9f);
+            at(SUCK_START + 0.5f, Cue.SUCK, 1.3f, 0.7f);
+            at(SUCK_END - 0.05f, Cue.SLURP, 1.0f, 1.0f);
+            at(SUCK_END + 0.1f, Cue.RATTLE, 1.0f, 0.8f);
+            at(SUCK_END + 0.3f, Cue.RATTLE, 1.3f, 0.8f);
+            at(SPIT, Cue.SPIT, 1.0f, 1.0f);
+            at(SPIT + 0.05f, Cue.MAGIC, 1.0f, 0.9f);
+            at(FLASH - 0.05f, Cue.POP, 1.2f, 0.8f);
+        } else if (!compact) {
             at(0.02f, Cue.WHOOSH, 0.8f, 0.6f);
             at(LAND - 0.05f, Cue.THUMP, 0.8f, 0.9f);
             at(STRIKE1 - 0.12f, Cue.WHOOSH, 1.3f, 0.7f);
@@ -172,7 +197,11 @@ public final class Cutscene {
         c.fill(0, 0, w, h, Fx.alpha(0x07060C, 0.62f * dim));
 
         if (!compact && t < FLASH + 0.05f) {
-            renderScene(c, t, dt, w, h);
+            if (pestScene) {
+                renderPestScene(c, t, dt, w, h);
+            } else {
+                renderScene(c, t, dt, w, h);
+            }
         }
 
         if (t >= reveal) {
@@ -286,6 +315,150 @@ public final class Cutscene {
         if (t >= SPLIT) {
             float cx = iso.sx(0, headH * 0.45f, 0), cy = iso.sy(0, headH * 0.45f, 0);
             effect(c, t - SPLIT, dt, cx, cy, iso.scale, crossed(t, dt, SPLIT + 0.02f));
+        }
+    }
+
+
+    // ---------------------------------------------------------------- the vacuum scene (pests)
+
+    private void renderPestScene(Canvas c, float t, float dt, int w, int h) {
+        float base = Math.min(h * 0.25f, w * 0.17f);
+        iso.scale = base;
+        iso.yaw = (float) Math.toRadians(30 + 4 * Math.sin(t * 0.9));
+        iso.pitch = (float) Math.toRadians(27);
+        iso.cx = w / 2f - base * 0.5f;
+        iso.cy = h * 0.70f;
+        if (t >= shakeUntil) shakeStrength = 0;
+        if (shakeStrength > 0) {
+            float k = (shakeUntil - t) / 0.25f;
+            iso.cx += (float) Math.sin(t * 90) * shakeStrength * k;
+        }
+        iso.begin();
+        float outline = Math.max(1f, iso.scale / 28f);
+        float sceneIn = Fx.backOut(t / 0.35f);
+
+        // glow once the vacuum spits
+        float open = Fx.smooth((t - SPIT) / 0.4f);
+        if (open > 0) {
+            float[] tip = iso.screen(Pose.identity(), 0.55f, 0.55f, 0);
+            Fx.glow(c, tip[0], tip[1], iso.scale * (1.4f + open), drop.color(), open * 0.5f, 3);
+        }
+
+        // board
+        float boardSize = 2.1f * sceneIn;
+        if (boardSize > 0.05f) {
+            Piece slab = new Piece(0, 0, 0, 1, 0.11f, 1, true);
+            iso.box(c, Skins.BOARD, slab, Pose.identity(), 0, -0.11f * boardSize, 0, boardSize, outline, 0, seed);
+        }
+
+        // vacuum: slides in from the right, nozzle pointing at the pest
+        float vin = Fx.easeOut((t - VAC_IN) / 0.35f);
+        float vx = 1.75f + 2.6f * (1 - vin);
+        float rattle = 0;
+        if (t > SUCK_END && t < SPIT + 0.15f) {
+            rattle = (float) Math.sin(t * 70) * 0.05f * (1 - Fx.smooth((t - SUCK_END) / (SPIT + 0.15f - SUCK_END)));
+        }
+        float bulge = t > SUCK_END && t < SPIT ? 0.08f * (float) Math.sin((t - SUCK_END) / (SPIT - SUCK_END) * Math.PI) : 0;
+        float recoil = t >= SPIT ? 0.15f * (1 - Fx.easeOut((t - SPIT) / 0.4f)) : 0;
+        float vs = 1.4f;
+        Pose vac = Pose.identity().pivot(vx, 0, 0).scale(vs, vs, vs).rollZ(rattle).move(recoil, 0, 0);
+
+        // pest position: hovers and zig-zags, then gets pulled into the nozzle
+        float fall = Fx.bounceOut(t / LAND);
+        float hover = Skins.flies(drop.pest()) ? 0.25f : 0f;
+        float px = (float) Math.sin(t * 5.3f) * 0.25f * Fx.smooth((t - LAND) / 0.3f);
+        float pz = (float) Math.cos(t * 3.7f) * 0.18f * Fx.smooth((t - LAND) / 0.3f);
+        float py = 3.2f * (1 - fall) + hover + (float) Math.abs(Math.sin(t * 9)) * 0.08f;
+        float pull = Fx.easeIn((t - SUCK_START) / (SUCK_END - SUCK_START));
+        float nozzleX = vx - 0.95f, nozzleY = 0.45f;
+        float worldNozzleX = vx - 0.95f * vs + recoil, worldNozzleY = nozzleY * vs;
+        px = px + (worldNozzleX - px) * pull;
+        py = py + (worldNozzleY - 0.2f - py) * pull;
+        pz = pz * (1 - pull);
+        float struggle = t > SUCK_START && t < SUCK_END ? (float) Math.sin(t * 60) * 0.06f * (1 - pull) : 0;
+        float size = (1 - pull * 0.9f) * 0.75f;
+        float stretch = 1 + pull * 1.4f;
+
+        if (vin > 0.01f) {
+            drawVacuum(c, vac, vx, outline, bulge);
+        }
+        if (t < SUCK_END) {
+            Pose pp = Pose.identity().pivot(px, py + size / 2, pz)
+                    .scale(stretch, 1 / (1 + pull * 0.6f), 1 / (1 + pull * 0.6f))
+                    .rollZ(struggle + pull * 0.3f);
+            iso.box(c, skin, Piece.WHOLE, pp, px, py, pz, size, outline, 0, seed);
+            if (Skins.flies(drop.pest())) {
+                drawWings(c, pp, px, py + size, pz, size, t);
+            }
+            if (t < SUCK_START) {
+                // buzzing lines
+                float[] sp = iso.screen(Pose.identity(), px, py + size, pz);
+                if (((int) (t * 12)) % 2 == 0) {
+                    Fx.line(c, sp[0] - iso.scale * 0.5f, sp[1] - iso.scale * 0.2f, sp[0] - iso.scale * 0.35f,
+                            sp[1] - iso.scale * 0.25f, 1, 0xC0FFFFFF);
+                    Fx.line(c, sp[0] + iso.scale * 0.35f, sp[1] - iso.scale * 0.3f, sp[0] + iso.scale * 0.5f,
+                            sp[1] - iso.scale * 0.22f, 1, 0xC0FFFFFF);
+                }
+            }
+        }
+
+        // suction streaks flowing into the nozzle
+        if (t > SUCK_START - 0.1f && t < SUCK_END + 0.2f) {
+            float[] tip = iso.screen(vac, nozzleX, nozzleY, 0);
+            Random r = fx.random();
+            spawn(dt, 55, () -> {
+                double ang = Math.PI * (0.6 + r.nextDouble() * 0.8);
+                float dist = iso.scale * (1.2f + r.nextFloat() * 0.8f);
+                P p = fx.add(tip[0] + (float) Math.cos(ang) * dist, tip[1] + (float) Math.sin(ang) * dist * 0.6f,
+                        -(float) Math.cos(ang) * dist * 2.4f, -(float) Math.sin(ang) * dist * 1.45f, 0.4f,
+                        Math.max(2, iso.scale / 12), r.nextBoolean() ? 0xFFFFFF : 0xBFE8FF);
+                p.kind = Kind.SHARD;
+                p.rot = (float) ang;
+            });
+        }
+        if (crossed(t, dt, SUCK_END - 0.02f)) {
+            float[] tip = iso.screen(vac, nozzleX, nozzleY, 0);
+            fx.burst(tip[0], tip[1], 14, iso.scale * 0.5f, iso.scale * 1.4f, iso.scale * 3, 0.5f, 2,
+                    Math.max(2, iso.scale / 12), skin.flesh(), skin.fleshDark());
+            shakeUntil = t + 0.2f;
+            shakeStrength = iso.scale * 0.04f;
+        }
+
+        // spit: the drop's effect bursts out of the nozzle
+        if (t >= SPIT) {
+            float[] tip = iso.screen(vac, nozzleX - 0.15f, nozzleY + 0.05f, 0);
+            if (crossed(t, dt, SPIT)) {
+                shakeUntil = t + 0.3f;
+                shakeStrength = iso.scale * 0.08f;
+            }
+            effect(c, t - SPIT, dt, tip[0], tip[1], iso.scale, crossed(t, dt, SPIT));
+        }
+    }
+
+    /** InfiniVacuum-ish: green tank, grey hose, wide nozzle pointing left. */
+    private void drawVacuum(Canvas c, Pose vac, float vx, float outline, float bulge) {
+        float b = bulge;
+        // wheels
+        iso.solidBox(c, vac, vx - 0.05f, 0, -0.42f, vx + 0.75f, 0.12f, 0.42f, 0x2A2A2A, 1, outline);
+        // tank
+        iso.solidBox(c, vac, vx - b, 0.1f, -0.33f - b, vx + 0.7f + b, 0.95f + b, 0.33f + b, 0x4FA83A, 1, outline);
+        // stripe + gauge
+        iso.solidBox(c, vac, vx - b - 0.01f, 0.55f, -0.34f - b, vx + 0.71f + b, 0.65f, 0.34f + b, 0xE8C440, 1, 0);
+        iso.solidBox(c, vac, vx + 0.2f, 0.95f + b, -0.12f, vx + 0.5f, 1.08f + b, 0.12f, 0x9AA3AD, 1, outline);
+        // hose to nozzle
+        iso.solidBox(c, vac, vx - 0.6f, 0.4f, -0.09f, vx, 0.55f, 0.09f, 0x6E747C, 1, outline);
+        // nozzle (wide mouth)
+        iso.solidBox(c, vac, vx - 0.95f, 0.3f, -0.2f, vx - 0.6f, 0.62f, 0.2f, 0x3C4148, 1, outline);
+        iso.solidBox(c, vac, vx - 0.97f, 0.34f, -0.16f, vx - 0.93f, 0.58f, 0.16f, 0x111111, 1, 0);
+    }
+
+    private void drawWings(Canvas c, Pose pp, float x, float y, float z, float size, float t) {
+        float flap = (float) Math.sin(t * 60) * 0.7f;
+        int col = 0xA0E8F4FF;
+        for (int side = -1; side <= 1; side += 2) {
+            Pose wing = Pose.identity().pivot(x, y, z).rollZ(side * (0.4f + flap * 0.5f));
+            iso.solidQuad(c, wing, new float[]{x, y, z - size * 0.3f}, new float[]{side * size * 0.8f, 0, 0},
+                    new float[]{0, 0, size * 0.6f}, new float[]{0, 1, 0}, col, 0, false);
         }
     }
 
@@ -667,7 +840,7 @@ public final class Cutscene {
         }
         float infoA = Fx.smooth((rt - 0.6f) / 0.3f) * fadeOut;
         if (infoA > 0.02f) {
-            StringBuilder info = new StringBuilder(drop.category().displayName);
+            StringBuilder info = new StringBuilder(drop.source());
             if (!drop.bonus().isEmpty()) info.append(" · ").append(drop.bonus());
             if (test) info.append(" · test run");
             Fx.centered(c, info.toString(), cx, textY + 26 * k, 0.75f * k, Fx.alpha(0xB8B8C8, infoA), false);

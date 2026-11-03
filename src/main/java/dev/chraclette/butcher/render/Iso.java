@@ -94,6 +94,11 @@ public final class Iso {
             return this;
         }
 
+        /** Scale about the pivot (applied before any rotation added later). */
+        public Pose scale(float sx, float sy, float sz) {
+            return mulLeft(new float[]{sx, 0, 0, 0, sy, 0, 0, 0, sz});
+        }
+
         public Pose pivot(float x, float y, float z) {
             px = x;
             py = y;
@@ -234,6 +239,39 @@ public final class Iso {
                 c.pop();
             }
         }
+    }
+
+    /**
+     * A box in plain colours (for machines like the vacuum). Corners in world units, around the pose.
+     * Faces get light/dark versions of the colour automatically.
+     */
+    public void solidBox(Canvas c, Pose pose, float x0, float y0, float z0, float x1, float y1, float z1,
+                         int rgb, float alpha, float outlinePx) {
+        float[][][] faces = {
+                {{x0, y1, z1}, {x1 - x0, 0, 0}, {0, y0 - y1, 0}, {0, 0, 1}},
+                {{x0, y1, z0}, {x1 - x0, 0, 0}, {0, 0, z1 - z0}, {0, 1, 0}},
+                {{x1, y1, z1}, {0, 0, z0 - z1}, {0, y0 - y1, 0}, {1, 0, 0}},
+                {{x0, y1, z0}, {0, 0, z1 - z0}, {0, y0 - y1, 0}, {-1, 0, 0}},
+                {{x1, y1, z0}, {x0 - x1, 0, 0}, {0, y0 - y1, 0}, {0, 0, -1}},
+                {{x0, y0, z1}, {x1 - x0, 0, 0}, {0, 0, z0 - z1}, {0, -1, 0}},
+        };
+        int a = Math.max(0, Math.min(255, Math.round(alpha * 255))) << 24;
+        if (outlinePx > 0) {
+            for (float[][] f : faces) {
+                solidQuad(c, pose, f[0], f[1], f[2], f[3], a, outlinePx, true);
+            }
+        }
+        for (float[][] f : faces) {
+            int dark = shade(pose, f[3]);
+            int col = Fx.lerpColor(rgb, 0, dark / 255f);
+            solidQuad(c, pose, f[0], f[1], f[2], f[3], a | col, 0, true);
+        }
+    }
+
+    /** Screen position of a world point after a pose. */
+    public float[] screen(Pose pose, float x, float y, float z) {
+        float[] w = pose.point(x, y, z);
+        return new float[]{sx(w[0], w[1], w[2]), sy(w[0], w[1], w[2])};
     }
 
     private static Face overlayFace(CubeSkin o, int index) {

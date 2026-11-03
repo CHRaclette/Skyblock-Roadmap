@@ -37,7 +37,8 @@ final class Commands {
         PRESETS.put("carmine", "INSANE DROP! (Carmine Dye) (+120% ✯ Magic Find)");
         PRESETS.put("cropie", "RARE CROP! Cropie (+23 ☘ Farming Fortune)");
         PRESETS.put("pest", "RARE DROP! Atmospheric Filter (+12% ✯ Pest Luck)");
-        PRESETS.put("fever", "WOAH! You got CROP FEVER for 60 seconds!");
+        PRESETS.put("vacuum", "RARE DROP! Beady Eyes (+12% ✯ Magic Find)");
+        PRESETS.put("feverdrop", "PRAY TO RNGESUS DROP! You dropped 12x Enchanted Hay Bale!");
         PRESETS.put("pet", "PET DROP! Ender Dragon (+200% ✯ Magic Find)");
     }
 
@@ -50,8 +51,28 @@ final class Commands {
                 return play(ctx, PRESETS.get(key), key);
             });
             for (String key : PRESETS.keySet()) {
+                if (key.equals("vacuum")) {
+                    test.then(ClientCommands.literal(key).executes(ctx -> {
+                        Drop d = DropParser.parse(PRESETS.get(key), "You", null);
+                        CutsceneManager.clear();
+                        CutsceneManager.enqueue(d.withPest("Fly"), true);
+                        say(ctx, "§7Playing §evacuum §7→ Beady Eyes from a Fly");
+                        return 1;
+                    }));
+                    continue;
+                }
                 test.then(ClientCommands.literal(key).executes(ctx -> play(ctx, PRESETS.get(key), key)));
             }
+            test.then(ClientCommands.literal("fever").executes(ctx -> {
+                Farming.testFever();
+                say(ctx, "§7Simulating a §6Crop Fever §7(20 s) with a few rolls...");
+                return 1;
+            }));
+            test.then(ClientCommands.literal("pests").executes(ctx -> {
+                Farming.testPests();
+                say(ctx, "§7Simulating §cpests§7: spawn, three kills and a rare drop...");
+                return 1;
+            }));
 
             dispatcher.register(ClientCommands.literal("butcher")
                     .executes(Commands::help)
@@ -84,6 +105,10 @@ final class Commands {
                                         say(ctx, "Volume: " + Config.get().volume);
                                         return 1;
                                     })))
+                    .then(ClientCommands.literal("farming")
+                            .executes(Commands::farming)
+                            .then(ClientCommands.argument("setting", StringArgumentType.word())
+                                    .executes(Commands::toggleFarming)))
                     .then(ClientCommands.literal("mode")
                             .executes(Commands::listModes)
                             .then(ClientCommands.argument("tier", StringArgumentType.word())
@@ -100,7 +125,7 @@ final class Commands {
             return 0;
         }
         CutsceneManager.clear();
-        CutsceneManager.enqueue(drop, true);
+        ButcherClient.handle(line, true);
         say(ctx, "§7Playing " + (key == null ? "" : "§e" + key + " §7") + "→ " + drop.tier().label + " §f"
                 + drop.displayName() + " §8(" + drop.category().displayName + ", " + drop.effect().name().toLowerCase(Locale.ROOT) + ")");
         return 1;
@@ -117,6 +142,67 @@ final class Commands {
         };
         Config.save();
         say(ctx, "§7" + what + ": " + (value ? "§aon" : "§coff"));
+        return 1;
+    }
+
+    private static final String[][] FARMING = {
+            {"feverintro", "Crop Fever intro animation"},
+            {"fevertimer", "Crop Fever countdown bar"},
+            {"feversummary", "summary when the fever ends"},
+            {"fevertoasts", "pop-ups for small fever rolls"},
+            {"pestspawn", "pop-up when pests spawn"},
+            {"pestkills", "pop-up when you vacuum a pest"},
+            {"vacuum", "vacuum scene for pest drops"},
+    };
+
+    private static boolean farmingValue(String key) {
+        Config.Data c = Config.get();
+        return switch (key) {
+            case "feverintro" -> c.feverIntro;
+            case "fevertimer" -> c.feverTimer;
+            case "feversummary" -> c.feverSummary;
+            case "fevertoasts" -> c.feverToasts;
+            case "pestspawn" -> c.pestSpawn;
+            case "pestkills" -> c.pestKills;
+            case "vacuum" -> c.vacuum;
+            default -> false;
+        };
+    }
+
+    private static int farming(CommandContext<FabricClientCommandSource> ctx) {
+        say(ctx, "§6Garden settings §7(click-free: /butcher farming <name> toggles it)");
+        for (String[] f : FARMING) {
+            say(ctx, " §e" + f[0] + " " + (farmingValue(f[0]) ? "§aon" : "§coff") + " §8- " + f[1]);
+        }
+        say(ctx, " §efevercutscene §f" + Config.get().feverCutsceneFromRank
+                + " §8- rolls from this rank get a full cutscene (2 rare, 4 crazy rare, 6 rngesus, 9 never)");
+        return 1;
+    }
+
+    private static int toggleFarming(CommandContext<FabricClientCommandSource> ctx) {
+        String key = StringArgumentType.getString(ctx, "setting").toLowerCase(Locale.ROOT);
+        Config.Data c = Config.get();
+        switch (key) {
+            case "feverintro" -> c.feverIntro = !c.feverIntro;
+            case "fevertimer" -> c.feverTimer = !c.feverTimer;
+            case "feversummary" -> c.feverSummary = !c.feverSummary;
+            case "fevertoasts" -> c.feverToasts = !c.feverToasts;
+            case "pestspawn" -> c.pestSpawn = !c.pestSpawn;
+            case "pestkills" -> c.pestKills = !c.pestKills;
+            case "vacuum" -> c.vacuum = !c.vacuum;
+            case "fevercutscene" -> c.feverCutsceneFromRank = c.feverCutsceneFromRank == 4 ? 6
+                    : c.feverCutsceneFromRank == 6 ? 9 : c.feverCutsceneFromRank == 9 ? 2 : 4;
+            default -> {
+                say(ctx, "§cUnknown setting. /butcher farming lists them.");
+                return 0;
+            }
+        }
+        Config.save();
+        if (key.equals("fevercutscene")) {
+            say(ctx, "§7fevercutscene: §f" + c.feverCutsceneFromRank);
+        } else {
+            say(ctx, "§7" + key + ": " + (farmingValue(key) ? "§aon" : "§coff"));
+        }
         return 1;
     }
 
@@ -151,7 +237,8 @@ final class Commands {
 
     private static int help(CommandContext<FabricClientCommandSource> ctx) {
         say(ctx, "§6§lButcher Drops §7— rare-drop cutscenes");
-        say(ctx, "§f/butcher test §7[" + String.join(", ", PRESETS.keySet()) + "]");
+        say(ctx, "§f/butcher test §7[" + String.join(", ", PRESETS.keySet()) + ", fever, pests]");
+        say(ctx, "§f/butcher farming §7Crop Fever + pest settings");
         say(ctx, "§f/butcher simulate <chat line> §7test any drop message");
         say(ctx, "§f/butcher skip §7stop the current cutscene");
         say(ctx, "§f/butcher toggle | sound | music | prices §7switch on/off");

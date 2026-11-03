@@ -17,7 +17,11 @@ public class Preview {
         return TEX.computeIfAbsent(path, p -> {
             String f = p.replace("textures/", "").replace("/", "_");
             try {
-                return ImageIO.read(new File("/home/claude/assets/" + f));
+                if (p.contains(":")) {
+                    String[] parts = p.split(":", 2);
+                    return ImageIO.read(new File(System.getProperty("res", "src/main/resources") + "/assets/" + parts[0] + "/" + parts[1]));
+                }
+                return ImageIO.read(new File(System.getProperty("assets", "/home/claude/assets") + "/" + f));
             } catch (Exception e) {
                 System.err.println("missing " + p);
                 BufferedImage img = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
@@ -81,6 +85,7 @@ public class Preview {
         float fps = Float.parseFloat(args.length > 3 ? args[3] : "15");
         int gw = 480, gh = 270, scale = 2;
         Drop drop = DropParser.parse(line, "Steve", null);
+        if (args.length > 5) drop = drop.withPest(args[5]);
         System.out.println(drop);
         BufferedImage bg = new BufferedImage(gw, gh, BufferedImage.TYPE_INT_RGB);
         Graphics2D bgG = bg.createGraphics();

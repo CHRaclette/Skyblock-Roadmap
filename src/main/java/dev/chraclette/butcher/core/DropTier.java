@@ -6,7 +6,6 @@ import java.util.Locale;
 public enum DropTier {
     UNCOMMON("UNCOMMON DROP!", 0x55FF55, 1),
     RARE_CROP("RARE CROP!", 0xFFAA00, 1),
-    CROP_FEVER("CROP FEVER!", 0xFFAA00, 1),
     RARE("RARE DROP!", 0xFFAA00, 2),
     VERY_RARE_CROP("VERY RARE CROP!", 0x5555FF, 2),
     VERY_RARE("VERY RARE DROP!", 0x5555FF, 3),

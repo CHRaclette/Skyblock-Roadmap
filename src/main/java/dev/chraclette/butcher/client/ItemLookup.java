@@ -43,7 +43,10 @@ final class ItemLookup {
     static ItemStack icon(Drop drop, ItemStack found) {
         if (!found.isEmpty()) return found;
         ItemStack stack = new ItemStack(fallback(drop));
-        if (drop.book() || drop.tier().rank >= 3) {
+        String n = drop.name().toLowerCase(Locale.ROOT);
+        boolean fancy = n.startsWith("enchanted") || n.startsWith("mutant") || n.startsWith("compacted")
+                || n.startsWith("polished") || n.startsWith("box of");
+        if (drop.book() || drop.tier().rank >= 3 || fancy) {
             stack.set(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true);
         }
         return stack;
@@ -94,8 +97,26 @@ final class ItemLookup {
         String n = drop.name().toLowerCase(Locale.ROOT);
         if (drop.effect() == Effect.DYE) return dye(drop.color());
         if (drop.book() || Themes.looksLikeEnchant(drop.name()) || n.contains("book")) return Items.ENCHANTED_BOOK;
-        if (drop.tier() == dev.chraclette.butcher.core.DropTier.CROP_FEVER) return Items.GOLDEN_HOE;
         if (n.contains("wool")) return byId("yellow_wool", Items.STRING);
+        if (n.contains("vinyl") || n.contains("stereo")) return byId("music_disc_cat", Items.JUKEBOX);
+        if (n.contains("hay")) return Items.HAY_BLOCK;
+        if (n.contains("golden carrot")) return Items.GOLDEN_CARROT;
+        if (n.contains("baked potato")) return Items.BAKED_POTATO;
+        if (n.contains("sugar")) return Items.SUGAR;
+        if (n.contains("cookie")) return Items.COOKIE;
+        if (n.contains("sunflower")) return byId("sunflower", Items.DANDELION);
+        if (n.contains("moonflower")) return byId("blue_orchid", Items.DANDELION);
+        if (n.contains("rose")) return byId("rose_bush", Items.POPPY);
+        if (n.contains("wings")) return Items.FEATHER;
+        if (n.contains("larva") || n.contains("worm")) return Items.SLIME_BALL;
+        if (n.contains("bottle")) return Items.GLASS_BOTTLE;
+        if (n.contains("claw")) return Items.SHEARS;
+        if (n.contains("chip")) return Items.REDSTONE;
+        if (n.contains("compost")) return Items.BONE_MEAL;
+        if (n.contains("honey")) return Items.HONEY_BOTTLE;
+        if (n.contains("jelly")) return Items.SLIME_BALL;
+        if (n.contains("plant matter")) return Items.KELP;
+        if (n.contains("cropie") || n.contains("squash") || n.contains("fermento") || n.contains("helianthus")) return Items.WHEAT_SEEDS;
         if (n.contains("feather")) return Items.FEATHER;
         if (n.contains("rune")) return Items.MAGMA_CREAM;
         if (n.contains("core")) return Items.HEART_OF_THE_SEA;
@@ -131,6 +152,10 @@ final class ItemLookup {
     }
 
     /** Coloured items are looked up by id: their Items fields changed in 26.x. */
+    static Item byIdPublic(String id, Item fallback) {
+        return byId(id, fallback);
+    }
+
     private static Item byId(String id, Item fallback) {
         Item item = BuiltInRegistries.ITEM.getValue(Identifier.withDefaultNamespace(id));
         return item == null || item == Items.AIR ? fallback : item;
