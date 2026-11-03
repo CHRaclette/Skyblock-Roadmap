@@ -122,7 +122,7 @@ public final class Particles {
                 }
                 case RING -> {
                     float r = p.size * (0.4f + 0.6f * t);
-                    Fx.ring(c, p.x, p.y, r, Math.max(1, Math.round(p.size / 8)), col);
+                    Fx.ring(c, p.x, p.y, r, Math.max(1, Math.min(3, Math.round(p.size / 25))), col);
                 }
                 case GLYPH -> {
                     c.push();

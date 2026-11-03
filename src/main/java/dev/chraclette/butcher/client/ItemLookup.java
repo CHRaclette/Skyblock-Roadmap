@@ -6,6 +6,8 @@ import dev.chraclette.butcher.core.Effect;
 import dev.chraclette.butcher.core.Themes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.item.Item;
@@ -93,7 +95,7 @@ final class ItemLookup {
         if (drop.effect() == Effect.DYE) return dye(drop.color());
         if (drop.book() || Themes.looksLikeEnchant(drop.name()) || n.contains("book")) return Items.ENCHANTED_BOOK;
         if (drop.tier() == dev.chraclette.butcher.core.DropTier.CROP_FEVER) return Items.GOLDEN_HOE;
-        if (n.contains("wool")) return Items.YELLOW_WOOL;
+        if (n.contains("wool")) return byId("yellow_wool", Items.WHITE_WOOL);
         if (n.contains("feather")) return Items.FEATHER;
         if (n.contains("rune")) return Items.MAGMA_CREAM;
         if (n.contains("core")) return Items.HEART_OF_THE_SEA;
@@ -121,17 +123,23 @@ final class ItemLookup {
         if (n.contains("talisman") || n.contains("ring") || n.contains("artifact") || n.contains("relic")) return Items.NETHER_STAR;
         if (n.contains("gem") || n.contains("opal")) return Items.EMERALD;
         if (n.contains("filter")) return Items.PAPER;
-        if (n.contains("cheese")) return Items.YELLOW_DYE;
+        if (n.contains("cheese")) return byId("yellow_dye", Items.GOLD_NUGGET);
         if (n.contains("stereo") || n.contains("vinyl")) return Items.MUSIC_DISC_CAT;
         if (n.contains("plushie") || n.contains("shelmet")) return Items.TURTLE_HELMET;
         if (drop.tier() == dev.chraclette.butcher.core.DropTier.PET) return Items.BONE;
         return Items.NETHER_STAR;
     }
 
+    /** Coloured items are looked up by id: their Items fields changed in 26.x. */
+    private static Item byId(String id, Item fallback) {
+        Item item = BuiltInRegistries.ITEM.getValue(Identifier.withDefaultNamespace(id));
+        return item == null || item == Items.AIR ? fallback : item;
+    }
+
     private static Item dye(int rgb) {
-        Item[] dyes = {Items.WHITE_DYE, Items.ORANGE_DYE, Items.MAGENTA_DYE, Items.LIGHT_BLUE_DYE, Items.YELLOW_DYE,
-                Items.LIME_DYE, Items.PINK_DYE, Items.GRAY_DYE, Items.LIGHT_GRAY_DYE, Items.CYAN_DYE, Items.PURPLE_DYE,
-                Items.BLUE_DYE, Items.BROWN_DYE, Items.GREEN_DYE, Items.RED_DYE, Items.BLACK_DYE};
+        String[] dyes = {"white_dye", "orange_dye", "magenta_dye", "light_blue_dye", "yellow_dye", "lime_dye",
+                "pink_dye", "gray_dye", "light_gray_dye", "cyan_dye", "purple_dye", "blue_dye", "brown_dye",
+                "green_dye", "red_dye", "black_dye"};
         int[] colors = {0xF9FFFE, 0xF9801D, 0xC74EBD, 0x3AB3DA, 0xFED83D, 0x80C71F, 0xF38BAA, 0x474F52, 0x9D9D97,
                 0x169C9C, 0x8932B8, 0x3C44AA, 0x835432, 0x5E7C16, 0xB02E26, 0x1D1D21};
         int best = 0;
@@ -146,6 +154,6 @@ final class ItemLookup {
                 best = i;
             }
         }
-        return dyes[best];
+        return byId(dyes[best], Items.GLOWSTONE_DUST);
     }
 }
