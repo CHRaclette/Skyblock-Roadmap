@@ -12,7 +12,7 @@
      "SkyBlock Level"
     ],
     [
-     "1,31 B",
+     "995 M",
      "Networth · 0,0 M Purse"
     ],
     [
@@ -32,7 +32,7 @@
      "Fairy Souls"
     ],
     [
-     "973",
+     "1018",
      "Farming Weight"
     ]
    ],
@@ -786,16 +786,16 @@
      "Fishing, auf 100"
     ],
     [
+     "Hedgehog",
+     "legendary",
+     56,
+     ""
+    ],
+    [
      "Grandma Wolf",
      "legendary",
      55,
      "nische"
-    ],
-    [
-     "Hedgehog",
-     "legendary",
-     52,
-     ""
     ],
     [
      "Rock",
@@ -955,15 +955,15 @@
      "Magical Power"
     ],
     [
-     "193",
+     "194",
      "SkyBlock Level"
     ],
     [
-     "852 M",
-     "Networth · 6,1 M Purse"
+     "884 M",
+     "Networth · 12,7 M Purse"
     ],
     [
-     "34.7",
+     "34.8",
      "Skill Average"
     ],
     [
@@ -979,7 +979,7 @@
      "Fairy Souls"
     ],
     [
-     "646",
+     "675",
      "Farming Weight"
     ]
    ],
@@ -1594,7 +1594,7 @@
     ],
     [
      "Carpentry",
-     40,
+     41,
      50
     ],
     [
@@ -1628,7 +1628,7 @@
      50
     ]
    ],
-   "sa": "Skill Average 34.7",
+   "sa": "Skill Average 34.8",
    "pets": [
     [
      "Mithril Golem",
@@ -1669,7 +1669,7 @@
     [
      "Hedgehog",
      "legendary",
-     57,
+     60,
      ""
     ],
     [
@@ -2364,7 +2364,7 @@
    ],
    [
     "Visitors",
-    "391 erledigt",
+    "418 erledigt",
     "74 verschiedene"
    ],
    [
@@ -2564,8 +2564,8 @@
    }
   },
   "copperBalance": {
-   "relaxo": 2720,
-   "amin": 1707
+   "relaxo": 2595,
+   "amin": 169
   },
   "tierBought": 3,
   "tierMax": 9
@@ -2678,15 +2678,15 @@
   ]
  ],
  "meta": {
-  "updated": "02.11.2026 13:34",
+  "updated": "03.11.2026 13:00",
   "url": null,
   "profile": "Raspberry",
   "players": {
    "relaxo": "Relaxo_GX",
    "amin": "ReverseAmin"
   },
-  "updatedDate": "2026-11-02",
-  "updatedAt": "2026-11-02T12:34:08.796Z",
+  "updatedDate": "2026-11-03",
+  "updatedAt": "2026-11-03T12:00:06.221Z",
   "reason": "automatisch",
   "sources": [
    "EliteBot API"
@@ -2696,7 +2696,7 @@
   [
    "Skill Average",
    37.6,
-   34.7
+   34.8
   ],
   [
    "Mining",
@@ -2740,8 +2740,8 @@
   ],
   [
    "Networth",
-   "1,31 B",
-   "852 M"
+   "995 M",
+   "884 M"
   ]
  ],
  "MINING_GUIDE": {
