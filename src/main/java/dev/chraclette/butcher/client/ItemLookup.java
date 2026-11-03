@@ -95,7 +95,7 @@ final class ItemLookup {
         if (drop.effect() == Effect.DYE) return dye(drop.color());
         if (drop.book() || Themes.looksLikeEnchant(drop.name()) || n.contains("book")) return Items.ENCHANTED_BOOK;
         if (drop.tier() == dev.chraclette.butcher.core.DropTier.CROP_FEVER) return Items.GOLDEN_HOE;
-        if (n.contains("wool")) return byId("yellow_wool", Items.WHITE_WOOL);
+        if (n.contains("wool")) return byId("yellow_wool", Items.STRING);
         if (n.contains("feather")) return Items.FEATHER;
         if (n.contains("rune")) return Items.MAGMA_CREAM;
         if (n.contains("core")) return Items.HEART_OF_THE_SEA;
