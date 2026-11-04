@@ -254,9 +254,10 @@ public final class BookView {
         c.fill(barX, barY, barX + barW, barY + 3, 0xFF2A1208);
         c.fill(barX, barY, barX + Math.round(barW * lv[1] / (float) Math.max(1, lv[2])), barY + 3, 0xFF000000 | OldBook.GOLD);
         String xp = lv[1] + " / " + lv[2] + " xp";
-        small(c, xp, x + 126 - Math.round(c.textWidth(xp) * 0.6f), y + 3, 0xFFE8D2B8, 0.6f);
+        small(c, xp, x + 126 - Math.round(c.textWidth(xp) * 0.6f), y + 7, 0xFFE8D2B8, 0.6f);
         if (!profile.isEmpty()) {
-            small(c, "Profile: " + profile, x + 6, y + 17, 0xFF000000 | OldBook.GOLD, 0.55f);
+            String pr = profile.length() > 14 ? profile.substring(0, 13) + "…" : profile;
+            small(c, pr, x + 126 - Math.round(c.textWidth(pr) * 0.6f), y, 0xFF000000 | OldBook.GOLD, 0.6f);
         }
         trophy(c, bx + bw - 2, y, time);
     }

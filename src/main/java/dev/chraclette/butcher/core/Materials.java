@@ -64,6 +64,9 @@ public final class Materials {
                 {"POTION", "potion"}, {"EMPTY_MAP", "map"}, {"MAP", "filled_map"}, {"SAPLING", "oak_sapling"},
                 {"STORAGE_MINECART", "chest_minecart"}, {"POWERED_MINECART", "furnace_minecart"},
                 {"EXPLOSIVE_MINECART", "tnt_minecart"}, {"HOPPER_MINECART", "hopper_minecart"},
+                {"WOOD_STAIRS", "oak_stairs"}, {"SPRUCE_WOOD_STAIRS", "spruce_stairs"},
+                {"BIRCH_WOOD_STAIRS", "birch_stairs"}, {"JUNGLE_WOOD_STAIRS", "jungle_stairs"},
+                {"SMOOTH_STAIRS", "stone_brick_stairs"}, {"RAILS", "rail"}, {"GRASS", "grass_block"},
                 {"IRON_SPADE", "iron_shovel"}, {"WOOD_SPADE", "wooden_shovel"}, {"STONE_SPADE", "stone_shovel"},
                 {"DIAMOND_SPADE", "diamond_shovel"}, {"GOLD_SPADE", "golden_shovel"}, {"QUARTZ_BLOCK", "quartz_block"},
         };
