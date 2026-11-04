@@ -21,6 +21,22 @@ Client-side and purely visual: it only reads chat and draws on your screen.
 - **Pests**: a pop-up when pests spawn ("4 Pests spawned in Plot - 14"), a pop-up for each pest you vacuum with its reward,
   and rare pest drops get their own scene: the pest buzzes around and gets sucked into a vacuum that spits out the drop.
 
+## Run scenes (CS2 case)
+- **Crystal Nucleus:** the crystal hangs at the top, the loot bundle falls into a hotbar while a list says what you got.
+  The rarest item comes last: a case pops out, opens like a CS2 case, the reel of every Nucleus RNG-Meter item
+  (Pickonimbus 2000 … Divan's Alloy) spins and lands on your drop. `/sa nucleus` = only runs with a rare item.
+- **Dungeon reward chests:** open a Wood…Bedrock chest (also via Croesus), click *Open Reward Chest*: the chest opens
+  at the top, items drop into the bar, a rare item rolls in the case. Obsidian and Bedrock always roll. `/sa chests` = all / rare / off.
+- **RNG Meter:** when Hypixel says *RNG METER! Reselected the …*, the meter fills to 100 %, the case rolls onto the item
+  with a rainbow glow (replaces the normal cutscene for that drop).
+
+## Special drops
+- **Dyes:** a paint bomb in the exact colour of the dye, big name, paint drips.
+- **Scatha / Crystal Hollows pets:** something burrows through a sand strip, the pet bursts out, slides across and snaps in with its rarity glow.
+
+## Ironman
+On an Ironman profile (♲ in the tab list) every price is the item's NPC sell price. `/sa ironman` = auto / on / off.
+
 ## Sticker book
 Press **J** (or `/sa book`). Every rare drop earns a sticker on its chapter page (Diana, Slayer, Dungeons, Garden,
 Pests, Fishing, Other). The more often (and the rarer) you drop an item, the better its sticker:
@@ -32,7 +48,7 @@ New and upgraded stickers get slapped onto your screen after the cutscene. Known
 **Ledger Level:** all sticker points (plus pests and Crop Fevers) count as XP for one overall level.
 **Badges:** Bronze / Silver / Gold for collecting and grinding each chapter, Mastery, Legend, Blessed (jackpot drops),
 Exterminator (pests), Feverish (Crop Fevers) and Loaded (coins). Earning a tier slams the medal onto your screen.
-Saved in `config/skyanimations-stickers.json`. `/sa test stickers` shows every level.
+Saved per profile in `config/skyanimations/stickers-<profile>.json`. `/sa test stickers` shows every level.
 
 ## What triggers it
 - `RARE / VERY RARE / CRAZY RARE / INSANE / PRAY TO RNGESUS / PET DROP!` (slayers, Diana, dungeons, fishing, pests, everything)
@@ -50,6 +66,10 @@ Saved in `config/skyanimations-stickers.json`. `/sa test stickers` shows every l
 | `/sa mode [type] [full\|compact\|off]` | per drop type: full cutscene, reveal only, or nothing |
 | `/sa everywhere` | also react outside Hypixel |
 | `/sa test fever` / `test pests` / `test vacuum` | try the Garden features |
+| `/sa test nucleus [common]` / `test chest` / `test rngmeter` | try the case scenes |
+| `/sa test necrondye` / `test scatha` | try the dye and Scatha scenes |
+| `/sa give all` / `give <paper…holo> [name]` / `give reset` | fill the sticker book with test stickers (reset removes only those) |
+| `/sa nucleus` / `chests` / `ironman` | Nucleus only-rare, dungeon chest mode, Ironman prices |
 | `/sa farming [setting]` | list / toggle: feverintro, fevertimer, feversummary, fevertoasts, pestspawn, pestkills, vacuum, fevercutscene |
 
 Settings live in `config/skyanimations.json`.
