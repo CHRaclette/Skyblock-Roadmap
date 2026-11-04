@@ -70,6 +70,8 @@ public final class BookView {
     }
 
     public void render(Canvas c, int mouseX, int mouseY, float time) {
+        this.mouseX = mouseX;
+        this.mouseY = mouseY;
         if (openedAt < 0) openedAt = time;
         hits.clear();
         int w = c.width(), h = c.height();
@@ -253,18 +255,110 @@ public final class BookView {
         c.fill(barX, barY, barX + Math.round(barW * lv[1] / (float) Math.max(1, lv[2])), barY + 3, 0xFF000000 | OldBook.GOLD);
         String xp = lv[1] + " / " + lv[2] + " xp";
         small(c, xp, x + 126 - Math.round(c.textWidth(xp) * 0.6f), y + 3, 0xFFE8D2B8, 0.6f);
-        // badge counts on the right
-        OldBook.label(c, bx + bw - 140, y - 2, 136, 22);
-        int rx = bx + bw - 8;
-        Badges.Tier[] tiers = {Badges.Tier.GOLD, Badges.Tier.SILVER, Badges.Tier.BRONZE};
-        for (Badges.Tier t : tiers) {
-            String n = String.valueOf(Badges.count(ledger, t));
-            int tw = c.textWidth(n);
-            rx -= tw + 18;
-            Medal.draw(c, rx + 5, y + 8, 6, t, null, time, false, t.ordinal());
-            c.text(n, rx + 13, y + 4, 0xFF000000 | OldBook.GOLD_LIGHT, true);
+        trophy(c, bx + bw - 2, y, time);
+    }
+
+    private int mouseX, mouseY;
+
+    /** Your rarest drop ever, framed and hanging from a nail, plus a live dry-streak timer. */
+    private void trophy(Canvas c, int right, int y, float time) {
+        Entry best = null;
+        long lastAt = 0;
+        for (Entry e : ledger.stickers.values()) {
+            lastAt = Math.max(lastAt, e.lastAt);
+            if (best == null || e.bestRank > best.bestRank
+                    || e.bestRank == best.bestRank && (e.points > best.points
+                    || e.points == best.points && e.firstAt < best.firstAt)) {
+                best = e;
+            }
         }
-        small(c, "Badges", rx - 34, y + 5, 0xFF000000 | OldBook.GOLD_LIGHT, 0.8f);
+        long now = System.currentTimeMillis();
+
+        // frame hanging on a nail
+        int fs = 22;
+        float fx = right - fs / 2f - 6, nailY = y - 11;
+        boolean hov = Math.abs(mouseX - fx) < fs / 2f + 3 && mouseY > nailY && mouseY < nailY + fs + 12;
+        float swing = (float) Math.sin(time * 1.6f) * (hov ? 0.12f : 0.05f);
+        c.push();
+        c.translate(fx, nailY);
+        c.rotate(swing);
+        // string
+        Fx.line(c, 0, 0, -fs / 2f + 2, 6, 1, 0xFF3A2A1A);
+        Fx.line(c, 0, 0, fs / 2f - 2, 6, 1, 0xFF3A2A1A);
+        int top = 5, half = fs / 2;
+        c.fill(-half - 3 + 2, top + 2, half + 3 + 2, top + fs + 6 + 2, 0x50000000);
+        c.fill(-half - 3, top, half + 3, top + fs + 6, 0xFF000000 | OldBook.GOLD_DARK);
+        c.fill(-half - 2, top + 1, half + 2, top + fs + 5, 0xFF000000 | OldBook.GOLD);
+        c.fill(-half - 2, top + 1, half + 2, top + 2, 0xFF000000 | OldBook.GOLD_LIGHT);
+        c.fill(-half, top + 3, half, top + fs + 3, 0xFF000000 | OldBook.GOLD_DARK);
+        c.fill(-half + 1, top + 4, half - 1, top + fs + 2, 0xFF5A1018);
+        for (int i = 0; i < 4; i++) {
+            int ox = (i % 2 == 0 ? -half - 1 : half), oy = (i < 2 ? top : top + fs + 4);
+            c.fill(ox, oy, ox + 1, oy + 1, 0xFF000000 | OldBook.GOLD_LIGHT);
+        }
+        if (best != null) {
+            Sticker.draw(c, 0, top + 3 + (fs - 2) / 2f, fs - 8, best.level(), icons.apply(best.name), 0, time, false, 7);
+        } else {
+            c.text("?", -c.textWidth("?") / 2, top + fs / 2 - 1, 0xFF000000 | OldBook.GOLD_LIGHT, true);
+        }
+        c.pop();
+        // nail
+        c.fill(Math.round(fx) - 1, Math.round(nailY) - 1, Math.round(fx) + 2, Math.round(nailY) + 2, 0xFF6A6A6A);
+        c.fill(Math.round(fx), Math.round(nailY) - 1, Math.round(fx) + 1, Math.round(nailY), 0xFFCFCFCF);
+
+        // brass-plate label to the left
+        int lw = 150, lx = right - fs - 18 - lw;
+        OldBook.label(c, lx, y - 4, lw, 26);
+        if (best == null) {
+            small(c, "RAREST FIND", lx + 6, y, 0xFF000000 | OldBook.GOLD, 0.6f);
+            small(c, "Nothing yet...", lx + 6, y + 6, 0xFF000000 | OldBook.GOLD_LIGHT, 0.85f);
+            small(c, "Go get that first drop!", lx + 6, y + 15, 0xFFB89A70, 0.6f);
+        } else {
+            small(c, "RAREST FIND · " + ago(now - best.firstAt) + " ago", lx + 6, y - 1, 0xFF000000 | OldBook.GOLD, 0.6f);
+            String name = best.name;
+            int maxW = Math.round((lw - 12) / 0.85f);
+            while (name.length() > 3 && c.textWidth(name) > maxW) name = name.substring(0, name.length() - 2) + "…";
+            c.push();
+            c.translate(lx + 6, y + 5);
+            c.scale(0.85f, 0.85f);
+            Fx.bold(c, name, 0, 0, 0xFF000000 | Fx.lerpColor(OldBook.GOLD_LIGHT, best.level().color, 0.3f));
+            c.pop();
+            long dry = now - lastAt;
+            int dryCol = dry < 3_600_000L ? 0x9ED36A : dry < 6 * 3_600_000L ? 0xE8B04A : 0xE8604A;
+            float pulse = dry > 6 * 3_600_000L ? 0.7f + 0.3f * (float) Math.sin(time * 4) : 1f;
+            small(c, "Dry streak: " + ago(dry), lx + 6, y + 15, Fx.alpha(dryCol, pulse), 0.6f);
+            String tier = best.bestTier;
+            if (!tier.isEmpty()) {
+                int tw = Math.round(c.textWidth(tier) * 0.55f);
+                small(c, tier, lx + lw - 6 - tw, y + 15, 0xFF000000 | OldBook.aged(tierColor(best.bestRank)), 0.55f);
+            }
+            if (hov) {
+                hovered = new Slot(best.name, best);
+                hx = mouseX;
+                hy = mouseY;
+            }
+            final Chapter ch = best.chapter;
+            hits.add(new Hit(Math.round(fx - half - 4), Math.round(nailY), Math.round(fx + half + 4), Math.round(nailY + fs + 14),
+                    () -> select(ch)));
+        }
+    }
+
+    private static int tierColor(int rank) {
+        for (dev.chraclette.butcher.core.DropTier t : dev.chraclette.butcher.core.DropTier.values()) {
+            if (t.rank == rank) return t.color;
+        }
+        return 0xFFAA00;
+    }
+
+    /** 42s / 12m 5s / 3h 14m / 2d 5h */
+    private static String ago(long ms) {
+        long s = Math.max(0, ms / 1000);
+        if (s < 60) return s + "s";
+        long m = s / 60;
+        if (m < 60) return m + "m " + (s % 60) + "s";
+        long h = m / 60;
+        if (h < 24) return h + "h " + (m % 60) + "m";
+        return (h / 24) + "d " + (h % 24) + "h";
     }
 
     private void badgesPage(Canvas c, int px, int py, int pw, int ph, int mouseX, int mouseY, float time) {

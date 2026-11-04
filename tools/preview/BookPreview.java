@@ -29,6 +29,10 @@ public class BookPreview {
             Drop drop = DropParser.parse(d[0], "Steve", Category.DIANA);
             for (int i = 0; i < Integer.parseInt(d[1]); i++) ledger.record(drop, 1_500_000, now);
         }
+        for (Ledger.Entry e : ledger.stickers.values()) {
+            e.firstAt = now - 3L * 24 * 3600_000 - 5 * 3600_000;
+            e.lastAt = now - (2 * 3600_000 + 14 * 60_000);
+        }
         ledger.pestsVacuumed = 1234;
         ledger.fevers = 12;
         ledger.jackpots = 1;
