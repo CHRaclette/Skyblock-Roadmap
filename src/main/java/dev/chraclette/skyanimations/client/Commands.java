@@ -41,6 +41,8 @@ final class Commands {
         PRESETS.put("vacuum", "RARE DROP! Beady Eyes (+12% ✯ Magic Find)");
         PRESETS.put("feverdrop", "PRAY TO RNGESUS DROP! You dropped 12x Enchanted Hay Bale!");
         PRESETS.put("pet", "PET DROP! Ender Dragon (+200% ✯ Magic Find)");
+        PRESETS.put("scatha", "PET DROP! Scatha (+254% ✯ Magic Find)");
+        PRESETS.put("necrondye", "RARE DROP! Necron Dye (+312% ✯ Magic Find)");
     }
 
     private static int next;
@@ -85,6 +87,16 @@ final class Commands {
                         say(ctx, "§7Simulating a §dCrystal Nucleus §7run without a rare drop...");
                         return 1;
                     })));
+            test.then(ClientCommands.literal("chest").executes(ctx -> {
+                DungeonChest.test();
+                say(ctx, "§7Simulating an §5Obsidian Chest §7with a Necron's Handle...");
+                return 1;
+            }));
+            test.then(ClientCommands.literal("rngmeter").executes(ctx -> {
+                RngMeter.test();
+                say(ctx, "§7Simulating an §dRNG Meter §7drop (Judgement Core)...");
+                return 1;
+            }));
             test.then(ClientCommands.literal("pests").executes(ctx -> {
                 Farming.testPests();
                 say(ctx, "§7Simulating §cpests§7: spawn, three kills and a rare drop...");
@@ -153,6 +165,17 @@ final class Commands {
                                 say(ctx, "§7Crystal Nucleus scene: §f" + (c.nucleusOnlyRare ? "only when a rare item drops" : "every run (case only for rare items)"));
                                 return 1;
                             }))
+                    .then(ClientCommands.literal("chests").executes(ctx -> {
+                        Config.Data cfg = Config.get();
+                        cfg.dungeonChests = switch (cfg.dungeonChests) {
+                            case "all" -> "rare";
+                            case "rare" -> "off";
+                            default -> "all";
+                        };
+                        Config.save();
+                        say(ctx, "§7Dungeon chest scenes: §f" + cfg.dungeonChests + " §8(all → rare → off)");
+                        return 1;
+                    }))
                     .then(ClientCommands.literal("book").executes(ctx -> {
                         BookKey.openSoon();
                         return 1;
@@ -316,7 +339,7 @@ final class Commands {
 
     private static int help(CommandContext<FabricClientCommandSource> ctx) {
         say(ctx, "§6§lSkyAnimations §7— rare-drop cutscenes");
-        say(ctx, "§f/sa test §7[" + String.join(", ", PRESETS.keySet()) + ", fever, pests, stickers, nucleus]");
+        say(ctx, "§f/sa test §7[" + String.join(", ", PRESETS.keySet()) + ", fever, pests, stickers, nucleus, chest, rngmeter]");
         say(ctx, "§f/sa ironman §7prices as NPC sell prices (auto / on / off)");
         say(ctx, "§f/sa nucleus §7Crystal Nucleus scene every run or only for rare drops");
         say(ctx, "§f/sa farming §7Crop Fever + pest settings");

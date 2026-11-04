@@ -28,6 +28,11 @@ public final class Config {
         public String ironman = "auto";
         /** Crystal Nucleus scene on/off, only when a rare item drops, and what counts as rare by price. */
         public boolean nucleus = true;
+        public boolean rngMeter = true;
+        public boolean dyeScene = true;
+        public boolean scathaScene = true;
+        /** Dungeon reward chests: all, rare (only with a rare item), off. */
+        public String dungeonChests = "all";
         public boolean nucleusOnlyRare = false;
         public long nucleusRareCoins = 1_000_000;
 

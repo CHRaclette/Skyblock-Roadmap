@@ -82,7 +82,7 @@ final class ItemLookup {
         return -1;
     }
 
-    private static int color(Component component) {
+    static int color(Component component) {
         TextColor tc = component.getStyle().getColor();
         return tc == null ? -1 : tc.getValue();
     }

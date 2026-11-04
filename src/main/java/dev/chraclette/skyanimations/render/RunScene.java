@@ -11,12 +11,15 @@ import java.util.Locale;
 import java.util.Random;
 
 /**
+ * A "run reward" scene with a CS2 case at the end. Used for Crystal Nucleus runs, dungeon reward
+ * chests and RNG Meter drops; the {@link Style} decides what hangs at the top.
+ *
  * Crystal Nucleus run: the Nucleus crystal hangs at the top, the loot falls out of it one by one
  * into a hotbar while a list says what you got. If there is a rare item, it comes last: a case
  * pops out of the crystal and opens like a CS2 case, the reel of every RNG-meter item spins and
  * lands on your drop, which then drops into the last slot.
  */
-public final class NucleusScene implements Scene {
+public final class RunScene implements Scene {
 
     /** One loot entry. color = rarity colour (RGB). */
     public record Loot(String name, int count, Object icon, int color, long coins, boolean powder) {
@@ -26,6 +29,44 @@ public final class NucleusScene implements Scene {
     public record ReelItem(String name, Object icon, int color) {
     }
 
+    /** Where the loot comes from. */
+    public enum Source { CRYSTAL, CHEST, METER }
+
+    /**
+     * Look of the scene.
+     * @param title      header text ("CRYSTAL NUCLEUS", "OBSIDIAN CHEST", "RNG METER")
+     * @param subtitle   small line under the header (e.g. "Catacombs - Floor 7"), may be empty
+     * @param accent     chest / meter colour (RGB)
+     * @param rareTitle  big text after the case ("RARE NUCLEUS DROP!")
+     * @param summary    start of the summary line ("Nucleus run")
+     */
+    public record Style(Source source, String title, String subtitle, int accent, String rareTitle, String summary) {
+        public static Style nucleus() {
+            return new Style(Source.CRYSTAL, "CRYSTAL NUCLEUS", "", 0xB05CFF, "RARE NUCLEUS DROP!", "Nucleus run");
+        }
+
+        public static Style chest(String chest, String floor, int accent) {
+            return new Style(Source.CHEST, chest.toUpperCase(Locale.ROOT), floor, accent,
+                    chest.toUpperCase(Locale.ROOT) + " JACKPOT!", chest);
+        }
+
+        public static Style meter(String source) {
+            return new Style(Source.METER, "RNG METER", source, 0xFF55FF, "RNG METER DROP!", "RNG Meter");
+        }
+    }
+
+    /** Colour of a dungeon reward chest by name (Wood, Gold, Diamond, Emerald, Obsidian, Bedrock). */
+    public static int chestColor(String chest) {
+        String c = chest.toLowerCase(Locale.ROOT);
+        if (c.startsWith("wood")) return 0x9C6B30;
+        if (c.startsWith("gold")) return 0xF2C230;
+        if (c.startsWith("diamond")) return 0x5CE1E6;
+        if (c.startsWith("emerald")) return 0x2EBD59;
+        if (c.startsWith("obsidian")) return 0x4A2A78;
+        if (c.startsWith("bedrock")) return 0x6A6A6A;
+        return 0x9C6B30;
+    }
+
     public interface Hooks {
         void sound(Cue cue, float pitch, float volume);
     }
@@ -33,7 +74,7 @@ public final class NucleusScene implements Scene {
     private static final int[] GEMS = {0xFFB12E, 0xB05CFF, 0x3DDC84, 0x3C8DFF, 0xFFE14A}; // amber amethyst jade sapphire topaz
     private static final NumberFormat NUM = NumberFormat.getIntegerInstance(Locale.US);
 
-    private static final float INTRO = 0.9f;
+    private final float INTRO;
     private static final float STEP = 0.48f;
     private static final float FLIGHT = 0.42f;
     private static final float CASE_SHAKE = 0.9f;
@@ -53,6 +94,7 @@ public final class NucleusScene implements Scene {
     private final Particles fx = new Particles(1234);
     private final Random random;
     private final boolean test;
+    private final Style style;
 
     private final float dropsEnd, caseStart, reelStart, reelStop, winLand, end;
     private float lastT = -1;
@@ -65,7 +107,13 @@ public final class NucleusScene implements Scene {
      * @param rareIdx index in loot of the rare item, or -1 if none is rare
      * @param pool    every item on the Nucleus RNG meter, for the reel
      */
-    public NucleusScene(List<Loot> loot, int rareIdx, List<ReelItem> pool, Hooks hooks, boolean test) {
+    public RunScene(List<Loot> loot, int rareIdx, List<ReelItem> pool, Hooks hooks, boolean test) {
+        this(Style.nucleus(), loot, rareIdx, pool, hooks, test);
+    }
+
+    public RunScene(Style style, List<Loot> loot, int rareIdx, List<ReelItem> pool, Hooks hooks, boolean test) {
+        this.style = style;
+        this.INTRO = style.source == Source.METER ? 1.9f : style.source == Source.CHEST ? 1.2f : 0.9f;
         this.hooks = hooks;
         this.test = test;
         this.random = new Random(loot.hashCode());
@@ -162,7 +210,11 @@ public final class NucleusScene implements Scene {
         }
 
         boolean spinning = rare && t >= caseStart && t < winLand;
-        crystal(c, t, k, fade, spinning ? 0.35f : 1f);
+        switch (style.source) {
+            case CRYSTAL -> crystal(c, t, k, fade, spinning ? 0.35f : 1f);
+            case CHEST -> chest(c, t, k, fade, spinning ? 0.35f : 1f);
+            case METER -> meter(c, t, k, fade, spinning ? 0.35f : 1f);
+        }
         hotbar(c, t, k, fade);
         drops(c, t, dt, k);
         feed(c, t, k, fade);
@@ -215,7 +267,89 @@ public final class NucleusScene implements Scene {
             c.fill(sx - 2, sy, sx + 3, sy + 1, Fx.alpha(0xFFFFFF, a));
             c.fill(sx, sy - 2, sx + 1, sy + 3, Fx.alpha(0xFFFFFF, a));
         }
-        Fx.centered(c, "CRYSTAL NUCLEUS", cx, cy - size - 16 * k, 1.1f * k, Fx.alpha(0xE8D8FF, a * Fx.smooth((t - 0.2f) / 0.4f)), true);
+        header(c, t, k, a, cx, cy - size - 16 * k);
+    }
+
+    /** A dungeon reward chest at the top: its lid swings open and the loot flies out. */
+    private void chest(Canvas c, float t, float k, float fade, float alpha) {
+        float cx = crystalX(c), cy = crystalY(c) + 12 * k;
+        float appear = Fx.backOut(t / 0.5f);
+        float a = fade * alpha;
+        if (appear <= 0.01f) return;
+        float w = 40 * k * appear, h = 24 * k * appear, lidH = 9 * k * appear;
+        int col = style.accent;
+        float open = Fx.easeOut((t - 0.55f) / 0.35f);
+        if (open > 0) {
+            Fx.glow(c, cx, cy - h / 2, 50 * k * open, Fx.lerpColor(col, 0xFFE8A0, 0.6f), a * 0.9f * open, 2);
+            Fx.rays(c, cx, cy - h / 2, 80 * k * open, 12, t * 0.4f, 0xFFE8A0, a * 0.6f * open);
+        }
+        int x1 = Math.round(cx - w / 2), x2 = Math.round(cx + w / 2);
+        int top = Math.round(cy - h / 2), bottom = Math.round(cy + h / 2);
+        c.fill(x1 - 1, top - 1, x2 + 1, bottom + 1, Fx.alpha(0x0A0A0A, a));
+        c.fill(x1, top, x2, bottom, Fx.alpha(col, a));
+        c.fill(x1, bottom - Math.round(3 * k), x2, bottom, Fx.alpha(Fx.darken(col, 0.35f), a));
+        // planks / bands
+        for (int i = 1; i < 3; i++) {
+            int yy = top + Math.round(i * h / 3);
+            c.fill(x1, yy, x2, yy + 1, Fx.alpha(Fx.darken(col, 0.25f), a));
+        }
+        c.fill(x1, top, x2, top + Math.round(2 * k), Fx.alpha(Fx.brighten(col, 0.3f), a));
+        // latch
+        c.fill(Math.round(cx - 2 * k), top - Math.round(2 * k), Math.round(cx + 2 * k), top + Math.round(4 * k), Fx.alpha(0xD8D8D8, a));
+        // lid (hinged at the back: it rises and flips over)
+        c.push();
+        c.translate(cx, top);
+        c.translate(0, -open * 14 * k);
+        c.rotate(-open * 0.35f);
+        int lw = Math.round(w / 2);
+        int lh = Math.round(lidH * (1 - 0.5f * open));
+        c.fill(-lw - 1, -lh - 1, lw + 1, 1, Fx.alpha(0x0A0A0A, a));
+        c.fill(-lw, -lh, lw, 0, Fx.alpha(Fx.brighten(col, 0.12f), a));
+        c.fill(-lw, -lh, lw, -lh + Math.round(2 * k), Fx.alpha(Fx.brighten(col, 0.35f), a));
+        c.pop();
+        if (open > 0 && open < 1 && t - 0.55f < 0.06f) hooks.sound(Cue.CASE_OPEN, 0.8f, 0.6f);
+        header(c, t, k, a, cx, top - lidH - 27 * k);
+    }
+
+    /** RNG meter: a pink bar fills to 100 %, flashes, and the case is on its way. */
+    private void meter(Canvas c, float t, float k, float fade, float alpha) {
+        float cx = crystalX(c), cy = crystalY(c) + 8 * k;
+        float a = fade * alpha * Fx.smooth(t / 0.3f);
+        float w = 150 * k, h = 9 * k;
+        float fill = 0.62f + 0.38f * Fx.easeInOut(Fx.clamp01((t - 0.3f) / 1.1f));
+        boolean full = fill >= 0.999f;
+        int x1 = Math.round(cx - w / 2), x2 = Math.round(cx + w / 2), y1 = Math.round(cy - h / 2), y2 = Math.round(cy + h / 2);
+        c.fill(x1 - 2, y1 - 2, x2 + 2, y2 + 2, Fx.alpha(0x000000, a * 0.9f));
+        c.fill(x1, y1, x2, y2, Fx.alpha(0x2A1A2E, a));
+        int fx2 = Math.round(x1 + w * fill);
+        int col = full ? Fx.lerpColor(0xFF55FF, 0xFFFFFF, 0.5f + 0.5f * (float) Math.sin(t * 14)) : 0xFF55FF;
+        c.fill(x1, y1, fx2, y2, Fx.alpha(col, a));
+        c.fill(x1, y1, fx2, y1 + Math.max(1, Math.round(2 * k)), Fx.alpha(0xFFB8FF, a));
+        // stripes moving along the bar
+        for (float sx = x1 + ((t * 30 * k) % (10 * k)); sx < fx2 - 3 * k; sx += 10 * k) {
+            c.fill(Math.round(sx), y1, Math.round(sx + 3 * k), y2, Fx.alpha(0xFFFFFF, a * 0.18f));
+        }
+        String pct = Math.round(fill * 100) + "%";
+        Fx.centered(c, pct, cx, cy - 4 * k, 0.8f * k, Fx.alpha(0xFFFFFF, a), true);
+        if (full) {
+            float ft = t - 1.4f;
+            if (ft >= 0 && ft < 0.05f) {
+                hooks.sound(Cue.LEVELUP, 1.4f, 0.8f);
+                fx.burst(cx, cy, 40, 40 * k, 140 * k, 30 * k, 0.8f, 1, 2.5f * k, 0xFF55FF, 0xFFFFFF, 0xFFB8FF);
+            }
+            Fx.glow(c, cx, cy, w * 0.6f, 0xFF55FF, a * 0.5f * (1 - Fx.smooth(ft / 1.5f)), 2);
+        } else if (((int) (fill * 40)) != ((int) ((fill - 0.01f) * 40)) && t > 0.3f) {
+            // nothing: the TICK sound is reserved for the reel
+        }
+        header(c, t, k, a, cx, cy - h - 18 * k);
+    }
+
+    private void header(Canvas c, float t, float k, float a, float cx, float y) {
+        float ta = a * Fx.smooth((t - 0.2f) / 0.4f);
+        Fx.centered(c, style.title, cx, y, 1.1f * k, Fx.alpha(Fx.lerpColor(style.accent, 0xFFFFFF, 0.55f), ta), true);
+        if (!style.subtitle.isEmpty()) {
+            Fx.centered(c, style.subtitle, cx, y + 11 * k, 0.75f * k, Fx.alpha(0xBBBBBB, ta), false);
+        }
     }
 
     // ---------------------------------------------------------------- hotbar + drops
@@ -224,7 +358,7 @@ public final class NucleusScene implements Scene {
         float appear = Fx.easeOut((t - 0.3f) / 0.4f);
         if (appear <= 0) return;
         float s = slotSize(c);
-        float y = slotY(c) + (1 - appear) * 30 * k;
+        float y = slotY(c) - (1 - appear) * 40 * k;
         float x0 = slotX(c, 0) - s / 2f;
         c.fill(Math.round(x0 - 2), Math.round(y - s / 2 - 2), Math.round(x0 + slots.size() * s + 2), Math.round(y + s / 2 + 2),
                 Fx.alpha(0x000000, 0.85f * fade));
@@ -415,6 +549,17 @@ public final class NucleusScene implements Scene {
             ReelItem it = reel.get(i);
             boolean winner = reelDone && i == winIndex;
             float grow = winner ? 1 + 0.08f * Fx.backOut(Math.min(1, (t - reelStop) / 0.3f)) : 1;
+            if (winner) {
+                // enchanted rainbow glow + sparks around the winning card
+                float ht = t - reelStop;
+                int rb = Fx.hsv((ht * 0.6f) % 1f, 0.7f, 1f);
+                Fx.glow(c, x + cardW / 2, py + 8 * k + cardH / 2, cardW * 1.1f, rb, pa * 0.7f, 2);
+                if (random.nextFloat() < 0.5f) {
+                    P sp = fx.add(x + random.nextFloat() * cardW, py + 8 * k + random.nextFloat() * cardH,
+                            (random.nextFloat() - 0.5f) * 40 * k, -30 * k * random.nextFloat(), 0.6f, 2 * k, rb);
+                    sp.kind = Kind.SPARKLE;
+                }
+            }
             drawCard(c, x, py + 8 * k, cardW, cardH, it, k, pa * (reelDone && !winner ? 0.45f : 1f), grow, t);
         }
         // fade the edges like the CS reel
@@ -482,7 +627,8 @@ public final class NucleusScene implements Scene {
         float gx = cx, gy = cy + 4 * k;
         for (int i = 0; i < 5; i++) {
             int s = Math.round((6 - i) * k);
-            c.fill(Math.round(gx - s), Math.round(gy - 6 * k + i * 2.4f * k), Math.round(gx + s), Math.round(gy - 6 * k + (i + 1) * 2.4f * k), 0xFF000000 | GEMS[i]);
+            int col = style.source == Source.CRYSTAL ? GEMS[i] : Fx.lerpColor(style.accent, 0xFFFFFF, i * 0.12f);
+            c.fill(Math.round(gx - s), Math.round(gy - 6 * k + i * 2.4f * k), Math.round(gx + s), Math.round(gy - 6 * k + (i + 1) * 2.4f * k), 0xFF000000 | col);
         }
         // lid: lifts and tilts away
         c.push();
@@ -539,11 +685,11 @@ public final class NucleusScene implements Scene {
         if (rare) {
             Loot win = slots.get(slots.size() - 1);
             float pop = Fx.backOut(Math.min(1, st / 0.35f));
-            Fx.centered(c, "RARE NUCLEUS DROP!", c.width() / 2f, c.height() * 0.33f, 1.6f * k * pop, Fx.alpha(0xFF55FF, a), true);
+            Fx.centered(c, style.rareTitle, c.width() / 2f, c.height() * 0.33f, 1.6f * k * pop, Fx.alpha(0xFF55FF, a), true);
             Fx.centered(c, win.name + (win.coins > 0 ? "  ·  " + NUM.format(win.coins) + " coins" : ""), c.width() / 2f,
                     c.height() * 0.33f + 18 * k, 1.0f * k, Fx.alpha(win.color, a), false);
         }
-        String line = "Nucleus run: " + count + (count == 1 ? " item" : " items")
+        String line = style.summary + ": " + count + (count == 1 ? " item" : " items")
                 + (coins > 0 ? "  ·  " + NUM.format(coins) + " coins" : "") + (test ? "  ·  test run" : "");
         Fx.centered(c, line, c.width() / 2f, slotY(c) + slotSize(c) / 2 + 6 * k, 0.8f * k, Fx.alpha(0xD8D8E0, a), false);
     }

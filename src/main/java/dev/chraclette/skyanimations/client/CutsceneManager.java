@@ -26,6 +26,22 @@ public final class CutsceneManager {
     }
 
     /** Queues a ready-made scene (e.g. the Crystal Nucleus opening). */
+    /**
+     * Plays a scene instead of the normal cutscene for a drop that just happened (e.g. the RNG Meter
+     * scene replaces the RARE DROP cutscene of the same item). Removes it from the queue, or stops it
+     * if it only just started.
+     */
+    static void replace(String dropName, Scene scene) {
+        String n = dropName.toLowerCase(java.util.Locale.ROOT);
+        QUEUE.removeIf(p -> p.drop != null && p.drop.name().toLowerCase(java.util.Locale.ROOT).equals(n));
+        if (activeDrop != null && activeDrop.name().toLowerCase(java.util.Locale.ROOT).equals(n)
+                && Clock.nanos() - startNanos < 2_500_000_000L) {
+            active = null;
+            activeDrop = null;
+        }
+        QUEUE.addFirst(new Pending(null, true, Clock.nanos() - HOLD_NANOS, scene));
+    }
+
     static void play(Scene scene) {
         QUEUE.addLast(new Pending(null, true, Clock.nanos() - HOLD_NANOS, scene));
     }
@@ -37,6 +53,7 @@ public final class CutsceneManager {
     private static final int MAX_QUEUE = 12;
 
     private static Scene active;
+    private static Drop activeDrop;
     private static long startNanos;
 
     private CutsceneManager() {
@@ -88,6 +105,7 @@ public final class CutsceneManager {
     }
 
     private static void start(Pending p) {
+        activeDrop = p.drop;
         if (p.scene != null) {
             active = p.scene;
             startNanos = Clock.nanos();

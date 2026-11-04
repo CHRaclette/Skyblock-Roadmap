@@ -27,6 +27,28 @@ public final class Fx {
         return lerpColor(rgb, 0x000000, amount);
     }
 
+    /** HSV (all 0..1) to RGB. */
+    public static int hsv(float h, float s, float v) {
+        h = (h % 1f + 1f) % 1f * 6f;
+        int i = (int) h;
+        float f = h - i, p = v * (1 - s), q = v * (1 - s * f), u = v * (1 - s * (1 - f));
+        float r, g, b;
+        switch (i) {
+            case 0 -> { r = v; g = u; b = p; }
+            case 1 -> { r = q; g = v; b = p; }
+            case 2 -> { r = p; g = v; b = u; }
+            case 3 -> { r = p; g = q; b = v; }
+            case 4 -> { r = u; g = p; b = v; }
+            default -> { r = v; g = p; b = q; }
+        }
+        return (Math.round(r * 255) << 16) | (Math.round(g * 255) << 8) | Math.round(b * 255);
+    }
+
+    public static float easeInOut(float t) {
+        t = clamp01(t);
+        return t < 0.5f ? 4 * t * t * t : 1 - (float) Math.pow(-2 * t + 2, 3) / 2;
+    }
+
     public static float clamp01(float t) {
         return t < 0 ? 0 : t > 1 ? 1 : t;
     }

@@ -58,6 +58,12 @@ final class Sounds {
                 sound(SoundEvents.SLIME_BLOCK_PLACE, 1.2f, v);
                 sound(SoundEvents.PLAYER_LEVELUP, 1.6f, v * 0.6f);
             }
+            case SPLASH -> {
+                sound(SoundEvents.GENERIC_SPLASH, pitch, v);
+                sound(SoundEvents.AMETHYST_BLOCK_CHIME, 1.6f, v);
+                sound(SoundEvents.FIREWORK_ROCKET_TWINKLE, 1.2f, v * 0.6f);
+            }
+            case DIG -> sound(SoundEvents.SAND_BREAK, pitch, v);
             case PEST_ALERT -> {
                 sound(SoundEvents.SILVERFISH_AMBIENT, 1.4f, v);
                 sound(SoundEvents.NOTE_BLOCK_BIT, 1.6f, v * 0.6f);

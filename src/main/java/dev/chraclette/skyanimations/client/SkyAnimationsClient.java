@@ -34,6 +34,7 @@ public final class SkyAnimationsClient implements ClientModInitializer {
         ItemCatalog.init();
         HypixelInfo.register();
         BookKey.register();
+        DungeonChest.register();
 
         HudElementRegistry.attachElementAfter(
                 VanillaHudElements.CHAT,
@@ -61,7 +62,13 @@ public final class SkyAnimationsClient implements ClientModInitializer {
         HypixelInfo.onChat(message.getString());
         if (cfg.onlyOnHypixel && !HypixelInfo.inSkyBlock()) return;
         Nucleus.onChat(message.getString(), false);
-        handle(message.getString(), false);
+        RngMeter.onChat(message.getString(), false);
+        Specials.current = message;
+        try {
+            handle(message.getString(), false);
+        } finally {
+            Specials.current = null;
+        }
     }
 
     /** Runs one chat line through everything. Also used by the test commands. */
@@ -87,7 +94,9 @@ public final class SkyAnimationsClient implements ClientModInitializer {
             Drop routed = Farming.onDrop(drop);
             if (!test) LedgerStore.record(routed != null ? routed : drop);
             drop = routed;
-            if (drop != null) {
+            // own "RARE REWARD! ... in their Obsidian Chest" is shown by the dungeon chest scene
+            if (drop != null && !test && text.startsWith("RARE REWARD!") && !"off".equals(Config.get().dungeonChests)) return;
+            if (drop != null && !Specials.play(drop, test)) {
                 CutsceneManager.enqueue(drop, test);
             }
         }
