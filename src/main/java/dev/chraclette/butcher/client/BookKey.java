@@ -22,11 +22,11 @@ final class BookKey {
                 "key.butcherdrops.book", InputConstants.Type.KEYSYM, InputConstants.KEY_J, category));
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (key.consumeClick()) {
-                if (client.screen == null) openNextTick = true;
+                if (client.gui.screen() == null) openNextTick = true;
             }
             if (openNextTick) {
                 openNextTick = false;
-                client.setScreen(new BookScreen());
+                client.gui.setScreen(new BookScreen());
             }
         });
     }
