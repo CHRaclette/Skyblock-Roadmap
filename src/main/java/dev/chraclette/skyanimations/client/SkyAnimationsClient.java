@@ -35,6 +35,7 @@ public final class SkyAnimationsClient implements ClientModInitializer {
         HypixelInfo.register();
         BookKey.register();
         DungeonChest.register();
+        NeuRepo.init();
 
         HudElementRegistry.attachElementAfter(
                 VanillaHudElements.CHAT,
@@ -63,6 +64,8 @@ public final class SkyAnimationsClient implements ClientModInitializer {
         if (cfg.onlyOnHypixel && !HypixelInfo.inSkyBlock()) return;
         Nucleus.onChat(message.getString(), false);
         RngMeter.onChat(message.getString(), false);
+        DungeonRun.onChat(message.getString());
+        if (Specials.onWow(message.getString(), ownName(), false)) return;
         Specials.current = message;
         try {
             handle(message.getString(), false);
@@ -92,7 +95,7 @@ public final class SkyAnimationsClient implements ClientModInitializer {
         Drop drop = DropParser.parse(text, test ? "You" : ownName(), recent);
         if (drop != null) {
             Drop routed = Farming.onDrop(drop);
-            if (!test) LedgerStore.record(routed != null ? routed : drop);
+            if (!test && !Specials.alreadyRecorded(drop.name())) LedgerStore.record(routed != null ? routed : drop);
             drop = routed;
             // own "RARE REWARD! ... in their Obsidian Chest" is shown by the dungeon chest scene
             if (drop != null && !test && text.startsWith("RARE REWARD!") && !"off".equals(Config.get().dungeonChests)) return;

@@ -49,11 +49,16 @@ final class Sounds {
             case FEVER_END -> sound(SoundEvents.FIRE_EXTINGUISH, 1.0f, v * 0.7f);
             case TOAST -> sound(SoundEvents.ITEM_PICKUP, pitch, v);
             case PAGE -> sound(SoundEvents.BOOK_PAGE_TURN, pitch, v);
-            case TICK -> sound(SoundEvents.NOTE_BLOCK_HAT, pitch, v);
+            case TICK -> sound(CASE_TICK, pitch * 0.75f, v);
             case CASE_OPEN -> {
-                sound(SoundEvents.CHEST_OPEN, 0.9f, v);
-                sound(SoundEvents.AMETHYST_CLUSTER_BREAK, 1.2f, v);
+                sound(CASE_UNLOCK, 1.0f, v);
+                sound(SoundEvents.CHEST_OPEN, 0.9f, v * 0.6f);
             }
+            case CASE_WIN -> {
+                sound(CASE_WIN_SOUND, 1.0f, v);
+                sound(SoundEvents.UI_TOAST_CHALLENGE_COMPLETE, 1.2f, v * 0.4f);
+            }
+            case SWOOSH -> sound(WHOOSH, pitch, v);
             case SLAP -> {
                 sound(SoundEvents.SLIME_BLOCK_PLACE, 1.2f, v);
                 sound(SoundEvents.PLAYER_LEVELUP, 1.6f, v * 0.6f);
@@ -88,6 +93,16 @@ final class Sounds {
     }
 
     /** Accepts both SoundEvent and Holder<SoundEvent> constants (the vanilla class mixes them). */
+    // Custom OGGs in assets/skyanimations/sounds (see sounds.json). Played by id, not registered.
+    private static final SoundEvent CASE_TICK = custom("case_tick");
+    private static final SoundEvent CASE_UNLOCK = custom("case_unlock");
+    private static final SoundEvent CASE_WIN_SOUND = custom("case_win");
+    private static final SoundEvent WHOOSH = custom("whoosh");
+
+    private static SoundEvent custom(String name) {
+        return SoundEvent.createVariableRangeEvent(net.minecraft.resources.Identifier.parse("skyanimations:" + name));
+    }
+
     private static void sound(Object sound, float pitch, float volume) {
         if (volume <= 0.001f) return;
         SoundEvent event;

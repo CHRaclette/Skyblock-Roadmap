@@ -420,7 +420,7 @@ public final class RunScene implements Scene {
                 if (!landed[i]) land(c, i, k);
                 continue;
             }
-            if (p < 0.05f && t - dt < st) hooks.sound(Cue.WHOOSH, 1.6f, 0.4f);
+            if (p < 0.05f && t - dt < st) hooks.sound(Cue.SWOOSH, 1.3f, 0.5f);
             float tx = slotX(c, i), ty = slotY(c);
             float e = Fx.easeIn(p);
             float x = cx + (tx - cx) * Fx.smooth(p);
@@ -529,7 +529,8 @@ public final class RunScene implements Scene {
         // where the reel is: decelerates like CS (ease-out quart), stops inside the winning card
         float target = winIndex * (cardW + gap) + cardW / 2 + winOffset * cardW;
         float p = Fx.clamp01(rt / REEL_SPIN);
-        float eased = 1 - (float) Math.pow(1 - p, 4);
+        // exponential slow-down like the CS2 reel: fast start, long crawl past the last few cards
+        float eased = (float) ((1 - Math.pow(2, -9 * p)) / (1 - Math.pow(2, -9)));
         float pos = target * eased;
         // tick sound each time a card edge passes the marker
         int tick = (int) Math.floor((pos + gap) / (cardW + gap));
@@ -539,8 +540,8 @@ public final class RunScene implements Scene {
         }
         if (p >= 1 && !reelDone) {
             reelDone = true;
-            hooks.sound(Cue.REVEAL, 1.0f, 0.9f);
-            hooks.sound(Cue.TOTEM, 1.2f, 0.5f);
+            hooks.sound(Cue.CASE_WIN, 1.0f, 1.0f);
+            hooks.sound(Cue.TOTEM, 1.2f, 0.35f);
         }
         float markerX = cx;
         for (int i = 0; i < reel.size(); i++) {

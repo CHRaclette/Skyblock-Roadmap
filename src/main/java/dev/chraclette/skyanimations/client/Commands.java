@@ -92,6 +92,11 @@ final class Commands {
                 say(ctx, "§7Simulating an §5Obsidian Chest §7with a Necron's Handle...");
                 return 1;
             }));
+            test.then(ClientCommands.literal("wow").executes(ctx -> {
+                Specials.onWow("WOW! [MVP+] You found a Rose Dye #12!", "You", true);
+                say(ctx, "§7Simulating §dWOW! You found a Rose Dye§7 (an animated dye)...");
+                return 1;
+            }));
             test.then(ClientCommands.literal("rngmeter").executes(ctx -> {
                 RngMeter.test();
                 say(ctx, "§7Simulating an §dRNG Meter §7drop (Judgement Core)...");
@@ -339,7 +344,7 @@ final class Commands {
 
     private static int help(CommandContext<FabricClientCommandSource> ctx) {
         say(ctx, "§6§lSkyAnimations §7— rare-drop cutscenes");
-        say(ctx, "§f/sa test §7[" + String.join(", ", PRESETS.keySet()) + ", fever, pests, stickers, nucleus, chest, rngmeter]");
+        say(ctx, "§f/sa test §7[" + String.join(", ", PRESETS.keySet()) + ", fever, pests, stickers, nucleus, chest, rngmeter, wow]");
         say(ctx, "§f/sa ironman §7prices as NPC sell prices (auto / on / off)");
         say(ctx, "§f/sa nucleus §7Crystal Nucleus scene every run or only for rare drops");
         say(ctx, "§f/sa farming §7Crop Fever + pest settings");

@@ -43,6 +43,7 @@ final class DungeonChest {
         ScreenEvents.AFTER_INIT.register((client, screen, w, h) -> {
             if (!(screen instanceof AbstractContainerScreen<?> acs)) return;
             String title = strip(screen.getTitle().getString());
+            DungeonRun.onTitle(title); // Croesus: "Master Catacombs - Floor VII"
             Matcher m = TITLE.matcher(title);
             if (!m.matches() || "off".equals(Config.get().dungeonChests)) return;
             if (!screen.equals(open)) {
@@ -106,7 +107,15 @@ final class DungeonChest {
         Prices.refreshIfNeeded();
         List<RunScene.Loot> loot = new ArrayList<>();
         for (Item it : items) loot.add(Runs.loot(it.name, it.count, it.stack));
-        int rareIdx = Runs.rarest(loot, RngMeter.DUNGEON_REEL, Config.get().nucleusRareCoins);
+        List<NeuRepo.RngItem> floorItems = NeuRepo.rngItems(DungeonRun.floor());
+        List<String> reel = floorItems.isEmpty() ? new ArrayList<>(RngMeter.DUNGEON_REEL) : Runs.weighted(floorItems);
+        // "rare" = the top of this floor's RNG meter (score at least 1/8 of the best item), or by rarity/price
+        long top = 0;
+        for (NeuRepo.RngItem it : floorItems) top = Math.max(top, it.score());
+        List<String> rareNames = new ArrayList<>();
+        for (NeuRepo.RngItem it : floorItems) if (it.score() * 8 >= top) rareNames.add(NeuRepo.name(it.id()));
+        if (rareNames.isEmpty()) rareNames.addAll(RngMeter.DUNGEON_REEL);
+        int rareIdx = Runs.rarest(loot, rareNames, Config.get().nucleusRareCoins);
         boolean big = chest.equals("Obsidian") || chest.equals("Bedrock");
         if (rareIdx < 0 && big) {
             // the big chests always roll: take the most valuable item
@@ -119,10 +128,9 @@ final class DungeonChest {
             }
         }
         if (rareIdx < 0 && "rare".equals(Config.get().dungeonChests) && !test) return;
-        List<String> reel = new ArrayList<>(RngMeter.DUNGEON_REEL);
         for (Item it : items) if (!reel.contains(it.name)) reel.add(it.name);
-        String floor = HypixelInfo.area();
-        RunScene.Style style = RunScene.Style.chest(chest + " Chest", floor == null ? "" : floor, RunScene.chestColor(chest));
+        String sub = DungeonRun.subtitle();
+        RunScene.Style style = RunScene.Style.chest(chest + " Chest", sub, RunScene.chestColor(chest));
         CutsceneManager.play(new RunScene(style, loot, rareIdx, Runs.pool(reel), Runs.hooks(), test));
     }
 

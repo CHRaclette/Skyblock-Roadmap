@@ -107,7 +107,7 @@ public final class ScathaScene implements Scene {
         float slideP = Fx.clamp01((t - DIG) / SLIDE);
         if (t >= DIG && !burst) {
             burst = true;
-            hooks.sound(Cue.WHOOSH, 0.9f, 1.0f);
+            hooks.sound(Cue.SWOOSH, 0.8f, 1.0f);
             hooks.sound(Cue.DIG, 0.6f, 1.0f);
             fx.burst(headX, cy, 50, 40 * k, 160 * k, 200 * k, 0.9f, 2 * k, 4 * k, SAND);
         }

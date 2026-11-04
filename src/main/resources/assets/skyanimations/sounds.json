@@ -1,0 +1,6 @@
+{
+  "case_tick": { "sounds": ["skyanimations:case_tick"] },
+  "case_unlock": { "sounds": ["skyanimations:case_unlock"] },
+  "case_win": { "sounds": ["skyanimations:case_win"] },
+  "whoosh": { "sounds": ["skyanimations:whoosh"] }
+}

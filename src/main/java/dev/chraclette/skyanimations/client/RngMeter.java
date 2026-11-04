@@ -41,6 +41,10 @@ final class RngMeter {
     static List<String> poolFor(String source) {
         String s = source.toLowerCase(Locale.ROOT);
         if (s.contains("nucleus")) return Nucleus.RNG_METER;
+        // exact meter contents from the NEU repo (per floor / per slayer), weighted by meter score
+        String key = DungeonRun.keyOf(source);
+        List<NeuRepo.RngItem> neu = NeuRepo.rngItems(key.isEmpty() ? source : key);
+        if (!neu.isEmpty()) return Runs.weighted(neu);
         if (s.contains("catacombs") || s.contains("floor")) return DUNGEON_REEL;
         List<String> out = new ArrayList<>(Ledger.KNOWN.get(Ledger.Chapter.SLAYER));
         if (out.isEmpty()) out.addAll(DUNGEON_REEL);

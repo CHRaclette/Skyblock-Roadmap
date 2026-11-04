@@ -66,12 +66,38 @@ final class Runs {
 
     static List<RunScene.ReelItem> pool(List<String> names) {
         List<RunScene.ReelItem> pool = new ArrayList<>();
+        java.util.Map<String, RunScene.ReelItem> made = new java.util.HashMap<>();
         for (String name : names) {
-            Drop d = DropParser.parse("RARE DROP! " + name, null, null);
-            if (d == null) continue;
-            pool.add(new RunScene.ReelItem(name, ItemLookup.icon(d, ItemStack.EMPTY), ItemCatalog.tierColor(tier(name))));
+            RunScene.ReelItem item = made.computeIfAbsent(name, n -> {
+                Drop d = DropParser.parse("RARE DROP! " + n, null, null);
+                if (d == null) return null;
+                return new RunScene.ReelItem(n, ItemLookup.icon(d, ItemStack.EMPTY), ItemCatalog.tierColor(tier(n)));
+            });
+            if (item != null) pool.add(item);
         }
         return pool;
+    }
+
+    /**
+     * Names for a CS2 reel from NEU RNG-Meter data: items that need a lower meter score (= drop more
+     * often) appear more often on the reel, like the common skins in a CS2 case.
+     */
+    static List<String> weighted(List<NeuRepo.RngItem> items) {
+        long max = 1;
+        for (NeuRepo.RngItem it : items) max = Math.max(max, it.score());
+        List<String> out = new ArrayList<>();
+        for (NeuRepo.RngItem it : items) {
+            if (it.id().startsWith("ATTRIBUTE_SHARD")) continue;
+            int w = (int) Math.max(1, Math.min(6, Math.round(Math.sqrt(max / (double) Math.max(1, it.score())))));
+            String name = NeuRepo.name(it.id());
+            for (int i = 0; i < w; i++) out.add(name);
+        }
+        return out;
+    }
+
+    /** Unique names of a weighted list (for "is this a meter item?" checks). */
+    static List<String> unique(List<String> names) {
+        return new ArrayList<>(new java.util.LinkedHashSet<>(names));
     }
 
     static RunScene.Hooks hooks() {

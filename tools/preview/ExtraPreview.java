@@ -14,7 +14,7 @@ public class ExtraPreview {
         Scene s;
         float dur;
         if (args[1].equals("dye")) {
-            s = new DyeScene("Necron Dye", "item_redstone.png", 0xE7413C, 0xAA00AA, "+312% Magic Find", (cue, p, v) -> { });
+            s = new DyeScene("Necron Dye", "item_redstone.png", new int[]{0xE7413C}, 0xAA00AA, "+312% Magic Find", (cue, p, v) -> { });
             dur = 4.75f;
         } else {
             s = new ScathaScene("Scatha", "Legendary", "item_totem_of_undying.png", 0xFFAA00, "Crystal Hollows", (cue, p, v) -> { });

@@ -200,6 +200,19 @@ public final class ItemCatalog {
         return info.model == null || info.model.isEmpty() || System.currentTimeMillis() - modelCheckedAt < 15_000;
     }
 
+    /** A player head with a texture (base64 "textures" value). */
+    static ItemStack head(String key, String texture) {
+        ItemStack stack = new ItemStack(Items.PLAYER_HEAD);
+        try {
+            var properties = new PropertyMap(ImmutableMultimap.of("textures", new Property("textures", texture)));
+            var profile = new GameProfile(UUID.nameUUIDFromBytes(key.getBytes(StandardCharsets.UTF_8)), "skull", properties);
+            stack.set(DataComponents.PROFILE, ResolvableProfile.createResolved(profile));
+        } catch (RuntimeException e) {
+            SkyAnimationsClient.LOG.debug("Could not build head {}", key, e);
+        }
+        return stack;
+    }
+
     private static ItemStack build(Info info) {
         String modern = Materials.modern(info.material, info.durability);
         Item item = BuiltInRegistries.ITEM.getValue(Identifier.withDefaultNamespace(modern));
