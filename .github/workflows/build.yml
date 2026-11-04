@@ -1,36 +1,32 @@
-name: build
-
-on:
-  push:
-  workflow_dispatch:
-
+name: inspect
+on: push
 permissions:
   contents: write
-
 jobs:
-  build:
+  inspect:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
-        with:
-          java-version: '25'
-          distribution: 'microsoft'
-      - name: Build
-        run: |
-          chmod +x ./gradlew
-          ./gradlew build --stacktrace
-      - name: Upload jar
-        uses: actions/upload-artifact@v4
-        with:
-          name: skyanimations
-          path: build/libs/*.jar
-      - name: Publish "latest" release
-        if: github.ref == 'refs/heads/main'
+      - name: Fetch Hypixel SkyBlock pack
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          JAR=$(ls build/libs/*.jar | grep -v sources | head -n1)
-          gh release delete latest --yes --cleanup-tag || true
-          gh release create latest "$JAR" --title "SkyAnimations (latest build)" \
-            --notes "Built from ${GITHUB_SHA::7}. Put the .jar in your .minecraft/mods folder (Fabric 26.2 + Fabric API)."
+          curl -s https://api.hypixel.net/v2/resources/packs -o packs.json
+          cat packs.json | head -c 3000; echo
+          URL=$(python3 -c "import json;d=json.load(open('packs.json'));import sys
+          def walk(o):
+            if isinstance(o,dict):
+              for v in o.values(): yield from walk(v)
+            elif isinstance(o,list):
+              for v in o: yield from walk(v)
+            elif isinstance(o,str) and o.startswith('http') and ('.zip' in o or 'pack' in o): yield o
+          print(next(walk(d),''))")
+          echo "URL=$URL"
+          curl -sL "$URL" -o pack.zip; ls -la pack.zip
+          unzip -l pack.zip | awk '{print $4}' | grep -v '^$' > files.txt; wc -l files.txt
+          echo "== top dirs"; cut -d/ -f1-4 files.txt | sort | uniq -c | sort -rn | head -40
+          echo "== gui"; grep -i "gui\|hud\|chest\|hotbar\|container" files.txt | head -80
+          mkdir -p sel && cd sel && unzip -q ../pack.zip && cd ..
+          zip -qr pack-files.zip files.txt packs.json pack.zip
+          gh release delete pack-inspect --yes --cleanup-tag || true
+          gh release create pack-inspect pack.zip files.txt packs.json --title "pack inspect (temp)" --notes "temp" --prerelease
