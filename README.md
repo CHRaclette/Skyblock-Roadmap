@@ -19,6 +19,14 @@ Client-side and purely visual: it only reads chat and draws on your screen.
 - **Pests**: a pop-up when pests spawn ("4 Pests spawned in Plot - 14"), a pop-up for each pest you vacuum with its reward,
   and rare pest drops get their own scene: the pest buzzes around and gets sucked into a vacuum that spits out the drop.
 
+## Sticker book
+Press **J** (or `/butcher book`). Every rare drop earns a sticker on its chapter page (Diana, Slayer, Dungeons, Garden,
+Pests, Fishing, Other). The more often (and the rarer) you drop an item, the better its sticker:
+Paper (1 pt) → Bronze (3) → Silver (10) → Gold (25) → Diamond (60) → Holo (150).
+RARE = 1 pt, VERY RARE = 2, PET = 3, CRAZY RARE = 4, INSANE = 6, PRAY TO RNGESUS = 8.
+New and upgraded stickers get slapped onto your screen after the cutscene. Known drops you don't have yet show as "???".
+Saved in `config/butcherdrops-stickers.json`. `/butcher test stickers` shows every level.
+
 ## What triggers it
 - `RARE / VERY RARE / CRAZY RARE / INSANE / PRAY TO RNGESUS / PET DROP!` (slayers, Diana, dungeons, fishing, pests, everything)
 - `RARE CROP!` / `VERY RARE CROP!` and Crop Fever (Garden)
