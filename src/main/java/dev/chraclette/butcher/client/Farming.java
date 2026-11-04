@@ -42,6 +42,29 @@ public final class Farming {
 
     private static final List<Scheduled> SCHEDULE = new ArrayList<>();
 
+    private record LaterToast(float at, Toasts.Toast toast, Cutscene.Cue cue) {
+    }
+
+    private static final List<LaterToast> LATER = new ArrayList<>();
+
+    private record LaterPop(float at, dev.chraclette.butcher.core.Ledger.Level before,
+                            dev.chraclette.butcher.core.Ledger.Level after, String name, Object icon, int count) {
+    }
+
+    private static final List<LaterPop> POP_QUEUE = new ArrayList<>();
+    private static dev.chraclette.butcher.render.StickerPop pop;
+
+    /** Slaps a sticker onto the screen after a delay. before == null means brand new. */
+    static void stickerLater(dev.chraclette.butcher.core.Ledger.Level before, dev.chraclette.butcher.core.Ledger.Level after,
+                             String name, Object icon, int count, float delay) {
+        POP_QUEUE.add(new LaterPop(now() + delay, before, after, name, icon, count));
+    }
+
+    /** Shows a toast after a delay (e.g. once the cutscene is over). */
+    static void toastLater(Toasts.Toast toast, float delay, Cutscene.Cue cue) {
+        LATER.add(new LaterToast(now() + delay, toast, cue));
+    }
+
     private Farming() {
     }
 
@@ -60,10 +83,14 @@ public final class Farming {
     }
 
     /** Handles Garden events. Returns true if the line was one. */
+    /** True while a test line is being handled (tests don't count towards the book). */
+    static boolean testing;
+
     static boolean onEvent(FarmEvent e) {
         Config.Data cfg = Config.get();
         switch (e.kind()) {
             case FEVER_START -> {
+                if (!testing) LedgerStore.feverCaught();
                 crops();
                 Prices.refreshIfNeeded();
                 FEVER.start(now(), e.amount(), cfg.feverIntro, cfg.feverTimer, cfg.feverSummary);
@@ -79,6 +106,7 @@ public final class Farming {
             }
             case PEST_KILL -> {
                 pestsThisSession++;
+                if (!testing) LedgerStore.pestVacuumed();
                 lastPest = e.pest();
                 lastPestAt = now();
                 CutsceneManager.attachPest(e.pest());
@@ -152,6 +180,32 @@ public final class Farming {
                 ButcherClient.handle(s.line, true);
             }
         }
+        if (!LATER.isEmpty()) {
+            List<LaterToast> due = new ArrayList<>();
+            LATER.removeIf(l -> {
+                if (l.at <= t) {
+                    due.add(l);
+                    return true;
+                }
+                return false;
+            });
+            for (LaterToast l : due) {
+                TOASTS.add(l.toast, t);
+                if (l.cue != null) Sounds.play(l.cue, dev.chraclette.butcher.core.Effect.STARS, 1.2f, 0.7f);
+            }
+        }
+        if (pop == null && !POP_QUEUE.isEmpty() && POP_QUEUE.get(0).at <= t && !cutscenePlaying) {
+            LaterPop p = POP_QUEUE.remove(0);
+            pop = new dev.chraclette.butcher.render.StickerPop(p.name, p.before, p.after, p.icon, p.count, t);
+            Sounds.play(Cutscene.Cue.SLAP, dev.chraclette.butcher.core.Effect.STARS, 1f, 0.9f);
+            if (p.after.ordinal() >= dev.chraclette.butcher.core.Ledger.Level.GOLD.ordinal()) {
+                Sounds.play(Cutscene.Cue.TOTEM, dev.chraclette.butcher.core.Effect.STARS, 1.2f, 0.5f);
+            }
+        }
+        if (pop != null) {
+            pop.render(c, t);
+            if (pop.finished(t)) pop = null;
+        }
         FEVER.reprice(r -> {
             Drop d = DropParser.parse("RARE DROP! " + r.name(), null, null);
             Cutscene.Price p = d == null ? null : Prices.lookup(d.withCount(r.count()), "");
@@ -167,6 +221,8 @@ public final class Farming {
 
     static void clear() {
         TOASTS.clear();
+        POP_QUEUE.clear();
+        pop = null;
         if (FEVER.active()) FEVER.end(now());
         SCHEDULE.clear();
     }

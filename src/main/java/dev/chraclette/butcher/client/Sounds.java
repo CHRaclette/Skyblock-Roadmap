@@ -48,6 +48,11 @@ final class Sounds {
             }
             case FEVER_END -> sound(SoundEvents.FIRE_EXTINGUISH, 1.0f, v * 0.7f);
             case TOAST -> sound(SoundEvents.ITEM_PICKUP, pitch, v);
+            case PAGE -> sound(SoundEvents.BOOK_PAGE_TURN, pitch, v);
+            case SLAP -> {
+                sound(SoundEvents.SLIME_BLOCK_PLACE, 1.2f, v);
+                sound(SoundEvents.PLAYER_LEVELUP, 1.6f, v * 0.6f);
+            }
             case PEST_ALERT -> {
                 sound(SoundEvents.SILVERFISH_AMBIENT, 1.4f, v);
                 sound(SoundEvents.NOTE_BLOCK_BIT, 1.6f, v * 0.6f);

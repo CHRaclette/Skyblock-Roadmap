@@ -68,6 +68,12 @@ final class Commands {
                 say(ctx, "§7Simulating a §6Crop Fever §7(20 s) with a few rolls...");
                 return 1;
             }));
+            test.then(ClientCommands.literal("stickers").executes(ctx -> {
+                Drop d = DropParser.parse(PRESETS.get("chimera"), "You", null);
+                Farming.testStickers(ItemLookup.icon(d, net.minecraft.world.item.ItemStack.EMPTY));
+                say(ctx, "§7Showing every sticker level: Paper → Bronze → Silver → Gold → Diamond → Holo");
+                return 1;
+            }));
             test.then(ClientCommands.literal("pests").executes(ctx -> {
                 Farming.testPests();
                 say(ctx, "§7Simulating §cpests§7: spawn, three kills and a rare drop...");
@@ -80,6 +86,10 @@ final class Commands {
                     .then(ClientCommands.literal("simulate")
                             .then(ClientCommands.argument("message", StringArgumentType.greedyString())
                                     .executes(ctx -> play(ctx, StringArgumentType.getString(ctx, "message"), null))))
+                    .then(ClientCommands.literal("book").executes(ctx -> {
+                        BookKey.openSoon();
+                        return 1;
+                    }))
                     .then(ClientCommands.literal("skip").executes(ctx -> {
                         CutsceneManager.skip();
                         return 1;
@@ -237,8 +247,9 @@ final class Commands {
 
     private static int help(CommandContext<FabricClientCommandSource> ctx) {
         say(ctx, "§6§lButcher Drops §7— rare-drop cutscenes");
-        say(ctx, "§f/butcher test §7[" + String.join(", ", PRESETS.keySet()) + ", fever, pests]");
+        say(ctx, "§f/butcher test §7[" + String.join(", ", PRESETS.keySet()) + ", fever, pests, stickers]");
         say(ctx, "§f/butcher farming §7Crop Fever + pest settings");
+        say(ctx, "§f/butcher book §7or §fJ §7open the sticker book");
         say(ctx, "§f/butcher simulate <chat line> §7test any drop message");
         say(ctx, "§f/butcher skip §7stop the current cutscene");
         say(ctx, "§f/butcher toggle | sound | music | prices §7switch on/off");

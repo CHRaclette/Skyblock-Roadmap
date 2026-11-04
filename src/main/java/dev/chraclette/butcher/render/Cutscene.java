@@ -40,7 +40,7 @@ public final class Cutscene {
     }
 
     public enum Cue { WHOOSH, THUMP, CHOP, SQUISH, SPLIT, MAGIC, REVEAL, LEVELUP, FIREWORK, TWINKLE, NOTE, BELL, TOTEM, POP,
-        BUZZ, SUCK, SLURP, RATTLE, SPIT, FEVER, FEVER_END, TOAST, PEST_ALERT }
+        BUZZ, SUCK, SLURP, RATTLE, SPIT, FEVER, FEVER_END, TOAST, PEST_ALERT, PAGE, SLAP }
 
     private record SoundAt(float time, Cue cue, float pitch, float volume) {
     }

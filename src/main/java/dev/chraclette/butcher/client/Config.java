@@ -24,6 +24,9 @@ public final class Config {
         public boolean onlyOnHypixel = true;
         public float volume = 1.0f;
         public float speed = 1.0f;
+        /** Pop-ups for new / upgraded stickers. */
+        public boolean stickerToasts = true;
+
         // Garden
         public boolean feverIntro = true;
         public boolean feverTimer = true;

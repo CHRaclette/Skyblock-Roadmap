@@ -29,6 +29,8 @@ public final class ButcherClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         Config.load();
+        LedgerStore.load();
+        BookKey.register();
 
         HudElementRegistry.attachElementAfter(
                 VanillaHudElements.CHAT,
@@ -60,7 +62,9 @@ public final class ButcherClient implements ClientModInitializer {
     static void handle(String text, boolean test) {
         FarmEvent farm = FarmEvent.parse(text);
         if (farm != null) {
+            Farming.testing = test;
             Farming.onEvent(farm);
+            Farming.testing = false;
             return;
         }
 
@@ -73,7 +77,9 @@ public final class ButcherClient implements ClientModInitializer {
 
         Drop drop = DropParser.parse(text, test ? "You" : ownName(), recent);
         if (drop != null) {
-            drop = Farming.onDrop(drop);
+            Drop routed = Farming.onDrop(drop);
+            if (!test) LedgerStore.record(routed != null ? routed : drop);
+            drop = routed;
             if (drop != null) {
                 CutsceneManager.enqueue(drop, test);
             }
