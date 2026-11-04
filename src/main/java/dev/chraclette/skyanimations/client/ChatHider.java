@@ -111,10 +111,33 @@ final class ChatHider {
         }
     }
 
+    private static java.lang.reflect.Method chatGetter, addMessage;
+
+    /** Puts a line back into chat. Found by reflection (the chat accessor was renamed in 26.x). */
     private static void add(Component c) {
         try {
-            Minecraft.getInstance().gui.getChat().addMessage(c);
-        } catch (RuntimeException e) {
+            Object gui = Minecraft.getInstance().gui;
+            if (chatGetter == null) {
+                for (var m : gui.getClass().getMethods()) {
+                    if (m.getParameterCount() == 0 && m.getReturnType().getSimpleName().equals("ChatComponent")) {
+                        chatGetter = m;
+                        break;
+                    }
+                }
+            }
+            if (chatGetter == null) return;
+            Object chat = chatGetter.invoke(gui);
+            if (addMessage == null) {
+                for (var m : chat.getClass().getMethods()) {
+                    if (m.getName().equals("addMessage") && m.getParameterCount() == 1
+                            && m.getParameterTypes()[0].isAssignableFrom(Component.class)) {
+                        addMessage = m;
+                        break;
+                    }
+                }
+            }
+            if (addMessage != null) addMessage.invoke(chat, c);
+        } catch (ReflectiveOperationException | RuntimeException e) {
             SkyAnimationsClient.LOG.debug("Could not restore chat line", e);
         }
     }
