@@ -15,7 +15,7 @@ repositories {
 fabricApi {
 	configureTests {
 		createSourceSet = true
-		modId = "butcherdrops-demo"
+		modId = "skyanimations-demo"
 		enableGameTests = false
 		enableClientGameTests = true
 		eula = true // agreeing to the Minecraft EULA for the automated demo run

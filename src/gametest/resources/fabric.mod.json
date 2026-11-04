@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "id": "butcherdrops-demo",
+  "id": "skyanimations-demo",
   "version": "1.0.0",
-  "name": "Butcher Drops demo recorder",
+  "name": "SkyAnimations demo recorder",
   "environment": "*",
   "entrypoints": {
-    "fabric-client-gametest": ["dev.chraclette.butcher.demo.DemoRecorder"]
+    "fabric-client-gametest": ["dev.chraclette.skyanimations.demo.DemoRecorder"]
   }
 }

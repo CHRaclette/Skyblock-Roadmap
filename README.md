@@ -1,4 +1,6 @@
-# Butcher Drops
+# SkyAnimations
+
+_(formerly "Butcher Drops")_ — commands work as `/sa ...` or `/skyanimations ...`.
 
 Rare-drop cutscenes for Hypixel SkyBlock (Fabric, Minecraft 26.2).
 
@@ -11,7 +13,7 @@ Client-side and purely visual: it only reads chat and draws on your screen.
 
 ## Install
 1. Fabric Loader for **26.2** and **Fabric API**.
-2. Download `butcher-drops-*.jar` from the [latest release](../../releases/tag/latest) and put it in `.minecraft/mods`.
+2. Download `skyanimations-*.jar` from the [latest release](../../releases/tag/latest) and put it in `.minecraft/mods`.
 
 ## Garden extras
 - **Crop Fever**: a "you caught it" intro with falling crops, a countdown bar while it lasts (with rolls and coins so far),
@@ -20,7 +22,7 @@ Client-side and purely visual: it only reads chat and draws on your screen.
   and rare pest drops get their own scene: the pest buzzes around and gets sucked into a vacuum that spits out the drop.
 
 ## Sticker book
-Press **J** (or `/butcher book`). Every rare drop earns a sticker on its chapter page (Diana, Slayer, Dungeons, Garden,
+Press **J** (or `/sa book`). Every rare drop earns a sticker on its chapter page (Diana, Slayer, Dungeons, Garden,
 Pests, Fishing, Other). The more often (and the rarer) you drop an item, the better its sticker:
 Paper (1 pt) → Bronze (3) → Silver (10) → Gold (25) → Diamond (60) → Holo (150).
 RARE = 1 pt, VERY RARE = 2, PET = 3, CRAZY RARE = 4, INSANE = 6, PRAY TO RNGESUS = 8.
@@ -30,7 +32,7 @@ New and upgraded stickers get slapped onto your screen after the cutscene. Known
 **Ledger Level:** all sticker points (plus pests and Crop Fevers) count as XP for one overall level.
 **Badges:** Bronze / Silver / Gold for collecting and grinding each chapter, Mastery, Legend, Blessed (jackpot drops),
 Exterminator (pests), Feverish (Crop Fevers) and Loaded (coins). Earning a tier slams the medal onto your screen.
-Saved in `config/butcherdrops-stickers.json`. `/butcher test stickers` shows every level.
+Saved in `config/skyanimations-stickers.json`. `/sa test stickers` shows every level.
 
 ## What triggers it
 - `RARE / VERY RARE / CRAZY RARE / INSANE / PRAY TO RNGESUS / PET DROP!` (slayers, Diana, dungeons, fishing, pests, everything)
@@ -40,17 +42,17 @@ Saved in `config/butcherdrops-stickers.json`. `/butcher test stickers` shows eve
 ## Commands
 | Command | |
 |---|---|
-| `/butcher test [chimera, wool, dye, judgement, overflux, ...]` | play a test cutscene |
-| `/butcher simulate <chat line>` | run any chat line through the detector |
-| `/butcher skip` | stop the current cutscene |
-| `/butcher toggle` / `sound` / `music` / `prices` | switch things on or off |
-| `/butcher speed <0.25-3>` / `volume <0-2>` | |
-| `/butcher mode [type] [full\|compact\|off]` | per drop type: full cutscene, reveal only, or nothing |
-| `/butcher everywhere` | also react outside Hypixel |
-| `/butcher test fever` / `test pests` / `test vacuum` | try the Garden features |
-| `/butcher farming [setting]` | list / toggle: feverintro, fevertimer, feversummary, fevertoasts, pestspawn, pestkills, vacuum, fevercutscene |
+| `/sa test [chimera, wool, dye, judgement, overflux, ...]` | play a test cutscene |
+| `/sa simulate <chat line>` | run any chat line through the detector |
+| `/sa skip` | stop the current cutscene |
+| `/sa toggle` / `sound` / `music` / `prices` | switch things on or off |
+| `/sa speed <0.25-3>` / `volume <0-2>` | |
+| `/sa mode [type] [full\|compact\|off]` | per drop type: full cutscene, reveal only, or nothing |
+| `/sa everywhere` | also react outside Hypixel |
+| `/sa test fever` / `test pests` / `test vacuum` | try the Garden features |
+| `/sa farming [setting]` | list / toggle: feverintro, fevertimer, feversummary, fevertoasts, pestspawn, pestkills, vacuum, fevercutscene |
 
-Settings live in `config/butcherdrops.json`.
+Settings live in `config/skyanimations.json`.
 
 ## Building
 GitHub Actions builds every push and publishes the jar as the `latest` release. Locally: JDK 25, then `./gradlew build`.

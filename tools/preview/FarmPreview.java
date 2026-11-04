@@ -1,5 +1,5 @@
-import dev.chraclette.butcher.core.*;
-import dev.chraclette.butcher.render.*;
+import dev.chraclette.skyanimations.core.*;
+import dev.chraclette.skyanimations.render.*;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

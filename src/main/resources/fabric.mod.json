@@ -1,17 +1,17 @@
 {
 	"schemaVersion": 1,
-	"id": "butcherdrops",
+	"id": "skyanimations",
 	"version": "${version}",
-	"name": "Butcher Drops",
+	"name": "SkyAnimations",
 	"description": "Rare-drop cutscenes for Hypixel SkyBlock: the head gets chopped on a board, the drop bursts out, then a big reveal with magic find and price. Client-side and cosmetic only.",
 	"authors": ["CHRaclette"],
 	"contact": {
-		"sources": "https://github.com/CHRaclette/butcher-drops"
+		"sources": "https://github.com/CHRaclette/skyanimations"
 	},
 	"license": "MIT",
 	"environment": "client",
 	"entrypoints": {
-		"client": ["dev.chraclette.butcher.client.ButcherClient"]
+		"client": ["dev.chraclette.skyanimations.client.SkyAnimationsClient"]
 	},
 	"depends": {
 		"fabricloader": ">=0.19.5",

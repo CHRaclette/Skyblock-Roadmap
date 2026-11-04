@@ -1,5 +1,5 @@
-import dev.chraclette.butcher.core.*;
-import dev.chraclette.butcher.render.*;
+import dev.chraclette.skyanimations.core.*;
+import dev.chraclette.skyanimations.render.*;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -32,7 +32,7 @@ public class Preview {
         });
     }
 
-    static class J2D implements dev.chraclette.butcher.render.Canvas {
+    static class J2D implements dev.chraclette.skyanimations.render.Canvas {
         final Graphics2D g;
         final int w, h;
         final Deque<AffineTransform> stack = new ArrayDeque<>();
