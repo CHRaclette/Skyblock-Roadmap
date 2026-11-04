@@ -23,14 +23,17 @@ jobs:
           javap -cp "$J" net.fabricmc.fabric.api.client.gametest.v1.context.ClientGameTestContext || true
           javap -cp "$J" net.fabricmc.fabric.api.client.gametest.v1.context.TestSingleplayerContext || true
           javap -cp "$J" net.fabricmc.fabric.api.client.gametest.v1.world.TestClientLevelContext || true
+      - name: Collect frames
+        if: always()
+        run: |
+          F=$(find "$GITHUB_WORKSPACE" "$HOME" /tmp -name "frame_00000*.png" 2>/dev/null | head -1); echo "first frame: $F"
+          mkdir -p out && if [ -n "$F" ]; then cp "$(dirname "$F")"/frame_*.png out/; fi; ls out | wc -l
       - name: Upload frames
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: demo-frames
-          path: |
-            build/run/clientGameTest/screenshots
-            build/run/**/screenshots
+          path: out
           if-no-files-found: warn
       - name: Upload logs
         if: always()
