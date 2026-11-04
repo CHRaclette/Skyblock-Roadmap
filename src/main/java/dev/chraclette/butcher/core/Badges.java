@@ -15,7 +15,7 @@ public final class Badges {
     }
 
     public enum Tier {
-        NONE("Locked", 0x3A3A44), BRONZE("Bronze", 0xD08A4E), SILVER("Silver", 0xD7DEE6), GOLD("Gold", 0xFFD23A);
+        NONE("Locked", 0x5A4632), BRONZE("Bronze", 0xD08A4E), SILVER("Silver", 0xD7DEE6), GOLD("Gold", 0xFFD23A);
 
         public final String title;
         public final int color;

@@ -18,7 +18,7 @@ import java.util.function.Function;
 /** The sticker book screen, drawn on any Canvas. Keeps its own tab/page state and hit areas. */
 public final class BookView {
 
-    private static final int LEATHER = 0x5A3420, LEATHER_DARK = 0x3A2014, PAPER = 0xF3E9D2, INK = 0x3A2A1A;
+    private static final int INK = OldBook.SEPIA;
     private static final NumberFormat NUM = NumberFormat.getIntegerInstance(Locale.US);
 
     private final Ledger ledger;
@@ -77,7 +77,12 @@ public final class BookView {
         int bw = Math.min(w - 20, 440), bh = Math.min(h - 64, 260);
         int bx = (w - bw) / 2, by = (h - bh) / 2 + 22;
 
-        c.fill(0, 0, w, h, 0x99000000);
+        c.fill(0, 0, w, h, 0xA0100804);
+        for (int i = 0; i < 12; i++) {
+            int band = Math.round(Math.min(w, h) * 0.02f), a = (12 - i) * 6;
+            c.fill(0, i * band, w, (i + 1) * band, a << 24);
+            c.fill(0, h - (i + 1) * band, w, h - i * band, a << 24);
+        }
         c.push();
         c.translate(w / 2f, h / 2f);
         c.scale(open, open);
@@ -94,31 +99,24 @@ public final class BookView {
             int tx = bx + 12 + i * (tabW + 3), th = sel ? 18 : 14;
             int ty = by - 4 - th;
             boolean hov = mouseX >= tx && mouseX < tx + tabW && mouseY >= ty && mouseY < by;
-            int col = sel ? tabColor : Fx.darken(tabColor, hov ? 0.15f : 0.4f);
-            c.fill(tx, ty, tx + tabW, by + 4, 0xFF000000 | Fx.darken(col, 0.35f));
-            c.fill(tx + 1, ty + 1, tx + tabW - 1, by + 4, 0xFF000000 | col);
+            OldBook.tab(c, tx, ty, tabW, by + 4 - ty, hov && !sel ? Fx.brighten(tabColor, 0.15f) : tabColor, sel);
             String label = isBadges ? "Badges" : ch.title;
             float ls = 0.75f;
             c.push();
             c.translate(tx + tabW / 2f, ty + 4);
             c.scale(ls, ls);
-            c.text(label, -c.textWidth(label) / 2, 0, sel ? 0xFF1A1008 : 0xFF2A1A10, false);
+            c.text(label, -c.textWidth(label) / 2, 0, sel ? 0xFFFFF0D0 : 0xFFE0CCA8, true);
             c.pop();
             final Chapter target = ch;
             hits.add(new Hit(tx, ty, tx + tabW, by + 4, isBadges ? this::selectBadges : () -> select(target)));
         }
 
         // cover + pages
-        c.fill(bx - 4, by - 4, bx + bw + 4, by + bh + 4, 0xFF000000 | LEATHER_DARK);
-        c.fill(bx - 2, by - 2, bx + bw + 2, by + bh + 2, 0xFF000000 | LEATHER);
-        int px = bx + 6, py = by + 6, pw = (bw - 12) / 2, ph = bh - 12;
-        page(c, px, py, pw, ph, true);
-        page(c, px + pw, py, pw, ph, false);
-        // stitches on the cover
-        for (int x = bx + 4; x < bx + bw - 4; x += 8) {
-            c.fill(x, by - 1, x + 4, by, 0x60F3E9D2);
-            c.fill(x, by + bh, x + 4, by + bh + 1, 0x60F3E9D2);
-        }
+        OldBook.cover(c, bx, by, bw, bh);
+        OldBook.ribbon(c, bx + bw * 3 / 4, by + bh - 6, 16, time);
+        int px = bx + 8, py = by + 7, pw = (bw - 16) / 2, ph = bh - 14;
+        OldBook.page(c, px, py, pw, ph, true, 11);
+        OldBook.page(c, px + pw, py, pw, ph, false, 23);
 
         hovered = null;
         hoveredBadge = null;
@@ -137,14 +135,14 @@ public final class BookView {
 
     private void chapterPage(Canvas c, int px, int py, int pw, int ph, int mouseX, int mouseY, float time) {
         // left page: chapter header
-        int lx = px + 12, ly = py + 10, contentW = pw - 24;
-        Fx.bold(c, chapter.title, lx, ly, 0xFF000000 | Fx.darken(chapter.color, 0.45f));
-        small(c, chapter.subtitle, lx, ly + 11, 0xFF7A6248, 0.75f);
+        int lx = px + 14, ly = py + 12, contentW = pw - 28;
+        title(c, chapter.title, lx, ly);
+        small(c, chapter.subtitle, lx, ly + 12, 0xFF000000 | OldBook.SEPIA_LIGHT, 0.75f);
+        OldBook.divider(c, lx, ly + 21, contentW);
         int earned = ledger.earned(chapter), total = Math.max(1, ledger.total(chapter));
         // progress bar
-        int barY = ly + 21;
-        c.fill(lx, barY, lx + contentW, barY + 5, 0xFF000000 | Fx.darken(PAPER, 0.2f));
-        c.fill(lx, barY, lx + Math.round(contentW * earned / (float) total), barY + 5, 0xFF000000 | chapter.color);
+        int barY = ly + 27;
+        OldBook.bar(c, lx, barY, contentW, 4, earned / (float) total, chapter.color);
         small(c, earned + " / " + total + " stickers", lx, barY + 7, 0xFF000000 | INK, 0.75f);
         String extra = switch (chapter) {
             case PESTS -> "Pests vacuumed: " + NUM.format(ledger.pestsVacuumed);
@@ -220,7 +218,7 @@ public final class BookView {
             c.push();
             c.translate(cx, cy + size / 2 + (s.locked() ? 4 : 10));
             c.scale(ns, ns);
-            c.text(name, -c.textWidth(name) / 2, 0, s.locked() ? 0xFF9A8A70 : 0xFF000000 | INK, false);
+            c.text(name, -c.textWidth(name) / 2, 0, s.locked() ? 0xFF8A6A4A : 0xFF000000 | INK, false);
             c.pop();
             if (hov) {
                 hovered = s;
@@ -229,13 +227,13 @@ public final class BookView {
             }
         }
         if (slots.isEmpty()) {
-            small(c, "Your rare drops will be stuck in here.", px + pw + 14, py + 20, 0xFF7A6248, 0.8f);
+            small(c, "Your rare drops will be stuck in here.", px + pw + 14, py + 20, 0xFF6A4A2A, 0.8f);
         }
 
         // page arrows + page number
         if (pages > 1) {
             String pn = (page + 1) + " / " + pages;
-            small(c, pn, px + pw - Math.round(c.textWidth(pn) * 0.375f), py + ph - 9, 0xFF7A6248, 0.75f);
+            small(c, pn, px + pw - Math.round(c.textWidth(pn) * 0.375f), py + ph - 9, 0xFF6A4A2A, 0.75f);
             if (page > 0) arrow(c, px + 6, py + ph - 14, false, mouseX, mouseY, () -> page--);
             if (page < pages - 1) arrow(c, px + 2 * pw - 18, py + ph - 14, true, mouseX, mouseY, () -> page++);
         }
@@ -248,36 +246,36 @@ public final class BookView {
         int y = by - 44;
         int x = bx + 4;
         // plaque
-        c.fill(x - 2, y - 2, x + 132, y + 20, 0xFF000000 | LEATHER_DARK);
-        c.fill(x, y, x + 130, y + 18, 0xFF000000 | LEATHER);
-        Fx.bold(c, "Ledger Lv " + lv[0], x + 5, y + 2, 0xFFFFD24A);
-        int barX = x + 5, barY = y + 12, barW = 120;
-        c.fill(barX, barY, barX + barW, barY + 3, 0xFF2A1810);
-        c.fill(barX, barY, barX + Math.round(barW * lv[1] / (float) Math.max(1, lv[2])), barY + 3, 0xFFFFD24A);
+        OldBook.label(c, x, y - 2, 130, 22);
+        Fx.bold(c, "Ledger Lv " + lv[0], x + 6, y + 2, 0xFF000000 | OldBook.GOLD_LIGHT);
+        int barX = x + 6, barY = y + 13, barW = 118;
+        c.fill(barX, barY, barX + barW, barY + 3, 0xFF2A1208);
+        c.fill(barX, barY, barX + Math.round(barW * lv[1] / (float) Math.max(1, lv[2])), barY + 3, 0xFF000000 | OldBook.GOLD);
         String xp = lv[1] + " / " + lv[2] + " xp";
         small(c, xp, x + 126 - Math.round(c.textWidth(xp) * 0.6f), y + 3, 0xFFE8D2B8, 0.6f);
         // badge counts on the right
-        int rx = bx + bw - 4;
+        OldBook.label(c, bx + bw - 140, y - 2, 136, 22);
+        int rx = bx + bw - 8;
         Badges.Tier[] tiers = {Badges.Tier.GOLD, Badges.Tier.SILVER, Badges.Tier.BRONZE};
         for (Badges.Tier t : tiers) {
             String n = String.valueOf(Badges.count(ledger, t));
             int tw = c.textWidth(n);
             rx -= tw + 18;
             Medal.draw(c, rx + 5, y + 8, 6, t, null, time, false, t.ordinal());
-            c.text(n, rx + 13, y + 4, 0xFFFFFFFF, true);
+            c.text(n, rx + 13, y + 4, 0xFF000000 | OldBook.GOLD_LIGHT, true);
         }
-        small(c, "Badges", rx - 34, y + 5, 0xFFE8D2B8, 0.8f);
+        small(c, "Badges", rx - 34, y + 5, 0xFF000000 | OldBook.GOLD_LIGHT, 0.8f);
     }
 
     private void badgesPage(Canvas c, int px, int py, int pw, int ph, int mouseX, int mouseY, float time) {
-        int lx = px + 12, ly = py + 10, contentW = pw - 24;
-        Fx.bold(c, "Badges", lx, ly, 0xFF7A4A1E);
-        small(c, "Bronze, Silver, Gold. Earn them all!", lx, ly + 11, 0xFF7A6248, 0.75f);
+        int lx = px + 14, ly = py + 12, contentW = pw - 28;
+        title(c, "Badges", lx, ly);
+        small(c, "Bronze, Silver, Gold. Earn them all!", lx, ly + 12, 0xFF000000 | OldBook.SEPIA_LIGHT, 0.75f);
+        OldBook.divider(c, lx, ly + 21, contentW);
         int got = 0, max = Badges.ALL.size() * 3;
         for (Badges.Badge b : Badges.ALL) got += b.tier(ledger).ordinal();
-        int barY = ly + 21;
-        c.fill(lx, barY, lx + contentW, barY + 5, 0xFF000000 | Fx.darken(PAPER, 0.2f));
-        c.fill(lx, barY, lx + Math.round(contentW * got / (float) max), barY + 5, 0xFFD08A4E);
+        int barY = ly + 27;
+        OldBook.bar(c, lx, barY, contentW, 4, got / (float) max, 0xD08A4E);
         small(c, got + " / " + max + " tiers", lx, barY + 7, 0xFF000000 | INK, 0.75f);
 
         List<Badges.Badge> list = Badges.ALL;
@@ -326,7 +324,7 @@ public final class BookView {
             c.push();
             c.translate(cx, cy + r * 1.5f + 6);
             c.scale(ns, ns);
-            c.text(name, -c.textWidth(name) / 2, 0, tier == Badges.Tier.NONE ? 0xFF9A8A70 : 0xFF000000 | INK, false);
+            c.text(name, -c.textWidth(name) / 2, 0, tier == Badges.Tier.NONE ? 0xFF8A6A4A : 0xFF000000 | INK, false);
             c.pop();
             if (hov) {
                 hoveredBadge = b;
@@ -336,7 +334,7 @@ public final class BookView {
         }
         if (pages > 1) {
             String pn = (page + 1) + " / " + pages;
-            small(c, pn, px + pw - Math.round(c.textWidth(pn) * 0.375f), py + ph - 9, 0xFF7A6248, 0.75f);
+            small(c, pn, px + pw - Math.round(c.textWidth(pn) * 0.375f), py + ph - 9, 0xFF6A4A2A, 0.75f);
             if (page > 0) arrow(c, px + 6, py + ph - 14, false, mouseX, mouseY, () -> page--);
             if (page < pages - 1) arrow(c, px + 2 * pw - 18, py + ph - 14, true, mouseX, mouseY, () -> page++);
         }
@@ -360,23 +358,9 @@ public final class BookView {
         box(c, lines, colors, mx, my, w, h);
     }
 
-    private void page(Canvas c, int x, int y, int w, int h, boolean left) {
-        c.fill(x, y, x + w, y + h, 0xFF000000 | PAPER);
-        // shading towards the spine
-        for (int i = 0; i < 10; i++) {
-            int a = (10 - i) * 5;
-            int sx = left ? x + w - 1 - i : x + i;
-            c.fill(sx, y, sx + 1, y + h, a << 24);
-        }
-        // faint lines like a notebook
-        for (int ly = y + 50; ly < y + h - 6; ly += 12) {
-            c.fill(x + 8, ly, x + w - 8, ly + 1, 0x10000000);
-        }
-    }
-
     private void arrow(Canvas c, int x, int y, boolean right, int mx, int my, Runnable action) {
         boolean hov = mx >= x && mx < x + 12 && my >= y && my < y + 10;
-        int col = hov ? 0xFF000000 | INK : 0xFF9A8A70;
+        int col = hov ? 0xFF000000 | INK : 0xFF8A6A4A;
         for (int i = 0; i < 5; i++) {
             int xx = right ? x + 3 + i : x + 8 - i;
             c.fill(xx, y + i, xx + 1, y + 10 - i, col);
@@ -437,14 +421,34 @@ public final class BookView {
         for (String l : lines) tw = Math.max(tw, c.textWidth(l));
         int th = lines.size() * 10 + 6;
         int x = Math.round(mx + 10), y = Math.round(my - 6);
-        if (x + tw + 8 > w) x = Math.round(mx - tw - 18);
+        if (x + tw + 10 > w) x = Math.round(mx - tw - 20);
         if (y + th > h) y = h - th - 2;
-        c.fill(x, y, x + tw + 8, y + th, 0xF0100818);
-        c.fill(x, y, x + tw + 8, y + 1, 0xFF5000A0);
-        c.fill(x, y + th - 1, x + tw + 8, y + th, 0xFF28005A);
+        OldBook.tooltip(c, x, y, tw + 10, th + 1);
         for (int i = 0; i < lines.size(); i++) {
-            c.text(lines.get(i), x + 4, y + 4 + i * 10, colors.get(i), true);
+            c.text(lines.get(i), x + 5, y + 4 + i * 10, inkify(colors.get(i), i == 0), false);
         }
+    }
+
+    /** Tooltip colours were made for a dark background; turn them into ink on parchment. */
+    private static int inkify(int argb, boolean first) {
+        int rgb = argb & 0xFFFFFF;
+        int r = (rgb >> 16) & 255, g = (rgb >> 8) & 255, b = rgb & 255;
+        boolean grey = Math.abs(r - g) < 20 && Math.abs(g - b) < 20;
+        if (first) return 0xFF000000 | OldBook.SEPIA;
+        if (grey) return 0xFF000000 | (r > 180 ? OldBook.SEPIA : OldBook.SEPIA_LIGHT);
+        return 0xFF000000 | Fx.darken(rgb, 0.45f);
+    }
+
+    /** Heading with a red drop-cap first letter. */
+    private static void title(Canvas c, String s, int x, int y) {
+        String first = s.substring(0, 1), rest = s.substring(1);
+        c.push();
+        c.translate(x, y - 3);
+        c.scale(1.5f, 1.5f);
+        Fx.bold(c, first, 0, 0, 0xFF000000 | OldBook.INK_RED);
+        c.pop();
+        int fw = Math.round(c.textWidth(first) * 1.5f) + 2;
+        Fx.bold(c, rest, x + fw, y + 1, 0xFF000000 | OldBook.SEPIA);
     }
 
     private static void small(Canvas c, String s, int x, int y, int argb, float scale) {
