@@ -1,12 +1,22 @@
-name: cleanup
+name: inspect
 on: push
-permissions:
-  contents: write
 jobs:
-  cleanup:
+  inspect:
     runs-on: ubuntu-24.04
     steps:
-      - name: Delete the temporary pack release (Hypixel pack must not be redistributed)
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh release delete pack-inspect --yes --cleanup-tag -R ${{ github.repository }} || true
+      - name: Items API materials
+        run: |
+          curl -s https://api.hypixel.net/v2/resources/skyblock/items -o items.json
+          python3 - <<'PY'
+          import json, collections
+          d=json.load(open('items.json'))['items']
+          c=collections.Counter(i.get('material') for i in d)
+          print('total',len(d)); print(c.most_common(15))
+          withm=[i for i in d if i.get('item_model')]
+          print('with item_model',len(withm), collections.Counter(i.get('material') for i in withm).most_common(8))
+          for want in ['DIVAN_FRAGMENT','NECRON_HANDLE','JUNGLE_HEART','JADERALD','FLAWLESS_JADE_GEM','JUDGEMENT_CORE','TREASURITE','DIVAN_ALLOY','PICKONIMBUS','WITHER_BLOOD','DYE_NECRON','SCYTHE_BLADE']:
+              for i in d:
+                  if i['id']==want: print(want, {k:i.get(k) for k in ('material','durability','item_model','skin') if i.get(k) is not None and k!='skin'}, 'skin' if i.get('skin') else '')
+          PY
+          curl -s https://raw.githubusercontent.com/NotEnoughUpdates/NotEnoughUpdates-REPO/master/items/DIVAN_FRAGMENT.json | head -c 300; echo
+          curl -s https://raw.githubusercontent.com/NotEnoughUpdates/NotEnoughUpdates-REPO/master/items/JADERALD.json | head -c 300; echo
