@@ -28,6 +28,11 @@ public interface Canvas {
     /** Draws the w*h region at (u,v) of a texture of size texW*texH at (x,y), 1 texel = 1 unit. */
     void blit(String texture, int x, int y, int u, int v, int w, int h, int texW, int texH);
 
+    /** True if a texture exists in the loaded resource packs (e.g. Hypixel's SkyBlock pack). */
+    default boolean hasTexture(String texture) {
+        return true;
+    }
+
     /** Draws an item icon (16x16 units) with its top-left at (x,y). */
     void item(Object icon, int x, int y);
 

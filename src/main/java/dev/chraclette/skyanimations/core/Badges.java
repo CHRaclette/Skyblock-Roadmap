@@ -84,7 +84,7 @@ public final class Badges {
 
     static {
         String[][] chapterIcons = {
-                {"DIANA", "Griffin Feather"}, {"SLAYER", "Scythe Blade"}, {"DUNGEONS", "Necron's Handle"},
+                {"DIANA", "Griffin Feather"}, {"SLAYER", "Scythe Blade"}, {"DUNGEONS", "Necron's Handle"}, {"MINING", "Divan's Alloy"},
                 {"GARDEN", "Cropie"}, {"PESTS", "Beady Eyes"}, {"FISHING", "Lucky Clover Core"}};
         for (String[] ci : chapterIcons) {
             Chapter c = Chapter.valueOf(ci[0]);
@@ -97,6 +97,10 @@ public final class Badges {
                     "Get " + c.title + " drops", ci[1], c.color,
                     new long[]{10, 100, 1000}, l -> drops(l, c)));
         }
+        ALL.add(new Badge("nucleus_runs", "Nucleus Runner", "Finish Crystal Nucleus runs", "Divan Fragment", 0x8FD8FF,
+                new long[]{10, 100, 500}, l -> l.runs("nucleus")));
+        ALL.add(new Badge("dungeon_runs", "Catacombs Veteran", "Finish Catacombs runs", "Wither Catalyst", 0x5CE1FF,
+                new long[]{50, 500, 2500}, Ledger::dungeonRuns));
         ALL.add(new Badge("master", "Mastery", "Stickers at 4 stars or more", "Nether Star", 0xFFD23A,
                 new long[]{1, 5, 15}, l -> atLeast(l, Level.GOLD)));
         ALL.add(new Badge("legend", "Legend", "Stickers with a crown", "Totem", 0xFF4FD8,

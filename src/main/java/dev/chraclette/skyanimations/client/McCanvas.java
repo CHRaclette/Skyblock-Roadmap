@@ -74,6 +74,26 @@ final class McCanvas implements Canvas {
         g.blit(RenderPipelines.GUI_TEXTURED, id, x, y, (float) u, (float) v, w, h, texW, texH);
     }
 
+    private static final Map<String, Boolean> PRESENT = new HashMap<>();
+    private static long presentCheckedAt;
+
+    @Override
+    public boolean hasTexture(String texture) {
+        // packs can be (un)loaded at any time (Hypixel sends its pack on join): re-check now and then
+        if (System.currentTimeMillis() - presentCheckedAt > 10_000) {
+            PRESENT.clear();
+            presentCheckedAt = System.currentTimeMillis();
+        }
+        return PRESENT.computeIfAbsent(texture, t -> {
+            try {
+                Identifier id = t.contains(":") ? Identifier.parse(t) : Identifier.withDefaultNamespace(t);
+                return net.minecraft.client.Minecraft.getInstance().getResourceManager().getResource(id).isPresent();
+            } catch (RuntimeException e) {
+                return false;
+            }
+        });
+    }
+
     @Override
     public void item(Object icon, int x, int y) {
         if (icon instanceof ItemStack stack && !stack.isEmpty()) {

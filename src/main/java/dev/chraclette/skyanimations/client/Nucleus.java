@@ -27,16 +27,23 @@ final class Nucleus {
 
     static void onChat(String raw, boolean test) {
         List<NucleusLoot.Item> loot = PARSER.feed(raw, System.currentTimeMillis());
-        if (loot != null && !loot.isEmpty()) play(loot, test);
+        if (loot != null) {
+            boolean played = !loot.isEmpty() && play(loot, test);
+            if (!test) ChatHider.nucleusDone(played);
+            if (!test) LedgerStore.nucleusRun();
+        }
     }
 
     static void tick() {
         List<NucleusLoot.Item> loot = PARSER.timeout(System.currentTimeMillis());
-        if (loot != null) play(loot, false);
+        if (loot != null) {
+            ChatHider.nucleusDone(play(loot, false));
+            LedgerStore.nucleusRun();
+        }
     }
 
-    static void play(List<NucleusLoot.Item> items, boolean test) {
-        if (!Config.get().nucleus) return;
+    static boolean play(List<NucleusLoot.Item> items, boolean test) {
+        if (!Config.get().nucleus) return false;
         Prices.refreshIfNeeded();
         List<RunScene.Loot> loot = new ArrayList<>();
         for (NucleusLoot.Item it : items) {
@@ -47,9 +54,10 @@ final class Nucleus {
             }
         }
         int rareIdx = Runs.rarest(loot, RNG_METER, Config.get().nucleusRareCoins);
-        if (rareIdx < 0 && Config.get().nucleusOnlyRare && !test) return;
+        if (rareIdx < 0 && Config.get().nucleusOnlyRare && !test) return false;
         if (rareIdx >= 0 && !test) Runs.record(loot.get(rareIdx));
         CutsceneManager.play(new RunScene(RunScene.Style.nucleus(), loot, rareIdx, Runs.pool(RNG_METER), Runs.hooks(), test));
+        return true;
     }
 
     private static int powderColor(String name) {

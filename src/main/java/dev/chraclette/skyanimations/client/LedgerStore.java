@@ -143,6 +143,29 @@ public final class LedgerStore {
         return n;
     }
 
+    /** A Crystal Nucleus run finished (loot bundle seen). */
+    static void nucleusRun() {
+        ledger.addRun("nucleus");
+        announceBadges(9f);
+        save();
+    }
+
+    /** A Catacombs run finished ("Team Score" line), key = "F7" / "M7". */
+    static void dungeonRun(String floorKey) {
+        if (floorKey == null || floorKey.isEmpty()) return;
+        ledger.addRun(floorKey);
+        announceBadges(1f);
+        save();
+    }
+
+    /** Run totals read from the SkyBlock profile (replace our own counting). */
+    static void profileRuns(java.util.Map<String, Long> runs) {
+        ledger.runs = new java.util.LinkedHashMap<>(runs);
+        ledger.runsFromProfileAt = System.currentTimeMillis();
+        dev.chraclette.skyanimations.core.Badges.check(ledger);
+        save();
+    }
+
     static void pestVacuumed() {
         ledger.pestsVacuumed++;
         announceBadges(0.5f);

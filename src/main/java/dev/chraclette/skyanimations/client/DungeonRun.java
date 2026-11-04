@@ -33,6 +33,7 @@ final class DungeonRun {
         if (m.matches()) {
             score = m.group(1) + " (" + m.group(2) + ")";
             at = System.currentTimeMillis();
+            LedgerStore.dungeonRun(floor); // one more finished run on this floor
         }
     }
 

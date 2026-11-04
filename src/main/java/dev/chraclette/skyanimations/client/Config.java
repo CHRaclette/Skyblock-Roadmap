@@ -29,6 +29,10 @@ public final class Config {
         /** Crystal Nucleus scene on/off, only when a rare item drops, and what counts as rare by price. */
         public boolean nucleus = true;
         public boolean rngMeter = true;
+        /** Hide the chat lines a scene already shows. */
+        public boolean hideChat = true;
+        /** Personal Hypixel API key (developer.hypixel.net), only used to read your own run totals. */
+        public String apiKey = "";
         public boolean dyeScene = true;
         public boolean scathaScene = true;
         /** Dungeon reward chests: all, rare (only with a rare item), off. */

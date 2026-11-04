@@ -146,11 +146,7 @@ public final class Sticker {
         }
         // fine pattern on fancy ones
         if (level.ordinal() >= Level.GOLD.ordinal()) {
-            for (int yy = y + 2; yy < y + h - 1; yy += 4) {
-                for (int xx = x + ((yy / 4) % 2) * 2 + 1; xx < x + w - 1; xx += 4) {
-                    c.fill(xx, yy, xx + 1, yy + 1, 0x22FFFFFF);
-                }
-            }
+            OldBook.tile(c, OldBook.PATTERN, x, y, w, h, 64, 64);
         }
     }
 

@@ -19,7 +19,9 @@ public class Preview {
             try {
                 if (p.contains(":")) {
                     String[] parts = p.split(":", 2);
-                    return ImageIO.read(new File(System.getProperty("res", "src/main/resources") + "/assets/" + parts[0] + "/" + parts[1]));
+                    File f1 = new File(System.getProperty("res", "src/main/resources") + "/assets/" + parts[0] + "/" + parts[1]);
+                    if (!f1.exists()) f1 = new File(System.getProperty("pack", "/tmp/hpack/x") + "/assets/" + parts[0] + "/" + parts[1]);
+                    return ImageIO.read(f1);
                 }
                 return ImageIO.read(new File(System.getProperty("assets", "/home/claude/assets") + "/" + f));
             } catch (Exception e) {
@@ -63,6 +65,12 @@ public class Preview {
         public void blit(String t, int x, int y, int u, int v, int bw, int bh, int tw, int th) {
             BufferedImage img = tex(t);
             g.drawImage(img, x, y, x + bw, y + bh, u, v, u + bw, v + bh, null);
+        }
+        public boolean hasTexture(String t) {
+            if (!t.contains(":")) return true;
+            String[] parts = t.split(":", 2);
+            return new File(System.getProperty("res", "src/main/resources") + "/assets/" + parts[0] + "/" + parts[1]).exists()
+                    || new File(System.getProperty("pack", "/tmp/hpack/x") + "/assets/" + parts[0] + "/" + parts[1]).exists();
         }
         public void item(Object icon, int x, int y) {
             blit((String) icon, x, y, 0, 0, 16, 16, 16, 16);

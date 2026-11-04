@@ -1,7 +1,5 @@
 package dev.chraclette.skyanimations.render;
 
-import java.util.Random;
-
 /** Drawing helpers for an old, worn leather-bound book with parchment pages. */
 public final class OldBook {
 
@@ -13,6 +11,21 @@ public final class OldBook {
     public static final int PARCHMENT = 0xE9D9B4, PARCHMENT_EDGE = 0xC4A574, SEPIA = 0x3B2414, SEPIA_LIGHT = 0x7A5A3A;
     public static final int INK_RED = 0x8A2A1A;
 
+    // Pre-made textures (grain, stains, foxing) instead of thousands of 1-pixel fills every frame.
+    private static final String LEATHER_TEX = "skyanimations:textures/book/leather.png";
+    private static final String PAGE_LEFT = "skyanimations:textures/book/page_left.png";
+    private static final String PAGE_RIGHT = "skyanimations:textures/book/page_right.png";
+    public static final String PATTERN = "skyanimations:textures/book/pattern.png";
+
+    /** Fills a rectangle by repeating a texture (texture size tw x th). */
+    public static void tile(Canvas c, String tex, int x, int y, int w, int h, int tw, int th) {
+        for (int yy = 0; yy < h; yy += th) {
+            for (int xx = 0; xx < w; xx += tw) {
+                c.blit(tex, x + xx, y + yy, 0, 0, Math.min(tw, w - xx), Math.min(th, h - yy), tw, th);
+            }
+        }
+    }
+
     /** Mixes a bright colour with old brown, so it looks faded. */
     public static int aged(int rgb) {
         return Fx.lerpColor(rgb, 0x6B4A2A, 0.45f);
@@ -22,12 +35,8 @@ public final class OldBook {
     public static void cover(Canvas c, int x, int y, int w, int h) {
         c.fill(x - 3, y - 3, x + w + 3, y + h + 3, 0xFF000000 | LEATHER_DARK);
         c.fill(x - 1, y - 1, x + w + 1, y + h + 1, 0xFF000000 | LEATHER);
-        // grain
-        Random r = new Random(1234);
-        for (int i = 0; i < (w * h) / 60; i++) {
-            int gx = x + r.nextInt(w), gy = y + r.nextInt(h);
-            c.fill(gx, gy, gx + 1 + r.nextInt(2), gy + 1, r.nextBoolean() ? 0x30000000 : 0x14FFE0C0);
-        }
+        // grain (texture)
+        tile(c, LEATHER_TEX, x - 1, y - 1, w + 2, h + 2, 128, 128);
         // worn, lighter edges
         c.fill(x - 1, y - 1, x + w + 1, y + 1, 0x30FFD8B0);
         c.fill(x - 1, y + h - 1, x + w + 1, y + h + 1, 0x40000000);
@@ -68,7 +77,7 @@ public final class OldBook {
             int ex = left ? x - i : x + w + i - 1;
             c.fill(ex, y + i, ex + 1, y + h - i, 0xFF000000 | Fx.darken(PARCHMENT_EDGE, 0.1f * i));
         }
-        c.fill(x, y, x + w, y + h, 0xFF000000 | PARCHMENT);
+        tile(c, left ? PAGE_LEFT : PAGE_RIGHT, x, y, w, h, 256, 256); // parchment + stains + foxing
         // darker, burnt-looking edges (layered bands)
         for (int i = 0; i < 9; i++) {
             int a = (9 - i) * 7;
@@ -83,21 +92,6 @@ public final class OldBook {
             int a = (16 - i) * 5;
             int sx = left ? x + w - 1 - i : x + i;
             c.fill(sx, y, sx + 1, y + h, a << 24);
-        }
-        Random r = new Random(seed);
-        // stains
-        for (int i = 0; i < 3; i++) {
-            float sx = x + 20 + r.nextFloat() * (w - 40), sy = y + 20 + r.nextFloat() * (h - 40);
-            float rad = 8 + r.nextFloat() * 18;
-            Fx.disc(c, sx, sy, rad, 2, 0x0E6B4A20);
-            Fx.disc(c, sx + 2, sy - 1, rad * 0.7f, 2, 0x0A6B4A20);
-            Fx.ring(c, sx, sy, rad, 1, 0x186B4A20);
-        }
-        // foxing: little brown age spots
-        for (int i = 0; i < w * h / 450; i++) {
-            int fx = x + r.nextInt(w), fy = y + r.nextInt(h);
-            int s = r.nextInt(4) == 0 ? 2 : 1;
-            c.fill(fx, fy, fx + s, fy + s, 0x228A5A2A);
         }
         // ink frame with corner ornaments
         int m = 6;
@@ -176,11 +170,7 @@ public final class OldBook {
         c.fill(x - 1, y - 1, x + w + 1, y + h + 1, 0xFF000000 | LEATHER_DARK);
         c.fill(x, y, x + w, y + h, 0xFF000000 | LEATHER);
         rect(c, x + 1, y + 1, w - 2, h - 2, 0xFF000000 | GOLD);
-        Random r = new Random(77);
-        for (int i = 0; i < w * h / 40; i++) {
-            int gx = x + 2 + r.nextInt(Math.max(1, w - 4)), gy = y + 2 + r.nextInt(Math.max(1, h - 4));
-            c.fill(gx, gy, gx + 1, gy + 1, 0x24000000);
-        }
+        if (w > 4 && h > 4) tile(c, LEATHER_TEX, x + 2, y + 2, w - 4, h - 4, 128, 128);
     }
 
     /** Parchment tooltip with an ink border. */

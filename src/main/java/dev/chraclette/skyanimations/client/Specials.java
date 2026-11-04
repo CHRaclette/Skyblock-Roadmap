@@ -37,7 +37,12 @@ final class Specials {
         if (cfg.scathaScene && drop.tier() == DropTier.PET && (lower.contains("scatha") || hollows)) {
             int rarity = nameColor(drop.name());
             if (rarity < 0) rarity = 0xFFAA00;
-            if (lower.contains("scatha")) icon = ItemCatalog.head("scatha-pet", SCATHA_TEXTURE);
+            if (lower.contains("scatha")) {
+                ItemStack head = ItemCatalog.head("scatha-pet", SCATHA_TEXTURE);
+                String label = rarityLabel(rarity);
+                ItemCatalog.tagPet(head, "SCATHA", label.isEmpty() ? "LEGENDARY" : label.toUpperCase(Locale.ROOT), "Scatha", rarity);
+                icon = head;
+            }
             CutsceneManager.play(new ScathaScene(drop.name(), rarityLabel(rarity), icon, rarity,
                     hollows ? "Crystal Hollows" + (bonus.isEmpty() ? "" : "  ·  " + bonus) : bonus,
                     (cue, pitch, volume) -> Sounds.play(cue, Effect.STARS, pitch, volume)));

@@ -19,6 +19,7 @@ public final class Ledger {
         DIANA("Diana", "Mythological Ritual", 0xFFC93C),
         SLAYER("Slayer", "Slayer bosses", 0xD6283A),
         DUNGEONS("Dungeons", "The Catacombs", 0x5CE1FF),
+        MINING("Mining", "Crystal Hollows & Nucleus", 0x8FD8FF),
         GARDEN("Garden", "Crops & Crop Fever", 0x6FCF3B),
         PESTS("Pests", "Vacuumed vermin", 0x9BD13A),
         FISHING("Fishing", "Sea creatures", 0x2EC4D6),
@@ -36,6 +37,7 @@ public final class Ledger {
 
         public static Chapter of(Drop drop) {
             if (drop.fever()) return GARDEN;
+            if (isKnown(MINING, drop.name())) return MINING;
             return switch (drop.category()) {
                 case DIANA -> DIANA;
                 case REVENANT, TARANTULA, SVEN, VOIDGLOOM, INFERNO, RIFTSTALKER -> SLAYER;
@@ -46,6 +48,14 @@ public final class Ledger {
                 case GENERIC -> OTHER;
             };
         }
+    }
+
+    private static boolean isKnown(Chapter ch, String name) {
+        List<String> list = KNOWN.get(ch);
+        if (list == null) return false;
+        String k = key(name).replaceAll("^\\[lvl \\d+] ", "");
+        for (String n : list) if (key(n).equals(k)) return true;
+        return false;
     }
 
     /** Sticker levels. Points needed: 1, 3, 10, 25, 60, 150. */
@@ -128,6 +138,25 @@ public final class Ledger {
     public long jackpots;
     /** Badge id -> highest tier announced (0 none, 1 bronze, 2 silver, 3 gold). */
     public Map<String, Integer> badgeTiers = new LinkedHashMap<>();
+    /** Runs: "nucleus", "F1".."F7", "M1".."M7". From the profile (API key) or counted in game. */
+    public Map<String, Long> runs = new LinkedHashMap<>();
+    public long runsFromProfileAt;
+
+    public long runs(String key) {
+        return runs == null ? 0 : runs.getOrDefault(key, 0L);
+    }
+
+    /** All Catacombs runs (normal + master). */
+    public long dungeonRuns() {
+        long n = 0;
+        if (runs != null) for (var e : runs.entrySet()) if (e.getKey().matches("[FM][1-7]")) n += e.getValue();
+        return n;
+    }
+
+    public void addRun(String key) {
+        if (runs == null) runs = new LinkedHashMap<>();
+        runs.merge(key, 1L, Long::sum);
+    }
 
     // ------------------------------------------------------------------ mastery
 
@@ -277,6 +306,10 @@ public final class Ledger {
         KNOWN.put(Chapter.DUNGEONS, List.of("Necron's Handle", "Implosion", "Shadow Warp", "Wither Shield",
                 "Giant's Sword", "Dark Claymore", "Spirit Wing", "Bonzo's Staff", "Scarf's Studies",
                 "Recombobulator 3000", "Fifth Master Star", "Master Skull - Tier 5"));
+        KNOWN.put(Chapter.MINING, List.of("Divan's Alloy", "Quick Claw", "Recall Potion", "Claw Fossil", "Precious Pearl",
+                "Fortune IV", "Gemstone Mixture", "Jaderald", "Jasper Crystal", "Ruby Crystal", "Helix", "Prehistoric Egg",
+                "Divan Fragment", "Pickonimbus 2000", "Scatha", "Jade Dye", "Frostbitten Dye", "Fossil Dye", "Nyanza Dye",
+                "Emerald Dye"));
         KNOWN.put(Chapter.GARDEN, List.of("Cropie", "Squash", "Fermento", "Helianthus", "Overclocker 3000",
                 "Rarefinder Chip", "Enchanted Hay Bale", "Mutant Nether Wart", "Polished Pumpkin",
                 "Enchanted Golden Carrot", "Enchanted Baked Potato", "Enchanted Sugar Cane"));

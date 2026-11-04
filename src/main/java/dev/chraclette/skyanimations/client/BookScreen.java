@@ -22,6 +22,7 @@ public final class BookScreen extends Screen {
     public BookScreen() {
         super(Component.literal("SkyAnimations Sticker Book"));
         this.view = new BookView(LedgerStore.get(), this::icon);
+        ProfileApi.refreshIfOld(); // run totals from the profile, if an API key is set
         this.view.profile(LedgerStore.profile());
     }
 

@@ -53,7 +53,59 @@ final class ItemLookup {
         if (drop.book() || drop.tier().rank >= 3 || fancy) {
             stack.set(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true);
         }
+        if (drop.book()) {
+            tagBook(stack, drop.name());
+        } else {
+            // unknown to the item list: still give it the SkyBlock id/name so packs can match it
+            String id = ItemCatalog.idOf(drop.name());
+            ItemCatalog.tag(stack, id != null && !id.isEmpty() ? id : drop.name().toUpperCase(Locale.ROOT).replaceAll("[^A-Z0-9]+", "_"),
+                    drop.name(), drop.color(), null);
+        }
         return stack;
+    }
+
+    private static final java.util.Set<String> ULTIMATES = java.util.Set.of("chimera", "combo", "duplex", "fatal tempo",
+            "flash", "habanero tactics", "inferno", "last stand", "legion", "no pain no gain", "one for all", "rend",
+            "refrigerate", "soul eater", "swarm", "the one", "bobbin time", "bank", "jerry", "wise", "wisdom", "reiterate", "flowstate");
+
+    /**
+     * Enchanted books like SkyBlock sends them: id ENCHANTED_BOOK + enchantments {ultimate_chimera: 1},
+     * so packs that texture books per enchantment (e.g. a Chimera book) show it.
+     */
+    static void tagBook(ItemStack stack, String name) {
+        String n = name.replaceAll("(?i)^enchanted book \\(|\\)$", "").trim();
+        java.util.regex.Matcher m = java.util.regex.Pattern.compile("^(.+?)\\s+([IVX]+)$").matcher(n);
+        String ench = n;
+        int level = 1;
+        if (m.matches()) {
+            ench = m.group(1);
+            level = roman(m.group(2));
+        }
+        String key = ench.toLowerCase(Locale.ROOT).replace("'", "").replaceAll("[^a-z0-9]+", "_").replaceAll("^_|_$", "");
+        String plain = key.replace('_', ' ');
+        if (plain.startsWith("ultimate ")) key = "ultimate_" + key.substring(9);
+        else if (ULTIMATES.contains(plain)) key = "ultimate_" + key;
+        try {
+            net.minecraft.nbt.CompoundTag tag = new net.minecraft.nbt.CompoundTag();
+            tag.putString("id", "ENCHANTED_BOOK");
+            net.minecraft.nbt.CompoundTag ench2 = new net.minecraft.nbt.CompoundTag();
+            ench2.putInt(key, level);
+            tag.put("enchantments", ench2);
+            stack.set(DataComponents.CUSTOM_DATA, net.minecraft.world.item.component.CustomData.of(tag));
+            stack.set(DataComponents.CUSTOM_NAME, Component.literal("Enchanted Book").withStyle(st -> st.withColor(0x5555FF).withItalic(false)));
+        } catch (RuntimeException e) {
+            SkyAnimationsClient.LOG.debug("Could not tag book {}", name, e);
+        }
+    }
+
+    private static int roman(String r) {
+        int total = 0, prev = 0;
+        for (int i = r.length() - 1; i >= 0; i--) {
+            int v = switch (r.charAt(i)) { case 'I' -> 1; case 'V' -> 5; case 'X' -> 10; default -> 0; };
+            total += v < prev ? -v : v;
+            prev = Math.max(prev, v);
+        }
+        return Math.max(1, total);
     }
 
     static String skyblockId(ItemStack stack) {

@@ -36,6 +36,7 @@ public final class HypixelInfo {
     static void register() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             Nucleus.tick();
+            ChatHider.tick();
             if (++ticks % 20 != 0 || client.player == null || client.getConnection() == null) return;
             try {
                 scan(client);

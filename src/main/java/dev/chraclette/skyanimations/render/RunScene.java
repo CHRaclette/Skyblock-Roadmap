@@ -180,6 +180,11 @@ public final class RunScene implements Scene {
         return c.height() * (style.source == Source.CRYSTAL ? 0.2f : 0.17f);
     }
 
+    /** Vertical centre of the CS2 reel (lower under the big mountain). */
+    private float reelY() {
+        return style.source == Source.CRYSTAL ? 0.5f : 0.45f;
+    }
+
     private float slotSize(Canvas c) {
         return 20 * k(c);
     }
@@ -262,7 +267,7 @@ public final class RunScene implements Scene {
         }
         // caption under the cloud bank
         float ta = a * Fx.smooth((t - 0.2f) / 0.4f);
-        Fx.centered(c, style.title, cx, cy + MH / 2f * s + 3 * k, 1.0f * k, Fx.alpha(0xFFF1E6, ta), true);
+        if (alpha > 0.5f) Fx.centered(c, style.title, cx, cy + MH / 2f * s + 3 * k, 1.0f * k, Fx.alpha(0xFFF1E6, ta), true);
     }
 
     /** Swiss flag on the summit (in sprite texels): pole + a red flag with a white cross that waves. */
@@ -284,45 +289,70 @@ public final class RunScene implements Scene {
         }
     }
 
-    /** A dungeon reward chest at the top: its lid swings open and the loot flies out. */
+    private static final String CHEST_TEX = "textures/entity/chest/normal.png";
+    private static final String ENDER_TEX = "textures/entity/chest/ender.png";
+
+    /**
+     * A Minecraft chest seen from the front (texture regions of the chest model: lid front,
+     * body front, lock). open = 0..1 tilts the lid back and lets light out.
+     * tint = colour washed over it (0 = none), so Obsidian/Bedrock/... chests get their look.
+     */
+    static void mcChest(Canvas c, String tex, float cx, float cy, float scale, float open, int tint, float tintA, float a) {
+        if (a < 0.03f) return;
+        c.push();
+        c.translate(cx, cy);
+        c.scale(scale, scale);
+        // body (14 x 10), centred, bottom at y = +5
+        c.blit(tex, -7, -5, 42, 33, 14, 10, 64, 64);
+        if (tint != 0) c.fill(-7, -5, 7, 5, Fx.alpha(tint, tintA));
+        // inside glow when open
+        if (open > 0) {
+            c.fill(-7, -6, 7, -5, Fx.alpha(0x1A1008, 1));
+            c.fill(-6, -6, 6, -5, Fx.alpha(0xFFE8A0, open));
+        }
+        // lid: front face shrinks as it tilts back, its top face (14 x 14) appears above
+        float lidFront = 5 * (1 - open);
+        float lidTop = 9 * open;
+        c.push();
+        c.translate(0, -5 - lidFront - lidTop);
+        if (lidTop > 0.5f) {
+            c.push();
+            c.scale(1, lidTop / 14f);
+            c.blit(tex, -7, 0, 14, 0, 14, 14, 64, 64);
+            if (tint != 0) c.fill(-7, 0, 7, 14, Fx.alpha(tint, tintA));
+            c.pop();
+        }
+        c.translate(0, lidTop);
+        if (lidFront > 0.5f) {
+            c.push();
+            c.scale(1, lidFront / 5f);
+            c.blit(tex, -7, 0, 42, 14, 14, 5, 64, 64);
+            if (tint != 0) c.fill(-7, 0, 7, 5, Fx.alpha(tint, tintA));
+            c.pop();
+        }
+        c.pop();
+        // lock (2 x 4) sits on the seam while closed, moves up with the lid
+        float lockY = -5 - 2 - open * (lidTop + 2);
+        c.blit(tex, -1, Math.round(lockY), 1, 1, 2, 4, 64, 64);
+        c.pop();
+    }
+
+    /** A dungeon reward chest at the top: the real chest texture, tinted by type; the lid opens. */
     private void chest(Canvas c, float t, float k, float fade, float alpha) {
-        float cx = crystalX(c), cy = crystalY(c) + 12 * k;
+        float cx = crystalX(c), cy = crystalY(c) + 24 * k;
         float appear = Fx.backOut(t / 0.5f);
         float a = fade * alpha;
         if (appear <= 0.01f) return;
-        float w = 40 * k * appear, h = 24 * k * appear, lidH = 9 * k * appear;
         int col = style.accent;
         float open = Fx.easeOut((t - 0.55f) / 0.35f);
         if (open > 0) {
-            Fx.glow(c, cx, cy - h / 2, 50 * k * open, Fx.lerpColor(col, 0xFFE8A0, 0.6f), a * 0.9f * open, 2);
-            Fx.rays(c, cx, cy - h / 2, 80 * k * open, 12, t * 0.4f, 0xFFE8A0, a * 0.6f * open);
+            Fx.glow(c, cx, cy - 8 * k, 50 * k * open, Fx.lerpColor(col, 0xFFE8A0, 0.6f), a * 0.9f * open, 2);
+            Fx.rays(c, cx, cy - 8 * k, 80 * k * open, 12, t * 0.4f, 0xFFE8A0, a * 0.6f * open);
         }
-        int x1 = Math.round(cx - w / 2), x2 = Math.round(cx + w / 2);
-        int top = Math.round(cy - h / 2), bottom = Math.round(cy + h / 2);
-        c.fill(x1 - 1, top - 1, x2 + 1, bottom + 1, Fx.alpha(0x0A0A0A, a));
-        c.fill(x1, top, x2, bottom, Fx.alpha(col, a));
-        c.fill(x1, bottom - Math.round(3 * k), x2, bottom, Fx.alpha(Fx.darken(col, 0.35f), a));
-        // planks / bands
-        for (int i = 1; i < 3; i++) {
-            int yy = top + Math.round(i * h / 3);
-            c.fill(x1, yy, x2, yy + 1, Fx.alpha(Fx.darken(col, 0.25f), a));
-        }
-        c.fill(x1, top, x2, top + Math.round(2 * k), Fx.alpha(Fx.brighten(col, 0.3f), a));
-        // latch
-        c.fill(Math.round(cx - 2 * k), top - Math.round(2 * k), Math.round(cx + 2 * k), top + Math.round(4 * k), Fx.alpha(0xD8D8D8, a));
-        // lid (hinged at the back: it rises and flips over)
-        c.push();
-        c.translate(cx, top);
-        c.translate(0, -open * 14 * k);
-        c.rotate(-open * 0.35f);
-        int lw = Math.round(w / 2);
-        int lh = Math.round(lidH * (1 - 0.5f * open));
-        c.fill(-lw - 1, -lh - 1, lw + 1, 1, Fx.alpha(0x0A0A0A, a));
-        c.fill(-lw, -lh, lw, 0, Fx.alpha(Fx.brighten(col, 0.12f), a));
-        c.fill(-lw, -lh, lw, -lh + Math.round(2 * k), Fx.alpha(Fx.brighten(col, 0.35f), a));
-        c.pop();
+        boolean wood = style.title.startsWith("WOOD");
+        mcChest(c, CHEST_TEX, cx, cy, 2.6f * k * appear, open, wood ? 0 : col, 0.5f, a);
         if (open > 0 && open < 1 && t - 0.55f < 0.06f) hooks.sound(Cue.CASE_OPEN, 0.8f, 0.6f);
-        header(c, t, k, a, cx, top - lidH - 27 * k);
+        header(c, t, k, a, cx, cy - 60 * k);
     }
 
     /** RNG meter: a pink bar fills to 100 %, flashes, and the case is on its way. */
@@ -368,45 +398,54 @@ public final class RunScene implements Scene {
 
     // ---------------------------------------------------------------- hotbar + drops
 
+    private static final String HOTBAR = "textures/gui/sprites/hud/hotbar.png";
+    private static final String HOTBAR_SEL = "textures/gui/sprites/hud/hotbar_selection.png";
+
+    /** The real Minecraft hotbar sprite, cut to as many slots as we need. */
     private void hotbar(Canvas c, float t, float k, float fade) {
         float appear = Fx.easeOut((t - 0.3f) / 0.4f);
-        if (appear <= 0) return;
+        if (appear <= 0 || fade < 0.05f) return;
         float s = slotSize(c);
         float y = slotY(c) - (1 - appear) * 40 * k;
-        float x0 = slotX(c, 0) - s / 2f;
-        c.fill(Math.round(x0 - 2), Math.round(y - s / 2 - 2), Math.round(x0 + slots.size() * s + 2), Math.round(y + s / 2 + 2),
-                Fx.alpha(0x000000, 0.85f * fade));
-        for (int i = 0; i < slots.size(); i++) {
+        int n = slots.size();
+        float x0 = slotX(c, 0) - s / 2f - k;
+        c.push();
+        c.translate(x0, y - 11 * k);
+        c.scale(k, k);
+        c.blit(HOTBAR, 0, 0, 0, 0, 1 + 20 * n, 22, 182, 22);
+        c.blit(HOTBAR, 1 + 20 * n, 0, 181, 0, 1, 22, 182, 22);
+        if (rare && !winLanded) {
+            // the mystery slot pulses with the selection frame
+            int last = n - 1;
+            if (((int) (t * 3)) % 2 == 0) c.blit(HOTBAR_SEL, 20 * last - 1, -1, 0, 0, 24, 23, 24, 23);
+        }
+        c.pop();
+        for (int i = 0; i < n; i++) {
             float sx = slotX(c, i);
-            boolean last = rare && i == slots.size() - 1;
-            int x1 = Math.round(sx - s / 2 + 1), y1 = Math.round(y - s / 2 + 1), x2 = Math.round(sx + s / 2 - 1), y2 = Math.round(y + s / 2 - 1);
-            c.fill(x1, y1, x2, y2, Fx.alpha(0x373737, fade));
-            c.fill(x1 + 1, y1 + 1, x2 - 1, y2 - 1, Fx.alpha(0x8B8B8B, fade));
-            c.fill(x1 + 1, y1 + 1, x2 - 1, y1 + 2, Fx.alpha(0x5A5A5A, fade));
+            boolean last = rare && i == n - 1;
+            int x1 = Math.round(sx - s / 2 + 2 * k), y1 = Math.round(y - s / 2 + 2 * k), x2 = Math.round(sx + s / 2 - 2 * k), y2 = Math.round(y + s / 2 - 2 * k);
             if (last && !winLanded) {
-                // the mystery slot pulses gold
-                float p = 0.4f + 0.4f * (float) Math.sin(t * 6);
-                c.fill(x1 + 1, y1 + 1, x2 - 1, y2 - 1, Fx.alpha(0xFFD23A, p * 0.6f * fade));
+                float p = 0.25f + 0.25f * (float) Math.sin(t * 6);
+                c.fill(x1, y1, x2, y2, Fx.alpha(0xFFD23A, p * fade));
                 Fx.centered(c, "?", sx, y - 4 * k, k, Fx.alpha(0xFFFFFF, fade), true);
             }
             if (landed[i]) {
                 Loot l = slots.get(i);
                 float pop = Fx.backOut(Math.min(1, (t - landTime(i)) / 0.25f));
-                float isz = s * 0.8f / 16f * pop;
+                float isz = k * pop;
                 c.push();
                 c.translate(sx, y);
                 c.scale(isz, isz);
                 if (l.icon != null) c.item(l.icon, -8, -8);
                 c.pop();
                 if (l.count > 1) {
-                    String n = l.count > 999 ? (l.count / 1000) + "k" : String.valueOf(l.count);
+                    String cnt = l.count > 999 ? (l.count / 1000) + "k" : String.valueOf(l.count);
                     c.push();
-                    c.translate(sx + s / 2 - 2, y + s / 2 - 2);
-                    c.scale(k * 0.75f, k * 0.75f);
-                    c.text(n, -c.textWidth(n), -8, Fx.alpha(0xFFFFFF, fade), true);
+                    c.translate(sx + 9 * k, y + 9 * k);
+                    c.scale(k, k);
+                    c.text(cnt, -c.textWidth(cnt), -8, Fx.alpha(0xFFFFFF, fade), true);
                     c.pop();
                 }
-                // rarity flash when it lands
                 float flash = 1 - Fx.smooth((t - landTime(i)) / 0.5f);
                 if (flash > 0) c.fill(x1, y1, x2, y2, Fx.alpha(l.color, flash * 0.6f * fade));
             }
@@ -505,7 +544,7 @@ public final class RunScene implements Scene {
 
     private void caseOpening(Canvas c, float t, float dt, float k) {
         int w = c.width(), h = c.height();
-        float cx = w / 2f, cy = h * 0.45f;
+        float cx = w / 2f, cy = h * reelY();
         float ct = t - caseStart;
         Loot win = slots.get(slots.size() - 1);
 
@@ -601,11 +640,27 @@ public final class RunScene implements Scene {
         c.scale(grow, grow);
         c.translate(-w / 2, -h / 2);
         int iw = Math.round(w), ih = Math.round(h);
-        // dark gradient with the rarity colour rising from the bottom
-        for (int i = 0; i < ih; i += 2) {
-            float f = i / (float) ih;
-            int col = Fx.lerpColor(0x2A2E36, Fx.darken(it.color, 0.35f), Fx.smooth((f - 0.3f) / 0.7f) * 0.8f);
-            c.fill(0, i, iw, Math.min(ih, i + 2), Fx.alpha(col, a));
+        String rarity = rarityName(it.color);
+        String bg = "hypixel_skyblock:textures/gui/sprites/tooltip/" + rarity + "_background.png";
+        String frame = "hypixel_skyblock:textures/gui/sprites/tooltip/" + rarity + "_frame.png";
+        if (rarity != null && c.hasTexture(frame) && c.hasTexture(bg)) {
+            // the SkyBlock pack's own rarity tooltip background + frame (nine-slice, 100x100, border 24)
+            c.push();
+            c.scale(iw / 100f, ih / 100f);
+            c.blit(bg, 0, 0, 0, 0, 100, 100, 100, 100);
+            c.pop();
+            for (int i = ih / 3; i < ih; i += 2) { // rarity glow rising from the bottom, like a CS2 card
+                float f = (i - ih / 3f) / (ih * 2 / 3f);
+                c.fill(0, i, iw, Math.min(ih, i + 2), Fx.alpha(it.color, a * 0.35f * f * f));
+            }
+            nineSlice(c, frame, 0, 0, iw, ih, 0.5f);
+        } else {
+            // dark gradient with the rarity colour rising from the bottom
+            for (int i = 0; i < ih; i += 2) {
+                float f = i / (float) ih;
+                int col = Fx.lerpColor(0x2A2E36, Fx.darken(it.color, 0.35f), Fx.smooth((f - 0.3f) / 0.7f) * 0.8f);
+                c.fill(0, i, iw, Math.min(ih, i + 2), Fx.alpha(col, a));
+            }
         }
         c.fill(0, ih - Math.max(2, Math.round(3 * k)), iw, ih, Fx.alpha(it.color, a));
         float s = w * 0.55f / 16f;
@@ -623,40 +678,59 @@ public final class RunScene implements Scene {
         c.scale(ns, ns);
         c.text(name, -c.textWidth(name) / 2, 0, Fx.alpha(0xFFFFFF, a), false);
         c.pop();
+        if (a < 0.95f) c.fill(0, 0, iw, ih, Fx.alpha(0x101218, 1 - a)); // dim (textures ignore alpha)
         c.pop();
     }
 
-    /** CS-style weapon case: dark crate with gold trim and the Nucleus gem on the front. */
-    private void drawCase(Canvas c, float cx, float cy, float k, float lid) {
-        float w = 64 * k, h = 40 * k, lidH = 10 * k;
-        int x1 = Math.round(cx - w / 2), x2 = Math.round(cx + w / 2);
-        int top = Math.round(cy - h / 2), bottom = Math.round(cy + h / 2);
-        c.fill(x1 - 1, top + Math.round(lidH) - 1, x2 + 1, bottom + 1, 0xFF0A0C10);
-        c.fill(x1, top + Math.round(lidH), x2, bottom, 0xFF2B3A33);
-        c.fill(x1, bottom - Math.round(4 * k), x2, bottom, 0xFF1E2924);
-        // gold bands
-        c.fill(x1, top + Math.round(lidH), x2, top + Math.round(lidH + 2 * k), 0xFFC9A24A);
-        c.fill(x1 + Math.round(8 * k), top + Math.round(lidH), x1 + Math.round(10 * k), bottom, 0xFFC9A24A);
-        c.fill(x2 - Math.round(10 * k), top + Math.round(lidH), x2 - Math.round(8 * k), bottom, 0xFFC9A24A);
-        // gem emblem
-        float gx = cx, gy = cy + 4 * k;
-        for (int i = 0; i < 5; i++) {
-            int s = Math.round((6 - i) * k);
-            int col = style.source == Source.CRYSTAL ? GEMS[i] : Fx.lerpColor(style.accent, 0xFFFFFF, i * 0.12f);
-            c.fill(Math.round(gx - s), Math.round(gy - 6 * k + i * 2.4f * k), Math.round(gx + s), Math.round(gy - 6 * k + (i + 1) * 2.4f * k), 0xFF000000 | col);
+    /** SkyBlock rarity name for a rarity colour (to pick the pack's tooltip frame). */
+    private static String rarityName(int color) {
+        return switch (color & 0xFFFFFF) {
+            case 0xFFFFFF -> "common";
+            case 0x55FF55 -> "uncommon";
+            case 0x5555FF -> "rare";
+            case 0xAA00AA -> "epic";
+            case 0xFFAA00 -> "legendary";
+            case 0xFF55FF -> "mythic";
+            case 0xFF5555 -> "special";
+            case 0x55FFFF -> "supreme";
+            default -> null;
+        };
+    }
+
+    /** Draws a 100x100 nine-slice sprite (border 24) stretched to w x h; s = size of the border in GUI px per texel. */
+    static void nineSlice(Canvas c, String tex, int x, int y, int w, int h, float s) {
+        float b = 24 * s;
+        float iw = Math.max(0, w - 2 * b), ih = Math.max(0, h - 2 * b);
+        // corners
+        part(c, tex, x, y, s, s, 0, 0, 24, 24);
+        part(c, tex, x + w - b, y, s, s, 76, 0, 24, 24);
+        part(c, tex, x, y + h - b, s, s, 0, 76, 24, 24);
+        part(c, tex, x + w - b, y + h - b, s, s, 76, 76, 24, 24);
+        // edges (stretched)
+        if (iw > 0) {
+            part(c, tex, x + b, y, iw / 52f, s, 24, 0, 52, 24);
+            part(c, tex, x + b, y + h - b, iw / 52f, s, 24, 76, 52, 24);
         }
-        // lid: lifts and tilts away
+        if (ih > 0) {
+            part(c, tex, x, y + b, s, ih / 52f, 0, 24, 24, 52);
+            part(c, tex, x + w - b, y + b, s, ih / 52f, 76, 24, 24, 52);
+        }
+    }
+
+    private static void part(Canvas c, String tex, float x, float y, float sx, float sy, int u, int v, int w, int h) {
         c.push();
-        c.translate(cx, top + lidH);
-        c.translate(0, -lid * 26 * k);
-        c.rotate(-lid * 0.6f);
-        int lw = Math.round(w / 2);
-        c.fill(-lw - 1, -Math.round(lidH) - 1, lw + 1, 1, Fx.alpha(0x0A0C10, 1 - lid * 0.8f));
-        c.fill(-lw, -Math.round(lidH), lw, 0, Fx.alpha(0x34463D, 1 - lid * 0.8f));
-        c.fill(-lw, -Math.round(lidH), lw, -Math.round(lidH) + Math.round(2 * k), Fx.alpha(0xC9A24A, 1 - lid * 0.8f));
+        c.translate(x, y);
+        c.scale(sx, sy);
+        c.blit(tex, 0, 0, u, v, w, h, 100, 100);
         c.pop();
+    }
+
+    /** The "weapon case": an ender chest, shaking, then the lid flips open with light pouring out. */
+    private void drawCase(Canvas c, float cx, float cy, float k, float lid) {
+        int tint = style.source == Source.CRYSTAL ? 0 : style.accent;
+        mcChest(c, ENDER_TEX, cx, cy + 6 * k, 3.4f * k, lid, tint, 0.25f, 1f);
         if (lid > 0) {
-            Fx.rays(c, cx, top + lidH, 90 * k * lid, 12, lid, 0xFFE8A0, lid);
+            Fx.rays(c, cx, cy - 14 * k, 90 * k * lid, 12, lid, 0xFFE8A0, lid);
         }
     }
 
@@ -677,7 +751,7 @@ public final class RunScene implements Scene {
             return;
         }
         float x = c.width() / 2f + (slotX(c, i) - c.width() / 2f) * Fx.smooth(p);
-        float y = c.height() * 0.45f + (slotY(c) - c.height() * 0.45f) * Fx.easeIn(p);
+        float y = c.height() * reelY() + (slotY(c) - c.height() * reelY()) * Fx.easeIn(p);
         float sc = (3.2f - 2.2f * p) * k;
         Fx.glow(c, x, y, 24 * k * (1.5f - p), win.color, 0.8f, 2);
         c.push();
@@ -700,9 +774,10 @@ public final class RunScene implements Scene {
         if (rare) {
             Loot win = slots.get(slots.size() - 1);
             float pop = Fx.backOut(Math.min(1, st / 0.35f));
-            Fx.centered(c, style.rareTitle, c.width() / 2f, c.height() * 0.33f, 1.6f * k * pop, Fx.alpha(0xFF55FF, a), true);
+            float titleY = c.height() * (style.source == Source.CRYSTAL ? 0.38f : 0.33f);
+            Fx.centered(c, style.rareTitle, c.width() / 2f, titleY, 1.6f * k * pop, Fx.alpha(0xFF55FF, a), true);
             Fx.centered(c, win.name + (win.coins > 0 ? "  ·  " + NUM.format(win.coins) + " coins" : ""), c.width() / 2f,
-                    c.height() * 0.33f + 18 * k, 1.0f * k, Fx.alpha(win.color, a), false);
+                    titleY + 18 * k, 1.0f * k, Fx.alpha(win.color, a), false);
         }
         String line = style.summary + ": " + count + (count == 1 ? " item" : " items")
                 + (coins > 0 ? "  ·  " + NUM.format(coins) + " coins" : "") + (test ? "  ·  test run" : "");

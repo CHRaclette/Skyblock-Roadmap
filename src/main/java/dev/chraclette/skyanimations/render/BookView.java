@@ -149,6 +149,9 @@ public final class BookView {
         String extra = switch (chapter) {
             case PESTS -> "Pests vacuumed: " + NUM.format(ledger.pestsVacuumed);
             case GARDEN -> "Crop Fevers caught: " + NUM.format(ledger.fevers);
+            case MINING -> "Nucleus runs: " + NUM.format(ledger.runs("nucleus"));
+            case DUNGEONS -> "Runs: " + NUM.format(ledger.dungeonRuns())
+                    + (ledger.runs("M7") > 0 ? "  (M7 " + NUM.format(ledger.runs("M7")) + ")" : ledger.runs("F7") > 0 ? "  (F7 " + NUM.format(ledger.runs("F7")) + ")" : "");
             default -> "";
         };
         if (!extra.isEmpty()) {
@@ -491,6 +494,10 @@ public final class BookView {
                     + (Ledger.crowned(lv) ? " ♛" : "") + "  (" + lv.title + ")");
             colors.add(0xFF000000 | lv.color);
             lines.add("Dropped " + e.times + (e.times == 1 ? " time" : " times") + (e.items > e.times ? " (" + NUM.format(e.items) + " items)" : ""));
+            long nucleusRuns = ledger.runs("nucleus");
+            if (e.chapter == Chapter.MINING && nucleusRuns > 0 && e.times > 0 && !e.test) {
+                lines.add("About 1 in " + NUM.format(Math.max(1, nucleusRuns / e.times)) + " Nucleus runs");
+            }
             colors.add(0xFFDDDDDD);
             Level next = lv.next();
             if (next != null) {

@@ -200,6 +200,30 @@ public final class ItemCatalog {
         return info.model == null || info.model.isEmpty() || System.currentTimeMillis() - modelCheckedAt < 15_000;
     }
 
+    /**
+     * Marks a stack like a real SkyBlock item: custom_data {id: ..., petInfo: ...} and the item name.
+     * Resource packs select SkyBlock textures with exactly these, so our icons get the pack texture.
+     */
+    static void tag(ItemStack stack, String id, String name, int color, String petInfo) {
+        try {
+            net.minecraft.nbt.CompoundTag tag = new net.minecraft.nbt.CompoundTag();
+            if (id != null && !id.isEmpty()) tag.putString("id", id);
+            if (petInfo != null) tag.putString("petInfo", petInfo);
+            if (!tag.isEmpty()) stack.set(DataComponents.CUSTOM_DATA, net.minecraft.world.item.component.CustomData.of(tag));
+            if (name != null && !name.isEmpty()) {
+                stack.set(DataComponents.CUSTOM_NAME, net.minecraft.network.chat.Component.literal(name)
+                        .withStyle(st -> st.withColor(color).withItalic(false)));
+            }
+        } catch (RuntimeException e) {
+            SkyAnimationsClient.LOG.debug("Could not tag {}", id, e);
+        }
+    }
+
+    /** A pet as SkyBlock sends it ("PET" + petInfo), so packs can show the pet texture. */
+    static void tagPet(ItemStack stack, String type, String tier, String name, int color) {
+        tag(stack, "PET", "[Lvl 1] " + name, color, "{\"type\":\"" + type + "\",\"tier\":\"" + tier + "\"}");
+    }
+
     /** A player head with a texture (base64 "textures" value). */
     static ItemStack head(String key, String texture) {
         ItemStack stack = new ItemStack(Items.PLAYER_HEAD);
@@ -237,6 +261,9 @@ public final class ItemCatalog {
             if (info.model != null && !info.model.isEmpty() && modelLoaded(info.model)) {
                 stack.set(DataComponents.ITEM_MODEL, Identifier.parse(info.model));
             }
+            // same id + name as the real SkyBlock item, so texture packs (Hypixel pack, FurfSky,
+            // Hypixel+ ...) that pick textures by SkyBlock id or name show their texture here too
+            tag(stack, info.id, info.name, tierColor(info.tier), null);
         } catch (RuntimeException e) {
             SkyAnimationsClient.LOG.debug("Could not style {}", info.id, e);
         }

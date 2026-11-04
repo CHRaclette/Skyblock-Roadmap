@@ -42,7 +42,12 @@ public final class SkyAnimationsClient implements ClientModInitializer {
                 Identifier.fromNamespaceAndPath(MOD_ID, "cutscene"),
                 CutsceneManager::render);
 
+        // lines a scene already shows are hidden (ALLOW_GAME); hidden ones still reach onChat
+        ClientReceiveMessageEvents.ALLOW_GAME.register((message, overlay) -> overlay || !ChatHider.hide(message));
         ClientReceiveMessageEvents.GAME.register((message, overlay) -> {
+            if (!overlay) onChat(message);
+        });
+        ClientReceiveMessageEvents.GAME_CANCELED.register((message, overlay) -> {
             if (!overlay) onChat(message);
         });
 

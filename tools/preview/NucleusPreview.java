@@ -17,23 +17,23 @@ public class NucleusPreview {
         List<RunScene.Loot> loot = new java.util.ArrayList<>(List.of(
                 new RunScene.Loot("Gemstone Powder", 2400, null, 0xFF55FF, 0, true),
                 new RunScene.Loot("Mithril Powder", 1500, null, 0x00AA00, 0, true),
-                new RunScene.Loot("Flawless Jade Gemstone", 2, "item_emerald.png", 0xAA00AA, 5_200_000, false),
-                new RunScene.Loot("Fine Amber Gemstone", 8, "item_gold_nugget.png", 0x5555FF, 160_000, false),
-                new RunScene.Loot("Fine Topaz Gemstone", 6, "item_glowstone_dust.png", 0x5555FF, 120_000, false),
-                new RunScene.Loot("Flawless Sapphire Gemstone", 1, "item_lapis_lazuli.png", 0xAA00AA, 2_600_000, false),
+                new RunScene.Loot("Flawless Jade Gemstone", 2, "hypixel_skyblock:textures/item/collections/gemstone/jade/flawless_jade_gem.png", 0xAA00AA, 5_200_000, false),
+                new RunScene.Loot("Fine Amber Gemstone", 8, "hypixel_skyblock:textures/item/collections/gemstone/amber/fine_amber_gem.png", 0x5555FF, 160_000, false),
+                new RunScene.Loot("Fine Topaz Gemstone", 6, "hypixel_skyblock:textures/item/collections/gemstone/topaz/fine_topaz_gem.png", 0x5555FF, 120_000, false),
+                new RunScene.Loot("Flawless Sapphire Gemstone", 1, "hypixel_skyblock:textures/item/collections/gemstone/sapphire/flawless_sapphire_gem.png", 0xAA00AA, 2_600_000, false),
                 new RunScene.Loot("Gemstone Chamber", 1, "item_echo_shard.png", 0x5555FF, 400_000, false)));
         int rareIdx = -1;
         if (rare) {
-            loot.add(new RunScene.Loot("Jungle Heart", 1, "item_heart_of_the_sea.png", 0xFFAA00, 9_800_000, false));
+            loot.add(new RunScene.Loot("Jungle Heart", 1, "hypixel_skyblock:textures/item/uncategorized/jungle_heart.png", 0xFFAA00, 9_800_000, false));
             rareIdx = loot.size() - 1;
         }
         List<RunScene.ReelItem> pool = List.of(
-                new RunScene.ReelItem("Jungle Heart", "item_heart_of_the_sea.png", 0xFFAA00),
-                new RunScene.ReelItem("Divan Fragment", "item_prismarine_crystals.png", 0xAA00AA),
-                new RunScene.ReelItem("Treasurite", "item_redstone.png", 0xAA00AA),
-                new RunScene.ReelItem("Prehistoric Egg", "item_egg.png", 0x55FF55),
-                new RunScene.ReelItem("Pickonimbus 2000", "item_diamond.png", 0xFF55FF),
-                new RunScene.ReelItem("Precursor Apparatus", "item_quartz.png", 0x5555FF),
+                new RunScene.ReelItem("Jungle Heart", "hypixel_skyblock:textures/item/uncategorized/jungle_heart.png", 0xFFAA00),
+                new RunScene.ReelItem("Divan Fragment", "hypixel_skyblock:textures/item/uncategorized/divan_fragment.png", 0xAA00AA),
+                new RunScene.ReelItem("Treasurite", "hypixel_skyblock:textures/item/uncategorized/treasurite.png", 0xAA00AA),
+                new RunScene.ReelItem("Prehistoric Egg", "hypixel_skyblock:textures/item/uncategorized/prehistoric_egg.png", 0x55FF55),
+                new RunScene.ReelItem("Pickonimbus 2000", "hypixel_skyblock:textures/item/uncategorized/pickonimbus_2000.png", 0xFF55FF),
+                new RunScene.ReelItem("Precursor Apparatus", "hypixel_skyblock:textures/item/uncategorized/precursor_apparatus.png", 0x5555FF),
                 new RunScene.ReelItem("Bal", "item_totem_of_undying.png", 0xFFAA00));
         RunScene.Style style = RunScene.Style.nucleus();
         if (mode.equals("chest")) {
@@ -41,7 +41,7 @@ public class NucleusPreview {
                     new RunScene.Loot("Wither Essence", 12, "item_quartz.png", 0xFF55FF, 36_000, false),
                     new RunScene.Loot("Undead Essence", 40, "item_redstone.png", 0xFF55FF, 20_000, false),
                     new RunScene.Loot("Enchanted Book (Ultimate Wise I)", 1, "item_lapis_lazuli.png", 0xFF55FF, 300_000, false),
-                    new RunScene.Loot("Wither Blood", 1, "item_redstone.png", 0xAA00AA, 2_000_000, false),
+                    new RunScene.Loot("Wither Blood", 1, "hypixel_skyblock:textures/item/reforge_stones/wither_blood.png", 0xAA00AA, 2_000_000, false),
                     new RunScene.Loot("Necron's Handle", 1, "item_prismarine_crystals.png", 0xAA00AA, 520_000_000, false)));
             rareIdx = 4;
             style = RunScene.Style.chest("Obsidian Chest", "Master Catacombs - Floor VII", RunScene.chestColor("Obsidian"));

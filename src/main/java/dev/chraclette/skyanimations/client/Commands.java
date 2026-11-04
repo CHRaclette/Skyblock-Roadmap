@@ -170,6 +170,37 @@ final class Commands {
                                 say(ctx, "§7Crystal Nucleus scene: §f" + (c.nucleusOnlyRare ? "only when a rare item drops" : "every run (case only for rare items)"));
                                 return 1;
                             }))
+                    .then(ClientCommands.literal("hidechat").executes(ctx -> toggle(ctx, "hideChat")))
+                    .then(ClientCommands.literal("apikey")
+                            .executes(ctx -> {
+                                say(ctx, ProfileApi.hasKey() ? "§7API key set: §f" + ProfileApi.mask(Config.get().apiKey) + " §8(/sa apikey clear)"
+                                        : "§7No API key. Make a §fPersonal API Key§7 on §fdeveloper.hypixel.net§7, then §f/sa apikey <key>");
+                                return 1;
+                            })
+                            .then(ClientCommands.argument("key", StringArgumentType.word()).executes(ctx -> {
+                                String key = StringArgumentType.getString(ctx, "key").trim();
+                                Config.get().apiKey = key.equalsIgnoreCase("clear") ? "" : key;
+                                Config.save();
+                                if (!ProfileApi.hasKey()) {
+                                    say(ctx, "§7API key removed. Runs are counted in game.");
+                                    return 1;
+                                }
+                                say(ctx, "§7API key saved. Reading your profile...");
+                                ProfileApi.refresh(m -> say(ctx, m));
+                                return 1;
+                            })))
+                    .then(ClientCommands.literal("runs").executes(ctx -> {
+                        var l = LedgerStore.get();
+                        StringBuilder floors = new StringBuilder();
+                        for (String f : new String[]{"F1", "F2", "F3", "F4", "F5", "F6", "F7", "M1", "M2", "M3", "M4", "M5", "M6", "M7"}) {
+                            long n = l.runs(f);
+                            if (n > 0) floors.append(" §8").append(f).append(" §f").append(n);
+                        }
+                        say(ctx, "§7Nucleus runs: §f" + l.runs("nucleus") + "  §7Catacombs: §f" + l.dungeonRuns() + floors
+                                + (l.runsFromProfileAt > 0 ? " §8(from profile)" : " §8(counted in game)"));
+                        if (ProfileApi.hasKey()) ProfileApi.refresh(m -> say(ctx, m));
+                        return 1;
+                    }))
                     .then(ClientCommands.literal("chests").executes(ctx -> {
                         Config.Data cfg = Config.get();
                         cfg.dungeonChests = switch (cfg.dungeonChests) {
@@ -245,6 +276,7 @@ final class Commands {
             case "sound" -> c.sound = !c.sound;
             case "music" -> c.music = !c.music;
             case "prices" -> c.prices = !c.prices;
+            case "hideChat" -> c.hideChat = !c.hideChat;
             default -> !(c.onlyOnHypixel = !c.onlyOnHypixel);
         };
         Config.save();
@@ -351,6 +383,7 @@ final class Commands {
         say(ctx, "§f/sa book §7or §fJ §7open the sticker book");
         say(ctx, "§f/sa simulate <chat line> §7test any drop message");
         say(ctx, "§f/sa give §7[all, <level> [name], reset] §7test stickers for the book");
+        say(ctx, "§f/sa runs §7run counts · §f/sa apikey <key> §7read them from your profile · §f/sa hidechat");
         say(ctx, "§f/sa skip §7stop the current cutscene");
         say(ctx, "§f/sa toggle | sound | music | prices §7switch on/off");
         say(ctx, "§f/sa speed <0.25-3> §7| §f/sa volume <0-2>");
