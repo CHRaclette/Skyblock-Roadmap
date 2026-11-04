@@ -29,8 +29,15 @@ dependencies {
 	productionRuntimeMods "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 }
 
+// The demo recorder as its own small mod jar.
+def demoJar = tasks.register("demoJar", Jar) {
+	from sourceSets.gametest.output
+	archiveClassifier = "demo"
+}
+
 // Records the demo video in a real client (see .github/workflows/demo.yml).
 tasks.register("recordDemo", net.fabricmc.loom.task.prod.ClientProductionRunTask) {
+	mods.from(demoJar)
 	jvmArgs.add("-Dfabric.client.gametest")
 	jvmArgs.add("-Dfabric.client.gametest.disableNetworkSynchronizer=true")
 	useXVFB = true
