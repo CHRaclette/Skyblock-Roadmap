@@ -144,11 +144,13 @@ public final class ScathaScene implements Scene {
                 float pulse = 1 + 0.04f * (float) Math.sin(st * 5);
                 sc *= pulse * (1 + 0.25f * (1 - Fx.smooth(st / 0.2f)));
             }
-            c.push();
-            c.translate(x, y);
-            c.scale(sc, sc);
-            if (icon != null) c.item(icon, -8, -8);
-            c.pop();
+            if (!Props.draw(c, name, x, y, 16 * sc, t - SNAP)) {
+                c.push();
+                c.translate(x, y);
+                c.scale(sc, sc);
+                if (icon != null) c.item(icon, -8, -8);
+                c.pop();
+            }
             if (snapped) {
                 float ta = Fx.smooth((t - SNAP) / 0.25f) * fade;
                 float tp = Fx.backOut(Fx.clamp01((t - SNAP) / 0.3f));

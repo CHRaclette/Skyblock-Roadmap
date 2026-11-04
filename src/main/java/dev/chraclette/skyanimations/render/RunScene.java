@@ -667,8 +667,10 @@ public final class RunScene implements Scene {
         c.push();
         c.translate(w / 2, h * 0.42f);
         c.scale(s, s);
-        if (it.icon != null && a > 0.3f) c.item(it.icon, -8, -8);
+        boolean model = grow > 1.0001f && Props.kind(it.name) != null;
+        if (it.icon != null && a > 0.3f && !model) c.item(it.icon, -8, -8);
         c.pop();
+        if (model) Props.draw(c, it.name, w / 2, h * 0.42f, w * 0.55f, t - reelStop);
         String name = it.name;
         float ns = 0.5f * k;
         int maxW = Math.round((w - 4) / ns);
@@ -754,11 +756,13 @@ public final class RunScene implements Scene {
         float y = c.height() * reelY() + (slotY(c) - c.height() * reelY()) * Fx.easeIn(p);
         float sc = (3.2f - 2.2f * p) * k;
         Fx.glow(c, x, y, 24 * k * (1.5f - p), win.color, 0.8f, 2);
-        c.push();
-        c.translate(x, y);
-        c.scale(sc, sc);
-        if (win.icon != null) c.item(win.icon, -8, -8);
-        c.pop();
+        if (!Props.draw(c, win.name, x, y, 16 * sc, t - reelStop)) {
+            c.push();
+            c.translate(x, y);
+            c.scale(sc, sc);
+            if (win.icon != null) c.item(win.icon, -8, -8);
+            c.pop();
+        }
     }
 
     // ---------------------------------------------------------------- summary

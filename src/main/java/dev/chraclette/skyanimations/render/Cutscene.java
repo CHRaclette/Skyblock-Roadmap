@@ -813,7 +813,7 @@ public final class Cutscene implements Scene {
         float pop = Fx.backOut(rt / 0.4f);
         float bob = (float) Math.sin(rt * 2.4f) * 2.5f * k;
         float itemScale = 4.2f * k * pop;
-        if (itemScale > 0.05f && icon != null) {
+        if (itemScale > 0.05f && !Props.draw(c, drop.name(), cx, cy + bob, 16 * itemScale, rt) && icon != null) {
             c.push();
             c.translate(cx, cy + bob);
             c.scale(itemScale, itemScale);

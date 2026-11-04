@@ -45,6 +45,20 @@ public final class Skins {
                 flesh, fleshDark);
     }
 
+    /** A player head (64x64 skin, head 8x8x8 at 0,0 plus the hat layer at 32,0). */
+    public static CubeSkin head(String tex) {
+        return box(tex, 64, 64, 0, 0, 8, 8, 8, MEAT, MEAT_DARK, box(tex, 64, 64, 32, 0, 8, 8, 8, MEAT, MEAT_DARK, null));
+    }
+
+    /** A cube whose six faces are 16x16 tiles of a strip texture (index 0 = first tile). */
+    public static CubeSkin strip(String tex, int tiles, int top, int bottom, int front, int back, int right, int left) {
+        int w = tiles * 16;
+        return new CubeSkin(new Face(tex, w, 16, top * 16, 0, 16, 16), new Face(tex, w, 16, bottom * 16, 0, 16, 16),
+                new Face(tex, w, 16, front * 16, 0, 16, 16), new Face(tex, w, 16, back * 16, 0, 16, 16),
+                new Face(tex, w, 16, right * 16, 0, 16, 16), new Face(tex, w, 16, left * 16, 0, 16, 16),
+                null, 1, 1, 1, MEAT, MEAT_DARK);
+    }
+
     private static CubeSkin block(String top, String side, int flesh, int fleshDark) {
         Face t = new Face(top, 16, 16, 0, 0, 16, 16);
         Face s = new Face(side, 16, 16, 0, 0, 16, 16);

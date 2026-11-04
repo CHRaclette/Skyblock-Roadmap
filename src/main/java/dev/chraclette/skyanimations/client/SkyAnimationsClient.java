@@ -36,6 +36,7 @@ public final class SkyAnimationsClient implements ClientModInitializer {
         BookKey.register();
         DungeonChest.register();
         NeuRepo.init();
+        HeadTextures.register();
 
         HudElementRegistry.attachElementAfter(
                 VanillaHudElements.CHAT,
