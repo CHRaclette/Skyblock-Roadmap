@@ -4,26 +4,24 @@ jobs:
   inspect:
     runs-on: ubuntu-24.04
     steps:
-      - name: Items API
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '25'
+          distribution: 'microsoft'
+      - name: Build
+        run: chmod +x ./gradlew && ./gradlew build --stacktrace || true
+      - name: Inspect
         run: |
-          curl -sS https://api.hypixel.net/v2/resources/skyblock/items -o items.json
-          ls -la items.json
-          jq -r '.items[0] | keys' items.json
-          jq -c '[.items[] | keys[]] | group_by(.) | map({k: .[0], n: length})' items.json
-          for id in CHIMERA GRIFFIN_FEATHER DAEDALUS_STICK MYTHOLOGICAL_DYE SHIMMERING_WOOL JUDGEMENT_CORE BEADY_EYES ENCHANTED_HAY_BLOCK NECRON_HANDLE CROPIE OVERFLUX_CAPACITOR; do
-            jq -c --arg id "$id" '.items[] | select(.id==$id) | del(.skin.signature)' items.json | cut -c1-700
-          done
-          jq -c '.items[] | select(.name|test("Chimera|Shimmering|Mythological Dye";"i")) | {id,name,material}' items.json | head
-      - name: Packs API
-        run: |
-          curl -sS https://api.hypixel.net/v2/resources/packs | tee packs.json | jq . | head -60
-          URL=$(jq -r '[.. | objects | select(has("url")) | .url][0]' packs.json)
-          echo "URL=$URL"
-          curl -sS "$URL" -o pack.zip; ls -la pack.zip
-          unzip -l pack.zip | awk '{print $4}' | grep -v '^$' | sed 's#/[^/]*$##' | sort | uniq -c | sort -rn | head -40
-          unzip -l pack.zip | awk '{print $4}' | grep -i "chimera\|griffin\|daedalus\|mythological\|shimmering\|beady\|cropie" | head -40
-          unzip -l pack.zip | awk '{print $4}' | grep "^assets/minecraft/items/" | head -20
-          for f in $(unzip -l pack.zip | awk '{print $4}' | grep "^assets/minecraft/items/.*\.json$" | head -3); do echo "== $f"; unzip -p pack.zip "$f" | head -c 1500; echo; done
-          for f in $(unzip -l pack.zip | awk '{print $4}' | grep "^assets/hypixel_skyblock/items/.*\.json$" | head -3); do echo "== $f"; unzip -p pack.zip "$f" | head -c 800; echo; done
-          F=$(unzip -l pack.zip | awk '{print $4}' | grep -i "griffin_feather.*json\|chimera.*json" | head -2); for f in $F; do echo "== $f"; unzip -p pack.zip "$f" | head -c 1500; echo; done
-          unzip -l pack.zip | awk '{print $4}' | grep -c "^assets/hypixel_skyblock/items/" || true
+          JAR=$(find ~/.gradle -name "minecraft-merged-deobf-26.2.jar" | head -1)
+          p() { echo "===== $1"; javap -cp "$JAR" "$1" | grep -i "$2" | head -40; }
+          p net.minecraft.client.Minecraft "connection\|getConnection\|resourceManager\|getResourceManager\|getModelManager"
+          p net.minecraft.client.multiplayer.ClientPacketListener "PlayerInfo\|Players\|scoreboard"
+          p net.minecraft.client.multiplayer.PlayerInfo "Name\|profile\|Profile"
+          p net.minecraft.server.packs.resources.ResourceManager "."
+          p net.minecraft.server.packs.resources.ResourceProvider "."
+          p net.minecraft.core.component.DataComponents "ITEM_MODEL\|PROFILE\|DYED_COLOR\|GLINT\|CUSTOM_NAME"
+          p net.minecraft.world.item.component.DyedItemColor "public"
+          p net.minecraft.world.item.component.ResolvableProfile "static"
+          p net.minecraft.client.resources.model.ModelManager "public"
+          p net.minecraft.world.scores.Scoreboard "public .*Objective\|DisplaySlot\|listPlayerScores\|getPlayerTeam"
