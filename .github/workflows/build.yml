@@ -14,4 +14,4 @@ jobs:
       - name: Inspect
         run: |
           JAR=$(find ~/.gradle -name "minecraft-merged-deobf-26.2.jar" | head -1)
-          echo "===== Minecraft"; javap -cp "$JAR" net.minecraft.client.Minecraft | grep -i "screen\|gui"
+          echo "===== Gui"; javap -cp "$JAR" net.minecraft.client.gui.Gui | grep -i "screen"; echo "===== MC"; javap -p -cp "$JAR" net.minecraft.client.Minecraft | grep -i "screen"

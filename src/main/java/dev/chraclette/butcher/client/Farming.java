@@ -250,4 +250,15 @@ public final class Farming {
         SCHEDULE.add(new Scheduled(t + 4.0f, "You received 2x Enchanted Sugar for killing a Mosquito!"));
         SCHEDULE.add(new Scheduled(t + 4.3f, "RARE DROP! Clipped Wings (+12% ✯ Magic Find)"));
     }
+
+    /** Shows every sticker level once, one after another. */
+    static void testStickers(Object icon) {
+        dev.chraclette.butcher.core.Ledger.Level prev = null;
+        float d = 0;
+        for (var lv : dev.chraclette.butcher.core.Ledger.Level.values()) {
+            stickerLater(prev, lv, "Chimera I", icon, lv.points, d);
+            prev = lv;
+            d += 0.1f;
+        }
+    }
 }
