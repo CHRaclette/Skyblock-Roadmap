@@ -14,7 +14,7 @@ jobs:
       - name: Inspect Minecraft classes
         run: |
           find ~/.gradle -name "*.jar" | grep -i minecraft | grep -v sources | head -20
-          JAR=$(find ~/.gradle -name "*.jar" | grep -i "minecraft" | grep -iv "sources\|fabric-api\|loader\|mapping\|intermediary" | xargs ls -S | head -1)
+          JAR=$(find ~/.gradle -name "minecraft-merged-deobf-26.2.jar" | head -1)
           echo "JAR=$JAR"
           for c in net.minecraft.client.gui.screens.Screen net.minecraft.client.gui.components.events.GuiEventListener net.minecraft.client.gui.components.events.ContainerEventHandler net.minecraft.client.gui.components.AbstractWidget net.minecraft.client.input.MouseButtonEvent net.minecraft.client.input.KeyEvent net.minecraft.client.gui.GuiGraphicsExtractor; do
             echo "===== $c"; javap -cp "$JAR" "$c" || true
