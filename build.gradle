@@ -12,10 +12,28 @@ base {
 repositories {
 }
 
+fabricApi {
+	configureTests {
+		createSourceSet = true
+		modId = "butcherdrops-demo"
+		enableGameTests = false
+		enableClientGameTests = true
+		eula = true // agreeing to the Minecraft EULA for the automated demo run
+	}
+}
+
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+	productionRuntimeMods "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+}
+
+// Records the demo video in a real client (see .github/workflows/demo.yml).
+tasks.register("recordDemo", net.fabricmc.loom.task.prod.ClientProductionRunTask) {
+	jvmArgs.add("-Dfabric.client.gametest")
+	jvmArgs.add("-Dfabric.client.gametest.disableNetworkSynchronizer=true")
+	useXVFB = true
 }
 
 processResources {

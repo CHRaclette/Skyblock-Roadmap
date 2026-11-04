@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "id": "butcherdrops-demo",
+  "version": "1.0.0",
+  "name": "Butcher Drops demo recorder",
+  "environment": "*",
+  "entrypoints": {
+    "fabric-client-gametest": ["dev.chraclette.butcher.demo.DemoRecorder"]
+  }
+}

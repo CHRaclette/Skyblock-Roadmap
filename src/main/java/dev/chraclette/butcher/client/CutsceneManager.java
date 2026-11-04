@@ -15,7 +15,7 @@ public final class CutsceneManager {
 
     private record Pending(Drop drop, boolean test, long queuedAt) {
         Pending(Drop drop, boolean test) {
-            this(drop, test, System.nanoTime());
+            this(drop, test, Clock.nanos());
         }
     }
 
@@ -54,7 +54,7 @@ public final class CutsceneManager {
         Pending[] all = QUEUE.toArray(new Pending[0]);
         QUEUE.clear();
         for (Pending p : all) {
-            boolean recent = System.nanoTime() - p.queuedAt < 2_000_000_000L;
+            boolean recent = Clock.nanos() - p.queuedAt < 2_000_000_000L;
             if (recent && p.drop.pest().isEmpty() && !p.drop.fever() && Farming.isPestish(p.drop)) {
                 QUEUE.addLast(new Pending(p.drop.withPest(pest), p.test, p.queuedAt));
             } else {
@@ -113,7 +113,7 @@ public final class CutsceneManager {
                 Sounds.play(cue, drop.effect(), pitch, volume);
             }
         }, compact, p.test, cfg.music, cfg.vacuum);
-        startNanos = System.nanoTime();
+        startNanos = Clock.nanos();
     }
 
     /** HUD element: called every frame. */
@@ -126,7 +126,7 @@ public final class CutsceneManager {
         McCanvas canvas = new McCanvas(graphics);
         if (active == null) {
             Pending next = QUEUE.peekFirst();
-            if (next != null && System.nanoTime() - next.queuedAt >= HOLD_NANOS) {
+            if (next != null && Clock.nanos() - next.queuedAt >= HOLD_NANOS) {
                 QUEUE.pollFirst();
                 start(next);
             }
@@ -136,7 +136,7 @@ public final class CutsceneManager {
             return;
         }
         float speed = Math.max(0.25f, Math.min(3f, Config.get().speed));
-        float t = (System.nanoTime() - startNanos) / 1_000_000_000f * speed;
+        float t = (Clock.nanos() - startNanos) / 1_000_000_000f * speed;
         try {
             active.render(canvas, t);
         } catch (RuntimeException e) {

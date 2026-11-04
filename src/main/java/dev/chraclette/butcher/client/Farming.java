@@ -16,7 +16,7 @@ import java.util.List;
 /** Garden extras: Crop Fever intro/timer/summary, fever roll pop-ups, pest spawn and kill pop-ups. */
 public final class Farming {
 
-    private static final long START = System.nanoTime();
+    private static final long START = Clock.nanos();
 
     private static final FeverHud FEVER = new FeverHud(new FeverHud.Hooks() {
         @Override
@@ -75,7 +75,7 @@ public final class Farming {
     }
 
     static float now() {
-        return (System.nanoTime() - START) / 1_000_000_000f;
+        return (Clock.nanos() - START) / 1_000_000_000f;
     }
 
     private static List<Object> crops() {
@@ -258,6 +258,12 @@ public final class Farming {
         SCHEDULE.add(new Scheduled(t + 3.0f, "You received 3x Enchanted Nether Wart for killing a Beetle!"));
         SCHEDULE.add(new Scheduled(t + 4.0f, "You received 2x Enchanted Sugar for killing a Mosquito!"));
         SCHEDULE.add(new Scheduled(t + 4.3f, "RARE DROP! Clipped Wings (+12% ✯ Magic Find)"));
+    }
+
+    static void scheduleDemo(float[] at, String[] lines) {
+        float t = now();
+        SCHEDULE.clear();
+        for (int i = 0; i < at.length; i++) SCHEDULE.add(new Scheduled(t + at[i], lines[i]));
     }
 
     /** Shows every sticker level once, one after another. */

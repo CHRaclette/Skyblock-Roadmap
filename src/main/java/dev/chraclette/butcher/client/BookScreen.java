@@ -17,7 +17,7 @@ public final class BookScreen extends Screen {
 
     private final BookView view;
     private final Map<String, ItemStack> icons = new HashMap<>();
-    private final long opened = System.nanoTime();
+    private final long opened = Clock.nanos();
 
     public BookScreen() {
         super(Component.literal("Butcher's Sticker Book"));
@@ -57,10 +57,25 @@ public final class BookScreen extends Screen {
         // the book dims the screen itself
     }
 
+    private static float demoX = -1, demoY = -1;
+
+    static void demoMouse(float fx, float fy) {
+        demoX = fx;
+        demoY = fy;
+    }
+
+    void badges() {
+        view.selectBadges();
+    }
+
     @Override
     public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
         super.extractRenderState(graphics, mouseX, mouseY, delta);
-        float t = (System.nanoTime() - opened) / 1_000_000_000f;
+        if (demoX >= 0) {
+            mouseX = Math.round(demoX * width);
+            mouseY = Math.round(demoY * height);
+        }
+        float t = (Clock.nanos() - opened) / 1_000_000_000f;
         view.render(new McCanvas(graphics), mouseX, mouseY, t);
     }
 
