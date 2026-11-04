@@ -11,17 +11,24 @@ jobs:
           distribution: 'microsoft'
       - name: Build
         run: chmod +x ./gradlew && ./gradlew build --stacktrace || true
-      - name: Inspect
+      - name: Check materials
         run: |
-          JAR=$(find ~/.gradle -name "minecraft-merged-deobf-26.2.jar" | head -1)
-          p() { echo "===== $1"; javap -cp "$JAR" "$1" | grep -i "$2" | head -40; }
-          p net.minecraft.client.Minecraft "connection\|getConnection\|resourceManager\|getResourceManager\|getModelManager"
-          p net.minecraft.client.multiplayer.ClientPacketListener "PlayerInfo\|Players\|scoreboard"
-          p net.minecraft.client.multiplayer.PlayerInfo "Name\|profile\|Profile"
-          p net.minecraft.server.packs.resources.ResourceManager "."
-          p net.minecraft.server.packs.resources.ResourceProvider "."
-          p net.minecraft.core.component.DataComponents "ITEM_MODEL\|PROFILE\|DYED_COLOR\|GLINT\|CUSTOM_NAME"
-          p net.minecraft.world.item.component.DyedItemColor "public"
-          p net.minecraft.world.item.component.ResolvableProfile "static"
-          p net.minecraft.client.resources.model.ModelManager "public"
-          p net.minecraft.world.scores.Scoreboard "public .*Objective\|DisplaySlot\|listPlayerScores\|getPlayerTeam"
+          JAR=$(find ~/.gradle -name "minecraft-client.jar" -path "*26.2*" | head -1)
+          unzip -l "$JAR" | awk '{print $4}' | grep "^assets/minecraft/items/.*\.json$" | sed 's#assets/minecraft/items/##; s#\.json##' | sort > valid.txt
+          wc -l valid.txt
+          curl -sS https://api.hypixel.net/v2/resources/skyblock/items | jq -r '.items[] | "\(.material) \(.durability // 0)"' | sort | uniq -c | sort -rn > mats.txt
+          mkdir -p t && javac -d t src/main/java/dev/chraclette/butcher/core/Materials.java
+          cat > T.java <<'J'
+          import java.nio.file.*; import java.util.*;
+          public class T { public static void main(String[] a) throws Exception {
+            Set<String> valid = new HashSet<>(Files.readAllLines(Path.of("valid.txt")));
+            int ok = 0, bad = 0;
+            for (String l : Files.readAllLines(Path.of("mats.txt"))) {
+              String[] p = l.trim().split("\\s+"); int n = Integer.parseInt(p[0]);
+              String id = dev.chraclette.butcher.core.Materials.modern(p[1], Integer.parseInt(p[2]));
+              if (valid.contains(id)) ok += n; else { bad += n; System.out.println("MISSING " + p[1] + ":" + p[2] + " -> " + id + " (" + n + " items)"); }
+            }
+            System.out.println("ok=" + ok + " bad=" + bad);
+          }}
+          J
+          javac -cp t -d t T.java && java -cp t T
