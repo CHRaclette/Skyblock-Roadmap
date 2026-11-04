@@ -173,7 +173,10 @@ public final class BookView {
         }
         if (coins > 0) {
             String cs = NUM.format(coins) + " coins";
-            small(c, cs, lx + contentW - Math.round(c.textWidth(cs) * 0.75f), levelY + 1, 0xFFB07A10, 0.75f);
+            int cw = Math.round(c.textWidth(cs) * 0.75f);
+            if (lx + Level.values().length * 20 + 4 + cw <= lx + contentW) {
+                small(c, cs, lx + contentW - cw, levelY + 1, 0xFFB07A10, 0.75f);
+            }
         }
 
         // sticker grid: 3 cols on the left page (under the header), 3 cols on the right page
