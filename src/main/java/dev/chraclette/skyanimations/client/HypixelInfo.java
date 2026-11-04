@@ -64,7 +64,10 @@ public final class HypixelInfo {
             if (m.matches()) newArea = m.group(1);
         }
         area = newArea;
+        if (skyblock && ++skyblockScans == 30) HypixelPack.hintIfMissing(); // ~30 s after joining SkyBlock
     }
+
+    private static int skyblockScans;
 
     /** Chat lines that tell us the profile. */
     static void onChat(String text) {

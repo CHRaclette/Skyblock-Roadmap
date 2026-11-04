@@ -191,6 +191,11 @@ public final class ItemCatalog {
         ItemStack cached = STACKS.get(info.id);
         if (cached != null && modelStillValid(info)) return cached;
         ItemStack built = build(info);
+        // Paper + pack model, but the Hypixel pack isn't loaded: plain paper would be wrong, let the
+        // caller pick a fitting vanilla item instead (still tagged, so other packs can match it)
+        if (built.getItem() == Items.PAPER && info.model != null && !info.model.isEmpty() && !modelLoaded(info.model)) {
+            return ItemStack.EMPTY;
+        }
         STACKS.put(info.id, built);
         return built;
     }
@@ -285,6 +290,11 @@ public final class ItemCatalog {
                 return false;
             }
         });
+    }
+
+    /** True if Hypixel's SkyBlock pack is loaded (one of its item models exists). */
+    static boolean packLoaded() {
+        return modelLoaded("hypixel_skyblock:item/uncategorized/divan_fragment");
     }
 
     public static boolean loaded() {
