@@ -26,8 +26,8 @@ jobs:
       - name: Collect frames
         if: always()
         run: |
-          F=$(find "$GITHUB_WORKSPACE" "$HOME" /tmp -name "frame_00000*.png" 2>/dev/null | head -1); echo "first frame: $F"
-          mkdir -p out && if [ -n "$F" ]; then cp "$(dirname "$F")"/frame_*.png out/; fi; ls out | wc -l
+          F=$(find "$GITHUB_WORKSPACE" "$HOME" /tmp -name "*frame_00000*" 2>/dev/null | head -1); echo "first frame: $F"
+          mkdir -p out && if [ -n "$F" ]; then cp "$(dirname "$F")"/*frame_*.png out/; fi; ls out | wc -l; ls out | head -3
       - name: Upload frames
         if: always()
         uses: actions/upload-artifact@v4

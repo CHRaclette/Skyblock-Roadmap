@@ -19,7 +19,8 @@ public class DemoRecorder implements FabricClientGameTest {
         int n = Math.round(seconds * FPS);
         for (int i = 0; i < n; i++) {
             ctx.runOnClient(c -> Demo.step(1f / FPS));
-            ctx.takeScreenshot(String.format("frame_%05d", frame++));
+            var path = ctx.takeScreenshot(String.format("frame_%05d", frame++));
+            if (frame == 1) System.out.println("DEMO-PATH " + path);
         }
     }
 
