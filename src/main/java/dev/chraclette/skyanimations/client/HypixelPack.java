@@ -40,11 +40,8 @@ final class HypixelPack {
     static void hintIfMissing() {
         if (hinted || !HypixelInfo.inSkyBlock() || ItemCatalog.packLoaded()) return;
         hinted = true;
-        Minecraft mc = Minecraft.getInstance();
-        if (mc.player != null) {
-            mc.player.displayClientMessage(net.minecraft.network.chat.Component.literal(
-                    "§6[SkyAnimations] §7Hypixel's SkyBlock pack isn't loaded, so many items have no texture. §f/sa pack §7gets it."), false);
-        }
+        ChatHider.add(net.minecraft.network.chat.Component.literal(
+                "§6[SkyAnimations] §7Hypixel's SkyBlock pack isn't loaded, so many items have no texture. §f/sa pack §7gets it."));
     }
 
     static void download(Consumer<String> report) {

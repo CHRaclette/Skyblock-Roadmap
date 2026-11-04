@@ -114,7 +114,7 @@ final class ChatHider {
     private static java.lang.reflect.Method chatGetter, addMessage;
 
     /** Puts a line back into chat. Found by reflection (the chat accessor was renamed in 26.x). */
-    private static void add(Component c) {
+    static void add(Component c) {
         try {
             Object gui = Minecraft.getInstance().gui;
             if (chatGetter == null) {
