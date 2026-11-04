@@ -65,6 +65,7 @@ final class ChatHider {
         flushPending();
 
         if (cfg.rngMeter && RngMeter.LINE.matcher(t).matches()) return true;
+        if (cfg.diceSlot && Dice.matches(t)) return true;
         String own = SkyAnimationsClient.ownName();
         if (cfg.dyeScene) {
             var m = Specials.WOW.matcher(t);

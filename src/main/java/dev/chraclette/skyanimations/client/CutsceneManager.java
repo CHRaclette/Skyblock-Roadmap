@@ -42,6 +42,17 @@ public final class CutsceneManager {
         QUEUE.addFirst(new Pending(null, true, Clock.nanos() - HOLD_NANOS, scene));
     }
 
+    /** Plays a scene now, replacing a running/queued scene of the same type (dice rolled again quickly). */
+    static void playReplacing(Scene scene) {
+        QUEUE.removeIf(p -> p.scene != null && p.scene.getClass() == scene.getClass());
+        if (active != null && active.getClass() == scene.getClass()) {
+            active = scene;
+            startNanos = Clock.nanos();
+            return;
+        }
+        play(scene);
+    }
+
     static void play(Scene scene) {
         QUEUE.addLast(new Pending(null, true, Clock.nanos() - HOLD_NANOS, scene));
     }

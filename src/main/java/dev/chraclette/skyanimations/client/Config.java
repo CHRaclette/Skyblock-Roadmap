@@ -31,6 +31,8 @@ public final class Config {
         public boolean rngMeter = true;
         /** Hide the chat lines a scene already shows. */
         public boolean hideChat = true;
+        /** Archfiend Dice rolls as a slot machine. */
+        public boolean diceSlot = true;
         /** Personal Hypixel API key (developer.hypixel.net), only used to read your own run totals. */
         public String apiKey = "";
         public boolean dyeScene = true;

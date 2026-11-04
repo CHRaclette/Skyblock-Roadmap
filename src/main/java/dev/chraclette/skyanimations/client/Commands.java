@@ -92,6 +92,21 @@ final class Commands {
                 say(ctx, "§7Simulating an §5Obsidian Chest §7with a Necron's Handle...");
                 return 1;
             }));
+            for (String dk : new String[]{"dice", "hcdice"}) {
+                boolean hc = dk.equals("hcdice");
+                test.then(ClientCommands.literal(dk)
+                        .executes(ctx -> {
+                            int roll = 1 + new java.util.Random().nextInt(hc ? 7 : 6);
+                            Dice.test(hc, roll);
+                            say(ctx, "§7Rolling the " + (hc ? "§6High Class " : "§c") + "Archfiend Dice§7: " + roll);
+                            return 1;
+                        })
+                        .then(ClientCommands.argument("roll", com.mojang.brigadier.arguments.IntegerArgumentType.integer(1, hc ? 7 : 6))
+                                .executes(ctx -> {
+                                    Dice.test(hc, com.mojang.brigadier.arguments.IntegerArgumentType.getInteger(ctx, "roll"));
+                                    return 1;
+                                })));
+            }
             test.then(ClientCommands.literal("wow").executes(ctx -> {
                 Specials.onWow("WOW! [MVP+] You found a Rose Dye #12!", "You", true);
                 say(ctx, "§7Simulating §dWOW! You found a Rose Dye§7 (an animated dye)...");
@@ -171,6 +186,7 @@ final class Commands {
                                 return 1;
                             }))
                     .then(ClientCommands.literal("hidechat").executes(ctx -> toggle(ctx, "hideChat")))
+                    .then(ClientCommands.literal("dice").executes(ctx -> toggle(ctx, "diceSlot")))
                     .then(ClientCommands.literal("apikey")
                             .executes(ctx -> {
                                 say(ctx, ProfileApi.hasKey() ? "§7API key set: §f" + ProfileApi.mask(Config.get().apiKey) + " §8(/sa apikey clear)"
@@ -277,6 +293,7 @@ final class Commands {
             case "music" -> c.music = !c.music;
             case "prices" -> c.prices = !c.prices;
             case "hideChat" -> c.hideChat = !c.hideChat;
+            case "diceSlot" -> c.diceSlot = !c.diceSlot;
             default -> !(c.onlyOnHypixel = !c.onlyOnHypixel);
         };
         Config.save();
@@ -376,7 +393,7 @@ final class Commands {
 
     private static int help(CommandContext<FabricClientCommandSource> ctx) {
         say(ctx, "§6§lSkyAnimations §7— rare-drop cutscenes");
-        say(ctx, "§f/sa test §7[" + String.join(", ", PRESETS.keySet()) + ", fever, pests, stickers, nucleus, chest, rngmeter, wow]");
+        say(ctx, "§f/sa test §7[" + String.join(", ", PRESETS.keySet()) + ", fever, pests, stickers, nucleus, chest, rngmeter, wow, dice, hcdice]");
         say(ctx, "§f/sa ironman §7prices as NPC sell prices (auto / on / off)");
         say(ctx, "§f/sa nucleus §7Crystal Nucleus scene every run or only for rare drops");
         say(ctx, "§f/sa farming §7Crop Fever + pest settings");
