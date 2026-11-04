@@ -177,7 +177,7 @@ public final class RunScene implements Scene {
     }
 
     private float crystalY(Canvas c) {
-        return c.height() * 0.17f;
+        return c.height() * (style.source == Source.CRYSTAL ? 0.2f : 0.17f);
     }
 
     private float slotSize(Canvas c) {
@@ -230,44 +230,58 @@ public final class RunScene implements Scene {
 
     // ---------------------------------------------------------------- crystal
 
+    /** The Nucleus "crystal": a pixel-art Matterhorn with a waving Swiss flag on the summit. */
+    private static final String MOUNTAIN = "skyanimations:textures/nucleus/matterhorn.png";
+    private static final int MW = 58, MH = 41, PEAK_X = 27, PEAK_Y = 2;
+    private static final int[] ALPENGLOW = {0xFFB36B, 0xFFD9B0, 0xFF9E7A, 0xFFE6C8};
+
     private void crystal(Canvas c, float t, float k, float fade, float alpha) {
-        float cx = crystalX(c), cy = crystalY(c) + (float) Math.sin(t * 1.8f) * 2 * k;
+        float cx = crystalX(c), cy = crystalY(c) + (float) Math.sin(t * 1.6f) * 1.5f * k;
         float appear = Fx.backOut(t / 0.6f);
-        float size = 22 * k * appear;
-        if (size < 1) return;
+        if (appear < 0.02f) return;
         float a = fade * alpha;
-        int glowCol = GEMS[(int) (t * 1.5f) % GEMS.length];
-        Fx.glow(c, cx, cy, size * 2.4f, Fx.lerpColor(glowCol, 0xFFFFFF, 0.3f), a * 0.8f, 2);
-        // slow light rays
-        Fx.rays(c, cx, cy, size * 3.2f, 10, t * 0.3f, 0xE8D8FF, a * 0.6f);
-        // gem: a diamond made of horizontal strips; facets rotate by shifting the colour bands
-        float spin = t * 1.4f;
-        int rows = Math.max(8, Math.round(size * 2));
-        for (int r = 0; r < rows; r++) {
-            float yk = r / (float) rows;               // 0 top .. 1 bottom
-            float y = cy - size + yk * size * 2;
-            float half = (yk < 0.35f ? yk / 0.35f : (1 - yk) / 0.65f) * size * 0.85f;
-            if (half < 0.5f) continue;
-            int bands = 5;
-            for (int b = 0; b < bands; b++) {
-                float f0 = (float) Math.sin(spin + b * 2 * Math.PI / bands);
-                float f1 = (float) Math.sin(spin + (b + 1) * 2 * Math.PI / bands);
-                if (f1 <= f0) continue; // back face
-                float x0 = cx + f0 * half, x1 = cx + f1 * half;
-                int col = GEMS[b];
-                float light = 0.75f + 0.25f * (float) Math.cos(spin + (b + 0.5) * 2 * Math.PI / bands);
-                col = yk < 0.35f ? Fx.brighten(col, 0.25f) : Fx.darken(col, 0.1f);
-                col = Fx.lerpColor(0, col, light);
-                c.fill(Math.round(x0), Math.round(y), Math.round(x1), Math.round(y + size * 2 / rows + 1), Fx.alpha(col, a));
-            }
+        float s = 1.25f * k * appear;           // texel size in GUI pixels
+        int glowCol = ALPENGLOW[(int) (t * 1.2f) % ALPENGLOW.length];
+        Fx.glow(c, cx, cy - 4 * k, 46 * k * appear, glowCol, a * 0.7f, 2);
+        Fx.rays(c, cx, cy - 8 * k, 80 * k * appear, 10, t * 0.25f, 0xFFE2C0, a * 0.5f);
+
+        c.push();
+        c.translate(cx, cy);
+        c.scale(s, s);
+        c.translate(-MW / 2f, -MH / 2f);
+        if (a > 0.05f) c.blit(MOUNTAIN, 0, 0, 0, 0, MW, MH, MW, MH);
+        flag(c, t, a);
+        c.pop();
+
+        // a glint running along the sunlit ridge now and then
+        float g = (t * 0.45f) % 1f;
+        if (g < 0.35f) {
+            float p = g / 0.35f;
+            float gx = cx + (PEAK_X - MW / 2f - p * 22) * s, gy = cy + (PEAK_Y - MH / 2f + p * 26) * s;
+            Fx.glow(c, gx, gy, 6 * k, 0xFFFFFF, a * (1 - Math.abs(p - 0.5f) * 2) * 0.9f, 1);
         }
-        // sparkle
-        if (((int) (t * 3)) % 2 == 0) {
-            int sx = Math.round(cx - size * 0.3f), sy = Math.round(cy - size * 0.5f);
-            c.fill(sx - 2, sy, sx + 3, sy + 1, Fx.alpha(0xFFFFFF, a));
-            c.fill(sx, sy - 2, sx + 1, sy + 3, Fx.alpha(0xFFFFFF, a));
+        // caption under the cloud bank
+        float ta = a * Fx.smooth((t - 0.2f) / 0.4f);
+        Fx.centered(c, style.title, cx, cy + MH / 2f * s + 3 * k, 1.0f * k, Fx.alpha(0xFFF1E6, ta), true);
+    }
+
+    /** Swiss flag on the summit (in sprite texels): pole + a red flag with a white cross that waves. */
+    private void flag(Canvas c, float t, float a) {
+        int px = PEAK_X, top = PEAK_Y - 13;
+        c.fill(px, top, px + 1, PEAK_Y + 1, Fx.alpha(0xD8D8D8, a));
+        c.fill(px, top - 1, px + 1, top, Fx.alpha(0xFFE14A, a)); // gold knob
+        int fw = 11, fh = 9;
+        for (int x = 0; x < fw; x++) {
+            // wave: columns further from the pole move more
+            int off = Math.round((float) Math.sin(t * 6 - x * 0.7f) * (x / (float) fw) * 1.6f);
+            int x0 = px + 1 + x, y0 = top + off;
+            int shade = (float) Math.sin(t * 6 - x * 0.7f) > 0.3f ? 0xC8102E : 0xE2192E;
+            c.fill(x0, y0, x0 + 1, y0 + fh, Fx.alpha(shade, a));
+            // white cross: 3 wide arms, centred
+            boolean vertical = x >= 4 && x <= 6;
+            if (vertical) c.fill(x0, y0 + 1, x0 + 1, y0 + 8, Fx.alpha(0xFFFFFF, a));
+            else if (x >= 2 && x <= 8) c.fill(x0, y0 + 3, x0 + 1, y0 + 6, Fx.alpha(0xFFFFFF, a));
         }
-        header(c, t, k, a, cx, cy - size - 16 * k);
     }
 
     /** A dungeon reward chest at the top: its lid swings open and the loot flies out. */
