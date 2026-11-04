@@ -31,7 +31,7 @@ public class DemoRecorder implements FabricClientGameTest {
     public void runTest(ClientGameTestContext context) {
         ctx = context;
         try (TestSingleplayerContext sp = context.worldBuilder().create()) {
-            sp.getClientLevel().waitForChunksRender();
+            context.waitTicks(100); // let the world load and render
             context.runOnClient(c -> Demo.start());
             // give the item list and prices a moment to download (real time)
             for (int i = 0; i < 400 && !context.computeOnClient(c -> Demo.ready()); i++) {
