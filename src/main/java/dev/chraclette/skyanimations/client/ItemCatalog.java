@@ -191,9 +191,9 @@ public final class ItemCatalog {
         ItemStack cached = STACKS.get(info.id);
         if (cached != null && modelStillValid(info)) return cached;
         ItemStack built = build(info);
-        // Paper + pack model, but the Hypixel pack isn't loaded: plain paper would be wrong, let the
-        // caller pick a fitting vanilla item instead (still tagged, so other packs can match it)
-        if (built.getItem() == Items.PAPER && info.model != null && !info.model.isEmpty() && !modelLoaded(info.model)) {
+        // Paper + pack model but no pack anywhere (e.g. testing in singleplayer): plain paper would be
+        // wrong, let the caller pick a fitting vanilla item instead
+        if (built.getItem() == Items.PAPER && info.model != null && !info.model.isEmpty() && !useModel(info.model)) {
             return ItemStack.EMPTY;
         }
         STACKS.put(info.id, built);
@@ -263,7 +263,9 @@ public final class ItemCatalog {
             if (info.glowing) {
                 stack.set(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true);
             }
-            if (info.model != null && !info.model.isEmpty() && modelLoaded(info.model)) {
+            if (info.model != null && !info.model.isEmpty() && useModel(info.model)) {
+                // like SkyBlockAPI/SkyBlockPV: the item carries Hypixel's item_model, the texture
+                // comes from the SkyBlock pack Hypixel loads for you
                 stack.set(DataComponents.ITEM_MODEL, Identifier.parse(info.model));
             }
             // same id + name as the real SkyBlock item, so texture packs (Hypixel pack, FurfSky,
@@ -292,9 +294,9 @@ public final class ItemCatalog {
         });
     }
 
-    /** True if Hypixel's SkyBlock pack is loaded (one of its item models exists). */
-    static boolean packLoaded() {
-        return modelLoaded("hypixel_skyblock:item/uncategorized/divan_fragment");
+    /** On Hypixel the SkyBlock pack is there (Hypixel sends it), elsewhere only if the model exists. */
+    private static boolean useModel(String model) {
+        return SkyAnimationsClient.onHypixel() || modelLoaded(model);
     }
 
     public static boolean loaded() {

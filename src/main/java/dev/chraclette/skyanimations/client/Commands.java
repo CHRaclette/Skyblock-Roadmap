@@ -189,12 +189,6 @@ final class Commands {
                                 ProfileApi.refresh(m -> say(ctx, m));
                                 return 1;
                             })))
-                    .then(ClientCommands.literal("pack").executes(ctx -> {
-                        say(ctx, ItemCatalog.packLoaded() ? "§7The Hypixel SkyBlock pack is already loaded. Downloading the newest version anyway..."
-                                : "§7Downloading Hypixel's official SkyBlock pack (from hypixel.net)...");
-                        HypixelPack.download(m -> say(ctx, m));
-                        return 1;
-                    }))
                     .then(ClientCommands.literal("runs").executes(ctx -> {
                         var l = LedgerStore.get();
                         StringBuilder floors = new StringBuilder();
@@ -389,7 +383,6 @@ final class Commands {
         say(ctx, "§f/sa book §7or §fJ §7open the sticker book");
         say(ctx, "§f/sa simulate <chat line> §7test any drop message");
         say(ctx, "§f/sa give §7[all, <level> [name], reset] §7test stickers for the book");
-        say(ctx, "§f/sa pack §7get Hypixel's SkyBlock pack (item textures)");
         say(ctx, "§f/sa runs §7run counts · §f/sa apikey <key> §7read them from your profile · §f/sa hidechat");
         say(ctx, "§f/sa skip §7stop the current cutscene");
         say(ctx, "§f/sa toggle | sound | music | prices §7switch on/off");
