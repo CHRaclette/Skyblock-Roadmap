@@ -24,6 +24,13 @@ public final class Config {
         public boolean onlyOnHypixel = true;
         public float volume = 1.0f;
         public float speed = 1.0f;
+        /** Prices as NPC sell prices: "auto" (Ironman profiles), "on" or "off". */
+        public String ironman = "auto";
+        /** Crystal Nucleus scene on/off, only when a rare item drops, and what counts as rare by price. */
+        public boolean nucleus = true;
+        public boolean nucleusOnlyRare = false;
+        public long nucleusRareCoins = 1_000_000;
+
         /** Last SkyBlock profile seen, so the right sticker book opens before the tab list loads. */
         public String lastProfile = "";
 

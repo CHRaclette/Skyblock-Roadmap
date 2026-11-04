@@ -37,7 +37,7 @@ final class Prices {
     }
 
     static void refreshIfNeeded() {
-        if (!Config.get().prices) return;
+        if (!Config.get().prices || ironman()) return;
         if (System.currentTimeMillis() - fetchedAt < REFRESH_MS || !BUSY.compareAndSet(false, true)) return;
         Thread thread = new Thread(() -> {
             try {
@@ -78,9 +78,24 @@ final class Prices {
         return JsonParser.parseString(response.body());
     }
 
+    /** True when prices should be NPC sell prices (Ironman: no bazaar or auction house). */
+    static boolean ironman() {
+        return switch (Config.get().ironman) {
+            case "on" -> true;
+            case "off" -> false;
+            default -> HypixelInfo.ironmanProfile();
+        };
+    }
+
     /** Price for the drop, or null if unknown. Uses the item's SkyBlock id when we have the stack. */
     static Price lookup(Drop drop, String skyblockId) {
         if (!Config.get().prices) return null;
+        if (ironman()) {
+            ItemCatalog.Info info = skyblockId != null && !skyblockId.isEmpty() ? ItemCatalog.byId(skyblockId) : null;
+            if (info == null) info = ItemCatalog.byName(drop.name());
+            if (info == null || info.npc <= 0) return null;
+            return new Price(Math.round(info.npc * Math.max(1, drop.count())), "NPC sell price (Ironman)");
+        }
         Map<String, Double> bz = bazaar, lb = bins;
         if (bz.isEmpty() && lb.isEmpty()) return null;
         if (skyblockId == null || skyblockId.isEmpty()) skyblockId = ItemCatalog.idOf(drop.name());

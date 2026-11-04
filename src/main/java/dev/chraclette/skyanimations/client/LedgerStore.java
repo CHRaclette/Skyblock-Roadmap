@@ -119,6 +119,30 @@ public final class LedgerStore {
         }
     }
 
+    /** /sa give: adds a test sticker and shows its pop-up. */
+    static void giveTest(String name, Ledger.Level level, boolean pop, float delay) {
+        Ledger.Result r = ledger.give(name, level, System.currentTimeMillis());
+        if (pop && (r.isNew() || r.upgraded())) {
+            Drop d = dev.chraclette.skyanimations.core.DropParser.parse("RARE DROP! " + name, "You", null);
+            Object icon = d == null ? null : ItemLookup.icon(d, net.minecraft.world.item.ItemStack.EMPTY);
+            Farming.stickerLater(r.isNew() ? null : r.before(), r.after(), r.entry().name, icon, r.entry().times, delay);
+        }
+    }
+
+    /** After a batch of /sa give: check badges (with pop-ups) and save. */
+    static void finishGive(float delay) {
+        announceBadges(delay);
+        save();
+    }
+
+    /** /sa give reset: removes the test stickers again. */
+    static int clearTest() {
+        int n = ledger.removeTest();
+        dev.chraclette.skyanimations.core.Badges.check(ledger); // re-sync silently
+        save();
+        return n;
+    }
+
     static void pestVacuumed() {
         ledger.pestsVacuumed++;
         announceBadges(0.5f);

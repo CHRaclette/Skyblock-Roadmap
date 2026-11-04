@@ -106,6 +106,7 @@ public final class Ledger {
         public long lastAt;
         public int bestMagicFind;
         public long coins;
+        public boolean test;       // added by /sa give, removed by /sa give reset
 
         public Level level() {
             return Level.of(points);
@@ -210,6 +211,53 @@ public final class Ledger {
             }
         }
         return new Result(e, isNew, before, e.level());
+    }
+
+    // ------------------------------------------------------------------ test stickers
+
+    /** Chapter of a sticker by name (known lists first, otherwise "Other"). */
+    public static Chapter chapterOf(String name) {
+        for (var e : KNOWN.entrySet()) {
+            for (String n : e.getValue()) {
+                if (key(n).equals(key(name))) return e.getKey();
+            }
+        }
+        return Chapter.OTHER;
+    }
+
+    /** Puts a test sticker at the given level (for /sa give). Real stickers only ever go up, never down. */
+    public Result give(String name, Level level, long nowMillis) {
+        String k = key(name);
+        Entry e = stickers.get(k);
+        boolean isNew = e == null;
+        if (isNew) {
+            e = new Entry();
+            e.name = name;
+            e.chapter = chapterOf(name);
+            e.firstAt = nowMillis;
+            e.test = true;
+            stickers.put(k, e);
+        }
+        Level before = e.level();
+        if (e.points < level.points) {
+            e.points = level.points;
+            e.times = Math.max(e.times, level.points);
+            e.items = Math.max(e.items, level.points);
+        }
+        e.lastAt = nowMillis;
+        if (e.test && e.bestTier.isEmpty()) {
+            e.bestRank = DropTier.RARE.rank;
+            e.bestTier = DropTier.RARE.label;
+        }
+        return new Result(e, isNew, before, e.level());
+    }
+
+    /** Removes every sticker added by /sa give. Returns how many. */
+    public int removeTest() {
+        int before = stickers.size();
+        stickers.values().removeIf(e -> e.test);
+        badgeTiers.clear();
+        return before - stickers.size();
     }
 
     // ------------------------------------------------------------------ the catalogue

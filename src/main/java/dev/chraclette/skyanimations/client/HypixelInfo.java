@@ -25,6 +25,7 @@ public final class HypixelInfo {
     private static final Pattern PROFILE_SWITCH = Pattern.compile("^Your profile was changed to: ([\\w ]+?)(?: \\(.*\\))?!?$");
 
     private static String profile = "";
+    private static boolean ironman;
     private static String area = "";
     private static boolean skyblock;
     private static int ticks;
@@ -34,6 +35,7 @@ public final class HypixelInfo {
 
     static void register() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            Nucleus.tick();
             if (++ticks % 20 != 0 || client.player == null || client.getConnection() == null) return;
             try {
                 scan(client);
@@ -53,7 +55,10 @@ public final class HypixelInfo {
             if (name == null) continue;
             String line = DropParser.strip(name.getString());
             Matcher m = PROFILE_TAB.matcher(line);
-            if (m.matches()) setProfile(m.group(1));
+            if (m.matches()) {
+                setProfile(m.group(1));
+                ironman = line.contains("\u2672"); // ♲ marks Ironman profiles
+            }
             m = AREA_TAB.matcher(line);
             if (m.matches()) newArea = m.group(1);
         }
@@ -78,6 +83,11 @@ public final class HypixelInfo {
 
     public static String profile() {
         return profile;
+    }
+
+    /** The tab list shows ♲ next to the profile name on Ironman profiles. */
+    public static boolean ironmanProfile() {
+        return ironman;
     }
 
     public static String area() {

@@ -60,6 +60,7 @@ public final class SkyAnimationsClient implements ClientModInitializer {
         if (cfg.onlyOnHypixel && !onHypixel()) return;
         HypixelInfo.onChat(message.getString());
         if (cfg.onlyOnHypixel && !HypixelInfo.inSkyBlock()) return;
+        Nucleus.onChat(message.getString(), false);
         handle(message.getString(), false);
     }
 

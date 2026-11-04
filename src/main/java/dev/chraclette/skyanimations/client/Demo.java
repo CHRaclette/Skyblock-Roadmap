@@ -85,6 +85,10 @@ public final class Demo {
         dev.chraclette.skyanimations.core.Badges.check(l);
     }
 
+    public static void nucleus(boolean rare) {
+        Nucleus.test(rare);
+    }
+
     public static void openBook() {
         Minecraft.getInstance().gui.setScreen(new BookScreen());
     }

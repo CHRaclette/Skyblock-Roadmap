@@ -55,6 +55,27 @@ public final class ItemCatalog {
         public String model;
         public String color;
         public boolean glowing;
+        public String tier;
+        public double npc;
+    }
+
+    /** Rarity order used by Hypixel. */
+    public static int tierRank(String tier) {
+        if (tier == null) return 0;
+        return switch (tier) {
+            case "UNCOMMON" -> 1; case "RARE" -> 2; case "EPIC" -> 3; case "LEGENDARY" -> 4; case "MYTHIC" -> 5;
+            case "DIVINE" -> 6; case "SPECIAL" -> 7; case "VERY_SPECIAL" -> 8; case "ULTIMATE" -> 9; default -> 0;
+        };
+    }
+
+    /** Hypixel rarity colour. */
+    public static int tierColor(String tier) {
+        if (tier == null) return 0xFFFFFF;
+        return switch (tier) {
+            case "UNCOMMON" -> 0x55FF55; case "RARE" -> 0x5555FF; case "EPIC" -> 0xAA00AA; case "LEGENDARY" -> 0xFFAA00;
+            case "MYTHIC" -> 0xFF55FF; case "DIVINE" -> 0x55FFFF; case "SPECIAL", "VERY_SPECIAL" -> 0xFF5555;
+            case "ULTIMATE" -> 0xAA0000; default -> 0xFFFFFF;
+        };
     }
 
     private static final String URL = "https://api.hypixel.net/v2/resources/skyblock/items";
@@ -72,7 +93,7 @@ public final class ItemCatalog {
     }
 
     private static Path file() {
-        return FabricLoader.getInstance().getConfigDir().resolve("skyanimations-items.json");
+        return FabricLoader.getInstance().getConfigDir().resolve("skyanimations-items-v2.json");
     }
 
     /** Loads the cached list, and refreshes it in the background when it is old. */
@@ -113,6 +134,8 @@ public final class ItemCatalog {
                 info.model = str(o, "item_model");
                 info.color = str(o, "color");
                 info.glowing = o.has("glowing") && o.get("glowing").getAsBoolean();
+                info.tier = str(o, "tier");
+                info.npc = o.has("npc_sell_price") ? o.get("npc_sell_price").getAsDouble() : 0;
                 if (o.has("skin") && o.get("skin").isJsonObject()) {
                     info.skin = str(o.getAsJsonObject("skin"), "value");
                 }

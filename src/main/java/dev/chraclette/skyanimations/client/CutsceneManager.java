@@ -2,6 +2,7 @@ package dev.chraclette.skyanimations.client;
 
 import dev.chraclette.skyanimations.core.Drop;
 import dev.chraclette.skyanimations.render.Cutscene;
+import dev.chraclette.skyanimations.render.Scene;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -13,10 +14,20 @@ import java.util.Deque;
 /** Plays one cutscene at a time; drops that arrive meanwhile wait in a queue. */
 public final class CutsceneManager {
 
-    private record Pending(Drop drop, boolean test, long queuedAt) {
+    /** Either a drop (built into a cutscene when it starts) or a ready-made scene. */
+    private record Pending(Drop drop, boolean test, long queuedAt, Scene scene) {
         Pending(Drop drop, boolean test) {
-            this(drop, test, Clock.nanos());
+            this(drop, test, Clock.nanos(), null);
         }
+
+        Pending(Drop drop, boolean test, long queuedAt) {
+            this(drop, test, queuedAt, null);
+        }
+    }
+
+    /** Queues a ready-made scene (e.g. the Crystal Nucleus opening). */
+    static void play(Scene scene) {
+        QUEUE.addLast(new Pending(null, true, Clock.nanos() - HOLD_NANOS, scene));
     }
 
     /** Drops wait this long before playing, so a "killed a Beetle" line right after can still label them. */
@@ -25,7 +36,7 @@ public final class CutsceneManager {
     private static final Deque<Pending> QUEUE = new ArrayDeque<>();
     private static final int MAX_QUEUE = 12;
 
-    private static Cutscene active;
+    private static Scene active;
     private static long startNanos;
 
     private CutsceneManager() {
@@ -38,7 +49,7 @@ public final class CutsceneManager {
 
         // Same item again right behind it (Crop Fever spam, pest drops): merge into one.
         Pending last = QUEUE.peekLast();
-        if (last != null && last.drop.name().equals(drop.name()) && last.drop.tier() == drop.tier()) {
+        if (last != null && last.drop != null && last.drop.name().equals(drop.name()) && last.drop.tier() == drop.tier()) {
             QUEUE.pollLast();
             QUEUE.addLast(new Pending(last.drop.withCount(last.drop.count() + drop.count()), test, last.queuedAt));
             return;
@@ -55,7 +66,7 @@ public final class CutsceneManager {
         QUEUE.clear();
         for (Pending p : all) {
             boolean recent = Clock.nanos() - p.queuedAt < 2_000_000_000L;
-            if (recent && p.drop.pest().isEmpty() && !p.drop.fever() && Farming.isPestish(p.drop)) {
+            if (recent && p.drop != null && p.drop.pest().isEmpty() && !p.drop.fever() && Farming.isPestish(p.drop)) {
                 QUEUE.addLast(new Pending(p.drop.withPest(pest), p.test, p.queuedAt));
             } else {
                 QUEUE.addLast(p);
@@ -77,6 +88,11 @@ public final class CutsceneManager {
     }
 
     private static void start(Pending p) {
+        if (p.scene != null) {
+            active = p.scene;
+            startNanos = Clock.nanos();
+            return;
+        }
         Config.Data cfg = Config.get();
         // A long queue would take forever: later ones play compact.
         boolean compact = Config.mode(p.drop.tier()) == Config.Mode.COMPACT || QUEUE.size() >= 3;

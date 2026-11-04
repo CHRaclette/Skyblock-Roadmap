@@ -6,6 +6,7 @@ import com.mojang.brigadier.context.CommandContext;
 import dev.chraclette.skyanimations.core.Drop;
 import dev.chraclette.skyanimations.core.DropParser;
 import dev.chraclette.skyanimations.core.DropTier;
+import dev.chraclette.skyanimations.core.Ledger;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommands;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
@@ -74,15 +75,50 @@ final class Commands {
                 say(ctx, "§7Showing every sticker level (1★ to 5★ + crown), then a badge going Bronze → Silver → Gold");
                 return 1;
             }));
+            test.then(ClientCommands.literal("nucleus").executes(ctx -> {
+                        Nucleus.test(true);
+                        say(ctx, "§7Simulating a §dCrystal Nucleus §7run with a rare drop...");
+                        return 1;
+                    })
+                    .then(ClientCommands.literal("common").executes(ctx -> {
+                        Nucleus.test(false);
+                        say(ctx, "§7Simulating a §dCrystal Nucleus §7run without a rare drop...");
+                        return 1;
+                    })));
             test.then(ClientCommands.literal("pests").executes(ctx -> {
                 Farming.testPests();
                 say(ctx, "§7Simulating §cpests§7: spawn, three kills and a rare drop...");
                 return 1;
             }));
 
+            var give = ClientCommands.literal("give").executes(ctx -> {
+                say(ctx, "§f/sa give all §7every known sticker at a random level");
+                say(ctx, "§f/sa give <paper|bronze|silver|gold|diamond|holo> [name] §7one sticker, or all of them");
+                say(ctx, "§f/sa give reset §7remove the test stickers again");
+                return 1;
+            });
+            give.then(ClientCommands.literal("all").executes(ctx -> giveAll(ctx, null)));
+            give.then(ClientCommands.literal("reset").executes(ctx -> {
+                int n = LedgerStore.clearTest();
+                say(ctx, "§7Removed §f" + n + " §7test sticker" + (n == 1 ? "" : "s") + ". Your real ones are untouched.");
+                return 1;
+            }));
+            for (Ledger.Level lv : Ledger.Level.values()) {
+                String key = lv.name().toLowerCase(Locale.ROOT);
+                give.then(ClientCommands.literal(key).executes(ctx -> giveAll(ctx, lv))
+                        .then(ClientCommands.argument("name", StringArgumentType.greedyString()).executes(ctx -> {
+                            String name = StringArgumentType.getString(ctx, "name").trim();
+                            LedgerStore.giveTest(name, lv, true, 0.1f);
+                            LedgerStore.finishGive(1.2f);
+                            say(ctx, "§7Gave §f" + name + " §7as a §" + levelCode(lv) + lv.title + " §7sticker (test). §8/sa give reset §7removes it.");
+                            return 1;
+                        })));
+            }
+
             var root = dispatcher.register(ClientCommands.literal("skyanimations")
                     .executes(Commands::help)
                     .then(test)
+                    .then(give)
                     .then(ClientCommands.literal("simulate")
                             .then(ClientCommands.argument("message", StringArgumentType.greedyString())
                                     .executes(ctx -> play(ctx, StringArgumentType.getString(ctx, "message"), null))))
@@ -100,6 +136,23 @@ final class Commands {
                                 + " §7SkyBlock: §f" + HypixelInfo.inSkyBlock());
                         return 1;
                     }))
+                    .then(ClientCommands.literal("ironman")
+                            .executes(ctx -> {
+                                Config.Data c = Config.get();
+                                c.ironman = switch (c.ironman) { case "auto" -> "on"; case "on" -> "off"; default -> "auto"; };
+                                Config.save();
+                                say(ctx, "§7Ironman prices (NPC sell price): §f" + c.ironman
+                                        + (c.ironman.equals("auto") ? " §8(now " + (Prices.ironman() ? "§aon" : "§coff") + "§8)" : ""));
+                                return 1;
+                            }))
+                    .then(ClientCommands.literal("nucleus")
+                            .executes(ctx -> {
+                                Config.Data c = Config.get();
+                                c.nucleusOnlyRare = !c.nucleusOnlyRare;
+                                Config.save();
+                                say(ctx, "§7Crystal Nucleus scene: §f" + (c.nucleusOnlyRare ? "only when a rare item drops" : "every run (case only for rare items)"));
+                                return 1;
+                            }))
                     .then(ClientCommands.literal("book").executes(ctx -> {
                         BookKey.openSoon();
                         return 1;
@@ -263,16 +316,50 @@ final class Commands {
 
     private static int help(CommandContext<FabricClientCommandSource> ctx) {
         say(ctx, "§6§lSkyAnimations §7— rare-drop cutscenes");
-        say(ctx, "§f/sa test §7[" + String.join(", ", PRESETS.keySet()) + ", fever, pests, stickers]");
+        say(ctx, "§f/sa test §7[" + String.join(", ", PRESETS.keySet()) + ", fever, pests, stickers, nucleus]");
+        say(ctx, "§f/sa ironman §7prices as NPC sell prices (auto / on / off)");
+        say(ctx, "§f/sa nucleus §7Crystal Nucleus scene every run or only for rare drops");
         say(ctx, "§f/sa farming §7Crop Fever + pest settings");
         say(ctx, "§f/sa book §7or §fJ §7open the sticker book");
         say(ctx, "§f/sa simulate <chat line> §7test any drop message");
+        say(ctx, "§f/sa give §7[all, <level> [name], reset] §7test stickers for the book");
         say(ctx, "§f/sa skip §7stop the current cutscene");
         say(ctx, "§f/sa toggle | sound | music | prices §7switch on/off");
         say(ctx, "§f/sa speed <0.25-3> §7| §f/sa volume <0-2>");
         say(ctx, "§f/sa mode §7full / compact / off per drop type");
         say(ctx, "§f/sa everywhere §7also react outside Hypixel");
         return 1;
+    }
+
+    /** Fills the book with test stickers: every known one, at one level or at random levels. */
+    private static int giveAll(CommandContext<FabricClientCommandSource> ctx, Ledger.Level level) {
+        java.util.Random rnd = new java.util.Random();
+        Ledger.Level[] levels = Ledger.Level.values();
+        int n = 0;
+        for (var names : Ledger.KNOWN.values()) {
+            for (String name : names) {
+                Ledger.Level lv = level != null ? level : levels[rnd.nextInt(levels.length)];
+                LedgerStore.giveTest(name, lv, false, 0);
+                n++;
+            }
+        }
+        // one pop-up so you see something happen, then the badges you unlocked
+        LedgerStore.giveTest("Chimera I", level != null ? level : Ledger.Level.HOLO, true, 0.1f);
+        LedgerStore.finishGive(1.2f);
+        say(ctx, "§7Gave §f" + n + " §7test stickers" + (level != null ? " at §" + levelCode(level) + level.title : " at random levels")
+                + "§7. Open the book with §fJ§7 or §f/sa book§7. §8/sa give reset §7removes them.");
+        return 1;
+    }
+
+    private static char levelCode(Ledger.Level lv) {
+        return switch (lv) {
+            case PAPER -> 'f';
+            case BRONZE -> '6';
+            case SILVER -> '7';
+            case GOLD -> 'e';
+            case DIAMOND -> 'b';
+            case HOLO -> 'd';
+        };
     }
 
     private static void say(CommandContext<FabricClientCommandSource> ctx, String text) {

@@ -20,7 +20,7 @@ import java.util.Random;
  * half, the drop's effect bursts out, then the item is revealed with rays, title, magic find and
  * price. Pure Java: give it a Canvas and the time since it started.
  */
-public final class Cutscene {
+public final class Cutscene implements Scene {
 
     /** Things the cutscene needs from the game. */
     public interface Hooks {
@@ -40,7 +40,7 @@ public final class Cutscene {
     }
 
     public enum Cue { WHOOSH, THUMP, CHOP, SQUISH, SPLIT, MAGIC, REVEAL, LEVELUP, FIREWORK, TWINKLE, NOTE, BELL, TOTEM, POP,
-        BUZZ, SUCK, SLURP, RATTLE, SPIT, FEVER, FEVER_END, TOAST, PEST_ALERT, PAGE, SLAP }
+        BUZZ, SUCK, SLURP, RATTLE, SPIT, FEVER, FEVER_END, TOAST, PEST_ALERT, PAGE, SLAP, TICK, CASE_OPEN }
 
     private record SoundAt(float time, Cue cue, float pitch, float volume) {
     }
