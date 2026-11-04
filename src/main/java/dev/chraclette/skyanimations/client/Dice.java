@@ -24,13 +24,34 @@ final class Dice {
     static void onChat(String raw, boolean test) {
         if (!Config.get().diceSlot) return;
         Matcher m = LINE.matcher(raw.replaceAll("§.", "").trim());
-        if (!m.matches()) return;
+        if (!m.matches()) {
+            onAnyLine(raw);
+            return;
+        }
         play(Integer.parseInt(m.group(2)), m.group(1) != null, m.group(3).trim());
     }
 
+    private static SlotScene last;
+    private static long lastAt;
+    private static final Pattern COINS = Pattern.compile("([\\d,]{7,}) [Cc]oins");
+
     static void play(int roll, boolean highClass, String bonus) {
-        CutsceneManager.playReplacing(new SlotScene(roll, highClass, bonus,
-                (cue, pitch, volume) -> Sounds.play(cue, Effect.GOLDEN, pitch, volume)));
+        last = new SlotScene(roll, highClass, bonus, (cue, pitch, volume) -> Sounds.play(cue, Effect.GOLDEN, pitch, volume));
+        lastAt = System.currentTimeMillis();
+        CutsceneManager.playReplacing(last);
+    }
+
+    /** Right after a 6, Hypixel tells you how many coins you got: put that number on the payout counter. */
+    static void onAnyLine(String raw) {
+        if (last == null || !last.isSix() || System.currentTimeMillis() - lastAt > 4000) return;
+        Matcher m = COINS.matcher(raw.replaceAll("§.", ""));
+        if (m.find()) {
+            try {
+                last.setPayout(Long.parseLong(m.group(1).replace(",", "")));
+            } catch (NumberFormatException ignored) {
+                // keep what we have
+            }
+        }
     }
 
     /** /sa test dice [n] and /sa test hcdice [n]. */

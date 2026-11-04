@@ -96,12 +96,12 @@ final class Commands {
                 boolean hc = dk.equals("hcdice");
                 test.then(ClientCommands.literal(dk)
                         .executes(ctx -> {
-                            int roll = 1 + new java.util.Random().nextInt(hc ? 7 : 6);
+                            int roll = 1 + new java.util.Random().nextInt(7);
                             Dice.test(hc, roll);
                             say(ctx, "§7Rolling the " + (hc ? "§6High Class " : "§c") + "Archfiend Dice§7: " + roll);
                             return 1;
                         })
-                        .then(ClientCommands.argument("roll", com.mojang.brigadier.arguments.IntegerArgumentType.integer(1, hc ? 7 : 6))
+                        .then(ClientCommands.argument("roll", com.mojang.brigadier.arguments.IntegerArgumentType.integer(1, 7))
                                 .executes(ctx -> {
                                     Dice.test(hc, com.mojang.brigadier.arguments.IntegerArgumentType.getInteger(ctx, "roll"));
                                     return 1;

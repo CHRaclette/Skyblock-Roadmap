@@ -32,19 +32,31 @@ public final class SlotScene implements Scene {
     private final float end;
     private final int[] lastSymbol = {-1, -1, -1};
     private final boolean[] stopped = new boolean[3];
+    private long payout;                // coins won (6), 0 = unknown amount
+    private int lastPayoutStep = -1;
     private float lastT = -1;
     private boolean pulled, celebrated;
 
     public SlotScene(int result, boolean highClass, String bonus, Hooks hooks) {
-        this.result = Math.max(1, Math.min(highClass ? 7 : 6, result));
+        this.result = Math.max(1, Math.min(7, result));   // both dice can land on 7 (Archfiend Dye)
         this.highClass = highClass;
         this.bonus = bonus == null ? "" : bonus;
         this.hooks = hooks;
-        this.faces = highClass ? 7 : 6;
+        this.faces = 7;
         this.jackpot = this.result >= 6;
         this.diceName = highClass ? "High Class Archfiend Dice" : "Archfiend Dice";
         this.tex = highClass ? "skyanimations:textures/props/high_class_dice.png" : "skyanimations:textures/props/archfiend_dice.png";
-        this.end = stopTime(2) + (jackpot ? 3.0f : 1.6f);
+        this.end = stopTime(2) + (jackpot ? 4.2f : 1.6f);
+        if (this.result == 6 && !highClass) payout = 15_000_000L; // wiki: a 6 pays 15,000,000 coins and uses up the dice
+    }
+
+    /** The coins Hypixel says you got (from chat), shown on the payout counter. */
+    public void setPayout(long coins) {
+        if (coins > 0) payout = coins;
+    }
+
+    public boolean isSix() {
+        return result == 6;
     }
 
     private static float stopTime(int reel) {
@@ -106,6 +118,9 @@ public final class SlotScene implements Scene {
             float rx = rx0 + r * (rw + gap);
             reel(c, r, t, rx, ry, rw, rh, k, fade, trim);
         }
+        // payout tray
+        c.fill(Math.round(cx - 22 * k), Math.round(y2 - 9 * k), Math.round(cx + 22 * k), Math.round(y2 - 4 * k), Fx.alpha(0x000000, 0.8f * fade));
+        c.fill(Math.round(cx - 20 * k), Math.round(y2 - 8 * k), Math.round(cx + 20 * k), Math.round(y2 - 5 * k), Fx.alpha(Fx.darken(trim, 0.4f), fade));
         // payline
         c.fill(Math.round(rx0 - 4 * k), Math.round(ry + rh / 2), Math.round(rx0 + 3 * rw + 2 * gap + 4 * k), Math.round(ry + rh / 2 + 1),
                 Fx.alpha(jackpot && t > stopTime(2) ? 0xFFF2A0 : 0xFF4040, 0.55f * fade));
@@ -133,12 +148,36 @@ public final class SlotScene implements Scene {
             float rt = t - stopTime(2);
             float a = Fx.smooth(rt / 0.25f) * fade;
             float pop = Fx.backOut(Math.min(1, rt / 0.3f));
-            String head = jackpot ? (result == 7 ? "SEVEN! JACKPOT!" : "JACKPOT!") : "Rolled a " + result;
+            String head = result == 7 ? "SEVEN! ARCHFIEND DYE!" : result == 6 ? "JACKPOT!" : "Rolled a " + result;
             int col = jackpot ? (result == 7 ? 0xFF55FF : 0xFFD23A) : 0xFFFFFF;
             if (jackpot && result == 7) Fx.rainbow(c, head, cx, cy + ch / 2 + 10 * k, 1.5f * k * pop, t, a, true);
             else Fx.centered(c, head, cx, cy + ch / 2 + 10 * k, (jackpot ? 1.5f : 1.1f) * k * pop, Fx.alpha(col, a), true);
+            float lineY = cy + ch / 2 + 26 * k;
+            if (result == 6) {
+                // payout counter, counting up like a real slot machine
+                float cp = Fx.easeOut(Math.min(1, rt / 1.6f));
+                String win;
+                if (payout > 0) {
+                    long shown = (long) (payout * cp);
+                    win = "+" + java.text.NumberFormat.getIntegerInstance(java.util.Locale.US).format(shown) + " coins";
+                    int step = (int) (cp * 24);
+                    if (step != lastPayoutStep && cp < 1) {
+                        lastPayoutStep = step;
+                        hooks.sound(Cue.POP, 1.0f + cp, 0.45f);
+                    }
+                } else {
+                    win = "COIN PAYOUT!";
+                }
+                float wp = 1 + 0.06f * (float) Math.sin(rt * 10) * (1 - cp);
+                Fx.centered(c, win, cx, lineY, 1.25f * k * wp, Fx.alpha(0xFFD23A, a), true);
+                Fx.centered(c, "the dice is used up", cx, lineY + 16 * k, 0.7f * k, Fx.alpha(0xBBBBBB, a), false);
+                lineY += 26 * k;
+            } else if (result == 7) {
+                Fx.centered(c, "the dice is used up", cx, lineY, 0.7f * k, Fx.alpha(0xBBBBBB, a), false);
+                lineY += 10 * k;
+            }
             if (!bonus.isEmpty()) {
-                Fx.centered(c, "Bonus: " + bonus, cx, cy + ch / 2 + 26 * k, 0.9f * k, Fx.alpha(0xFF5555, a), false);
+                Fx.centered(c, "Bonus: " + bonus, cx, lineY, 0.9f * k, Fx.alpha(0xFF5555, a), false);
             }
             if (!celebrated) {
                 celebrated = true;
@@ -150,6 +189,15 @@ public final class SlotScene implements Scene {
                     ring.kind = Kind.RING;
                 } else {
                     hooks.sound(Cue.NOTE, 0.8f + result * 0.1f, 0.7f);
+                }
+            }
+            if (result == 6 && rt < 2.4f) {
+                // coins gushing out of the payout tray at the bottom of the cabinet
+                for (int i = 0; i < 3; i++) {
+                    P coin = fx.add(cx + (random.nextFloat() - 0.5f) * 30 * k, cy + ch / 2 - 2 * k,
+                            (random.nextFloat() - 0.5f) * 140 * k, -60 * k - random.nextFloat() * 90 * k, 1.4f, 2.5f * k + random.nextFloat() * k,
+                            random.nextFloat() < 0.7f ? 0xFFD23A : 0xFFF2A0);
+                    coin.ay = 260 * k;
                 }
             }
             if (jackpot && random.nextFloat() < 0.6f) {
