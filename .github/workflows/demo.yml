@@ -3,6 +3,8 @@ on:
   workflow_dispatch:
   push:
     branches: [demo]
+permissions:
+  contents: write
 jobs:
   record:
     runs-on: ubuntu-24.04
@@ -13,7 +15,7 @@ jobs:
           java-version: '25'
           distribution: 'microsoft'
       - name: Install xvfb
-        run: sudo apt-get update -qq && sudo apt-get install -y -qq xvfb
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq xvfb ffmpeg
       - name: Record
         run: chmod +x ./gradlew && ./gradlew recordDemo --stacktrace
       - name: API help
@@ -28,6 +30,15 @@ jobs:
         run: |
           F=$(find "$GITHUB_WORKSPACE" "$HOME" /tmp -name "*frame_00000*" 2>/dev/null | head -1); echo "first frame: $F"
           mkdir -p out && if [ -n "$F" ]; then cp "$(dirname "$F")"/*frame_*.png out/; fi; ls out | wc -l; ls out | head -3
+      - name: Encode video and publish it as the demo-video release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ffmpeg -v error -y -framerate 20 -pattern_type glob -i 'out/*.png' -c:v libx264 -preset slow -crf 16 -pix_fmt yuv420p demo_raw.mp4
+          ffmpeg -v error -y -pattern_type glob -i 'out/*.png' -vf "select='not(mod(n\,40))',scale=427:-1,tile=4x6" -frames:v 1 demo_sheet.png
+          ls -la demo_raw.mp4 demo_sheet.png
+          gh release delete demo-video --yes --cleanup-tag || true
+          gh release create demo-video demo_raw.mp4 demo_sheet.png --prerelease --title "Demo recording" --notes "Recorded automatically in a real Minecraft 26.2 client." --target "$GITHUB_SHA"
       - name: Upload frames
         if: always()
         uses: actions/upload-artifact@v4
