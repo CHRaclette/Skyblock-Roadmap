@@ -42,6 +42,10 @@ final class ItemLookup {
 
     static ItemStack icon(Drop drop, ItemStack found) {
         if (!found.isEmpty()) return found;
+        if (!drop.book()) {
+            ItemStack real = ItemCatalog.stack(drop.name());
+            if (!real.isEmpty()) return real;
+        }
         ItemStack stack = new ItemStack(fallback(drop));
         String n = drop.name().toLowerCase(Locale.ROOT);
         boolean fancy = n.startsWith("enchanted") || n.startsWith("mutant") || n.startsWith("compacted")

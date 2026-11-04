@@ -24,6 +24,9 @@ public final class Config {
         public boolean onlyOnHypixel = true;
         public float volume = 1.0f;
         public float speed = 1.0f;
+        /** Last SkyBlock profile seen, so the right sticker book opens before the tab list loads. */
+        public String lastProfile = "";
+
         /** Pop-ups for new / upgraded stickers. */
         public boolean stickerToasts = true;
 

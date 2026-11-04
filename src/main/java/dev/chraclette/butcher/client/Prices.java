@@ -83,6 +83,7 @@ final class Prices {
         if (!Config.get().prices) return null;
         Map<String, Double> bz = bazaar, lb = bins;
         if (bz.isEmpty() && lb.isEmpty()) return null;
+        if (skyblockId == null || skyblockId.isEmpty()) skyblockId = ItemCatalog.idOf(drop.name());
         int count = Math.max(1, drop.count());
 
         for (String id : candidates(drop, skyblockId)) {

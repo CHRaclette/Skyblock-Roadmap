@@ -30,6 +30,8 @@ public final class ButcherClient implements ClientModInitializer {
     public void onInitializeClient() {
         Config.load();
         LedgerStore.load();
+        ItemCatalog.init();
+        HypixelInfo.register();
         BookKey.register();
 
         HudElementRegistry.attachElementAfter(
@@ -55,6 +57,8 @@ public final class ButcherClient implements ClientModInitializer {
         Config.Data cfg = Config.get();
         if (!cfg.enabled) return;
         if (cfg.onlyOnHypixel && !onHypixel()) return;
+        HypixelInfo.onChat(message.getString());
+        if (cfg.onlyOnHypixel && !HypixelInfo.inSkyBlock()) return;
         handle(message.getString(), false);
     }
 
@@ -74,6 +78,7 @@ public final class ButcherClient implements ClientModInitializer {
             contextAt = System.currentTimeMillis();
         }
         Category recent = System.currentTimeMillis() - contextAt < 20_000 ? context : null;
+        if (recent == null) recent = HypixelInfo.areaContext();
 
         Drop drop = DropParser.parse(text, test ? "You" : ownName(), recent);
         if (drop != null) {

@@ -255,10 +255,18 @@ public final class BookView {
         c.fill(barX, barY, barX + Math.round(barW * lv[1] / (float) Math.max(1, lv[2])), barY + 3, 0xFF000000 | OldBook.GOLD);
         String xp = lv[1] + " / " + lv[2] + " xp";
         small(c, xp, x + 126 - Math.round(c.textWidth(xp) * 0.6f), y + 3, 0xFFE8D2B8, 0.6f);
+        if (!profile.isEmpty()) {
+            small(c, "Profile: " + profile, x + 6, y + 17, 0xFF000000 | OldBook.GOLD, 0.55f);
+        }
         trophy(c, bx + bw - 2, y, time);
     }
 
     private int mouseX, mouseY;
+    private String profile = "";
+
+    public void profile(String name) {
+        profile = name == null ? "" : name;
+    }
 
     /** Your rarest drop ever, framed and hanging from a nail, plus a live dry-streak timer. */
     private void trophy(Canvas c, int right, int y, float time) {

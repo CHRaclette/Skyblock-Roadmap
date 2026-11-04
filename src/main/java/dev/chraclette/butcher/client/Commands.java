@@ -86,6 +86,20 @@ final class Commands {
                     .then(ClientCommands.literal("simulate")
                             .then(ClientCommands.argument("message", StringArgumentType.greedyString())
                                     .executes(ctx -> play(ctx, StringArgumentType.getString(ctx, "message"), null))))
+                    .then(ClientCommands.literal("item")
+                            .then(ClientCommands.argument("name", StringArgumentType.greedyString())
+                                    .executes(ctx -> {
+                                        String n = StringArgumentType.getString(ctx, "name");
+                                        say(ctx, "§6" + n + "§7 (" + ItemCatalog.size() + " items known)");
+                                        for (String l : ItemCatalog.debug(n)) say(ctx, " §7" + l);
+                                        return 1;
+                                    })))
+                    .then(ClientCommands.literal("where").executes(ctx -> {
+                        say(ctx, "§7Profile: §f" + (HypixelInfo.profile().isEmpty() ? "?" : HypixelInfo.profile())
+                                + " §7Area: §f" + (HypixelInfo.area().isEmpty() ? "?" : HypixelInfo.area())
+                                + " §7SkyBlock: §f" + HypixelInfo.inSkyBlock());
+                        return 1;
+                    }))
                     .then(ClientCommands.literal("book").executes(ctx -> {
                         BookKey.openSoon();
                         return 1;

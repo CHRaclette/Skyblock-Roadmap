@@ -24,11 +24,53 @@ public final class LedgerStore {
         return ledger;
     }
 
-    private static Path file() {
+    /** One sticker book per SkyBlock profile, like SkyHanni keeps its data per profile. */
+    private static String profile = "";
+
+    private static Path legacyFile() {
         return FabricLoader.getInstance().getConfigDir().resolve("butcherdrops-stickers.json");
     }
 
+    private static Path file() {
+        if (profile.isEmpty()) return legacyFile();
+        String safe = profile.toLowerCase(java.util.Locale.ROOT).replaceAll("[^a-z0-9]+", "_");
+        return FabricLoader.getInstance().getConfigDir().resolve("butcherdrops").resolve("stickers-" + safe + ".json");
+    }
+
+    public static String profile() {
+        return profile;
+    }
+
+    /** Called when the tab list / chat tells us the profile. Saves this book and opens that one. */
+    static void switchProfile(String name) {
+        if (name.equalsIgnoreCase(profile)) return;
+        if (!profile.isEmpty()) save();
+        profile = name;
+        Config.get().lastProfile = name;
+        Config.save();
+        // The very first profile we see inherits the book collected before profiles were known.
+        if (!Files.exists(file()) && Files.exists(legacyFile())) {
+            try {
+                Files.createDirectories(file().getParent());
+                Files.move(legacyFile(), file());
+            } catch (IOException e) {
+                ButcherClient.LOG.warn("Could not move the old sticker book", e);
+            }
+        }
+        ledger = new Ledger();
+        load();
+    }
+
     static void load() {
+        if (profile.isEmpty() && Config.get().lastProfile != null) profile = Config.get().lastProfile;
+        if (!profile.isEmpty() && !Files.exists(file()) && Files.exists(legacyFile())) {
+            try {
+                Files.createDirectories(file().getParent());
+                Files.move(legacyFile(), file());
+            } catch (IOException e) {
+                ButcherClient.LOG.warn("Could not move the old sticker book", e);
+            }
+        }
         try {
             if (Files.exists(file())) {
                 Ledger loaded = GSON.fromJson(Files.readString(file()), Ledger.class);
@@ -50,7 +92,7 @@ public final class LedgerStore {
     static void save() {
         try {
             Files.createDirectories(file().getParent());
-            Path tmp = file().resolveSibling("butcherdrops-stickers.json.tmp");
+            Path tmp = file().resolveSibling(file().getFileName() + ".tmp");
             Files.writeString(tmp, GSON.toJson(ledger));
             Files.move(tmp, file(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {

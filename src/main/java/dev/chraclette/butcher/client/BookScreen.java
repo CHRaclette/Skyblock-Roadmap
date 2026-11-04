@@ -22,6 +22,7 @@ public final class BookScreen extends Screen {
     public BookScreen() {
         super(Component.literal("Butcher's Sticker Book"));
         this.view = new BookView(LedgerStore.get(), this::icon);
+        this.view.profile(LedgerStore.profile());
     }
 
     /** Icons for badge medals. */
