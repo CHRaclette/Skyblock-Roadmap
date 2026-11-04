@@ -1,14 +1,7 @@
-name: build
-
-on:
-  push:
-  workflow_dispatch:
-
-permissions:
-  contents: write
-
+name: inspect
+on: push
 jobs:
-  build:
+  inspect:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
@@ -17,20 +10,12 @@ jobs:
           java-version: '25'
           distribution: 'microsoft'
       - name: Build
+        run: chmod +x ./gradlew && ./gradlew build --stacktrace
+      - name: Inspect Minecraft classes
         run: |
-          chmod +x ./gradlew
-          ./gradlew build --stacktrace
-      - name: Upload jar
-        uses: actions/upload-artifact@v4
-        with:
-          name: butcher-drops
-          path: build/libs/*.jar
-      - name: Publish "latest" release
-        if: github.ref == 'refs/heads/main'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          JAR=$(ls build/libs/*.jar | grep -v sources | head -n1)
-          gh release delete latest --yes --cleanup-tag || true
-          gh release create latest "$JAR" --title "Butcher Drops (latest build)" \
-            --notes "Built from ${GITHUB_SHA::7}. Put the .jar in your .minecraft/mods folder (Fabric 26.2 + Fabric API)."
+          find ~/.gradle -name "*.jar" | grep -i minecraft | grep -v sources | head -20
+          JAR=$(find ~/.gradle -name "*.jar" | grep -i "minecraft" | grep -iv "sources\|fabric-api\|loader\|mapping\|intermediary" | xargs ls -S | head -1)
+          echo "JAR=$JAR"
+          for c in net.minecraft.client.gui.screens.Screen net.minecraft.client.gui.components.events.GuiEventListener net.minecraft.client.gui.components.events.ContainerEventHandler net.minecraft.client.gui.components.AbstractWidget net.minecraft.client.input.MouseButtonEvent net.minecraft.client.input.KeyEvent net.minecraft.client.gui.GuiGraphicsExtractor; do
+            echo "===== $c"; javap -cp "$JAR" "$c" || true
+          done
