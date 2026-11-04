@@ -14,6 +14,25 @@ public final class StickerPop {
     private final int count;
     private final float start;
     private final Particles fx = new Particles(99);
+    /** Badge mode: draws a medal instead of a sticker. */
+    private dev.chraclette.butcher.core.Badges.Tier medal;
+    private String medalLine = "";
+
+    /** A badge reaching a new tier. */
+    public static StickerPop badge(String title, String what, dev.chraclette.butcher.core.Badges.Tier tier, Object icon, float start) {
+        StickerPop p = new StickerPop(title, Level.GOLD, tierLevel(tier), icon, 0, start);
+        p.medal = tier;
+        p.medalLine = what;
+        return p;
+    }
+
+    private static Level tierLevel(dev.chraclette.butcher.core.Badges.Tier tier) {
+        return switch (tier) {
+            case GOLD -> Level.GOLD;
+            case SILVER -> Level.SILVER;
+            default -> Level.BRONZE;
+        };
+    }
     private float lastT = -1;
     private boolean burst;
 
@@ -48,7 +67,7 @@ public final class StickerPop {
 
         if (t >= 0.35f && !burst) {
             burst = true;
-            int col = level.color;
+            int col = medal != null ? medal.color : level.color;
             int n = 14 + level.ordinal() * 8;
             fx.burst(cx, cy, n, 40, 110 + level.ordinal() * 20, 60, 0.9f, 2, 4, col, 0xFFFFFF, Fx.brighten(col, 0.4f));
             Particles.P ring = fx.add(cx, cy, 0, 0, 0.6f, size * 2.2f, col);
@@ -62,11 +81,19 @@ public final class StickerPop {
         c.scale(slap, slap);
         c.rotate((1 - Fx.easeOut(in)) * 1.4f);
         c.translate(-cx, -cy);
-        Sticker.draw(c, cx, cy, size, level, icon, count, t, false, name.hashCode());
+        if (medal != null) {
+            Medal.draw(c, cx, cy, size * 0.5f, medal, icon, t, false, name.hashCode());
+        } else {
+            Sticker.draw(c, cx, cy, size, level, icon, count, t, false, name.hashCode());
+        }
         c.pop();
 
         float textA = Fx.smooth((t - 0.4f) / 0.2f) * out;
-        if (textA > 0.02f) {
+        if (textA > 0.02f && medal != null) {
+            Fx.centered(c, medal.title.toUpperCase() + " BADGE!", cx, cy + size * 0.85f + 4, 1.3f, Fx.alpha(medal.color, textA), true);
+            Fx.centered(c, name, cx, cy + size * 0.85f + 18, 0.9f, Fx.alpha(0xFFFFFF, textA), false);
+            Fx.centered(c, medalLine, cx, cy + size * 0.85f + 29, 0.7f, Fx.alpha(0xCCCCCC, textA), false);
+        } else if (textA > 0.02f) {
             String head = before == null ? "NEW STICKER!" : level.title.toUpperCase() + "!";
             if (level == Level.HOLO) {
                 Fx.rainbow(c, head, cx, cy + size * 0.62f + 4, 1.3f, t, textA, true);

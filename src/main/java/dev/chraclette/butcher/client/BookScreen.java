@@ -24,7 +24,26 @@ public final class BookScreen extends Screen {
         this.view = new BookView(LedgerStore.get(), this::icon);
     }
 
+    /** Icons for badge medals. */
+    static ItemStack badgeIcon(String name) {
+        return new ItemStack(switch (name) {
+            case "Nether Star" -> net.minecraft.world.item.Items.NETHER_STAR;
+            case "Totem" -> net.minecraft.world.item.Items.TOTEM_OF_UNDYING;
+            case "Ender Eye" -> net.minecraft.world.item.Items.ENDER_EYE;
+            case "Golden Hoe" -> net.minecraft.world.item.Items.GOLDEN_HOE;
+            case "Gold Ingot" -> net.minecraft.world.item.Items.GOLD_INGOT;
+            case "Pest" -> ItemLookup.byIdPublic("silverfish_spawn_egg", net.minecraft.world.item.Items.STRING);
+            default -> {
+                Drop d = DropParser.parse("RARE DROP! " + name, null, null);
+                yield d == null ? net.minecraft.world.item.Items.NETHER_STAR : ItemLookup.icon(d, ItemStack.EMPTY).getItem();
+            }
+        });
+    }
+
     private Object icon(String name) {
+        if (name.startsWith("badge:")) {
+            return icons.computeIfAbsent(name, n -> badgeIcon(n.substring(6)));
+        }
         return icons.computeIfAbsent(name, n -> {
             Drop d = DropParser.parse("RARE DROP! " + n, null, null);
             if (d == null) return ItemStack.EMPTY;

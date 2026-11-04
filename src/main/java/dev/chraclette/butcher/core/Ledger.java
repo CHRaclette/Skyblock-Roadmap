@@ -123,6 +123,50 @@ public final class Ledger {
     public Map<String, Entry> stickers = new LinkedHashMap<>();
     public long pestsVacuumed;
     public long fevers;
+    /** INSANE and PRAY TO RNGESUS drops. */
+    public long jackpots;
+    /** Badge id -> highest tier announced (0 none, 1 bronze, 2 silver, 3 gold). */
+    public Map<String, Integer> badgeTiers = new LinkedHashMap<>();
+
+    // ------------------------------------------------------------------ mastery
+
+    /** Stars for a level: Paper 1 ... Diamond 5. Holo is 5 stars plus a crown. */
+    public static int stars(Level level) {
+        return level == null ? 0 : Math.min(5, level.ordinal() + 1);
+    }
+
+    public static boolean crowned(Level level) {
+        return level == Level.HOLO;
+    }
+
+    /** Progress (0..1) from the current level to the next one. 1 when maxed. */
+    public static float progress(Entry e) {
+        Level lv = e.level();
+        Level next = lv == null ? Level.PAPER : lv.next();
+        if (next == null) return 1f;
+        int from = lv == null ? 0 : lv.points;
+        return (float) Math.max(0, Math.min(1, (e.points - from) / (double) (next.points - from)));
+    }
+
+    /** Overall Ledger Level: every sticker point counts as XP. Level n needs 5 + 5n more XP. */
+    public double xp() {
+        double n = 0;
+        for (Entry e : stickers.values()) n += e.points;
+        return n + pestsVacuumed * 0.05 + fevers * 2;
+    }
+
+    /** {level, xp into level, xp needed for next}. */
+    public long[] level() {
+        double xp = xp();
+        long level = 1;
+        double need = 10;
+        while (xp >= need) {
+            xp -= need;
+            level++;
+            need = 5 + 5 * level;
+        }
+        return new long[]{level, (long) xp, (long) need};
+    }
 
     private static final Pattern MF = Pattern.compile("\\+([\\d,.]+)%?\\s*\\S*\\s*Magic Find");
 
@@ -150,6 +194,9 @@ public final class Ledger {
         e.points += w;
         e.lastAt = nowMillis;
         e.coins += Math.max(0, coins);
+        if (drop.tier().rank >= DropTier.INSANE.rank) {
+            jackpots++;
+        }
         if (drop.tier().rank > e.bestRank) {
             e.bestRank = drop.tier().rank;
             e.bestTier = drop.tier().label;

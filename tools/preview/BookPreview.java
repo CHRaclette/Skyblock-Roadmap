@@ -30,15 +30,17 @@ public class BookPreview {
             for (int i = 0; i < Integer.parseInt(d[1]); i++) ledger.record(drop, 1_500_000, now);
         }
         ledger.pestsVacuumed = 1234;
+        ledger.fevers = 12;
+        ledger.jackpots = 1;
         BookView view = new BookView(ledger, name -> {
-            String n = name.toLowerCase();
+            String n = name.toLowerCase().replace("badge:", "");
             if (n.contains("chimera")) return "item_enchanted_book.png";
             if (n.contains("dye")) return "item_lime_dye.png";
             if (n.contains("wool")) return "block_yellow_wool.png";
             if (n.contains("feather")) return "item_feather.png";
             return "item_nether_star.png";
         });
-        view.select(Ledger.Chapter.valueOf(chapter));
+        if (chapter.equals("BADGES")) view.selectBadges(); else view.select(Ledger.Chapter.valueOf(chapter));
         int gw = 480, gh = 270, scale = 2;
         new File(out).mkdirs();
         BufferedImage warm = new BufferedImage(gw, gh, BufferedImage.TYPE_INT_RGB);

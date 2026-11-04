@@ -48,7 +48,13 @@ public final class Farming {
     private static final List<LaterToast> LATER = new ArrayList<>();
 
     private record LaterPop(float at, dev.chraclette.butcher.core.Ledger.Level before,
-                            dev.chraclette.butcher.core.Ledger.Level after, String name, Object icon, int count) {
+                            dev.chraclette.butcher.core.Ledger.Level after, String name, Object icon, int count,
+                            dev.chraclette.butcher.core.Badges.Earned badge) {
+    }
+
+    /** Shows a badge medal after a delay. */
+    static void badgeLater(dev.chraclette.butcher.core.Badges.Earned earned, Object icon, float delay) {
+        POP_QUEUE.add(new LaterPop(now() + delay, null, null, earned.badge().title(), icon, 0, earned));
     }
 
     private static final List<LaterPop> POP_QUEUE = new ArrayList<>();
@@ -57,7 +63,7 @@ public final class Farming {
     /** Slaps a sticker onto the screen after a delay. before == null means brand new. */
     static void stickerLater(dev.chraclette.butcher.core.Ledger.Level before, dev.chraclette.butcher.core.Ledger.Level after,
                              String name, Object icon, int count, float delay) {
-        POP_QUEUE.add(new LaterPop(now() + delay, before, after, name, icon, count));
+        POP_QUEUE.add(new LaterPop(now() + delay, before, after, name, icon, count, null));
     }
 
     /** Shows a toast after a delay (e.g. once the cutscene is over). */
@@ -196,9 +202,12 @@ public final class Farming {
         }
         if (pop == null && !POP_QUEUE.isEmpty() && POP_QUEUE.get(0).at <= t && !cutscenePlaying) {
             LaterPop p = POP_QUEUE.remove(0);
-            pop = new dev.chraclette.butcher.render.StickerPop(p.name, p.before, p.after, p.icon, p.count, t);
+            pop = p.badge != null
+                    ? dev.chraclette.butcher.render.StickerPop.badge(p.badge.badge().title(), p.badge.badge().what(), p.badge.tier(), p.icon, t)
+                    : new dev.chraclette.butcher.render.StickerPop(p.name, p.before, p.after, p.icon, p.count, t);
             Sounds.play(Cutscene.Cue.SLAP, dev.chraclette.butcher.core.Effect.STARS, 1f, 0.9f);
-            if (p.after.ordinal() >= dev.chraclette.butcher.core.Ledger.Level.GOLD.ordinal()) {
+            if (p.badge != null ? p.badge.tier() == dev.chraclette.butcher.core.Badges.Tier.GOLD
+                    : p.after.ordinal() >= dev.chraclette.butcher.core.Ledger.Level.GOLD.ordinal()) {
                 Sounds.play(Cutscene.Cue.TOTEM, dev.chraclette.butcher.core.Effect.STARS, 1.2f, 0.5f);
             }
         }
@@ -258,6 +267,12 @@ public final class Farming {
         for (var lv : dev.chraclette.butcher.core.Ledger.Level.values()) {
             stickerLater(prev, lv, "Chimera I", icon, lv.points, d);
             prev = lv;
+            d += 0.1f;
+        }
+        var badge = dev.chraclette.butcher.core.Badges.ALL.get(0);
+        for (var tier : new dev.chraclette.butcher.core.Badges.Tier[]{dev.chraclette.butcher.core.Badges.Tier.BRONZE,
+                dev.chraclette.butcher.core.Badges.Tier.SILVER, dev.chraclette.butcher.core.Badges.Tier.GOLD}) {
+            badgeLater(new dev.chraclette.butcher.core.Badges.Earned(badge, tier), BookScreen.badgeIcon(badge.icon()), d);
             d += 0.1f;
         }
     }

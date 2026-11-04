@@ -1,5 +1,6 @@
 package dev.chraclette.butcher.render;
 
+import dev.chraclette.butcher.core.Badges;
 import dev.chraclette.butcher.core.Ledger;
 import dev.chraclette.butcher.core.Ledger.Chapter;
 import dev.chraclette.butcher.core.Ledger.Entry;
@@ -23,7 +24,11 @@ public final class BookView {
     private final Ledger ledger;
     private final Function<String, Object> icons;
     private Chapter chapter = Chapter.DIANA;
+    private boolean badges;
     private int page;
+    private Slot hovered;
+    private Badges.Badge hoveredBadge;
+    private float hx, hy;
     private float openedAt = -1;
 
     private record Hit(int x1, int y1, int x2, int y2, Runnable action) {
@@ -39,6 +44,12 @@ public final class BookView {
 
     public void select(Chapter c) {
         chapter = c;
+        badges = false;
+        page = 0;
+    }
+
+    public void selectBadges() {
+        badges = true;
         page = 0;
     }
 
@@ -63,8 +74,8 @@ public final class BookView {
         hits.clear();
         int w = c.width(), h = c.height();
         float open = Fx.backOut((time - openedAt) / 0.35f);
-        int bw = Math.min(w - 20, 440), bh = Math.min(h - 46, 260);
-        int bx = (w - bw) / 2, by = (h - bh) / 2 + 12;
+        int bw = Math.min(w - 20, 440), bh = Math.min(h - 64, 260);
+        int bx = (w - bw) / 2, by = (h - bh) / 2 + 22;
 
         c.fill(0, 0, w, h, 0x99000000);
         c.push();
@@ -74,17 +85,19 @@ public final class BookView {
 
         // tabs (ribbons) sticking out above the book
         Chapter[] chapters = Chapter.values();
-        int tabW = Math.min(58, (bw - 20) / chapters.length - 3);
-        for (int i = 0; i < chapters.length; i++) {
-            Chapter ch = chapters[i];
-            boolean sel = ch == chapter;
+        int tabW = Math.min(52, (bw - 20) / (chapters.length + 1) - 3);
+        for (int i = 0; i <= chapters.length; i++) {
+            boolean isBadges = i == chapters.length;
+            Chapter ch = isBadges ? null : chapters[i];
+            boolean sel = isBadges ? badges : !badges && ch == chapter;
+            int tabColor = isBadges ? 0xD08A4E : ch.color;
             int tx = bx + 12 + i * (tabW + 3), th = sel ? 18 : 14;
             int ty = by - 4 - th;
             boolean hov = mouseX >= tx && mouseX < tx + tabW && mouseY >= ty && mouseY < by;
-            int col = sel ? ch.color : Fx.darken(ch.color, hov ? 0.15f : 0.4f);
+            int col = sel ? tabColor : Fx.darken(tabColor, hov ? 0.15f : 0.4f);
             c.fill(tx, ty, tx + tabW, by + 4, 0xFF000000 | Fx.darken(col, 0.35f));
             c.fill(tx + 1, ty + 1, tx + tabW - 1, by + 4, 0xFF000000 | col);
-            String label = ch.title;
+            String label = isBadges ? "Badges" : ch.title;
             float ls = 0.75f;
             c.push();
             c.translate(tx + tabW / 2f, ty + 4);
@@ -92,7 +105,7 @@ public final class BookView {
             c.text(label, -c.textWidth(label) / 2, 0, sel ? 0xFF1A1008 : 0xFF2A1A10, false);
             c.pop();
             final Chapter target = ch;
-            hits.add(new Hit(tx, ty, tx + tabW, by + 4, () -> select(target)));
+            hits.add(new Hit(tx, ty, tx + tabW, by + 4, isBadges ? this::selectBadges : () -> select(target)));
         }
 
         // cover + pages
@@ -107,6 +120,22 @@ public final class BookView {
             c.fill(x, by + bh, x + 4, by + bh + 1, 0x60F3E9D2);
         }
 
+        hovered = null;
+        hoveredBadge = null;
+        if (badges) {
+            badgesPage(c, px, py, pw, ph, mouseX, mouseY, time);
+        } else {
+            chapterPage(c, px, py, pw, ph, mouseX, mouseY, time);
+        }
+        c.pop();
+
+        header(c, bx, by, bw, time);
+
+        if (hovered != null) tooltip(c, hovered, hx, hy, w, h);
+        if (hoveredBadge != null) badgeTooltip(c, hoveredBadge, hx, hy, w, h);
+    }
+
+    private void chapterPage(Canvas c, int px, int py, int pw, int ph, int mouseX, int mouseY, float time) {
         // left page: chapter header
         int lx = px + 12, ly = py + 10, contentW = pw - 24;
         Fx.bold(c, chapter.title, lx, ly, 0xFF000000 | Fx.darken(chapter.color, 0.45f));
@@ -157,8 +186,6 @@ public final class BookView {
         int pages = Math.max(1, (slots.size() + perPage - 1) / perPage);
         if (page >= pages) page = pages - 1;
         int start = page * perPage;
-        Slot hovered = null;
-        float hx = 0, hy = 0;
         for (int i = 0; i < perPage && start + i < slots.size(); i++) {
             Slot s = slots.get(start + i);
             int col, row, ox, oy;
@@ -175,19 +202,23 @@ public final class BookView {
                 oy = py + 12;
             }
             float cx = ox + col * cell + cell / 2f;
-            float cy = oy + row * cell + cell / 2f - 4;
-            float size = cell * 0.62f;
+            float cy = oy + row * cell + cell / 2f - 7;
+            float size = cell * 0.56f;
             boolean hov = Math.abs(mouseX - cx) < size / 2 + 2 && Math.abs(mouseY - cy) < size / 2 + 2;
             Entry e = s.entry();
             long seed = s.name().hashCode();
             Sticker.draw(c, cx, cy, size, s.locked() ? null : e.level(), s.locked() ? null : icons.apply(s.name()),
                     s.locked() ? 0 : e.times, time, hov, seed);
+            if (!s.locked()) {
+                Medal.stars(c, cx, cy + size / 2 + 5, Ledger.stars(e.level()), Ledger.crowned(e.level()),
+                        Math.max(1, size / 40f), time);
+            }
             String name = s.locked() ? "???" : s.name();
             float ns = 0.6f;
             int maxW = Math.round((cell - 4) / ns);
             while (name.length() > 3 && c.textWidth(name) > maxW) name = name.substring(0, name.length() - 2) + "…";
             c.push();
-            c.translate(cx, cy + size / 2 + 4);
+            c.translate(cx, cy + size / 2 + (s.locked() ? 4 : 10));
             c.scale(ns, ns);
             c.text(name, -c.textWidth(name) / 2, 0, s.locked() ? 0xFF9A8A70 : 0xFF000000 | INK, false);
             c.pop();
@@ -208,12 +239,125 @@ public final class BookView {
             if (page > 0) arrow(c, px + 6, py + ph - 14, false, mouseX, mouseY, () -> page--);
             if (page < pages - 1) arrow(c, px + 2 * pw - 18, py + ph - 14, true, mouseX, mouseY, () -> page++);
         }
-        c.pop();
+    }
 
-        // title above everything
-        Fx.centered(c, "Butcher's Sticker Book", w / 2f, by - 34, 1.2f, 0xFFFFD24A, true);
 
-        if (hovered != null) tooltip(c, hovered, hx, hy, w, h);
+    /** Above the book: Ledger Level plaque with XP bar, and the badge counts. */
+    private void header(Canvas c, int bx, int by, int bw, float time) {
+        long[] lv = ledger.level();
+        int y = by - 44;
+        int x = bx + 4;
+        // plaque
+        c.fill(x - 2, y - 2, x + 132, y + 20, 0xFF000000 | LEATHER_DARK);
+        c.fill(x, y, x + 130, y + 18, 0xFF000000 | LEATHER);
+        Fx.bold(c, "Ledger Lv " + lv[0], x + 5, y + 2, 0xFFFFD24A);
+        int barX = x + 5, barY = y + 12, barW = 120;
+        c.fill(barX, barY, barX + barW, barY + 3, 0xFF2A1810);
+        c.fill(barX, barY, barX + Math.round(barW * lv[1] / (float) Math.max(1, lv[2])), barY + 3, 0xFFFFD24A);
+        String xp = lv[1] + " / " + lv[2] + " xp";
+        small(c, xp, x + 126 - Math.round(c.textWidth(xp) * 0.6f), y + 3, 0xFFE8D2B8, 0.6f);
+        // badge counts on the right
+        int rx = bx + bw - 4;
+        Badges.Tier[] tiers = {Badges.Tier.GOLD, Badges.Tier.SILVER, Badges.Tier.BRONZE};
+        for (Badges.Tier t : tiers) {
+            String n = String.valueOf(Badges.count(ledger, t));
+            int tw = c.textWidth(n);
+            rx -= tw + 18;
+            Medal.draw(c, rx + 5, y + 8, 6, t, null, time, false, t.ordinal());
+            c.text(n, rx + 13, y + 4, 0xFFFFFFFF, true);
+        }
+        small(c, "Badges", rx - 34, y + 5, 0xFFE8D2B8, 0.8f);
+    }
+
+    private void badgesPage(Canvas c, int px, int py, int pw, int ph, int mouseX, int mouseY, float time) {
+        int lx = px + 12, ly = py + 10, contentW = pw - 24;
+        Fx.bold(c, "Badges", lx, ly, 0xFF7A4A1E);
+        small(c, "Bronze, Silver, Gold. Earn them all!", lx, ly + 11, 0xFF7A6248, 0.75f);
+        int got = 0, max = Badges.ALL.size() * 3;
+        for (Badges.Badge b : Badges.ALL) got += b.tier(ledger).ordinal();
+        int barY = ly + 21;
+        c.fill(lx, barY, lx + contentW, barY + 5, 0xFF000000 | Fx.darken(PAPER, 0.2f));
+        c.fill(lx, barY, lx + Math.round(contentW * got / (float) max), barY + 5, 0xFFD08A4E);
+        small(c, got + " / " + max + " tiers", lx, barY + 7, 0xFF000000 | INK, 0.75f);
+
+        List<Badges.Badge> list = Badges.ALL;
+        int cols = 4;
+        int cell = contentW / cols;
+        int rowH = Math.round(cell * 1.25f);
+        int leftTop = barY + 20;
+        int leftRows = Math.max(1, (py + ph - 12 - leftTop) / rowH);
+        int rightRows = Math.max(1, (ph - 16) / rowH);
+        int perPage = cols * (leftRows + rightRows);
+        int pages = Math.max(1, (list.size() + perPage - 1) / perPage);
+        if (page >= pages) page = pages - 1;
+        int start = page * perPage;
+        for (int i = 0; i < perPage && start + i < list.size(); i++) {
+            Badges.Badge b = list.get(start + i);
+            int col, row, ox, oy;
+            if (i < cols * leftRows) {
+                col = i % cols;
+                row = i / cols;
+                ox = lx;
+                oy = leftTop;
+            } else {
+                int j = i - cols * leftRows;
+                col = j % cols;
+                row = j / cols;
+                ox = px + pw + 12;
+                oy = py + 10;
+            }
+            float cx = ox + col * cell + cell / 2f;
+            float cy = oy + row * rowH + cell * 0.36f;
+            float r = cell * 0.3f;
+            boolean hov = Math.abs(mouseX - cx) < r + 2 && Math.abs(mouseY - cy) < r + 2;
+            Badges.Tier tier = b.tier(ledger);
+            Medal.draw(c, cx, cy, r, tier, icons.apply("badge:" + b.icon()), time, hov, b.id().hashCode());
+            // three pips: bronze / silver / gold reached
+            for (int k = 0; k < 3; k++) {
+                int pxl = Math.round(cx - 7 + k * 6), pyl = Math.round(cy + r * 1.5f);
+                int pc = tier.ordinal() > k ? Badges.Tier.values()[k + 1].color : 0xC9BBA0;
+                c.fill(pxl, pyl, pxl + 4, pyl + 4, 0xFF000000 | Fx.darken(pc, 0.35f));
+                c.fill(pxl + 1, pyl + 1, pxl + 3, pyl + 3, 0xFF000000 | pc);
+            }
+            String name = b.title();
+            float ns = 0.55f;
+            int maxW = Math.round((cell - 2) / ns);
+            while (name.length() > 3 && c.textWidth(name) > maxW) name = name.substring(0, name.length() - 2) + "…";
+            c.push();
+            c.translate(cx, cy + r * 1.5f + 6);
+            c.scale(ns, ns);
+            c.text(name, -c.textWidth(name) / 2, 0, tier == Badges.Tier.NONE ? 0xFF9A8A70 : 0xFF000000 | INK, false);
+            c.pop();
+            if (hov) {
+                hoveredBadge = b;
+                hx = mouseX;
+                hy = mouseY;
+            }
+        }
+        if (pages > 1) {
+            String pn = (page + 1) + " / " + pages;
+            small(c, pn, px + pw - Math.round(c.textWidth(pn) * 0.375f), py + ph - 9, 0xFF7A6248, 0.75f);
+            if (page > 0) arrow(c, px + 6, py + ph - 14, false, mouseX, mouseY, () -> page--);
+            if (page < pages - 1) arrow(c, px + 2 * pw - 18, py + ph - 14, true, mouseX, mouseY, () -> page++);
+        }
+    }
+
+    private void badgeTooltip(Canvas c, Badges.Badge b, float mx, float my, int w, int h) {
+        Badges.Tier tier = b.tier(ledger);
+        long v = b.value(ledger), next = b.nextGoal(ledger);
+        List<String> lines = new ArrayList<>();
+        List<Integer> colors = new ArrayList<>();
+        lines.add(b.title());
+        colors.add(0xFFFFFFFF);
+        lines.add(b.what());
+        colors.add(0xFFAAAAAA);
+        lines.add(tier == Badges.Tier.NONE ? "Not earned yet" : tier.title + " badge");
+        colors.add(0xFF000000 | (tier == Badges.Tier.NONE ? 0x888888 : tier.color));
+        lines.add(next < 0 ? NUM.format(v) + " (maxed!)" : NUM.format(v) + " / " + NUM.format(next));
+        colors.add(0xFFDDDDDD);
+        lines.add("Bronze " + NUM.format(b.goals()[0]) + " · Silver " + NUM.format(b.goals()[1]) + " · Gold " + NUM.format(b.goals()[2]));
+        colors.add(0xFF888888);
+        box(c, lines, colors, mx, my, w, h);
     }
 
     private void page(Canvas c, int x, int y, int w, int h, boolean left) {
@@ -253,13 +397,16 @@ public final class BookView {
             Level lv = e.level();
             lines.add(e.name);
             colors.add(0xFFFFFFFF);
-            lines.add(lv.title + " sticker");
+            lines.add("Mastery " + "★".repeat(Ledger.stars(lv)) + "☆".repeat(5 - Ledger.stars(lv))
+                    + (Ledger.crowned(lv) ? " ♛" : "") + "  (" + lv.title + ")");
             colors.add(0xFF000000 | lv.color);
             lines.add("Dropped " + e.times + (e.times == 1 ? " time" : " times") + (e.items > e.times ? " (" + NUM.format(e.items) + " items)" : ""));
             colors.add(0xFFDDDDDD);
             Level next = lv.next();
             if (next != null) {
-                lines.add(String.format(Locale.US, "%.0f / %d points to %s", e.points, next.points, next.title));
+                lines.add(String.format(Locale.US, "%.0f / %d points to %s (%d%%)", e.points, next.points,
+                        Ledger.stars(next) > Ledger.stars(lv) ? Ledger.stars(next) + "★" : "the crown",
+                        Math.round(Ledger.progress(e) * 100)));
                 colors.add(0xFFAAAAAA);
             } else {
                 lines.add("Maxed out!");
@@ -282,6 +429,10 @@ public final class BookView {
                 colors.add(0xFF888888);
             }
         }
+        box(c, lines, colors, mx, my, w, h);
+    }
+
+    private static void box(Canvas c, List<String> lines, List<Integer> colors, float mx, float my, int w, int h) {
         int tw = 0;
         for (String l : lines) tw = Math.max(tw, c.textWidth(l));
         int th = lines.size() * 10 + 6;

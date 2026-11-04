@@ -71,7 +71,7 @@ final class Commands {
             test.then(ClientCommands.literal("stickers").executes(ctx -> {
                 Drop d = DropParser.parse(PRESETS.get("chimera"), "You", null);
                 Farming.testStickers(ItemLookup.icon(d, net.minecraft.world.item.ItemStack.EMPTY));
-                say(ctx, "§7Showing every sticker level: Paper → Bronze → Silver → Gold → Diamond → Holo");
+                say(ctx, "§7Showing every sticker level (1★ to 5★ + crown), then a badge going Bronze → Silver → Gold");
                 return 1;
             }));
             test.then(ClientCommands.literal("pests").executes(ctx -> {

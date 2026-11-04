@@ -33,9 +33,17 @@ public final class LedgerStore {
             if (Files.exists(file())) {
                 Ledger loaded = GSON.fromJson(Files.readString(file()), Ledger.class);
                 if (loaded != null && loaded.stickers != null) ledger = loaded;
+                if (ledger.badgeTiers == null) ledger.badgeTiers = new java.util.LinkedHashMap<>();
             }
         } catch (Exception e) {
             ButcherClient.LOG.warn("Could not read the sticker book, starting a new one", e);
+        }
+        dev.chraclette.butcher.core.Badges.check(ledger); // sync silently, only announce new ones later
+    }
+
+    private static void announceBadges(float delay) {
+        for (var earned : dev.chraclette.butcher.core.Badges.check(ledger)) {
+            Farming.badgeLater(earned, BookScreen.badgeIcon(earned.badge().icon()), delay);
         }
     }
 
@@ -55,10 +63,15 @@ public final class LedgerStore {
         Cutscene.Price p = Prices.lookup(drop, "");
         Ledger.Result r = ledger.record(drop, p == null ? 0 : p.coins(), System.currentTimeMillis());
         if (r == null) return;
-        save();
-        if (!Config.get().stickerToasts) return;
-        Object icon = ItemLookup.icon(drop, net.minecraft.world.item.ItemStack.EMPTY);
         float delay = drop.fever() && drop.tier().rank < Config.get().feverCutsceneFromRank ? 0.8f : 6.5f;
+        if (!Config.get().stickerToasts) {
+            dev.chraclette.butcher.core.Badges.check(ledger);
+            save();
+            return;
+        }
+        announceBadges(delay + 0.2f);
+        save();
+        Object icon = ItemLookup.icon(drop, net.minecraft.world.item.ItemStack.EMPTY);
         if (r.isNew() || r.upgraded()) {
             Farming.stickerLater(r.isNew() ? null : r.before(), r.after(), r.entry().name, icon, r.entry().times, delay);
         }
@@ -66,11 +79,13 @@ public final class LedgerStore {
 
     static void pestVacuumed() {
         ledger.pestsVacuumed++;
+        announceBadges(0.5f);
         save();
     }
 
     static void feverCaught() {
         ledger.fevers++;
+        announceBadges(3.5f);
         save();
     }
 }

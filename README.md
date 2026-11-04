@@ -25,6 +25,11 @@ Pests, Fishing, Other). The more often (and the rarer) you drop an item, the bet
 Paper (1 pt) → Bronze (3) → Silver (10) → Gold (25) → Diamond (60) → Holo (150).
 RARE = 1 pt, VERY RARE = 2, PET = 3, CRAZY RARE = 4, INSANE = 6, PRAY TO RNGESUS = 8.
 New and upgraded stickers get slapped onto your screen after the cutscene. Known drops you don't have yet show as "???".
+
+**Mastery:** every sticker shows 1–5 stars (Paper = 1★ … Diamond = 5★, Holo = 5★ + crown), the tooltip shows how far you are to the next star.
+**Ledger Level:** all sticker points (plus pests and Crop Fevers) count as XP for one overall level.
+**Badges:** Bronze / Silver / Gold for collecting and grinding each chapter, Mastery, Legend, Blessed (jackpot drops),
+Exterminator (pests), Feverish (Crop Fevers) and Loaded (coins). Earning a tier slams the medal onto your screen.
 Saved in `config/butcherdrops-stickers.json`. `/butcher test stickers` shows every level.
 
 ## What triggers it
