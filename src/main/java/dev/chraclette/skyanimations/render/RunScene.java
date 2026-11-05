@@ -115,7 +115,7 @@ public final class RunScene implements Scene {
 
     public RunScene(Style style, List<Loot> loot, int rareIdx, List<ReelItem> pool, Hooks hooks, boolean test) {
         this.style = style;
-        this.INTRO = style.source == Source.METER ? 1.9f : style.source == Source.CHEST ? 1.2f : 0.9f;
+        this.INTRO = style.source == Source.METER ? 1.9f : style.source == Source.CHEST ? 1.2f : 0.9f + NucleusStage.LENGTH;
         this.hooks = hooks;
         this.test = test;
         this.random = new Random(loot.hashCode());
@@ -178,6 +178,8 @@ public final class RunScene implements Scene {
         return c.width() / 2f;
     }
 
+    private final NucleusStage nucleus = new NucleusStage();
+
     private float crystalY(Canvas c) {
         return c.height() * (style.source == Source.CRYSTAL ? 0.2f : 0.17f);
     }
@@ -218,7 +220,12 @@ public final class RunScene implements Scene {
 
         boolean spinning = rare && t >= caseStart && t < winLand;
         switch (style.source) {
-            case CRYSTAL -> crystal(c, t, k, fade, spinning ? 0.35f : 1f);
+            case CRYSTAL -> {
+                if (t < NucleusStage.LENGTH + 0.1f) {
+                    nucleus.draw(c, t, w / 2f, h * 0.47f, k, fade, fx, hooks::sound);
+                }
+                crystal(c, t - NucleusStage.LENGTH, k, fade, spinning ? 0.35f : 1f);
+            }
             case CHEST -> chest(c, t, k, fade, spinning ? 0.35f : 1f);
             case METER -> meter(c, t, k, fade, spinning ? 0.35f : 1f);
         }
@@ -244,7 +251,7 @@ public final class RunScene implements Scene {
 
     private void crystal(Canvas c, float t, float k, float fade, float alpha) {
         float cx = crystalX(c), cy = crystalY(c) + (float) Math.sin(t * 1.6f) * 1.5f * k;
-        float appear = Fx.backOut(t / 0.6f);
+        float appear = t <= 0 ? 0 : Fx.backOut(Fx.clamp01(t / 0.6f));
         if (appear < 0.02f) return;
         float a = fade * alpha;
         float s = 1.25f * k * appear;           // texel size in GUI pixels
