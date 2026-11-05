@@ -147,11 +147,11 @@ public final class DyeScene implements Scene {
             Fx.glow(c, cx, cy + bob, 46 * k * pop, now, 0.9f * fade, 2);
             Fx.rays(c, cx, cy + bob, 90 * k * pop, 14, bt * 0.35f, Fx.brighten(now, 0.4f), 0.55f * fade);
             float sc = 3.2f * k * pop;
-            if (sc > 0.05f && icon != null) {
+            if (sc > 0.05f) {
                 c.push();
                 c.translate(cx, cy + bob);
                 c.scale(sc, sc);
-                c.item(icon, -8, -8);
+                DyePot.draw(c, -8, -8, now, 0, 1f);
                 c.pop();
             }
             if (random.nextFloat() < 0.5f) {
@@ -171,7 +171,6 @@ public final class DyeScene implements Scene {
 
     /** Minecraft's item activation curve (GameRenderer), f = 0..1 over 40 ticks. */
     private void popIn(Canvas c, float f, int w, int h, float fade) {
-        if (icon == null) return;
         float f2 = f * f, f3 = f2 * f;
         float f4 = 10.25f * f3 * f2 - 24.95f * f2 * f2 + 25.5f * f3 - 13.8f * f2 + 4.4f * f;
         float f5 = f4 * (float) Math.PI;
@@ -194,7 +193,7 @@ public final class DyeScene implements Scene {
             c.push();
             c.translate(depth * i * 0.25f * px, 0);
             c.scale(px * (Math.abs(sx) < 0.06f ? 0.06f * Math.signum(sx == 0 ? 1 : sx) : sx), px);
-            c.item(icon, -8, -8);
+            DyePot.draw(c, -8, -8, col(f * POP_IN), i == 0 ? 0 : 0.6f, 1f);
             c.pop();
         }
         c.pop();
