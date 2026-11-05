@@ -33,6 +33,22 @@ public class DemoRecorder implements FabricClientGameTest {
         ctx = context;
         try (TestSingleplayerContext sp = context.worldBuilder().create()) {
             context.waitTicks(100); // let the world load and render
+            context.runOnClient(c -> {
+                var sm = c.getSoundManager();
+                for (String id : new String[]{"skyanimations:case_tick", "skyanimations:case_win", "minecraft:block.note_block.hat", "minecraft:ui.toast.challenge_complete"}) {
+                    var ev = sm.getSoundEvent(net.minecraft.resources.Identifier.parse(id));
+                    System.out.println("SOUNDCHECK " + id + " -> " + (ev == null ? "NULL" : ev.getClass().getSimpleName()));
+                }
+                System.out.println("SOUNDCHECK options " + c.options.getSoundSourceVolume(net.minecraft.sounds.SoundSource.MASTER));
+                for (var src : net.minecraft.sounds.SoundSource.values()) System.out.println("SOUNDCHECK source " + src);
+                c.getSoundManager().play(net.minecraft.client.resources.sounds.SimpleSoundInstance.forUI(
+                        net.minecraft.sounds.SoundEvent.createVariableRangeEvent(net.minecraft.resources.Identifier.parse("skyanimations:case_tick")), 1f, 1f));
+                c.getSoundManager().play(net.minecraft.client.resources.sounds.SimpleSoundInstance.forUI(
+                        net.minecraft.sounds.SoundEvents.NOTE_BLOCK_PLING, 1f, 1f));
+                System.out.println("SOUNDCHECK played");
+            });
+            context.waitTicks(20);
+            if (true) return;
             context.runOnClient(c -> Demo.start());
             // give the item list and prices a moment to download (real time)
             for (int i = 0; i < 400 && !context.computeOnClient(c -> Demo.ready()); i++) {
