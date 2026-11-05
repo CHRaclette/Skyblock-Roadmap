@@ -6,20 +6,12 @@ jobs:
   site:
     runs-on: ubuntu-24.04
     steps:
-      - name: Look at ytshortdown
+      - name: Home chunk
         run: |
-          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36"
-          curl -sL -A "$UA" https://ytshortdown.com/ -o page.html; wc -c page.html
-          grep -oiE '<form[^>]*>|<input[^>]*>|<script[^>]*src="[^"]*"|fetch\([^)]{0,200}|https?://[a-z0-9./_-]*api[a-z0-9./_?=-]*|/api/[a-z0-9./_?=-]*|ajax[^;]{0,200}|action="[^"]*"|data-[a-z-]*="[^"]*"' page.html | sort -u | head -80
-          for s in $(grep -oE '<script[^>]*src="[^"]*"' page.html | sed -E 's/.*src="([^"]*)"/\1/' | head -15); do
-            case "$s" in http*) u="$s";; //*) u="https:$s";; *) u="https://ytshortdown.com/${s#/}";; esac
-            echo "=== $u"; curl -sL -A "$UA" "$u" -o s.js; wc -c s.js
-            grep -oE 'fetch\([^)]{0,250}|"/[a-z0-9_/-]*(api|download|convert|ajax|info|search)[a-z0-9_/.?=-]*"|https?://[a-z0-9.-]+/[a-z0-9_/.-]*(api|download|convert|info)[a-z0-9_/.?=-]*|url:\s*[^,]{0,120}|method:\s*"[A-Z]+"|body:\s*[^}]{0,200}' s.js | sort -u | head -40
-          done
-          echo "=== inline"; python3 - <<'PY'
-          import re
-          h=open('page.html',errors='ignore').read()
-          for m in re.findall(r'<script(?![^>]*src)[^>]*>(.*?)</script>', h, re.S):
-              if any(k in m for k in ('fetch','ajax','XMLHttp','api','download')):
-                  print(m[:3000]); print('-----')
+          curl -sL https://ytshortdown.com/_next/static/chunks/pages/home-d0d7e4180e3b5be6.js -o h.js
+          python3 - <<'PY'
+          s=open('h.js').read()
+          for k in ['random-cdn','/v2/info','/download','decrypt','AES','importKey','subtle','atob']:
+              i=s.find(k)
+              if i>=0: print('###',k); print(s[max(0,i-1500):i+1200]); print()
           PY
