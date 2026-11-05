@@ -38,6 +38,10 @@ public final class SkyAnimationsClient implements ClientModInitializer {
         NeuRepo.init();
         HeadTextures.register();
 
+        // no spoilers: the whole chat is hidden while an animation plays (/sa chatscene)
+        HudElementRegistry.replaceElement(VanillaHudElements.CHAT, original -> (graphics, delta) -> {
+            if (!ChatHider.hideWholeChat()) ChatHider.renderOriginal(original, graphics, delta);
+        });
         HudElementRegistry.attachElementAfter(
                 VanillaHudElements.CHAT,
                 Identifier.fromNamespaceAndPath(MOD_ID, "cutscene"),

@@ -29,6 +29,31 @@ final class ChatHider {
     private ChatHider() {
     }
 
+    // drop lines hidden for an animation; they come back into chat once it is over (no spoilers)
+    private static final List<Component> held = new ArrayList<>();
+    private static long heldAt;
+
+    private static boolean hold(Component c) {
+        held.add(c);
+        heldAt = System.currentTimeMillis();
+        return true;
+    }
+
+    /** True while the chat HUD should be hidden: an animation plays (or is about to). */
+    static boolean hideWholeChat() {
+        Config.Data cfg = Config.get();
+        if (Minecraft.getInstance().screen instanceof net.minecraft.client.gui.screens.ChatScreen) return false; // typing: show it
+        return cfg.enabled && cfg.hideChatInScene && (CutsceneManager.busy()
+                || (!held.isEmpty() && System.currentTimeMillis() - heldAt < 2500));
+    }
+
+    private static void releaseHeld() {
+        if (held.isEmpty() || CutsceneManager.busy() || System.currentTimeMillis() - heldAt < 2500) return;
+        List<Component> lines = new ArrayList<>(held);
+        held.clear();
+        if (Config.get().chatAfterScene) for (Component c : lines) add(c);
+    }
+
     /** ALLOW_GAME: return true to hide the message. */
     static boolean hide(Component message) {
         Config.Data cfg = Config.get();
@@ -64,20 +89,20 @@ final class ChatHider {
         }
         flushPending();
 
-        if (cfg.rngMeter && RngMeter.LINE.matcher(t).matches()) return true;
-        if (cfg.diceSlot && Dice.matches(t)) return true;
+        if (cfg.rngMeter && RngMeter.LINE.matcher(t).matches()) return hold(message);
+        if (cfg.diceSlot && Dice.matches(t)) return hold(message);
         String own = SkyAnimationsClient.ownName();
         if (cfg.dyeScene) {
             var m = Specials.WOW.matcher(t);
-            if (m.matches() && own != null && m.group("player").equalsIgnoreCase(own)) return true;
+            if (m.matches() && own != null && m.group("player").equalsIgnoreCase(own)) return hold(message);
         }
-        if (t.startsWith("PET DROP!") && cfg.scathaScene && t.toLowerCase(Locale.ROOT).contains("scatha")) return true;
-        if (t.startsWith("RARE REWARD!") && !"off".equals(cfg.dungeonChests) && own != null && t.contains(own)) return true;
+        if (t.startsWith("PET DROP!") && cfg.scathaScene && t.toLowerCase(Locale.ROOT).contains("scatha")) return hold(message);
+        if (t.startsWith("RARE REWARD!") && !"off".equals(cfg.dungeonChests) && own != null && t.contains(own)) return hold(message);
         // a normal rare drop that gets a full cutscene
         Drop d = DropParser.parse(text, own, null);
         if (d != null && d.category() != Category.FARMING && d.category() != Category.PEST
                 && Config.mode(d.tier()) != Config.Mode.OFF) {
-            return true;
+            return hold(message);
         }
         return false;
     }
@@ -94,6 +119,8 @@ final class ChatHider {
     static void nucleusDone(boolean played) {
         if (!played) {
             for (Component c : nucleusLines) add(c);
+        } else {
+            for (Component c : nucleusLines) hold(c);
         }
         nucleusLines.clear();
         inNucleus = false;
@@ -101,6 +128,7 @@ final class ChatHider {
 
     /** Every client tick: a held ▬ line that wasn't a bundle goes back to chat. */
     static void tick() {
+        releaseHeld();
         if (pendingBar != null && ++pendingTicks > 2) flushPending();
         if (inNucleus && System.currentTimeMillis() - nucleusAt > 4000) {
             // never saw the closing line: show what we hid
@@ -113,6 +141,25 @@ final class ChatHider {
             Component c = pendingBar;
             pendingBar = null;
             add(c);
+        }
+    }
+
+    private static java.lang.reflect.Method hudRender;
+
+    /** Calls the vanilla chat HUD element (its one method; the name changed between versions). */
+    static void renderOriginal(Object element, Object graphics, Object delta) {
+        try {
+            if (hudRender == null) {
+                for (var m : net.fabricmc.fabric.api.client.rendering.v1.hud.HudElement.class.getMethods()) {
+                    if (java.lang.reflect.Modifier.isAbstract(m.getModifiers()) && m.getParameterCount() == 2) {
+                        hudRender = m;
+                        break;
+                    }
+                }
+            }
+            if (hudRender != null) hudRender.invoke(element, graphics, delta);
+        } catch (ReflectiveOperationException e) {
+            SkyAnimationsClient.LOG.warn("Could not draw the chat", e);
         }
     }
 

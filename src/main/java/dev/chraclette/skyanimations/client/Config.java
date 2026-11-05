@@ -31,6 +31,10 @@ public final class Config {
         public boolean rngMeter = true;
         /** Hide the chat lines a scene already shows. */
         public boolean hideChat = true;
+        /** Hide the whole chat while an animation plays (no spoilers from other lines or other mods). */
+        public boolean hideChatInScene = true;
+        /** Put the hidden drop lines back into chat once the animation is over. */
+        public boolean chatAfterScene = true;
         /** Archfiend Dice rolls as a slot machine. */
         public boolean diceSlot = true;
         /** Glacite Mineshaft corpse scene. */

@@ -196,6 +196,8 @@ final class Commands {
                                 return 1;
                             }))
                     .then(ClientCommands.literal("hidechat").executes(ctx -> toggle(ctx, "hideChat")))
+                    .then(ClientCommands.literal("chatscene").executes(ctx -> toggle(ctx, "hideChatInScene")))
+                    .then(ClientCommands.literal("chatafter").executes(ctx -> toggle(ctx, "chatAfterScene")))
                     .then(ClientCommands.literal("dice").executes(ctx -> toggle(ctx, "diceSlot")))
                     .then(ClientCommands.literal("corpse").executes(ctx -> toggle(ctx, "corpse")))
                     .then(ClientCommands.literal("blaze").executes(ctx -> toggle(ctx, "blazeScene")))
@@ -320,6 +322,8 @@ final class Commands {
             case "diceSlot" -> c.diceSlot = !c.diceSlot;
             case "corpse" -> c.corpse = !c.corpse;
             case "blazeScene" -> c.blazeScene = !c.blazeScene;
+            case "hideChatInScene" -> c.hideChatInScene = !c.hideChatInScene;
+            case "chatAfterScene" -> c.chatAfterScene = !c.chatAfterScene;
             default -> !(c.onlyOnHypixel = !c.onlyOnHypixel);
         };
         Config.save();
@@ -427,6 +431,7 @@ final class Commands {
         say(ctx, "§f/sa simulate <chat line> §7test any drop message");
         say(ctx, "§f/sa give §7[all, <level> [name], reset] §7test stickers for the book");
         say(ctx, "§f/sa backup §7where your sticker book is backed up");
+        say(ctx, "§f/sa hidechat §7hide drop lines · §f/sa chatscene §7hide the whole chat during animations · §f/sa chatafter §7show the lines afterwards");
         say(ctx, "§f/sa sound §7test the sounds");
         say(ctx, "§f/sa runs §7run counts · §f/sa apikey <key> §7read them from your profile · §f/sa hidechat");
         say(ctx, "§f/sa skip §7stop the current cutscene");
