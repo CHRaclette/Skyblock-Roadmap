@@ -105,11 +105,11 @@ final class NucleusStage {
                 if (t < placeAt) return;
                 float drop = 1 - Fx.easeOut(Fx.clamp01((t - placeAt) / 0.2f));
                 float bob = (float) Math.sin(t * 2.5f + gi) * 0.08f;
-                float y = 1.15f + drop * 2.2f + bob;
-                Pose spin = Pose.identity().pivot(px, y + 0.3f, pz).rotY(t * 1.8f + gi).rollZ(0.62f);
+                float y = 1.25f + drop * 2.2f + bob;
+                Pose spin = Pose.identity().pivot(px, y + 0.4f, pz).rotY(t * 1.8f + gi).rollZ(0.62f);
                 // solid core + stained glass shell, turned on its corner like a gem
-                iso.solidBox(c, spin, px - 0.16f, y + 0.14f, pz - 0.16f, px + 0.16f, y + 0.46f, pz + 0.16f, GEM_COLORS[gi], 1f, 0);
-                iso.box(c, GEMS[gi], Piece.WHOLE, spin, px, y, pz, 0.6f, 0, 0, 0);
+                iso.solidBox(c, spin, px - 0.22f, y + 0.18f, pz - 0.22f, px + 0.22f, y + 0.62f, pz + 0.22f, GEM_COLORS[gi], 1f, 0);
+                iso.box(c, GEMS[gi], Piece.WHOLE, spin, px, y, pz, 0.8f, 0, 0, 0);
             }});
         }
         list.sort((p, q) -> Float.compare((Float) p[0], (Float) q[0]));

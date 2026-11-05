@@ -115,7 +115,8 @@ public final class RunScene implements Scene {
 
     public RunScene(Style style, List<Loot> loot, int rareIdx, List<ReelItem> pool, Hooks hooks, boolean test) {
         this.style = style;
-        this.INTRO = style.source == Source.METER ? 1.9f : style.source == Source.CHEST ? 1.2f : 0.9f + NucleusStage.LENGTH;
+        this.INTRO = style.source == Source.METER ? 1.9f + DungeonStage.METER_LENGTH
+                : style.source == Source.CHEST ? 1.2f + DungeonStage.CHEST_LENGTH : 0.9f + NucleusStage.LENGTH;
         this.hooks = hooks;
         this.test = test;
         this.random = new Random(loot.hashCode());
@@ -179,6 +180,7 @@ public final class RunScene implements Scene {
     }
 
     private final NucleusStage nucleus = new NucleusStage();
+    private final DungeonStage dungeon = new DungeonStage();
 
     private float crystalY(Canvas c) {
         return c.height() * (style.source == Source.CRYSTAL ? 0.2f : 0.17f);
@@ -226,8 +228,18 @@ public final class RunScene implements Scene {
                 }
                 crystal(c, t - NucleusStage.LENGTH, k, fade, spinning ? 0.35f : 1f);
             }
-            case CHEST -> chest(c, t, k, fade, spinning ? 0.35f : 1f);
-            case METER -> meter(c, t, k, fade, spinning ? 0.35f : 1f);
+            case CHEST -> {
+                if (t < DungeonStage.CHEST_LENGTH + 0.1f) {
+                    dungeon.chest(c, t, style.summary, style.accent, w / 2f, h * 0.47f, k, fade, fx, hooks::sound);
+                }
+                chest(c, t - DungeonStage.CHEST_LENGTH, k, fade, spinning ? 0.35f : 1f);
+            }
+            case METER -> {
+                if (t < DungeonStage.METER_LENGTH + 0.1f) {
+                    dungeon.meter(c, t, w / 2f, h * 0.45f, k, fade, fx, hooks::sound);
+                }
+                meter(c, t - DungeonStage.METER_LENGTH, k, fade, spinning ? 0.35f : 1f);
+            }
         }
         hotbar(c, t, k, fade);
         drops(c, t, dt, k);
@@ -349,7 +361,7 @@ public final class RunScene implements Scene {
     /** A dungeon reward chest at the top: the real chest texture, tinted by type; the lid opens. */
     private void chest(Canvas c, float t, float k, float fade, float alpha) {
         float cx = crystalX(c), cy = crystalY(c) + 24 * k;
-        float appear = Fx.backOut(t / 0.5f);
+        float appear = t <= 0 ? 0 : Fx.backOut(Fx.clamp01(t / 0.5f));
         float a = fade * alpha;
         if (appear <= 0.01f) return;
         int col = style.accent;
@@ -367,9 +379,10 @@ public final class RunScene implements Scene {
     /** RNG meter: a pink bar fills to 100 %, flashes, and the case is on its way. */
     private void meter(Canvas c, float t, float k, float fade, float alpha) {
         float cx = crystalX(c), cy = crystalY(c) + 8 * k;
+        if (t <= 0) return;
         float a = fade * alpha * Fx.smooth(t / 0.3f);
         float w = 150 * k, h = 9 * k;
-        float fill = 0.62f + 0.38f * Fx.easeInOut(Fx.clamp01((t - 0.3f) / 1.1f));
+        float fill = 1f; // the 3D tube already filled it
         boolean full = fill >= 0.999f;
         int x1 = Math.round(cx - w / 2), x2 = Math.round(cx + w / 2), y1 = Math.round(cy - h / 2), y2 = Math.round(cy + h / 2);
         c.fill(x1 - 2, y1 - 2, x2 + 2, y2 + 2, Fx.alpha(0x000000, a * 0.9f));
@@ -385,7 +398,7 @@ public final class RunScene implements Scene {
         String pct = Math.round(fill * 100) + "%";
         Fx.centered(c, pct, cx, cy - 4 * k, 0.8f * k, Fx.alpha(0xFFFFFF, a), true);
         if (full) {
-            float ft = t - 1.4f;
+            float ft = t + 0.6f;
             if (ft >= 0 && ft < 0.05f) {
                 hooks.sound(Cue.LEVELUP, 1.4f, 0.8f);
                 fx.burst(cx, cy, 40, 40 * k, 140 * k, 30 * k, 0.8f, 1, 2.5f * k, 0xFF55FF, 0xFFFFFF, 0xFFB8FF);

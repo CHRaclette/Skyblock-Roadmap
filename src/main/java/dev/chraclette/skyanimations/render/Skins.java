@@ -45,6 +45,11 @@ public final class Skins {
                 flesh, fleshDark);
     }
 
+    /** A Minecraft model box (texOffs u,v and size w*h*d in texels) as a CubeSkin. */
+    public static CubeSkin model(String tex, int texW, int texH, int u, int v, int w, int h, int d, int flesh, int fleshDark) {
+        return box(tex, texW, texH, u, v, w, h, d, flesh, fleshDark, null);
+    }
+
     /** A player head (64x64 skin, head 8x8x8 at 0,0 plus the hat layer at 32,0). */
     public static CubeSkin head(String tex) {
         return box(tex, 64, 64, 0, 0, 8, 8, 8, MEAT, MEAT_DARK, box(tex, 64, 64, 32, 0, 8, 8, 8, MEAT, MEAT_DARK, null));

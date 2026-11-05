@@ -42,9 +42,17 @@ public class DemoRecorder implements FabricClientGameTest {
             marker("intro");
             record(0.6f);
 
+            marker("chest");
+            context.runOnClient(c -> Demo.dungeonChest());
+            record(20.0f);
+
+            marker("rngmeter");
+            context.runOnClient(c -> Demo.rngMeter());
+            record(19.5f);
+
             marker("nucleus");
             context.runOnClient(c -> Demo.nucleus(true));
-            record(21.0f);
+            record(6.0f);
             marker("end");
             System.out.println("DEMO-FRAMES " + frame);
         }
