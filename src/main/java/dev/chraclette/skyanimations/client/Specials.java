@@ -72,7 +72,33 @@ final class Specials {
                     (cue, pitch, volume) -> Sounds.play(cue, Effect.STARS, pitch, volume)));
             return true;
         }
+        if (cfg.petScene && drop.tier() == DropTier.PET) {
+            int rarity = nameColor(drop.name());
+            if (rarity < 0) rarity = 0xFFAA00;
+            String label = rarityLabel(rarity);
+            NeuRepo.petSkin(drop.name(), rarityIndex(label));
+            var e = LedgerStore.get().entry(drop.name());
+            int times = e == null ? 1 : Math.max(1, e.times);
+            Cutscene.Price price = Prices.lookup(drop, "");
+            java.util.List<String> lines = new java.util.ArrayList<>();
+            lines.add("Your " + Runs.ordinal(times) + " " + drop.name() + " pet");
+            if (!bonus.isEmpty()) lines.add(bonus);
+            CutsceneManager.play(new dev.chraclette.skyanimations.render.PetScene("[Lvl 1] " + drop.name(), label, icon, rarity, lines,
+                    price == null ? 0 : price.coins(), (cue, pitch, volume) -> Sounds.play(cue, Effect.STARS, pitch, volume)));
+            return true;
+        }
         return false;
+    }
+
+    private static int rarityIndex(String label) {
+        return switch (label.toUpperCase(Locale.ROOT)) {
+            case "COMMON" -> 0;
+            case "UNCOMMON" -> 1;
+            case "RARE" -> 2;
+            case "EPIC" -> 3;
+            case "MYTHIC" -> 5;
+            default -> 4;
+        };
     }
 
     /**

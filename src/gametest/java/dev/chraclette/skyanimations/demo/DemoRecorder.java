@@ -40,31 +40,15 @@ public class DemoRecorder implements FabricClientGameTest {
             context.runOnClient(c -> Demo.fillBook());
 
             marker("intro");
-            context.runOnClient(c -> Demo.backupInfo());
-            System.out.println("CHATSTATE intro " + context.computeOnClient(c -> Demo.chatState()));
             record(0.6f);
 
-            marker("dye");
-            context.runOnClient(c -> Demo.wow("WOW! [MVP+] You found a Cyclamen Dye #48!"));
-            record(6.6f);
+            marker("pet");
+            context.runOnClient(c -> Demo.chat("PET DROP! Ender Dragon (+200% ✯ Magic Find)"));
+            record(8.4f);
 
-            marker("nucleus");
-            context.runOnClient(c -> Demo.nucleus(true));
-            record(17.2f);
-
-            marker("chest");
-            context.runOnClient(c -> Demo.dungeonChest());
-            record(17.0f);
-
-            marker("rngmeter");
-            context.runOnClient(c -> Demo.rngMeter());
-            record(17.5f);
-
-            marker("backup");
-            System.out.println("CHATSTATE end " + context.computeOnClient(c -> Demo.chatState()));
-            context.runOnClient(c -> Demo.backupInfo());
-            record(3.0f);
-            System.out.println("CHATSTATE after " + context.computeOnClient(c -> Demo.chatState()));
+            marker("pet2");
+            context.runOnClient(c -> Demo.chat("PET DROP! Baby Yeti (+150% ✯ Magic Find)"));
+            record(8.4f);
             marker("end");
             System.out.println("DEMO-FRAMES " + frame);
         }

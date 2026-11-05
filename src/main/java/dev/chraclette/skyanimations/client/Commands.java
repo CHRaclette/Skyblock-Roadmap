@@ -197,6 +197,7 @@ final class Commands {
                             }))
                     .then(ClientCommands.literal("hidechat").executes(ctx -> toggle(ctx, "hideChat")))
                     .then(ClientCommands.literal("chatscene").executes(ctx -> toggle(ctx, "hideChatInScene")))
+                    .then(ClientCommands.literal("petscene").executes(ctx -> toggle(ctx, "petScene")))
                     .then(ClientCommands.literal("chatafter").executes(ctx -> toggle(ctx, "chatAfterScene")))
                     .then(ClientCommands.literal("dice").executes(ctx -> toggle(ctx, "diceSlot")))
                     .then(ClientCommands.literal("corpse").executes(ctx -> toggle(ctx, "corpse")))
@@ -323,6 +324,7 @@ final class Commands {
             case "corpse" -> c.corpse = !c.corpse;
             case "blazeScene" -> c.blazeScene = !c.blazeScene;
             case "hideChatInScene" -> c.hideChatInScene = !c.hideChatInScene;
+            case "petScene" -> c.petScene = !c.petScene;
             case "chatAfterScene" -> c.chatAfterScene = !c.chatAfterScene;
             default -> !(c.onlyOnHypixel = !c.onlyOnHypixel);
         };

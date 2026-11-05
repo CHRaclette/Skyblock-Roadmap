@@ -49,6 +49,50 @@ final class NeuRepo {
         t.start();
     }
 
+    private static final java.util.Map<String, Boolean> PET_ASKED = new java.util.concurrent.ConcurrentHashMap<>();
+
+    /**
+     * Finds a pet's head skin in the NEU item repo (items/ENDER_DRAGON;4.json -> SkullOwner texture) and hands it
+     * to the 3D head renderer. Cached in config/skyanimations/neu-pets.json. rarityIndex 0 = common ... 5 = mythic.
+     */
+    static void petSkin(String petName, int rarityIndex) {
+        String key = petName.toLowerCase(java.util.Locale.ROOT).replaceAll("^\\[lvl \\d+] ", "").trim();
+        if (PET_ASKED.putIfAbsent(key, true) != null) return;
+        Thread t = new Thread(() -> {
+            Path cache = dir().resolve("neu-pets.json");
+            try {
+                JsonObject known = Files.exists(cache) ? JsonParser.parseString(Files.readString(cache)).getAsJsonObject() : new JsonObject();
+                if (known.has(key)) {
+                    HeadTextures.put(key, known.get(key).getAsString());
+                    return;
+                }
+                String id = key.toUpperCase(java.util.Locale.ROOT).replaceAll("[^A-Z0-9]+", "_").replaceAll("^_|_$", "");
+                HttpClient http = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(10)).build();
+                java.util.LinkedHashSet<Integer> order = new java.util.LinkedHashSet<>(java.util.List.of(Math.max(0, Math.min(5, rarityIndex)), 4, 3, 5, 2, 1, 0));
+                for (int r : order) {
+                    String url = "https://raw.githubusercontent.com/NotEnoughUpdates/NotEnoughUpdates-REPO/master/items/" + id + "%3B" + r + ".json";
+                    HttpResponse<String> res = http.send(HttpRequest.newBuilder(URI.create(url)).timeout(Duration.ofSeconds(20))
+                            .header("User-Agent", "SkyAnimations-Mod").GET().build(), HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
+                    if (res.statusCode() != 200) continue;
+                    JsonObject item = JsonParser.parseString(res.body()).getAsJsonObject();
+                    String nbt = item.has("nbttag") ? item.get("nbttag").getAsString() : "";
+                    var m = java.util.regex.Pattern.compile("Value:\\\\?\"?([A-Za-z0-9+/=]{40,})").matcher(nbt);
+                    if (!m.find()) continue;
+                    String value = m.group(1);
+                    HeadTextures.put(key, value);
+                    known.addProperty(key, value);
+                    Files.createDirectories(dir());
+                    Files.writeString(cache, known.toString());
+                    return;
+                }
+            } catch (Exception e) {
+                SkyAnimationsClient.LOG.debug("Could not find pet skin for {}", petName, e);
+            }
+        }, "skyanimations-pet");
+        t.setDaemon(true);
+        t.start();
+    }
+
     private static Path dir() {
         return FabricLoader.getInstance().getConfigDir().resolve("skyanimations");
     }

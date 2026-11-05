@@ -11,7 +11,7 @@ public class ScenePreview {
     public static void main(String[] args) throws Exception {
         String out = args[0], mode = args[1];
         float fps = Float.parseFloat(args[2]);
-        Props.headSkins = n -> n.toLowerCase().contains("scatha") ? Skins.head("textures/entity/player/wide/steve.png") : null;
+        Props.headSkins = n -> n.toLowerCase().contains("scatha") || n.toLowerCase().contains("dragon") ? Skins.head("textures/entity/player/wide/steve.png") : null;
         Scene s;
         String bg = "cave";
         switch (mode) {
@@ -31,6 +31,7 @@ public class ScenePreview {
                         List.of("1 in 52 corpses", "Your 1st ever " + loot.get(loot.size() - 1).name()),
                         dye ? new int[]{0xE7489B} : null, (c, p, v) -> { });
             }
+            case "pet" -> s = new PetScene("[Lvl 1] Ender Dragon", "Legendary", null, 0xFFAA00, java.util.List.of("Your 1st Ender Dragon pet", "+200% ✯ Magic Find"), 640_000_000, (c, p, v) -> { });
             default -> s = new ScathaScene("Scatha", "Epic", null, 0xAA00AA, "Your 1st Scatha pet", 285_000_000, (c, p, v) -> { });
         }
         new File(out).mkdirs();

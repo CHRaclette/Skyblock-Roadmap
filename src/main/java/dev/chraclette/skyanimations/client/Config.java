@@ -45,6 +45,8 @@ public final class Config {
         public String apiKey = "";
         public boolean dyeScene = true;
         public boolean scathaScene = true;
+        /** Pet drops: egg hatches, the pet comes out as a 3D head and floats around. */
+        public boolean petScene = true;
         /** Dungeon reward chests: all, rare (only with a rare item), off. */
         public String dungeonChests = "all";
         public boolean nucleusOnlyRare = false;

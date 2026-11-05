@@ -98,6 +98,7 @@ final class ChatHider {
             if (m.matches() && own != null && m.group("player").equalsIgnoreCase(own)) return hold(message);
         }
         if (t.startsWith("PET DROP!") && cfg.scathaScene && t.toLowerCase(Locale.ROOT).contains("scatha")) return hold(message);
+        if (t.startsWith("PET DROP!") && cfg.petScene) return hold(message);
         if (t.startsWith("RARE REWARD!") && !"off".equals(cfg.dungeonChests) && own != null && t.contains(own)) return hold(message);
         // a normal rare drop that gets a full cutscene
         Drop d = DropParser.parse(text, own, null);
