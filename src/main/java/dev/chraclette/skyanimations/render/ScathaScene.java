@@ -87,7 +87,8 @@ public final class ScathaScene implements Scene {
         // ---- slices
         while (slicesDone < SLICES.length && t >= SLICES[slicesDone]) {
             int s = slicesDone++;
-            hooks.sound(Cue.CHOP, 1.1f + s * 0.1f, 0.9f);
+            hooks.sound(Cue.SWOOSH, 1.7f + s * 0.08f, 0.9f);
+            hooks.sound(Cue.CHOP, 1.5f + s * 0.1f, 0.6f);
             hooks.sound(Cue.SWOOSH, 1.4f, 0.6f);
             // cut the tail-most attached segments off (2-3 per slice)
             int cut = 0;
@@ -137,11 +138,20 @@ public final class ScathaScene implements Scene {
                 x1 = x2;
                 x2 = tmp;
             }
-            Fx.line(c, x1, y1, x2, y2, 3 * k * a, Fx.alpha(0xFFFFFF, a * fade));
-            // the cleaver sweeping along the cut
+            // the cut: a thin bright line that opens up behind the blade
             float p = Fx.clamp01(st / 0.12f);
             float bx = x1 + (x2 - x1) * p, by = y1 + (y2 - y1) * p;
-            if (st < 0.2f) cleaver(c, bx, by, k, (float) Math.atan2(y2 - y1, x2 - x1), fade);
+            Fx.line(c, x1, y1, bx, by, 2.2f * k * a, Fx.alpha(0xFFFFFF, a * fade));
+            Fx.line(c, x1, y1, bx, by, 5 * k * a, Fx.alpha(0xC8E8FF, 0.3f * a * fade));
+            // the katana flies along the cut, with a motion trail
+            float ang = (float) Math.atan2(y2 - y1, x2 - x1);
+            if (st < 0.22f) {
+                for (int g = 4; g >= 0; g--) {
+                    float gp = Fx.clamp01((st - g * 0.012f) / 0.12f);
+                    float gx = x1 + (x2 - x1) * gp, gy = y1 + (y2 - y1) * gp;
+                    katana(c, gx, gy, k, ang + (s % 2 == 0 ? 1 : -1) * (0.5f - gp) * 0.6f, fade * (g == 0 ? 1f : 0.18f / g));
+                }
+            }
         }
 
         // ---- reveal
@@ -192,6 +202,41 @@ public final class ScathaScene implements Scene {
         } else {
             iso.solidBox(c, pose, -0.5f, 0, -0.5f, 0.5f, 1, 0.5f, head ? 0x2A2E3D : 0x3B4054, a, 0.8f);
         }
+    }
+
+    /**
+     * A katana: long slightly curved steel blade with a bright edge and the hamon line, a gold tsuba,
+     * a black handle with red diamond wrapping and a gold cap. (x, y) is the middle of the blade, angle = direction.
+     */
+    private void katana(Canvas c, float x, float y, float k, float angle, float a) {
+        if (a < 0.02f) return;
+        c.push();
+        c.translate(x, y);
+        c.rotate(angle);
+        c.scale(1.7f * k, 1.7f * k);
+        // blade from -6 (guard) to 46 (tip), curving up a little towards the tip
+        for (int i = -6; i < 46; i++) {
+            float f = (i + 6) / 52f;
+            int curve = Math.round(-f * f * 4);
+            int thick = i > 40 ? Math.max(1, 3 - (i - 40) / 2) : 3;
+            c.fill(i, curve - thick + 1, i + 1, curve + 1, Fx.alpha(0xCDD4DC, a));        // steel
+            c.fill(i, curve - thick + 1, i + 1, curve - thick + 2, Fx.alpha(0x7C848E, a)); // spine
+            c.fill(i, curve, i + 1, curve + 1, Fx.alpha(0xFFFFFF, a));                      // edge
+            if (i % 5 == 0 && i < 40) c.fill(i, curve - 1, i + 2, curve, Fx.alpha(0xEEF4FA, a)); // hamon
+        }
+        // tsuba (guard)
+        c.fill(-9, -4, -6, 3, Fx.alpha(0x2A2216, a));
+        c.fill(-9, -4, -6, -3, Fx.alpha(0xE2B23A, a));
+        c.fill(-9, 2, -6, 3, Fx.alpha(0xE2B23A, a));
+        // tsuka (handle) with red ito wrapping
+        c.fill(-25, -2, -9, 2, Fx.alpha(0x16141A, a));
+        for (int i = -24; i < -9; i += 3) {
+            c.fill(i, -2, i + 1, 0, Fx.alpha(0xB0202A, a));
+            c.fill(i + 1, 0, i + 2, 2, Fx.alpha(0xB0202A, a));
+        }
+        // kashira (cap)
+        c.fill(-27, -2, -25, 2, Fx.alpha(0xE2B23A, a));
+        c.pop();
     }
 
     /** A cleaver: wide pale blade, dark spine, wooden handle. */

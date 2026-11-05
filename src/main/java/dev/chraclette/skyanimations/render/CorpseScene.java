@@ -141,16 +141,14 @@ public final class CorpseScene implements Scene {
             float noRareFade = rare == null ? 1 - Fx.smooth((t - (end - 1.2f)) / 0.7f) : 1;
             corpse(c, cx, cy, 1.5f * k * appear, fade * noRareFade);
             ice(c, cx, cy, 70 * k * appear, t, fade * noRareFade, aura, rareCol);
-            // cracks from the impact point
-            float ix = cx + 14 * k, iy = cy - 4 * k;
-            for (int b = 0; b < crackLevel; b++) {
-                float[][] pts = cracks.get(b);
-                float px = ix, py = iy;
-                for (float[] p : pts) {
-                    float nx = ix + p[0] * 50 * k, ny = iy + p[1] * 50 * k;
-                    Fx.line(c, px, py, nx, ny, 1.4f, Fx.alpha(0xFFFFFF, 0.9f * fade * noRareFade));
-                    px = nx;
-                    py = ny;
+            // mining swings in between the loot hits (like holding left click)
+            float ms = HIT0 - 0.26f, me = mineEnd();
+            if (t > ms && t < me) {
+                int swing = (int) ((t - ms) / SWING_PERIOD);
+                if (swing != lastSwing) {
+                    lastSwing = swing;
+                    hooks.sound(Cue.ICE_HIT, 1.1f + random.nextFloat() * 0.3f, 0.3f);
+                    fx.burst(cx + 14 * k, cy - 4 * k, 4, 15 * k, 50 * k, 140 * k, 0.4f, k, 2 * k, 0xDFF6FF, 0xA8DEFF);
                 }
             }
             // pickaxe
@@ -301,6 +299,25 @@ public final class CorpseScene implements Scene {
     }
 
     /** The ice: a pale translucent box (3D), turning a little, tinted towards the rare colour. */
+    private static final float SWING_PERIOD = 0.26f;
+    private int lastSwing = -1;
+    private static final Skins.CubeSkin ICE = iceSkin("textures/block/ice.png");
+    private static final Skins.CubeSkin[] DESTROY = new Skins.CubeSkin[10];
+
+    static {
+        for (int i = 0; i < 10; i++) DESTROY[i] = iceSkin("textures/block/destroy_stage_" + i + ".png");
+    }
+
+    private static Skins.CubeSkin iceSkin(String tex) {
+        Skins.Face f = new Skins.Face(tex, 16, 16, 0, 0, 16, 16);
+        return new Skins.CubeSkin(f, f, f, f, f, f, null, 1.1f / 1.35f, 1, 0.84f / 1.35f, 0xD8F2FF, 0x9ED8FF);
+    }
+
+    /** When the block is fully mined (it breaks at the shatter, or stays at a deep crack if nothing rare). */
+    private float mineEnd() {
+        return rare() != null ? shatter : hitTime(Math.max(0, normal - 1)) + 0.3f;
+    }
+
     private void ice(Canvas c, float cx, float cy, float scale, float t, float a, float aura, int auraCol) {
         if (a < 0.03f || scale < 1) return;
         iso.cx = cx;
@@ -310,8 +327,13 @@ public final class CorpseScene implements Scene {
         iso.pitch = (float) Math.toRadians(12);
         iso.begin();
         int col = Fx.lerpColor(0xD8F2FF, auraCol, 0.25f * aura);
-        // no outline pass (it would darken the ice); light edges instead
-        iso.solidBox(c, Pose.identity(), -0.55f, 0, -0.42f, 0.55f, 1.35f, 0.42f, col, 0.42f * a, 0);
+        // the real ice block (see-through, the corpse shows inside), then Minecraft's block-breaking cracks
+        iso.solidBox(c, Pose.identity(), -0.55f, 0, -0.42f, 0.55f, 1.35f, 0.42f, col, 0.18f * a, 0);
+        iso.box(c, ICE, Iso.Piece.WHOLE, Pose.identity(), 0, 0, 0, 1.35f, 0, 0, 0);
+        float ms = HIT0 - 0.26f;
+        float progress = Fx.clamp01((t - ms) / (mineEnd() - ms));
+        int stage = Math.min(9, (int) Math.floor(progress * 10));
+        if (t > ms && progress > 0.02f) iso.box(c, DESTROY[stage], Iso.Piece.WHOLE, Pose.identity(), 0, 0, 0, 1.35f, 0, 0, 0);
         float[][] corners = {{-0.55f, 1.35f, 0.42f}, {0.55f, 1.35f, 0.42f}, {0.55f, 0, 0.42f}, {-0.55f, 0, 0.42f},
                 {-0.55f, 1.35f, -0.42f}, {0.55f, 1.35f, -0.42f}, {0.55f, 0, -0.42f}};
         int[][] edges = {{0, 1}, {1, 2}, {2, 3}, {3, 0}, {0, 4}, {4, 5}, {5, 1}, {5, 6}, {6, 2}};
@@ -329,13 +351,11 @@ public final class CorpseScene implements Scene {
         if (pickaxe == null || a < 0.05f) return;
         // swing into each hit: raised (+0.55 rad), down to -0.35 rad at the hit time
         float angle = 0.55f;
-        int last = rareIdx >= 0 ? normal : normal - 1;
-        for (int i = 0; i <= last; i++) {
-            float ht = i < normal ? hitTime(i) : shatter;
-            float d = t - ht;
-            if (d > -SWING && d < 0.25f) {
-                angle = d < 0 ? 0.55f - 0.9f * Fx.easeIn((d + SWING) / SWING) : -0.35f + 0.9f * Fx.smooth(d / 0.25f);
-            }
+        float ms = HIT0 - 0.26f, me = mineEnd();
+        if (t > ms && t < me + 0.15f) {
+            // keeps swinging while it mines, like holding left click
+            float ph = ((t - ms) % SWING_PERIOD) / SWING_PERIOD;
+            angle = ph < 0.45f ? 0.55f - 0.9f * Fx.easeIn(ph / 0.45f) : -0.35f + 0.9f * Fx.smooth((ph - 0.45f) / 0.55f);
         }
         float px = cx + 78 * k, py = cy + 44 * k;
         float appear = Fx.smooth((t - 0.5f) / 0.3f);
