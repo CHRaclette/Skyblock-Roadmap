@@ -3,15 +3,50 @@ on: push
 permissions:
   contents: write
 jobs:
-  site:
+  clip:
     runs-on: ubuntu-24.04
     steps:
-      - name: Home chunk
+      - name: Download via savetube (ytshortdown) -> contact sheets
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          curl -sL https://ytshortdown.com/_next/static/chunks/pages/home-d0d7e4180e3b5be6.js -o h.js
-          python3 - <<'PY'
-          s=open('h.js').read()
-          for k in ['random-cdn','/v2/info','/download','decrypt','AES','importKey','subtle','atob']:
-              i=s.find(k)
-              if i>=0: print('###',k); print(s[max(0,i-1500):i+1200]); print()
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg >/dev/null
+          pip install -q cryptography requests
+          cat > dl.py <<'PY'
+          import requests, base64, json, sys
+          from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+          from cryptography.hazmat.primitives import padding
+          H={"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/130 Safari/537.36","Origin":"https://ytshortdown.com","Referer":"https://ytshortdown.com/"}
+          cdn=requests.get("https://media.savetube.vip/api/random-cdn",headers=H,timeout=30).json()["cdn"]; print("cdn",cdn)
+          r=requests.post(f"https://{cdn}/v2/info",json={"url":"https://youtube.com/shorts/Bu3GizNxVLs"},headers=H,timeout=60).json()
+          print("status",r.get("status"),r.get("message"))
+          raw=base64.b64decode(r["data"]); iv,ct=raw[:16],raw[16:]
+          key=bytes.fromhex("C5D58EF67A7584E4A29F6C35BBC4EB12")
+          d=Cipher(algorithms.AES(key),modes.CBC(iv)).decryptor(); pt=d.update(ct)+d.finalize()
+          u=padding.PKCS7(128).unpadder(); pt=u.update(pt)+u.finalize()
+          info=json.loads(pt); print("title",info.get("title"),"dur",info.get("duration"))
+          vf=info.get("video_formats",[]); print([(f.get("height"),f.get("label"),bool(f.get("url"))) for f in vf])
+          vf=sorted(vf,key=lambda f:abs((f.get("height") or 0)-720))
+          f=vf[0]
+          url=f.get("url")
+          if url: url=url+"&title=clip"
+          else:
+              cdn=requests.get("https://media.savetube.vip/api/random-cdn",headers=H,timeout=30).json()["cdn"]
+              j=requests.post(f"https://{cdn}/download",json={"downloadType":"video","quality":str(f.get("height")),"key":info["key"]},headers=H,timeout=120).json()
+              print(j); url=j["data"]["downloadUrl"]
+          with requests.get(url,headers=H,stream=True,timeout=300) as resp:
+              with open("clip.mp4","wb") as o:
+                  for ch in resp.iter_content(1<<16): o.write(ch)
+          print("ok")
           PY
+          python3 dl.py
+          ls -la clip.mp4
+          F=clip.mp4
+          D=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$F"); echo "duration $D"
+          ffmpeg -v error -y -i "$F" -vf "fps=24/$D,scale=240:-1,tile=8x3" -frames:v 1 sheet_all.png
+          ffmpeg -v error -y -i "$F" -vf "fps=4,scale=270:-1,tile=8x4" -frames:v 1 sheet_fast.png
+          ffmpeg -v error -y -ss 0 -t 6 -i "$F" -vf "fps=6,scale=270:-1,tile=9x4" -frames:v 1 sheet_a.png
+          ffmpeg -v error -y -ss 6 -t 6 -i "$F" -vf "fps=6,scale=270:-1,tile=9x4" -frames:v 1 sheet_b.png
+          ffmpeg -v error -y -ss 12 -t 8 -i "$F" -vf "fps=5,scale=270:-1,tile=8x5" -frames:v 1 sheet_c.png || true
+          gh release delete ref-tmp --yes --cleanup-tag -R ${{ github.repository }} || true
+          gh release create ref-tmp sheet_*.png --prerelease --title "temp reference" --notes "temp, will be deleted" -R ${{ github.repository }} --target ${{ github.sha }}
