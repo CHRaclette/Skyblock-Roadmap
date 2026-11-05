@@ -89,6 +89,25 @@ public final class Demo {
         Nucleus.test(rare);
     }
 
+    public static void wow(String raw) {
+        Specials.onWow(raw, "You", true);
+    }
+
+    public static void dungeonChest() {
+        DungeonChest.test();
+    }
+
+    public static void rngMeter() {
+        RngMeter.test();
+    }
+
+    /** What /sa backup prints, plus the restore notice after a reinstall. */
+    public static void backupInfo() {
+        ChatHider.add(net.minecraft.network.chat.Component.literal("§6[SkyAnimations] §7Sticker book restored from your backup (§f"
+                + LedgerStore.get().size() + "§7 stickers)."));
+        ChatHider.add(net.minecraft.network.chat.Component.literal("§7Backed up outside Minecraft: §f%APPDATA%\\SkyAnimations"));
+    }
+
     public static void openBook() {
         Minecraft.getInstance().gui.setScreen(new BookScreen());
     }

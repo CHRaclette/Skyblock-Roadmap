@@ -1,8 +1,6 @@
 package dev.chraclette.skyanimations.demo;
 
 import dev.chraclette.skyanimations.client.Demo;
-import dev.chraclette.skyanimations.core.Badges;
-import dev.chraclette.skyanimations.core.Ledger;
 import net.fabricmc.fabric.api.client.gametest.v1.FabricClientGameTest;
 import net.fabricmc.fabric.api.client.gametest.v1.context.ClientGameTestContext;
 import net.fabricmc.fabric.api.client.gametest.v1.context.TestSingleplayerContext;
@@ -42,45 +40,27 @@ public class DemoRecorder implements FabricClientGameTest {
             context.runOnClient(c -> Demo.fillBook());
 
             marker("intro");
-            record(1.0f);
+            record(0.6f);
 
             marker("dye");
-            context.runOnClient(c -> Demo.chat("CRAZY RARE DROP! (Mythological Dye) (+312% ✯ Magic Find)"));
-            record(8.6f);
-            context.runOnClient(c -> Demo.stickerPop(Ledger.Level.DIAMOND, Ledger.Level.HOLO,
-                    "RARE DROP! Griffin Feather (+120% ✯ Magic Find)"));
-            record(3.8f);
+            context.runOnClient(c -> Demo.wow("WOW! [MVP+] You found a Cyclamen Dye #48!"));
+            record(6.6f);
 
-            marker("vacuum");
-            context.runOnClient(c -> Demo.pestDrop("RARE DROP! Beady Eyes (+12% ✯ Magic Find)", "Fly"));
-            record(8.6f);
+            marker("nucleus");
+            context.runOnClient(c -> Demo.nucleus(true));
+            record(17.2f);
 
-            marker("fever");
-            context.runOnClient(c -> Demo.shortFever());
-            record(13.0f);
+            marker("chest");
+            context.runOnClient(c -> Demo.dungeonChest());
+            record(17.0f);
 
-            marker("badge");
-            context.runOnClient(c -> Demo.badgePop(Badges.ALL.size() - 3, Badges.Tier.GOLD));
-            record(3.8f);
+            marker("rngmeter");
+            context.runOnClient(c -> Demo.rngMeter());
+            record(17.5f);
 
-            marker("book");
-            context.runOnClient(c -> {
-                Demo.hover(-1, -1);
-                Demo.openBook();
-            });
-            record(1.2f);
-            context.runOnClient(c -> Demo.hover(0.17f, 0.56f));
-            record(2.2f);
-            context.runOnClient(c -> Demo.hover(0.86f, 0.10f));
-            record(1.8f);
-            context.runOnClient(c -> {
-                Demo.hover(-1, -1);
-                Demo.showBadges();
-            });
-            record(1.2f);
-            context.runOnClient(c -> Demo.hover(0.86f, 0.53f));
-            record(2.2f);
-            context.runOnClient(c -> Demo.closeBook());
+            marker("backup");
+            context.runOnClient(c -> Demo.backupInfo());
+            record(3.0f);
             marker("end");
             System.out.println("DEMO-FRAMES " + frame);
         }
