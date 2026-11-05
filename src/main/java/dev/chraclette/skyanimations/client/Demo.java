@@ -96,6 +96,13 @@ public final class Demo {
     /** For the recorder log: why the chat is or isn't drawn. */
     public static String chatState() {
         StringBuilder sb = new StringBuilder("hideWhole=" + ChatHider.hideWholeChat() + " busy=" + CutsceneManager.busy());
+        try {
+            Object chat = ChatHider.chat();
+            sb.append(" chat=").append(chat == null ? "NOT FOUND" : chat.getClass().getName());
+        } catch (ReflectiveOperationException e) {
+            sb.append(" chat error ").append(e);
+        }
+        if (true) return sb.toString();
         Object gui = Minecraft.getInstance().gui;
         sb.append(" gui=").append(gui.getClass().getName());
         for (var m : gui.getClass().getMethods()) {

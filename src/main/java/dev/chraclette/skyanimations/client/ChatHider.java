@@ -164,34 +164,65 @@ final class ChatHider {
         }
     }
 
-    private static java.lang.reflect.Method chatGetter, addMessage;
+    private static java.lang.reflect.Method addMessage;
 
     /** Puts a line back into chat. Found by reflection (the chat accessor was renamed in 26.x). */
     static void add(Component c) {
         try {
-            Object gui = Minecraft.getInstance().gui;
-            if (chatGetter == null) {
-                for (var m : gui.getClass().getMethods()) {
-                    if (m.getParameterCount() == 0 && m.getReturnType().getSimpleName().equals("ChatComponent")) {
-                        chatGetter = m;
-                        break;
-                    }
-                }
-            }
-            if (chatGetter == null) return;
-            Object chat = chatGetter.invoke(gui);
+            Object chat = chat();
+            if (chat == null) return;
             if (addMessage == null) {
-                for (var m : chat.getClass().getMethods()) {
-                    if (m.getName().equals("addMessage") && m.getParameterCount() == 1
-                            && m.getParameterTypes()[0].isAssignableFrom(Component.class)) {
-                        addMessage = m;
-                        break;
+                for (String name : new String[]{"addClientSystemMessage", "addMessage"}) {
+                    for (var m : chat.getClass().getMethods()) {
+                        if (m.getName().equals(name) && m.getParameterCount() == 1
+                                && m.getParameterTypes()[0].isAssignableFrom(Component.class)) {
+                            addMessage = m;
+                            break;
+                        }
                     }
+                    if (addMessage != null) break;
                 }
             }
             if (addMessage != null) addMessage.invoke(chat, c);
         } catch (ReflectiveOperationException | RuntimeException e) {
-            SkyAnimationsClient.LOG.debug("Could not restore chat line", e);
+            SkyAnimationsClient.LOG.warn("Could not add a chat line", e);
         }
     }
+
+    private static Object chatSource;
+    private static java.lang.reflect.Member chatAccess;
+
+    /** The chat HUD component (26.x moved it out of Gui): searched once on Minecraft, Gui and the chat listener. */
+    static Object chat() throws ReflectiveOperationException {
+        if (chatAccess != null) return read(chatSource, chatAccess);
+        Class<?> cc = Class.forName("net.minecraft.client.gui.components.ChatComponent");
+        Minecraft mc = Minecraft.getInstance();
+        Object[] roots = {mc, mc.gui, mc.gui.chatListener()};
+        for (Object root : roots) {
+            if (root == null) continue;
+            for (var m : root.getClass().getMethods()) {
+                if (m.getParameterCount() == 0 && cc.isAssignableFrom(m.getReturnType())) {
+                    chatSource = root;
+                    chatAccess = m;
+                    return read(root, m);
+                }
+            }
+            for (Class<?> k = root.getClass(); k != null && k != Object.class; k = k.getSuperclass()) {
+                for (var f : k.getDeclaredFields()) {
+                    if (cc.isAssignableFrom(f.getType()) && !java.lang.reflect.Modifier.isStatic(f.getModifiers())) {
+                        f.setAccessible(true);
+                        chatSource = root;
+                        chatAccess = f;
+                        return read(root, f);
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    private static Object read(Object root, java.lang.reflect.Member m) throws ReflectiveOperationException {
+        return m instanceof java.lang.reflect.Method mm ? mm.invoke(root) : ((java.lang.reflect.Field) m).get(root);
+    }
+
 }
