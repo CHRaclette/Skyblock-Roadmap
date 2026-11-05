@@ -29,6 +29,13 @@ public interface Canvas {
     void blit(String texture, int x, int y, int u, int v, int w, int h, int texW, int texH);
 
     /** True if a texture exists in the loaded resource packs (e.g. Hypixel's SkyBlock pack). */
+    /** Only draw inside this screen rectangle (unscaled GUI coordinates) until {@link #unclip()}. */
+    default void clip(int x1, int y1, int x2, int y2) {
+    }
+
+    default void unclip() {
+    }
+
     default boolean hasTexture(String texture) {
         return true;
     }

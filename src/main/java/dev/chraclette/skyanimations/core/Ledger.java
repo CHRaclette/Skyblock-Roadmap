@@ -153,6 +153,51 @@ public final class Ledger {
         return n;
     }
 
+    /**
+     * Merges another copy of the book into this one (the backup outside the Minecraft folder):
+     * per sticker the higher counts win, so no progress is ever lost.
+     */
+    public void merge(Ledger other) {
+        if (other == null || other.stickers == null) return;
+        for (var e : other.stickers.entrySet()) {
+            Entry o = e.getValue();
+            Entry m = stickers.get(e.getKey());
+            if (m == null) {
+                stickers.put(e.getKey(), o);
+                continue;
+            }
+            m.times = Math.max(m.times, o.times);
+            m.items = Math.max(m.items, o.items);
+            m.points = Math.max(m.points, o.points);
+            if (o.bestRank > m.bestRank) {
+                m.bestRank = o.bestRank;
+                m.bestTier = o.bestTier;
+            }
+            m.bestMagicFind = Math.max(m.bestMagicFind, o.bestMagicFind);
+            m.coins = Math.max(m.coins, o.coins);
+            if (o.firstAt > 0 && (m.firstAt == 0 || o.firstAt < m.firstAt)) m.firstAt = o.firstAt;
+            m.lastAt = Math.max(m.lastAt, o.lastAt);
+            m.test = m.test && o.test;
+        }
+        pestsVacuumed = Math.max(pestsVacuumed, other.pestsVacuumed);
+        fevers = Math.max(fevers, other.fevers);
+        jackpots = Math.max(jackpots, other.jackpots);
+        if (other.badgeTiers != null) {
+            if (badgeTiers == null) badgeTiers = new LinkedHashMap<>();
+            other.badgeTiers.forEach((k, v) -> badgeTiers.merge(k, v, Math::max));
+        }
+        if (other.runs != null) {
+            if (runs == null) runs = new LinkedHashMap<>();
+            other.runs.forEach((k, v) -> runs.merge(k, v, Math::max));
+        }
+        runsFromProfileAt = Math.max(runsFromProfileAt, other.runsFromProfileAt);
+    }
+
+    /** Number of stickers (for messages). */
+    public int size() {
+        return stickers == null ? 0 : stickers.size();
+    }
+
     public Entry entry(String name) {
         return stickers.get(key(name));
     }

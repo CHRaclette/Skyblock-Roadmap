@@ -77,10 +77,10 @@ public final class RunScene implements Scene {
     private final float INTRO;
     private static final float STEP = 0.48f;
     private static final float FLIGHT = 0.42f;
-    private static final float CASE_SHAKE = 0.9f;
+    private static final float CASE_SHAKE = 1.5f;   // case flies in, turns, unlock button is pressed
     private static final float REEL_IN = 0.35f;
     private static final float REEL_SPIN = 5.2f;
-    private static final float REEL_HOLD = 1.0f;
+    private static final float REEL_HOLD = 2.0f;    // winner glows, then the CS2 reveal card
     private static final float WIN_DROP = 0.55f;
     private static final float OUTRO = 3.0f;
 
@@ -99,6 +99,8 @@ public final class RunScene implements Scene {
     private final float dropsEnd, caseStart, reelStart, reelStop, winLand, end;
     private float lastT = -1;
     private int lastTick = -1;
+    private float markerFlash;
+    private boolean revealPlayed, pressPlayed;
     private final boolean[] landed;
     private boolean caseOpened, spinStarted, reelDone, winLanded, introPlayed;
 
@@ -542,24 +544,53 @@ public final class RunScene implements Scene {
 
     // ---------------------------------------------------------------- CS2 case
 
+    private static final float CARD_W = 50, CARD_H = 66, CARD_GAP = 4;
+
     private void caseOpening(Canvas c, float t, float dt, float k) {
         int w = c.width(), h = c.height();
         float cx = w / 2f, cy = h * reelY();
         float ct = t - caseStart;
         Loot win = slots.get(slots.size() - 1);
 
-        // 1) the case pops out of the crystal and shakes
-        if (ct < CASE_SHAKE + 0.25f) {
-            float fly = Fx.easeOut(ct / 0.3f);
-            float y = crystalY(c) + (cy - crystalY(c)) * fly;
-            float shake = ct > 0.3f ? (float) Math.sin(ct * 60) * 2.5f * k * Math.min(1, (ct - 0.3f) / 0.5f) : 0;
-            float lid = ct > CASE_SHAKE ? Fx.easeOut((ct - CASE_SHAKE) / 0.25f) : 0;
-            drawCase(c, cx + shake, y, k, lid);
-            if (ct - dt < 0.3f && ct >= 0.3f) hooks.sound(Cue.RATTLE, 1.4f, 0.8f);
+        // 1) the case flies in, turns on a turntable, the "Unlock Container" button gets pressed, lid opens
+        if (ct < CASE_SHAKE + 0.3f) {
+            float fly = Fx.easeOut(ct / 0.35f);
+            float y = crystalY(c) + (cy - 10 * k - crystalY(c)) * fly;
+            float turn = (float) Math.cos(Math.min(1, ct / 1.0f) * Math.PI * 2) ; // one full turn, ends facing us
+            float sx = 0.25f + 0.75f * Math.abs(turn);
+            float press = 1.05f;
+            float lid = ct > CASE_SHAKE ? Fx.easeOut((ct - CASE_SHAKE) / 0.28f) : 0;
+            float shake = ct > press && ct < CASE_SHAKE ? (float) Math.sin(ct * 70) * 2.2f * k : 0;
+            // spotlight under the case
+            Fx.glow(c, cx, y + 26 * k, 70 * k, style.source == Source.CRYSTAL ? 0xFFD9B0 : style.accent, 0.35f * fly, 3);
+            c.fill(Math.round(cx - 34 * k * sx), Math.round(y + 24 * k), Math.round(cx + 34 * k * sx), Math.round(y + 26 * k), Fx.alpha(0x000000, 0.45f * fly));
+            c.push();
+            c.translate(cx + shake, 0);
+            c.scale(sx, 1);
+            c.translate(-cx, 0);
+            drawCase(c, cx, y, k, lid);
+            c.pop();
+            if (ct - dt < 0.35f && ct >= 0.35f) hooks.sound(Cue.SWOOSH, 1.2f, 0.7f);
+            // CS2 style unlock button
+            if (ct > 0.45f && ct < CASE_SHAKE + 0.15f) {
+                float ba = Fx.smooth((ct - 0.45f) / 0.2f) * (1 - Fx.smooth((ct - CASE_SHAKE) / 0.15f));
+                float pressed = ct > press ? 1 - 0.08f * (1 - Fx.clamp01((ct - press) / 0.18f)) : 1;
+                float bw = 110 * k * pressed, bh = 16 * k * pressed, by = y + 40 * k;
+                int col = ct > press ? Fx.lerpColor(0x7EE07A, 0x4CAF50, Fx.clamp01((ct - press) / 0.3f)) : 0x4CAF50;
+                c.fill(Math.round(cx - bw / 2 - 1), Math.round(by - 1), Math.round(cx + bw / 2 + 1), Math.round(by + bh + 1), Fx.alpha(0x0B2A0C, ba));
+                c.fill(Math.round(cx - bw / 2), Math.round(by), Math.round(cx + bw / 2), Math.round(by + bh), Fx.alpha(col, ba));
+                c.fill(Math.round(cx - bw / 2), Math.round(by), Math.round(cx + bw / 2), Math.round(by + bh * 0.45f), Fx.alpha(0xFFFFFF, 0.12f * ba));
+                Fx.centered(c, "UNLOCK CONTAINER", cx, by + bh / 2 - 3.5f * k * pressed, 0.8f * k * pressed, Fx.alpha(0xFFFFFF, ba), true);
+                if (ct - dt < press && ct >= press && !pressPlayed) {
+                    pressPlayed = true;
+                    hooks.sound(Cue.TICK, 0.6f, 1.0f);
+                    hooks.sound(Cue.RATTLE, 1.3f, 0.8f);
+                }
+            }
             if (ct - dt < CASE_SHAKE && ct >= CASE_SHAKE) {
                 hooks.sound(Cue.CASE_OPEN, 1.0f, 1.0f);
                 caseOpened = true;
-                fx.burst(cx, y - 10 * k, 30, 40 * k, 120 * k, 40 * k, 0.8f, 1, 3 * k, 0xFFD23A, 0xFFFFFF, win.color);
+                fx.burst(cx, y - 10 * k, 36, 40 * k, 130 * k, 40 * k, 0.8f, 1, 3 * k, 0xFFD23A, 0xFFFFFF, win.color);
             }
             return;
         }
@@ -567,119 +598,212 @@ public final class RunScene implements Scene {
         // 2) the reel
         float rt = t - reelStart;
         float panelIn = Fx.easeOut((t - (reelStart - REEL_IN)) / REEL_IN);
-        float panelOut = 1 - Fx.smooth((t - (reelStop + REEL_HOLD)) / 0.3f);
-        float pa = panelIn * panelOut;
-        if (pa <= 0.01f) {
-            winDrop(c, t, k, win);
-            return;
-        }
-        float cardW = 46 * k, cardH = 56 * k, gap = 3 * k;
-        float panelW = Math.min(w * 0.86f, cardW * 9), panelH = cardH + 16 * k;
+        float hold = t - reelStop;                       // time since the reel stopped
+        float revealP = Fx.clamp01((hold - 0.45f) / 0.45f); // winner card leaves the reel
+        float panelOut = 1 - Fx.smooth((hold - 0.45f) / 0.35f);
+        float pa = panelIn * Math.max(0, panelOut);
+        float cardW = CARD_W * k, cardH = CARD_H * k, gap = CARD_GAP * k;
+        float panelW = Math.min(w * 0.9f, cardW * 9.4f), panelH = cardH + 18 * k;
         float px = cx - panelW / 2, py = cy - panelH / 2;
-        c.fill(Math.round(px - 2), Math.round(py - 2), Math.round(px + panelW + 2), Math.round(py + panelH + 2), Fx.alpha(0x000000, 0.9f * pa));
-        c.fill(Math.round(px), Math.round(py), Math.round(px + panelW), Math.round(py + panelH), Fx.alpha(0x1B1E24, pa));
+        float cardY = py + 9 * k;
 
-        // where the reel is: decelerates like CS (ease-out quart), stops inside the winning card
+        // where the reel is: exponential slow-down like the CS2 reel (fast start, long crawl past the last cards)
         float target = winIndex * (cardW + gap) + cardW / 2 + winOffset * cardW;
         float p = Fx.clamp01(rt / REEL_SPIN);
-        // exponential slow-down like the CS2 reel: fast start, long crawl past the last few cards
-        float eased = (float) ((1 - Math.pow(2, -9 * p)) / (1 - Math.pow(2, -9)));
+        double norm = 1 - Math.pow(2, -9);
+        float eased = (float) ((1 - Math.pow(2, -9 * p)) / norm);
         float pos = target * eased;
-        // tick sound each time a card edge passes the marker
+        float speed = p >= 1 ? 0 : (float) (target * 9 * Math.log(2) * Math.pow(2, -9 * p) / norm / REEL_SPIN); // px per second
+        float blur = Fx.clamp01(speed / (cardW * 30)); // 0..1 motion blur
+
+        // tick sound + marker flash each time a card edge passes the marker
         int tick = (int) Math.floor((pos + gap) / (cardW + gap));
         if (tick != lastTick && rt > 0 && p < 1) {
             lastTick = tick;
-            hooks.sound(Cue.TICK, 1.6f + 0.4f * (1 - p), 0.5f);
+            markerFlash = 1;
+            hooks.sound(Cue.TICK, 1.5f + 0.5f * (1 - p), 0.55f);
         }
+        markerFlash = Math.max(0, markerFlash - dt * 6);
         if (p >= 1 && !reelDone) {
             reelDone = true;
             hooks.sound(Cue.CASE_WIN, 1.0f, 1.0f);
-            hooks.sound(Cue.TOTEM, 1.2f, 0.35f);
         }
-        float markerX = cx;
-        for (int i = 0; i < reel.size(); i++) {
-            float x = markerX - pos + i * (cardW + gap);
-            if (x + cardW < px || x > px + panelW) continue;
-            ReelItem it = reel.get(i);
-            boolean winner = reelDone && i == winIndex;
-            float grow = winner ? 1 + 0.08f * Fx.backOut(Math.min(1, (t - reelStop) / 0.3f)) : 1;
-            if (winner) {
-                // enchanted rainbow glow + sparks around the winning card
-                float ht = t - reelStop;
-                int rb = Fx.hsv((ht * 0.6f) % 1f, 0.7f, 1f);
-                Fx.glow(c, x + cardW / 2, py + 8 * k + cardH / 2, cardW * 1.1f, rb, pa * 0.7f, 2);
-                if (random.nextFloat() < 0.5f) {
-                    P sp = fx.add(x + random.nextFloat() * cardW, py + 8 * k + random.nextFloat() * cardH,
-                            (random.nextFloat() - 0.5f) * 40 * k, -30 * k * random.nextFloat(), 0.6f, 2 * k, rb);
-                    sp.kind = Kind.SPARKLE;
+
+        if (pa > 0.01f) {
+            // darker stage behind the reel, rarity light leaking from the strip
+            c.fill(0, Math.round(py - 30 * k), w, Math.round(py + panelH + 30 * k), Fx.alpha(0x000000, 0.35f * pa));
+            c.fill(Math.round(px - 2), Math.round(py - 2), Math.round(px + panelW + 2), Math.round(py + panelH + 2), Fx.alpha(0x000000, 0.9f * pa));
+            for (int i = 0; i < panelH; i += 2) { // brushed-metal gradient
+                float f = i / panelH;
+                c.fill(Math.round(px), Math.round(py + i), Math.round(px + panelW), Math.round(Math.min(py + panelH, py + i + 2)),
+                        Fx.alpha(Fx.lerpColor(0x262A33, 0x15171C, f), pa));
+            }
+            float markerX = cx;
+            c.clip(Math.round(px), Math.round(py - 1), Math.round(px + panelW), Math.round(py + panelH + 16 * k));
+            for (int i = 0; i < reel.size(); i++) {
+                float x = markerX - pos + i * (cardW + gap);
+                if (x + cardW < px || x > px + panelW) continue;
+                ReelItem it = reel.get(i);
+                boolean winner = reelDone && i == winIndex;
+                if (winner && revealP > 0) continue; // drawn by the reveal
+                float grow = winner ? 1 + 0.07f * Fx.backOut(Math.min(1, hold / 0.3f)) : 1;
+                if (winner) {
+                    int rb = Fx.hsv((hold * 0.6f) % 1f, 0.6f, 1f);
+                    Fx.glow(c, x + cardW / 2, cardY + cardH / 2, cardW * 1.1f, it.color, pa * 0.6f, 2);
+                    Fx.glow(c, x + cardW / 2, cardY + cardH / 2, cardW * 0.7f, rb, pa * 0.35f, 2);
+                }
+                drawCard(c, x, cardY, cardW, cardH, it, k, pa * (reelDone && !winner ? 0.4f : 1f), grow, t, blur);
+                // floor reflection: the rarity colour mirrored under the strip
+                for (int r = 0; r < 6; r++) {
+                    float ra = (6 - r) / 6f * 0.18f * pa * (reelDone && !winner ? 0.4f : 1f);
+                    c.fill(Math.round(x), Math.round(py + panelH + 2 + r * 2 * k), Math.round(x + cardW),
+                            Math.round(py + panelH + 2 + (r + 1) * 2 * k), Fx.alpha(it.color, ra));
                 }
             }
-            drawCard(c, x, py + 8 * k, cardW, cardH, it, k, pa * (reelDone && !winner ? 0.45f : 1f), grow, t);
+            c.unclip();
+            // speed streaks while it flies
+            if (blur > 0.15f) {
+                Random sr = new Random(tick * 31L);
+                for (int i = 0; i < 7; i++) {
+                    float sy = cardY + sr.nextFloat() * cardH;
+                    float sl = (0.2f + sr.nextFloat() * 0.5f) * panelW * blur;
+                    float sxx = px + sr.nextFloat() * (panelW - sl);
+                    c.fill(Math.round(sxx), Math.round(sy), Math.round(sxx + sl), Math.round(sy + 1), Fx.alpha(0xFFFFFF, 0.10f * blur * pa));
+                }
+            }
+            // fade the edges like the CS reel
+            for (int i = 0; i < 14; i++) {
+                float a = (14 - i) / 14f * 0.95f * pa;
+                int ew = Math.max(1, Math.round(panelW * 0.011f));
+                c.fill(Math.round(px + i * ew), Math.round(py), Math.round(px + (i + 1) * ew), Math.round(py + panelH), Fx.alpha(0x15171C, a));
+                c.fill(Math.round(px + panelW - (i + 1) * ew), Math.round(py), Math.round(px + panelW - i * ew), Math.round(py + panelH), Fx.alpha(0x15171C, a));
+            }
+            // the marker: thin glowing line with arrow heads, flashes on every tick
+            int mx = Math.round(markerX);
+            int mc = Fx.lerpColor(0xFFC21A, 0xFFFFFF, markerFlash * 0.6f);
+            c.fill(mx - 2, Math.round(py - 3), mx + 2, Math.round(py + panelH + 3), Fx.alpha(mc, 0.25f * pa));
+            c.fill(mx - 1, Math.round(py - 3), mx + 1, Math.round(py + panelH + 3), Fx.alpha(mc, pa));
+            for (int i = 0; i < 5; i++) {
+                c.fill(mx - 5 + i, Math.round(py - 8 + i), mx + 5 - i, Math.round(py - 7 + i), Fx.alpha(mc, pa));
+                c.fill(mx - 5 + i, Math.round(py + panelH + 7 - i), mx + 5 - i, Math.round(py + panelH + 8 - i), Fx.alpha(mc, pa));
+            }
+            String head = reelDone ? "" : style.source == Source.METER ? "RNG Meter" : style.source == Source.CHEST ? "Opening chest..." : "Unlocking container...";
+            if (!head.isEmpty()) Fx.centered(c, head, cx, py - 18 * k, 0.9f * k, Fx.alpha(0xCCCCCC, pa), false);
         }
-        // fade the edges like the CS reel
-        for (int i = 0; i < 12; i++) {
-            float a = (12 - i) / 12f * 0.9f * pa;
-            int ew = Math.round(panelW * 0.012f);
-            c.fill(Math.round(px + i * ew), Math.round(py), Math.round(px + (i + 1) * ew), Math.round(py + panelH), Fx.alpha(0x1B1E24, a));
-            c.fill(Math.round(px + panelW - (i + 1) * ew), Math.round(py), Math.round(px + panelW - i * ew), Math.round(py + panelH), Fx.alpha(0x1B1E24, a));
+
+        // 3) CS2 reveal: the winning card lifts out of the reel, grows, rarity light floods the screen
+        if (revealP > 0) {
+            float out = 1 - Fx.smooth((t - (reelStop + REEL_HOLD - 0.25f)) / 0.25f); // hands over to winDrop
+            if (out <= 0.01f) {
+                winDrop(c, t, k, win);
+                return;
+            }
+            float rp = Fx.backOut(revealP);
+            float g = 1.07f + 0.6f * rp;
+            float startX = cx - pos + winIndex * (cardW + gap) + cardW / 2;
+            float x = startX + (cx - startX) * Fx.smooth(revealP);
+            float y = cardY + cardH / 2 + (cy - 4 * k - cardY - cardH / 2) * Fx.smooth(revealP);
+            if (!revealPlayed) {
+                revealPlayed = true;
+                hooks.sound(Cue.TOTEM, 1.2f, 0.4f);
+                hooks.sound(Cue.LEVELUP, 1.4f, 0.6f);
+                fx.burst(cx, cy, 50, 40 * k, 150 * k, 40 * k, 1.0f, 1, 3 * k, win.color, 0xFFFFFF, 0xFFD23A);
+                P ring = fx.add(cx, cy, 0, 0, 0.7f, 80 * k, win.color);
+                ring.kind = Kind.RING;
+            }
+            float ht = t - reelStop;
+            Fx.glow(c, x, y, 120 * k * rp, win.color, 0.55f * out, 3);
+            Fx.rays(c, x, y, 110 * k * rp, 14, ht * 0.4f, win.color, 0.45f * out);
+            Fx.rays(c, x, y, 80 * k * rp, 9, -ht * 0.6f, 0xFFFFFF, 0.25f * out);
+            ReelItem wi = new ReelItem(win.name, win.icon, win.color);
+            drawCard(c, x - cardW / 2, y - cardH / 2, cardW, cardH, wi, k, out, g, t, 0);
+            String rn = rarityName(win.color);
+            float la = Fx.smooth((revealP - 0.4f) / 0.6f) * out;
+            if (rn != null && la > 0.01f) {
+                String label = rn.toUpperCase(Locale.ROOT).replace("", " ").trim();
+                Fx.centered(c, label, cx, y - cardH * g / 2 - 11 * k, 0.9f * k, Fx.alpha(win.color, la), true);
+            }
+            if (random.nextFloat() < 0.6f) {
+                P sp = fx.add(x + (random.nextFloat() - 0.5f) * cardW * g, y + (random.nextFloat() - 0.5f) * cardH * g,
+                        (random.nextFloat() - 0.5f) * 40 * k, -40 * k * random.nextFloat(), 0.7f, 2 * k, Fx.hsv(random.nextFloat(), 0.4f, 1f));
+                sp.kind = Kind.SPARKLE;
+            }
+        } else if (pa <= 0.01f) {
+            winDrop(c, t, k, win);
         }
-        // the yellow marker
-        int mx = Math.round(markerX);
-        c.fill(mx - 1, Math.round(py - 4), mx + 1, Math.round(py + panelH + 4), Fx.alpha(0xFFD23A, pa));
-        for (int i = 0; i < 4; i++) {
-            c.fill(mx - 4 + i, Math.round(py - 6 + i), mx + 4 - i, Math.round(py - 5 + i), Fx.alpha(0xFFD23A, pa));
-            c.fill(mx - 4 + i, Math.round(py + panelH + 5 - i), mx + 4 - i, Math.round(py + panelH + 6 - i), Fx.alpha(0xFFD23A, pa));
-        }
-        Fx.centered(c, reelDone ? win.name : "Opening...", cx, py - 14 * k, 1.0f * k,
-                Fx.alpha(reelDone ? win.color : 0xCCCCCC, pa), true);
     }
 
     private void drawCard(Canvas c, float x, float y, float w, float h, ReelItem it, float k, float a, float grow, float t) {
+        drawCard(c, x, y, w, h, it, k, a, grow, t, 0);
+    }
+
+    /**
+     * A CS2-style item card: image area (SkyBlock pack tooltip background if present, otherwise a dark gradient)
+     * with the rarity colour glowing up from the bottom, a rarity bar, and an info strip with name + rarity.
+     * blur = 0..1 stretches the icon sideways while the reel flies past.
+     */
+    private void drawCard(Canvas c, float x, float y, float w, float h, ReelItem it, float k, float a, float grow, float t, float blur) {
         c.push();
         c.translate(x + w / 2, y + h / 2);
         c.scale(grow, grow);
         c.translate(-w / 2, -h / 2);
         int iw = Math.round(w), ih = Math.round(h);
+        int imgH = Math.round(h * 0.72f);
         String rarity = rarityName(it.color);
         String bg = "hypixel_skyblock:textures/gui/sprites/tooltip/" + rarity + "_background.png";
         String frame = "hypixel_skyblock:textures/gui/sprites/tooltip/" + rarity + "_frame.png";
+        c.fill(-1, -1, iw + 1, ih + 1, Fx.alpha(0x000000, a)); // outline
         if (rarity != null && c.hasTexture(frame) && c.hasTexture(bg)) {
-            // the SkyBlock pack's own rarity tooltip background + frame (nine-slice, 100x100, border 24)
             c.push();
-            c.scale(iw / 100f, ih / 100f);
+            c.scale(iw / 100f, imgH / 100f);
             c.blit(bg, 0, 0, 0, 0, 100, 100, 100, 100);
             c.pop();
-            for (int i = ih / 3; i < ih; i += 2) { // rarity glow rising from the bottom, like a CS2 card
-                float f = (i - ih / 3f) / (ih * 2 / 3f);
-                c.fill(0, i, iw, Math.min(ih, i + 2), Fx.alpha(it.color, a * 0.35f * f * f));
-            }
-            nineSlice(c, frame, 0, 0, iw, ih, 0.5f);
         } else {
-            // dark gradient with the rarity colour rising from the bottom
-            for (int i = 0; i < ih; i += 2) {
-                float f = i / (float) ih;
-                int col = Fx.lerpColor(0x2A2E36, Fx.darken(it.color, 0.35f), Fx.smooth((f - 0.3f) / 0.7f) * 0.8f);
-                c.fill(0, i, iw, Math.min(ih, i + 2), Fx.alpha(col, a));
+            for (int i = 0; i < imgH; i += 2) {
+                float f = i / (float) imgH;
+                c.fill(0, i, iw, Math.min(imgH, i + 2), Fx.alpha(Fx.lerpColor(0x4A505C, 0x2A2E36, f), a));
             }
         }
-        c.fill(0, ih - Math.max(2, Math.round(3 * k)), iw, ih, Fx.alpha(it.color, a));
-        float s = w * 0.55f / 16f;
+        // rarity light rising from the bottom of the image, like a CS2 card
+        for (int i = imgH / 4; i < imgH; i += 2) {
+            float f = (i - imgH / 4f) / (imgH * 3 / 4f);
+            c.fill(0, i, iw, Math.min(imgH, i + 2), Fx.alpha(it.color, a * 0.42f * f * f));
+        }
+        Fx.glow(c, w / 2, imgH * 0.55f, w * 0.38f, it.color, 0.22f * a, 2);
+        if (rarity != null && c.hasTexture(frame)) nineSlice(c, frame, 0, 0, iw, imgH, 0.45f);
+        int bar = Math.max(2, Math.round(3 * k));
+        c.fill(0, imgH - bar, iw, imgH, Fx.alpha(it.color, a));
+        // info strip
+        c.fill(0, imgH, iw, ih, Fx.alpha(0x1C1F25, a));
+        c.fill(0, imgH, iw, imgH + 1, Fx.alpha(0x000000, 0.5f * a));
+        // the icon
+        float s = w * 0.56f / 16f;
         c.push();
-        c.translate(w / 2, h * 0.42f);
-        c.scale(s, s);
+        c.translate(w / 2, imgH * 0.5f);
+        c.scale(s * (1 + blur * 0.8f), s * (1 - blur * 0.15f));
         boolean model = grow > 1.0001f && Props.kind(it.name) != null;
         if (it.icon != null && a > 0.3f && !model) c.item(it.icon, -8, -8);
         c.pop();
-        if (model) Props.draw(c, it.name, w / 2, h * 0.42f, w * 0.55f, t - reelStop);
-        String name = it.name;
-        float ns = 0.5f * k;
+        if (model) Props.draw(c, it.name, w / 2, imgH * 0.5f, w * 0.56f, t - reelStop);
+        // name + rarity
+        float ns = 0.48f * k;
         int maxW = Math.round((w - 4) / ns);
+        String name = it.name;
         while (name.length() > 3 && c.textWidth(name) > maxW) name = name.substring(0, name.length() - 2) + "…";
         c.push();
-        c.translate(w / 2, h - 10 * k);
+        c.translate(w / 2, imgH + 3 * k);
         c.scale(ns, ns);
         c.text(name, -c.textWidth(name) / 2, 0, Fx.alpha(0xFFFFFF, a), false);
         c.pop();
+        if (rarity != null) {
+            String rl = rarity.toUpperCase(Locale.ROOT);
+            float rs = 0.4f * k;
+            c.push();
+            c.translate(w / 2, imgH + 9.5f * k);
+            c.scale(rs, rs);
+            c.text(rl, -c.textWidth(rl) / 2, 0, Fx.alpha(it.color, a), false);
+            c.pop();
+        }
         if (a < 0.95f) c.fill(0, 0, iw, ih, Fx.alpha(0x101218, 1 - a)); // dim (textures ignore alpha)
         c.pop();
     }

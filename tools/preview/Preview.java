@@ -48,6 +48,8 @@ public class Preview {
             g.setFont(font);
         }
 
+        public void clip(int x1, int y1, int x2, int y2) { g.setClip(new java.awt.Rectangle(x1, y1, x2 - x1, y2 - y1)); }
+        public void unclip() { g.setClip(null); }
         public int width() { return w; }
         public int height() { return h; }
         public void push() { stack.push(g.getTransform()); }

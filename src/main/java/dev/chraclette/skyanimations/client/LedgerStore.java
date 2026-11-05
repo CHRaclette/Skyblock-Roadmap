@@ -37,6 +37,46 @@ public final class LedgerStore {
         return FabricLoader.getInstance().getConfigDir().resolve("skyanimations").resolve("stickers-" + safe + ".json");
     }
 
+    /**
+     * Backup outside the Minecraft folder, so the book survives reinstalling the mod, a new instance or
+     * another launcher: %APPDATA%/SkyAnimations (Windows), ~/Library/Application Support/SkyAnimations
+     * (macOS), ~/.local/share/skyanimations (Linux); one folder per Minecraft account.
+     */
+    static Path backupDir() {
+        String os = System.getProperty("os.name", "").toLowerCase(java.util.Locale.ROOT);
+        String home = System.getProperty("user.home", ".");
+        Path base;
+        if (os.contains("win") && System.getenv("APPDATA") != null) {
+            base = Path.of(System.getenv("APPDATA"), "SkyAnimations");
+        } else if (os.contains("mac")) {
+            base = Path.of(home, "Library", "Application Support", "SkyAnimations");
+        } else {
+            String xdg = System.getenv("XDG_DATA_HOME");
+            base = (xdg != null && !xdg.isBlank() ? Path.of(xdg) : Path.of(home, ".local", "share")).resolve("skyanimations");
+        }
+        String account = "player";
+        try {
+            account = net.minecraft.client.Minecraft.getInstance().getUser().getProfileId().toString();
+        } catch (RuntimeException ignored) {
+            // no user yet
+        }
+        return base.resolve(account);
+    }
+
+    private static Path backupFile() {
+        String safe = profile.isEmpty() ? "default" : profile.toLowerCase(java.util.Locale.ROOT).replaceAll("[^a-z0-9]+", "_");
+        return backupDir().resolve("stickers-" + safe + ".json");
+    }
+
+    private static boolean restoredFromBackup;
+
+    /** True once after the book was restored from the backup (for a chat message). */
+    static boolean takeRestoredNotice() {
+        boolean r = restoredFromBackup;
+        restoredFromBackup = false;
+        return r;
+    }
+
     public static String profile() {
         return profile;
     }
@@ -71,15 +111,32 @@ public final class LedgerStore {
                 SkyAnimationsClient.LOG.warn("Could not move the old sticker book", e);
             }
         }
+        boolean local = false;
         try {
             if (Files.exists(file())) {
                 Ledger loaded = GSON.fromJson(Files.readString(file()), Ledger.class);
-                if (loaded != null && loaded.stickers != null) ledger = loaded;
-                if (ledger.badgeTiers == null) ledger.badgeTiers = new java.util.LinkedHashMap<>();
+                if (loaded != null && loaded.stickers != null) {
+                    ledger = loaded;
+                    local = true;
+                }
             }
         } catch (Exception e) {
             SkyAnimationsClient.LOG.warn("Could not read the sticker book, starting a new one", e);
         }
+        // merge the backup outside the Minecraft folder (survives reinstalls / new instances)
+        try {
+            if (Files.exists(backupFile())) {
+                Ledger backup = GSON.fromJson(Files.readString(backupFile()), Ledger.class);
+                if (backup != null && backup.stickers != null) {
+                    int before = ledger.size();
+                    ledger.merge(backup);
+                    if (!local && ledger.size() > before) restoredFromBackup = true;
+                }
+            }
+        } catch (Exception e) {
+            SkyAnimationsClient.LOG.warn("Could not read the sticker book backup", e);
+        }
+        if (ledger.badgeTiers == null) ledger.badgeTiers = new java.util.LinkedHashMap<>();
         dev.chraclette.skyanimations.core.Badges.check(ledger); // sync silently, only announce new ones later
     }
 
@@ -97,6 +154,15 @@ public final class LedgerStore {
             Files.move(tmp, file(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             SkyAnimationsClient.LOG.warn("Could not save the sticker book", e);
+        }
+        try {
+            Path b = backupFile();
+            Files.createDirectories(b.getParent());
+            Path tmp = b.resolveSibling(b.getFileName() + ".tmp");
+            Files.writeString(tmp, GSON.toJson(ledger));
+            Files.move(tmp, b, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException | RuntimeException e) {
+            SkyAnimationsClient.LOG.warn("Could not write the sticker book backup", e);
         }
     }
 

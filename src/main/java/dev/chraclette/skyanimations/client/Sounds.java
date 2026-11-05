@@ -122,6 +122,40 @@ final class Sounds {
             return;
         }
         float p = Math.max(0.5f, Math.min(2.0f, pitch));
-        Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(event, p, Math.min(1.0f, volume)));
+        // MASTER instead of forUI(): in 26.x forUI() goes to the new "UI" sound category, which is easy to have
+        // turned down (or missing in an old options.txt) - then the animations were silent.
+        Minecraft.getInstance().getSoundManager().play(new Ui(event, p, Math.min(1.0f, volume)));
+    }
+
+    /** Plays a test sound and prints what could mute it (for /sa sound). */
+    static String diagnose() {
+        Minecraft mc = Minecraft.getInstance();
+        Config.Data cfg = Config.get();
+        StringBuilder sb = new StringBuilder();
+        sb.append("§7Mod sound: ").append(cfg.sound ? "§aon" : "§coff (/sa config)").append("§7, volume ").append(Math.round(cfg.volume * 100)).append("%");
+        try {
+            sb.append("§7 | Minecraft master ").append(Math.round(mc.options.getSoundSourceVolume(net.minecraft.sounds.SoundSource.MASTER) * 100)).append("%");
+        } catch (RuntimeException ignored) {
+            // older/newer options
+        }
+        boolean custom = mc.getSoundManager().getSoundEvent(net.minecraft.resources.Identifier.parse("skyanimations:case_win")) != null;
+        sb.append(custom ? "§7 | case sounds §aloaded" : "§7 | case sounds §cmissing (resource pack?)");
+        sound(CASE_UNLOCK, 1.0f, 1.0f);
+        sound(SoundEvents.PLAYER_LEVELUP, 1.0f, 0.6f);
+        return sb.toString();
+    }
+
+    /** A sound that is always heard at full volume, independent of where the player is. */
+    private static final class Ui extends net.minecraft.client.resources.sounds.AbstractSoundInstance {
+        Ui(SoundEvent event, float pitch, float volume) {
+            super(event, net.minecraft.sounds.SoundSource.MASTER, net.minecraft.client.resources.sounds.SoundInstance.createUnseededRandom());
+            this.volume = volume;
+            this.pitch = pitch;
+            this.relative = true;
+            this.attenuation = net.minecraft.client.resources.sounds.SoundInstance.Attenuation.NONE;
+            this.x = 0;
+            this.y = 0;
+            this.z = 0;
+        }
     }
 }

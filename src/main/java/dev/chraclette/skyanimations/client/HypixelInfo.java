@@ -37,6 +37,10 @@ public final class HypixelInfo {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             Nucleus.tick();
             ChatHider.tick();
+            if (LedgerStore.takeRestoredNotice()) {
+                ChatHider.add(net.minecraft.network.chat.Component.literal("§6[SkyAnimations] §7Sticker book restored from your backup (§f"
+                        + LedgerStore.get().size() + "§7 stickers)."));
+            }
             Corpse.tick();
             if (++ticks % 20 != 0 || client.player == null || client.getConnection() == null) return;
             try {

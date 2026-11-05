@@ -22,6 +22,41 @@ final class McCanvas implements Canvas {
         this.g = g;
     }
 
+    private static java.lang.reflect.Method scissorOn, scissorOff;
+    private static boolean scissorLooked;
+
+    private void findScissor() {
+        if (scissorLooked) return;
+        scissorLooked = true;
+        try {
+            scissorOn = g.getClass().getMethod("enableScissor", int.class, int.class, int.class, int.class);
+            scissorOff = g.getClass().getMethod("disableScissor");
+        } catch (ReflectiveOperationException | RuntimeException e) {
+            scissorOn = null;
+        }
+    }
+
+    @Override
+    public void clip(int x1, int y1, int x2, int y2) {
+        findScissor();
+        if (scissorOn == null) return;
+        try {
+            scissorOn.invoke(g, x1, y1, x2, y2);
+        } catch (ReflectiveOperationException | RuntimeException e) {
+            scissorOn = null;
+        }
+    }
+
+    @Override
+    public void unclip() {
+        if (scissorOn == null || scissorOff == null) return;
+        try {
+            scissorOff.invoke(g);
+        } catch (ReflectiveOperationException | RuntimeException e) {
+            scissorOn = null;
+        }
+    }
+
     @Override
     public int width() {
         return g.guiWidth();

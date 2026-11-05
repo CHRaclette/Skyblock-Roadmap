@@ -217,6 +217,18 @@ final class Commands {
                                 ProfileApi.refresh(m -> say(ctx, m));
                                 return 1;
                             })))
+                    .then(ClientCommands.literal("sound").executes(ctx -> {
+                        say(ctx, Sounds.diagnose());
+                        say(ctx, "§7You should hear a chest unlock + a level-up now.");
+                        return 1;
+                    }))
+                    .then(ClientCommands.literal("backup").executes(ctx -> {
+                        LedgerStore.save();
+                        say(ctx, "§7Sticker book saved (§f" + LedgerStore.get().size() + "§7 stickers) in the config folder and backed up outside Minecraft:");
+                        say(ctx, "§f" + LedgerStore.backupDir());
+                        say(ctx, "§7Reinstalling the mod, a new instance or another launcher restores it automatically.");
+                        return 1;
+                    }))
                     .then(ClientCommands.literal("runs").executes(ctx -> {
                         var l = LedgerStore.get();
                         StringBuilder floors = new StringBuilder();
@@ -414,6 +426,8 @@ final class Commands {
         say(ctx, "§f/sa book §7or §fJ §7open the sticker book");
         say(ctx, "§f/sa simulate <chat line> §7test any drop message");
         say(ctx, "§f/sa give §7[all, <level> [name], reset] §7test stickers for the book");
+        say(ctx, "§f/sa backup §7where your sticker book is backed up");
+        say(ctx, "§f/sa sound §7test the sounds");
         say(ctx, "§f/sa runs §7run counts · §f/sa apikey <key> §7read them from your profile · §f/sa hidechat");
         say(ctx, "§f/sa skip §7stop the current cutscene");
         say(ctx, "§f/sa toggle | sound | music | prices §7switch on/off");
