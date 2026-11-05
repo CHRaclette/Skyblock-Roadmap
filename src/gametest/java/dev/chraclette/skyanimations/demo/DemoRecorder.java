@@ -40,6 +40,8 @@ public class DemoRecorder implements FabricClientGameTest {
             context.runOnClient(c -> Demo.fillBook());
 
             marker("intro");
+            context.runOnClient(c -> Demo.backupInfo());
+            System.out.println("CHATSTATE intro " + context.computeOnClient(c -> Demo.chatState()));
             record(0.6f);
 
             marker("dye");
@@ -59,8 +61,10 @@ public class DemoRecorder implements FabricClientGameTest {
             record(17.5f);
 
             marker("backup");
+            System.out.println("CHATSTATE end " + context.computeOnClient(c -> Demo.chatState()));
             context.runOnClient(c -> Demo.backupInfo());
             record(3.0f);
+            System.out.println("CHATSTATE after " + context.computeOnClient(c -> Demo.chatState()));
             marker("end");
             System.out.println("DEMO-FRAMES " + frame);
         }

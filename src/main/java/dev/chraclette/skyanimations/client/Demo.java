@@ -93,6 +93,11 @@ public final class Demo {
         Specials.onWow(raw, "You", true);
     }
 
+    /** For the recorder log: why the chat is or isn't drawn. */
+    public static String chatState() {
+        return "hideWhole=" + ChatHider.hideWholeChat() + " busy=" + CutsceneManager.busy();
+    }
+
     public static void dungeonChest() {
         DungeonChest.test();
     }
