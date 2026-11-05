@@ -95,7 +95,22 @@ public final class Demo {
 
     /** For the recorder log: why the chat is or isn't drawn. */
     public static String chatState() {
-        return "hideWhole=" + ChatHider.hideWholeChat() + " busy=" + CutsceneManager.busy();
+        StringBuilder sb = new StringBuilder("hideWhole=" + ChatHider.hideWholeChat() + " busy=" + CutsceneManager.busy());
+        Object gui = Minecraft.getInstance().gui;
+        sb.append(" gui=").append(gui.getClass().getName());
+        for (var m : gui.getClass().getMethods()) {
+            if (m.getReturnType().getName().toLowerCase().contains("chat")) sb.append(" | ").append(m.getName()).append("()->").append(m.getReturnType().getName()).append(" params=").append(m.getParameterCount());
+        }
+        for (var f : gui.getClass().getDeclaredFields()) {
+            if (f.getType().getName().toLowerCase().contains("chat")) sb.append(" | field ").append(f.getName()).append(":").append(f.getType().getName());
+        }
+        try {
+            Class<?> cc = Class.forName("net.minecraft.client.gui.components.ChatComponent");
+            for (var m : cc.getMethods()) if (m.getName().contains("add")) sb.append(" | CC.").append(m.getName()).append(java.util.Arrays.toString(m.getParameterTypes()));
+        } catch (ClassNotFoundException e) {
+            sb.append(" | no ChatComponent class");
+        }
+        return sb.toString();
     }
 
     public static void dungeonChest() {
