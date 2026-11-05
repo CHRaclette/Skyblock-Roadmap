@@ -150,7 +150,7 @@ public final class DyeScene implements Scene {
             if (sc > 0.05f) {
                 // the pot keeps slowly turning so you see it is 3D
                 float turn = (float) Math.toRadians(-35 + 25 * Math.sin(bt * 1.3f)) + bt * 0.9f;
-                DyePot.draw3d(c, cx, cy + bob, sc * 1.1f, turn, (float) Math.toRadians(4 * Math.sin(bt * 2.1f)), now, 1f);
+                DyePot.draw3d(c, cx, cy + bob, sc * 1.1f, turn, (float) Math.toRadians(4 * Math.sin(bt * 2.1f)), now, fade);
             }
             if (random.nextFloat() < 0.5f) {
                 P sp = fx.add(cx + (random.nextFloat() - 0.5f) * 60 * k, cy + (random.nextFloat() - 0.5f) * 40 * k, 0, -20 * k, 0.8f, 2 * k, now);
@@ -183,6 +183,6 @@ public final class DyeScene implements Scene {
                 // soft light behind it in the dye colour
         Fx.glow(c, x, y, 9 * px * 1.2f, col(f * POP_IN), 0.5f * fade, 2);
         // the 3D paint pot, spinning like the item activation (900 degrees while it grows)
-        DyePot.draw3d(c, x, y, px * 1.15f, (float) yaw, roll, col(f * POP_IN), 1f);
+        DyePot.draw3d(c, x, y, px * 1.15f, (float) yaw, roll, col(f * POP_IN), fade);
     }
 }
