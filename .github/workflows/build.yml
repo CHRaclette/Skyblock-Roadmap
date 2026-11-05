@@ -26,17 +26,17 @@ jobs:
           u=padding.PKCS7(128).unpadder(); pt=u.update(pt)+u.finalize()
           info=json.loads(pt); print("title",info.get("title"),"dur",info.get("duration"))
           vf=info.get("video_formats",[]); print([(f.get("height"),f.get("label"),bool(f.get("url"))) for f in vf])
-          vf=sorted(vf,key=lambda f:abs((f.get("height") or 0)-720))
-          f=vf[0]
-          url=f.get("url")
-          if url: url=url+"&title=clip"
-          else:
+          url=None
+          for q in ["720","480","1080","360"]:
               cdn=requests.get("https://media.savetube.vip/api/random-cdn",headers=H,timeout=30).json()["cdn"]
-              j=requests.post(f"https://{cdn}/download",json={"downloadType":"video","quality":str(f.get("height")),"key":info["key"]},headers=H,timeout=120).json()
-              print(j); url=j["data"]["downloadUrl"]
-          with requests.get(url,headers=H,stream=True,timeout=300) as resp:
-              with open("clip.mp4","wb") as o:
-                  for ch in resp.iter_content(1<<16): o.write(ch)
+              j=requests.post(f"https://{cdn}/download",json={"downloadType":"video","quality":q,"key":info["key"]},headers=H,timeout=180).json()
+              print(q, json.dumps(j)[:300])
+              if j.get("data") and j["data"].get("downloadUrl"):
+                  url=j["data"]["downloadUrl"]
+                  resp=requests.get(url,headers=H,timeout=300)
+                  print("http",resp.status_code,len(resp.content))
+                  if resp.status_code==200 and len(resp.content)>100000:
+                      open("clip.mp4","wb").write(resp.content); break
           print("ok")
           PY
           python3 dl.py
