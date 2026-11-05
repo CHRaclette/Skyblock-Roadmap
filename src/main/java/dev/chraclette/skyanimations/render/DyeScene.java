@@ -21,9 +21,13 @@ public final class DyeScene implements Scene {
         }
     }
 
-    /** How long Minecraft's pop-in plays (40 ticks); our own icon takes over after it. */
-    private static final float POP_IN = 1.9f;
-    private boolean popping;
+    /**
+     * The dye "pops in" like on Hypixel (Minecraft's item activation, 40 ticks): it shoots out of the screen
+     * centre spinning, gets huge, wobbles and falls back small. Drawn by us so it always plays.
+     */
+    private static final float POP_IN = 2.0f;
+    private final boolean popping = true;
+    private final float popX, popY;
 
     private static final float FALL = 0.55f, BURST = FALL, HOLD = 5.2f, END = BURST + HOLD;
 
@@ -53,6 +57,8 @@ public final class DyeScene implements Scene {
         this.subtitle = subtitle == null ? "" : subtitle;
         this.hooks = hooks;
         this.random = new Random(name.hashCode());
+        this.popX = random.nextFloat() * 2 - 1;
+        this.popY = random.nextFloat() * 2 - 1;
         splats = new float[14][];
         for (int i = 0; i < splats.length; i++) {
             float ang = random.nextFloat() * 6.283f;
@@ -95,7 +101,7 @@ public final class DyeScene implements Scene {
             if (t - dt <= 0.02f) hooks.sound(Cue.WHOOSH, 1.4f, 0.5f);
         } else if (!burst) {
             burst = true;
-            popping = hooks.popIn(icon);
+            hooks.sound(Cue.TOTEM, 1.0f, 0.7f);
             hooks.sound(Cue.SPLASH, 1.0f, 1.0f);
             hooks.sound(Cue.FIREWORK, 1.1f, 0.7f);
             fx.burst(cx, cy, 90, 60 * k, 260 * k, 160 * k, 1.4f, 2 * k, 5 * k, dye, Fx.brighten(dye, 0.35f), Fx.darken(dye, 0.25f), 0xFFFFFF);
@@ -131,9 +137,10 @@ public final class DyeScene implements Scene {
                 dripped = true;
                 hooks.sound(Cue.TWINKLE, 1.3f, 0.6f);
             }
+            if (bt < POP_IN) popIn(c, bt / POP_IN, w, h, fade);
             // the dye itself, big, with a glow in its colour
             // with Minecraft's pop-in the dye flies in by itself; our big icon takes over afterwards
-            float popStart = popping ? POP_IN - 0.15f : 0.1f;
+            float popStart = popping ? POP_IN - 0.3f : 0.1f;
             float pop = Fx.backOut(Fx.clamp01((bt - popStart) / 0.4f));
             float bob = (float) Math.sin(bt * 2.4f) * 2 * k;
             int now = col(t);
@@ -152,13 +159,44 @@ public final class DyeScene implements Scene {
                 sp.kind = Kind.SPARKLE;
             }
             // title + name
-            float ta = Fx.smooth((bt - 0.25f) / 0.3f) * fade;
-            float tp = Fx.backOut(Fx.clamp01((bt - 0.25f) / 0.35f));
+            float ta = Fx.smooth((bt - POP_IN + 0.2f) / 0.3f) * fade;
+            float tp = Fx.backOut(Fx.clamp01((bt - POP_IN + 0.2f) / 0.35f));
             Fx.centered(c, "DYE DROP!", cx, cy - 46 * k, 1.6f * k * tp, Fx.alpha(now, ta), true);
             Fx.centered(c, name, cx, cy + 34 * k, 1.5f * k * tp, Fx.alpha(rarity, ta), true);
             if (!subtitle.isEmpty()) Fx.centered(c, subtitle, cx, cy + 50 * k, 0.85f * k, Fx.alpha(0xD8D8E0, ta), false);
         }
         fx.update(dt);
         fx.render(c, fade);
+    }
+
+    /** Minecraft's item activation curve (GameRenderer), f = 0..1 over 40 ticks. */
+    private void popIn(Canvas c, float f, int w, int h, float fade) {
+        if (icon == null) return;
+        float f2 = f * f, f3 = f2 * f;
+        float f4 = 10.25f * f3 * f2 - 24.95f * f2 * f2 + 25.5f * f3 - 13.8f * f2 + 4.4f * f;
+        float f5 = f4 * (float) Math.PI;
+        float size = 50 + 175 * (float) Math.sin(f5); // vanilla: GUI px of the item model
+        if (size <= 4) return;                       // at the very end it would flip behind the camera
+        float wob = (float) Math.abs(Math.sin(f5 * 2));
+        float x = w / 2f + popX * (w / 8f) * wob;
+        float y = h / 2f + popY * (h / 8f) * wob;
+        float px = (h * 0.44f) * size / 225f / 16f;   // pixels per item texel
+        double yaw = Math.toRadians(900 * Math.abs(Math.sin(f5)));
+        float roll = (float) Math.toRadians(6 * Math.cos(f * 8));
+        float sx = (float) Math.cos(yaw), depth = (float) Math.sin(yaw);
+        // soft light behind it in the dye colour
+        Fx.glow(c, x, y, 9 * px * 1.2f, col(f * POP_IN), 0.5f * fade, 2);
+        c.push();
+        c.translate(x, y);
+        c.rotate(roll);
+        // one texel thick, like the 3D item: back layers first
+        for (int i = 4; i >= 0; i--) {
+            c.push();
+            c.translate(depth * i * 0.25f * px, 0);
+            c.scale(px * (Math.abs(sx) < 0.06f ? 0.06f * Math.signum(sx == 0 ? 1 : sx) : sx), px);
+            c.item(icon, -8, -8);
+            c.pop();
+        }
+        c.pop();
     }
 }
