@@ -3,9 +3,21 @@ on: push
 permissions:
   contents: write
 jobs:
-  cleanup:
+  javap:
     runs-on: ubuntu-24.04
     steps:
-      - env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh release delete ref-tmp --yes --cleanup-tag -R ${{ github.repository }} || true
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '25'
+          distribution: 'microsoft'
+      - run: chmod +x ./gradlew && ./gradlew compileJava -q 2>&1 | tail -3
+      - run: |
+          J=$(find ~/.gradle ./.gradle -name "minecraft-client*.jar" -o -name "minecraft-merged*.jar" -o -name "minecraft-clientOnly*.jar" 2>/dev/null | grep -v sources | head -5); echo "$J"
+          J=$(echo "$J" | head -1)
+          mkdir x && cd x && unzip -q "$J" 'net/minecraft/*' && cd ..
+          grep -rl "net/minecraft/client/gui/components/ChatComponent" x --include=*.class | head -30
+          for c in $(grep -rl "Lnet/minecraft/client/gui/components/ChatComponent;" x --include=*.class | head -12); do echo "== $c"; javap -p "$c" | grep -E "ChatComponent" ; done
+          javap -p x/net/minecraft/client/gui/Gui.class | head -80
