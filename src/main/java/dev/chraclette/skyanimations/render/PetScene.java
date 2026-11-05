@@ -25,8 +25,8 @@ public final class PetScene implements Scene {
     /** Ender Dragon: a mini Dragon's Nest instead of the egg - eyes go into the portal frames, the crystals beam, it spawns. */
     private final boolean dragon;
     private final float HATCH, FLY, END;
-    private static final float EYE0 = 0.75f, EYE_STEP = 0.2f, BEAMS = 2.45f;
-    private int eyesPlaced;
+    private static final float EYE0 = 0.75f, EYE_STEP = 0.2f, CRYSTAL0 = 2.4f, CRYSTAL_STEP = 0.32f, BEAMS = 3.75f;
+    private int eyesPlaced, crystalsPlaced;
 
     private final String name;
     private final String rarityLabel;
@@ -55,7 +55,7 @@ public final class PetScene implements Scene {
         this.eggSide = eggPattern(10, 10, 1);
         this.eggTop = eggPattern(10, 10, 2);
         this.dragon = name.toLowerCase(java.util.Locale.ROOT).contains("ender dragon");
-        this.HATCH = dragon ? 3.45f : 2.05f;
+        this.HATCH = dragon ? 4.75f : 2.05f;
         this.END = HATCH + 5.55f;
         this.FLY = END - 1.0f;
     }
@@ -203,6 +203,10 @@ public final class PetScene implements Scene {
                 new Skins.Face(CRYSTAL, 64, 32, u + 16, 8, 8, 8), new Skins.Face(CRYSTAL, 64, 32, u, 8, 8, 8), null, 1, 1, 1, 0xE070E0, 0x802080);
     }
     private static final CubeSkin GLASS = crystal(0), CORE = crystal(32);
+    /** The bedrock base a placed end crystal sits on. */
+    private static final CubeSkin BASE = new CubeSkin(new Skins.Face(CRYSTAL, 64, 32, 12, 16, 12, 12), new Skins.Face(CRYSTAL, 64, 32, 24, 16, 12, 12),
+            new Skins.Face(CRYSTAL, 64, 32, 12, 28, 12, 4), new Skins.Face(CRYSTAL, 64, 32, 36, 28, 12, 4),
+            new Skins.Face(CRYSTAL, 64, 32, 24, 28, 12, 4), new Skins.Face(CRYSTAL, 64, 32, 0, 28, 12, 4), null, 1, 4 / 12f, 1, 0x3A3A3A, 0x1A1A1A);
 
     private interface Draw {
         void run();
@@ -257,13 +261,21 @@ public final class PetScene implements Scene {
             }});
         }
         float[][] pillars = {{3.3f, 0}, {0, 3.3f}, {-3.3f, 0}, {0, -3.3f}};
-        for (float[] pl : pillars) {
+        for (int pi = 0; pi < pillars.length; pi++) {
+            float[] pl = pillars[pi];
+            float placeAt = CRYSTAL0 + pi * CRYSTAL_STEP;
             list.add(new Object[]{depth(pl[0], pl[1]), (Draw) () -> {
                 for (int y = 0; y < 3; y++) iso.box(c, OBS, Piece.WHOLE, id, pl[0], y - 0.25f, pl[1], 1, 0, 0, 0);
+                if (t < placeAt) return;
+                // placed: the base lands on the pillar, the crystal pops up above it and starts to spin
+                float land = Fx.easeOut(Fx.clamp01((t - placeAt) / 0.15f));
+                iso.box(c, BASE, Piece.WHOLE, id, pl[0], 2.75f + (1 - land) * 0.8f, pl[1], 0.9f, 0, 0, 0);
+                float grow = Fx.backOut(Fx.clamp01((t - placeAt - 0.05f) / 0.3f));
+                if (grow < 0.05f) return;
                 float bob = (float) Math.sin(t * 3 + pl[0]) * 0.15f;
                 Pose spin = Pose.identity().pivot(pl[0], 3.55f + bob, pl[1]).rotY(t * 2.4f).rollZ(0.62f);
-                iso.box(c, CORE, Piece.WHOLE, spin, pl[0], 3.3f + bob, pl[1], 0.5f, 0, 0, 0);
-                iso.box(c, GLASS, Piece.WHOLE, spin, pl[0], 3.15f + bob, pl[1], 0.8f, 0, 0, 0);
+                iso.box(c, CORE, Piece.WHOLE, spin, pl[0], 3.55f - 0.25f * grow + bob, pl[1], 0.5f * grow, 0, 0, 0);
+                iso.box(c, GLASS, Piece.WHOLE, spin, pl[0], 3.55f - 0.4f * grow + bob, pl[1], 0.8f * grow, 0, 0, 0);
             }});
         }
         list.sort((p, q) -> Float.compare((Float) p[0], (Float) q[0]));
@@ -281,6 +293,17 @@ public final class PetScene implements Scene {
                 hooks.sound(Cue.MAGIC, 0.6f, 0.9f);
                 hooks.sound(Cue.RATTLE, 0.7f, 0.6f);
             }
+        }
+
+        while (crystalsPlaced < pillars.length && t >= CRYSTAL0 + crystalsPlaced * CRYSTAL_STEP) {
+            float[] pl = pillars[crystalsPlaced];
+            float[] sp = iso.screen(id, pl[0], 3.2f, pl[1]);
+            fx.burst(sp[0], sp[1], 14, 20 * k, 70 * k, 50 * k, 0.6f, k, 2.5f * k, 0xE070E0, 0xFFFFFF, 0x8040C0);
+            Particles.P ring = fx.add(sp[0], sp[1], 0, 0, 0.35f, 18 * k, 0xE070E0);
+            ring.kind = Particles.Kind.RING;
+            hooks.sound(Cue.THUMP, 1.2f + crystalsPlaced * 0.05f, 0.7f);
+            hooks.sound(Cue.TWINKLE, 1.0f + crystalsPlaced * 0.15f, 0.6f);
+            crystalsPlaced++;
         }
 
         // crystals beam into the portal, the dragon forms above it

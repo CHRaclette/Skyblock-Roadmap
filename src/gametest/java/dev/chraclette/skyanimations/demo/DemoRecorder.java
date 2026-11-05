@@ -44,7 +44,7 @@ public class DemoRecorder implements FabricClientGameTest {
 
             marker("pet");
             context.runOnClient(c -> Demo.chat("PET DROP! Ender Dragon (+200% ✯ Magic Find)"));
-            record(9.8f);
+            record(11.2f);
 
             marker("end");
             System.out.println("DEMO-FRAMES " + frame);
