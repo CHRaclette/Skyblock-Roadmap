@@ -197,7 +197,25 @@ final class ChatHider {
         if (chatAccess != null) return read(chatSource, chatAccess);
         Class<?> cc = Class.forName("net.minecraft.client.gui.components.ChatComponent");
         Minecraft mc = Minecraft.getInstance();
-        Object[] roots = {mc, mc.gui, mc.gui.chatListener()};
+        List<Object> roots = new ArrayList<>(List.of(mc, mc.gui));
+        // 26.2: Minecraft/Gui -> Hud -> chat
+        for (Object base : new Object[]{mc, mc.gui}) {
+            for (Class<?> k = base.getClass(); k != null && k != Object.class; k = k.getSuperclass()) {
+                for (var f : k.getDeclaredFields()) {
+                    if (f.getType().getName().equals("net.minecraft.client.gui.Hud") && !java.lang.reflect.Modifier.isStatic(f.getModifiers())) {
+                        f.setAccessible(true);
+                        Object hud = f.get(base);
+                        if (hud != null) roots.add(hud);
+                    }
+                }
+            }
+            for (var m : base.getClass().getMethods()) {
+                if (m.getParameterCount() == 0 && m.getReturnType().getName().equals("net.minecraft.client.gui.Hud")) {
+                    Object hud = m.invoke(base);
+                    if (hud != null) roots.add(hud);
+                }
+            }
+        }
         for (Object root : roots) {
             if (root == null) continue;
             for (var m : root.getClass().getMethods()) {
