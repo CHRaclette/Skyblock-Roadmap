@@ -118,9 +118,47 @@ final class Specials {
         int[] palette = NeuRepo.dyeColors(name);
         if (palette == null) palette = new int[]{dev.chraclette.skyanimations.core.Themes.color(name, Effect.DYE)};
         int rarity = ItemCatalog.tierColor(Runs.tier(name));
-        CutsceneManager.replace(name, new DyeScene(name, icon, palette, rarity, subtitle,
-                (cue, pitch, volume) -> Sounds.play(cue, Effect.DYE, pitch, volume)));
+        CutsceneManager.replace(name, new DyeScene(name, icon, palette, rarity, subtitle, new DyeScene.Hooks() {
+            @Override
+            public void sound(dev.chraclette.skyanimations.render.Cutscene.Cue cue, float pitch, float volume) {
+                Sounds.play(cue, Effect.DYE, pitch, volume);
+            }
+
+            @Override
+            public boolean popIn(Object icon) {
+                return itemActivation(icon);
+            }
+        }));
         return true;
+    }
+
+    private static java.lang.reflect.Method activation;
+
+    /**
+     * Minecraft's item-activation animation (the totem of undying pop-in) with this item, the same
+     * effect Skyblocker and DropVision use for rare drops. Found by reflection so a renamed method
+     * can't break the build; if it's missing the scene simply shows its own icon.
+     */
+    static boolean itemActivation(Object icon) {
+        if (!(icon instanceof ItemStack stack) || stack.isEmpty()) return false;
+        try {
+            Object renderer = net.minecraft.client.Minecraft.getInstance().gameRenderer;
+            if (activation == null) {
+                for (var m : renderer.getClass().getMethods()) {
+                    if (m.getName().equals("displayItemActivation") && m.getParameterCount() == 1
+                            && m.getParameterTypes()[0] == ItemStack.class) {
+                        activation = m;
+                        break;
+                    }
+                }
+            }
+            if (activation == null) return false;
+            activation.invoke(renderer, stack.copy());
+            return true;
+        } catch (ReflectiveOperationException | RuntimeException e) {
+            SkyAnimationsClient.LOG.debug("No item activation animation", e);
+            return false;
+        }
     }
 
     /** Colour of the part of the chat message that holds the name (pets are coloured by rarity). */

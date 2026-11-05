@@ -14,9 +14,18 @@ public final class DyeScene implements Scene {
 
     public interface Hooks {
         void sound(Cue cue, float pitch, float volume);
+
+        /** Minecraft's own "item pops in" animation (the totem one) for the dye; false if not available. */
+        default boolean popIn(Object icon) {
+            return false;
+        }
     }
 
-    private static final float FALL = 0.55f, BURST = FALL, HOLD = 4.2f, END = BURST + HOLD;
+    /** How long Minecraft's pop-in plays (40 ticks); our own icon takes over after it. */
+    private static final float POP_IN = 1.9f;
+    private boolean popping;
+
+    private static final float FALL = 0.55f, BURST = FALL, HOLD = 5.2f, END = BURST + HOLD;
 
     private final String name;
     private final Object icon;
@@ -71,7 +80,9 @@ public final class DyeScene implements Scene {
         float k = Math.min(1.6f, Math.max(0.8f, h / 250f));
         float cx = w / 2f, cy = h * 0.42f;
         float fade = Fx.smooth(t / 0.3f) * (1 - Fx.smooth((t - (END - 0.6f)) / 0.6f));
-        c.fill(0, 0, w, h, Fx.alpha(Fx.lerpColor(0x05040A, Fx.darken(dye, 0.8f), 0.35f), 0.6f * fade));
+        float popWindow = popping ? 1 - Fx.smooth((t - BURST - POP_IN + 0.3f) / 0.3f) : 0;
+        float dim = 0.6f - 0.42f * (popping && t >= BURST ? popWindow : 0);
+        c.fill(0, 0, w, h, Fx.alpha(Fx.lerpColor(0x05040A, Fx.darken(dye, 0.8f), 0.35f), dim * fade));
 
         if (t < FALL) {
             // a fat drop of paint falls from the top
@@ -84,6 +95,7 @@ public final class DyeScene implements Scene {
             if (t - dt <= 0.02f) hooks.sound(Cue.WHOOSH, 1.4f, 0.5f);
         } else if (!burst) {
             burst = true;
+            popping = hooks.popIn(icon);
             hooks.sound(Cue.SPLASH, 1.0f, 1.0f);
             hooks.sound(Cue.FIREWORK, 1.1f, 0.7f);
             fx.burst(cx, cy, 90, 60 * k, 260 * k, 160 * k, 1.4f, 2 * k, 5 * k, dye, Fx.brighten(dye, 0.35f), Fx.darken(dye, 0.25f), 0xFFFFFF);
@@ -120,7 +132,9 @@ public final class DyeScene implements Scene {
                 hooks.sound(Cue.TWINKLE, 1.3f, 0.6f);
             }
             // the dye itself, big, with a glow in its colour
-            float pop = Fx.backOut(Fx.clamp01((bt - 0.1f) / 0.4f));
+            // with Minecraft's pop-in the dye flies in by itself; our big icon takes over afterwards
+            float popStart = popping ? POP_IN - 0.15f : 0.1f;
+            float pop = Fx.backOut(Fx.clamp01((bt - popStart) / 0.4f));
             float bob = (float) Math.sin(bt * 2.4f) * 2 * k;
             int now = col(t);
             Fx.glow(c, cx, cy + bob, 46 * k * pop, now, 0.9f * fade, 2);
