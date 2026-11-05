@@ -21,7 +21,12 @@ public final class PetScene implements Scene {
     }
 
     private static final float[] KNOCKS = {0.7f, 1.15f, 1.5f, 1.8f};
-    private static final float HATCH = 2.05f, POP = 0.55f, FLY = 6.6f, END = 7.6f;
+    private static final float POP = 0.55f;
+    /** Ender Dragon: a mini Dragon's Nest instead of the egg - eyes go into the portal frames, the crystals beam, it spawns. */
+    private final boolean dragon;
+    private final float HATCH, FLY, END;
+    private static final float EYE0 = 0.75f, EYE_STEP = 0.2f, BEAMS = 2.45f;
+    private int eyesPlaced;
 
     private final String name;
     private final String rarityLabel;
@@ -49,6 +54,10 @@ public final class PetScene implements Scene {
         this.hooks = hooks;
         this.eggSide = eggPattern(10, 10, 1);
         this.eggTop = eggPattern(10, 10, 2);
+        this.dragon = name.toLowerCase(java.util.Locale.ROOT).contains("ender dragon");
+        this.HATCH = dragon ? 3.45f : 2.05f;
+        this.END = HATCH + 5.55f;
+        this.FLY = END - 1.0f;
     }
 
     /** Cream shell with spots in the rarity colour, like a SkyBlock pet egg. */
@@ -86,8 +95,12 @@ public final class PetScene implements Scene {
         c.fill(0, 0, w, h, Fx.alpha(0x07070C, 0.8f * fade));
         Fx.glow(c, cx, cy, 110 * k, rarity, 0.35f * fade, 3);
 
+        // ---------------------------------------------------------------- the summon (Ender Dragon)
+        if (dragon && t < HATCH + 0.7f) {
+            summon(c, t, cx, cy, k, fade);
+        }
         // ---------------------------------------------------------------- the egg
-        if (t < HATCH + 0.05f) {
+        if (!dragon && t < HATCH + 0.05f) {
             while (knocks < KNOCKS.length && t >= KNOCKS[knocks]) {
                 hooks.sound(Cue.TICK, 0.7f + knocks * 0.12f, 0.9f);
                 hooks.sound(Cue.CASE_OPEN, 1.6f + knocks * 0.1f, 0.35f);
@@ -113,10 +126,12 @@ public final class PetScene implements Scene {
         // ---------------------------------------------------------------- the hatch
         if (t >= HATCH && !hatched) {
             hatched = true;
-            hooks.sound(Cue.SPLASH, 1.3f, 0.7f);
+            hooks.sound(Cue.SPLASH, dragon ? 0.7f : 1.3f, 0.7f);
+            if (dragon) hooks.sound(Cue.THUMP, 0.6f, 1.0f);
             hooks.sound(Cue.TOTEM, 1.25f, 0.5f);
             hooks.sound(Cue.CASE_WIN, 1.0f, 1.0f);
-            fx.burst(cx, cy, 60, 50 * k, 190 * k, 120 * k, 1.0f, 2 * k, 4.5f * k, 0xF4EFDD, 0xE2DCC4, rarity, 0xFFFFFF);
+            if (dragon) fx.burst(cx, cy, 70, 50 * k, 210 * k, 60 * k, 1.1f, 2 * k, 4.5f * k, 0xC040FF, 0x1A0A2A, 0xFF66FF, 0xFFFFFF);
+            else fx.burst(cx, cy, 60, 50 * k, 190 * k, 120 * k, 1.0f, 2 * k, 4.5f * k, 0xF4EFDD, 0xE2DCC4, rarity, 0xFFFFFF);
             Particles.P ring = fx.add(cx, cy, 0, 0, 0.6f, 90 * k, rarity);
             ring.kind = Particles.Kind.RING;
         }
@@ -130,7 +145,7 @@ public final class PetScene implements Scene {
             float pop = Fx.backOut(Fx.clamp01(rt / POP));
             float bob = (float) Math.sin(rt * 2.6f) * 5 * k;
             float x = cx + fly * (w * 0.33f) + (float) Math.sin(rt * 1.1f) * 4 * k;
-            float y = cy + bob - pop * 6 * k + fly * (h * 0.18f);
+            float y = cy + bob - pop * 6 * k + fly * (h * 0.18f) + (dragon ? (1 - pop) * 20 * k : 0);
             float size = 44 * k * pop * (1 - 0.55f * fly);
             // spins in fast, then calmly looks around
             float spin = rt < POP + 0.3f ? (1 - Fx.easeOut(Fx.clamp01(rt / (POP + 0.3f)))) * (float) Math.PI * 4 : 0;
@@ -161,6 +176,150 @@ public final class PetScene implements Scene {
         }
         fx.update(dt);
         fx.render(c, fade);
+    }
+
+    // ---------------------------------------------------------------- mini Dragon's Nest
+
+    private static Skins.Face f(String tex, int u, int v, int w, int h) {
+        return new Skins.Face(tex, 16, 16, u, v, w, h);
+    }
+
+    private static final String FRAME_TOP = "textures/block/end_portal_frame_top.png", FRAME_SIDE = "textures/block/end_portal_frame_side.png",
+            EYE = "textures/block/end_portal_frame_eye.png", END_STONE = "textures/block/end_stone.png",
+            OBSIDIAN = "textures/block/obsidian.png", CRYSTAL = "textures/entity/end_crystal/end_crystal.png";
+    private static final CubeSkin FRAME = new CubeSkin(f(FRAME_TOP, 0, 0, 16, 16), f(END_STONE, 0, 0, 16, 16),
+            f(FRAME_SIDE, 0, 3, 16, 13), f(FRAME_SIDE, 0, 3, 16, 13), f(FRAME_SIDE, 0, 3, 16, 13), f(FRAME_SIDE, 0, 3, 16, 13),
+            null, 1, 13 / 16f, 1, 0x3E6B5E, 0x1E3A32);
+    private static final CubeSkin EYE_SKIN = new CubeSkin(f(EYE, 4, 4, 8, 8), f(EYE, 4, 4, 8, 8),
+            f(EYE, 4, 0, 8, 3), f(EYE, 4, 0, 8, 3), f(EYE, 4, 0, 8, 3), f(EYE, 4, 0, 8, 3), null, 1, 3 / 8f, 1, 0x2E8C6E, 0x0E3A2E);
+    private static final CubeSkin STONE = new CubeSkin(f(END_STONE, 0, 0, 16, 16), f(END_STONE, 0, 0, 16, 16),
+            f(END_STONE, 0, 0, 16, 4), f(END_STONE, 0, 0, 16, 4), f(END_STONE, 0, 0, 16, 4), f(END_STONE, 0, 0, 16, 4),
+            null, 1, 0.25f, 1, 0xDDE0A5, 0xB8BA80);
+    private static final CubeSkin OBS = new CubeSkin(f(OBSIDIAN, 0, 0, 16, 16), f(OBSIDIAN, 0, 0, 16, 16), f(OBSIDIAN, 0, 0, 16, 16),
+            f(OBSIDIAN, 0, 0, 16, 16), f(OBSIDIAN, 0, 0, 16, 16), f(OBSIDIAN, 0, 0, 16, 16), null, 1, 1, 1, 0x1A1028, 0x0A0612);
+    private static CubeSkin crystal(int u) {
+        return new CubeSkin(new Skins.Face(CRYSTAL, 64, 32, u + 8, 0, 8, 8), new Skins.Face(CRYSTAL, 64, 32, u + 16, 0, 8, 8),
+                new Skins.Face(CRYSTAL, 64, 32, u + 8, 8, 8, 8), new Skins.Face(CRYSTAL, 64, 32, u + 24, 8, 8, 8),
+                new Skins.Face(CRYSTAL, 64, 32, u + 16, 8, 8, 8), new Skins.Face(CRYSTAL, 64, 32, u, 8, 8, 8), null, 1, 1, 1, 0xE070E0, 0x802080);
+    }
+    private static final CubeSkin GLASS = crystal(0), CORE = crystal(32);
+
+    private interface Draw {
+        void run();
+    }
+
+    private void summon(Canvas c, float t, float cx, float cy, float k, float fade) {
+        float out = 1 - Fx.smooth((t - HATCH) / 0.6f);           // the nest fades once the dragon is out
+        float a = fade * out;
+        if (a < 0.02f) return;
+        float in = Fx.easeOut(Fx.clamp01(t / 0.6f));
+        float shake = t > BEAMS && t < HATCH ? (float) Math.sin(t * 80) * 1.5f * k * Fx.clamp01((t - BEAMS) / 0.6f) : 0;
+        iso.cx = cx + shake;
+        iso.cy = cy + 26 * k + (1 - in) * 40 * k;
+        iso.scale = 19 * k * (0.85f + 0.15f * in);
+        iso.yaw = 0.55f + t * 0.22f;
+        iso.pitch = (float) Math.toRadians(30);
+        iso.begin();
+        Pose id = Pose.identity();
+
+        // end stone island (5x5)
+        for (int x = -2; x <= 2; x++) for (int z = -2; z <= 2; z++) {
+            if (Math.abs(x) == 2 && Math.abs(z) == 2) continue;
+            iso.box(c, STONE, Piece.WHOLE, id, x, -0.25f, z, 1, 0, 0, 0);
+        }
+        if (a < 0.98f) c.fill(0, 0, c.width(), c.height(), Fx.alpha(0x07070C, (1 - out) * 0.6f)); // dim while fading
+
+        // the portal in the middle comes alive once all eyes are in
+        float portal = Fx.smooth((t - (EYE0 + 8 * EYE_STEP)) / 0.4f);
+        if (portal > 0.01f) {
+            int[][] g = new int[8][8];
+            Random r = new Random((long) (t * 12));
+            for (int y = 0; y < 8; y++) for (int x = 0; x < 8; x++) {
+                float n = r.nextFloat();
+                g[y][x] = n > 0.93f ? 0x9AF0E0 : n > 0.86f ? 0x2E6A72 : n > 0.75f ? 0x1A2E3A : 0x060A12;
+            }
+            iso.pixelQuad(c, id, new float[]{-1, 0.02f, -1}, new float[]{2, 0, 0}, new float[]{0, 0, 2}, new float[]{0, 1, 0}, g, portal * a);
+        }
+
+        // objects, drawn back to front
+        java.util.List<Object[]> list = new java.util.ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            double ang = i * Math.PI / 4;
+            float fx0 = (float) Math.cos(ang) * 1.9f, fz = (float) Math.sin(ang) * 1.9f;
+            final int idx = i;
+            list.add(new Object[]{depth(fx0, fz), (Draw) () -> {
+                iso.box(c, FRAME, Piece.WHOLE, id, fx0, 0, fz, 1, 0, 0, 0);
+                float placeAt = EYE0 + idx * EYE_STEP;
+                if (t >= placeAt) {
+                    float drop = 1 - Fx.easeOut(Fx.clamp01((t - placeAt) / 0.18f));
+                    iso.box(c, EYE_SKIN, Piece.WHOLE, id, fx0, 13 / 16f + drop * 1.5f, fz, 0.5f, 0, 0, 0);
+                }
+            }});
+        }
+        float[][] pillars = {{3.3f, 0}, {0, 3.3f}, {-3.3f, 0}, {0, -3.3f}};
+        for (float[] pl : pillars) {
+            list.add(new Object[]{depth(pl[0], pl[1]), (Draw) () -> {
+                for (int y = 0; y < 3; y++) iso.box(c, OBS, Piece.WHOLE, id, pl[0], y - 0.25f, pl[1], 1, 0, 0, 0);
+                float bob = (float) Math.sin(t * 3 + pl[0]) * 0.15f;
+                Pose spin = Pose.identity().pivot(pl[0], 3.55f + bob, pl[1]).rotY(t * 2.4f).rollZ(0.62f);
+                iso.box(c, CORE, Piece.WHOLE, spin, pl[0], 3.3f + bob, pl[1], 0.5f, 0, 0, 0);
+                iso.box(c, GLASS, Piece.WHOLE, spin, pl[0], 3.15f + bob, pl[1], 0.8f, 0, 0, 0);
+            }});
+        }
+        list.sort((p, q) -> Float.compare((Float) p[0], (Float) q[0]));
+        for (Object[] o : list) ((Draw) o[1]).run();
+
+        // eye sounds + sparkles
+        while (eyesPlaced < 8 && t >= EYE0 + eyesPlaced * EYE_STEP) {
+            double ang = eyesPlaced * Math.PI / 4;
+            float[] sp = iso.screen(id, (float) Math.cos(ang) * 1.9f, 1, (float) Math.sin(ang) * 1.9f);
+            fx.burst(sp[0], sp[1], 8, 15 * k, 50 * k, 40 * k, 0.5f, k, 2 * k, 0x5AF0C8, 0xFFFFFF);
+            hooks.sound(Cue.POP, 0.9f + eyesPlaced * 0.08f, 0.6f);
+            hooks.sound(Cue.TICK, 1.2f + eyesPlaced * 0.06f, 0.4f);
+            eyesPlaced++;
+            if (eyesPlaced == 8) {
+                hooks.sound(Cue.MAGIC, 0.6f, 0.9f);
+                hooks.sound(Cue.RATTLE, 0.7f, 0.6f);
+            }
+        }
+
+        // crystals beam into the portal, the dragon forms above it
+        if (t > BEAMS) {
+            float b = Fx.smooth((t - BEAMS) / 0.4f) * a;
+            float[] target = iso.screen(id, 0, 1.6f, 0);
+            for (float[] pl : pillars) {
+                float bob = (float) Math.sin(t * 3 + pl[0]) * 0.15f;
+                float[] from = iso.screen(id, pl[0], 3.55f + bob, pl[1]);
+                beam(c, from[0], from[1], target[0], target[1], k, b, t);
+            }
+            float orb = Fx.smooth((t - BEAMS) / (HATCH - BEAMS));
+            Fx.glow(c, target[0], target[1], 40 * k * orb, 0xC040FF, 0.7f * b, 2);
+            Fx.glow(c, target[0], target[1], 18 * k * orb, 0xFFFFFF, 0.6f * b, 2);
+            if (random.nextFloat() < 0.7f) {
+                float ang = random.nextFloat() * 6.283f, dist = 50 * k;
+                Particles.P p = fx.add(target[0] + (float) Math.cos(ang) * dist, target[1] + (float) Math.sin(ang) * dist,
+                        -(float) Math.cos(ang) * dist * 2, -(float) Math.sin(ang) * dist * 2, 0.45f, 2 * k, 0xD070FF);
+                p.kind = Particles.Kind.SPARKLE;
+            }
+        }
+    }
+
+    private float depth(float x, float z) {
+        return x * (float) Math.sin(iso.yaw) + z * (float) Math.cos(iso.yaw);
+    }
+
+    /** A flickering end-crystal beam (pink-white core, purple glow). */
+    private static void beam(Canvas c, float x0, float y0, float x1, float y1, float k, float a, float t) {
+        float len = (float) Math.hypot(x1 - x0, y1 - y0);
+        int steps = Math.max(2, Math.round(len / Math.max(1, k)));
+        float flick = 0.75f + 0.25f * (float) Math.sin(t * 40 + x0);
+        for (int i = 0; i <= steps; i++) {
+            float f = i / (float) steps;
+            int px = Math.round(x0 + (x1 - x0) * f), py = Math.round(y0 + (y1 - y0) * f);
+            int g = Math.max(1, Math.round(2 * k));
+            c.fill(px - g, py - g, px + g + 1, py + g + 1, Fx.alpha(0xA030E0, 0.35f * a * flick));
+            c.fill(px, py, px + Math.max(1, Math.round(k)), py + Math.max(1, Math.round(k)), Fx.alpha(0xFFD0FF, a * flick));
+        }
     }
 
     /** The pet: its head skin as a 3D cube, or a placeholder until the skin has loaded. */
