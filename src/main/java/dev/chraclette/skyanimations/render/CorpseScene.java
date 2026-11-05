@@ -361,8 +361,9 @@ public final class CorpseScene implements Scene {
         float appear = Fx.smooth((t - 0.5f) / 0.3f);
         c.push();
         c.translate(px + (1 - appear) * 40 * k, py);
-        c.rotate(angle);
-        c.scale(-3.6f * k, 3.6f * k);   // mirrored: the head points up-left at the block
+        // not mirrored (a negative scale culls the 3D item in 26.x): turned a quarter instead, head up-left at the block
+        c.rotate(angle - (float) (Math.PI / 2));
+        c.scale(3.6f * k, 3.6f * k);
         c.item(pickaxe, -1, -15);        // handle end (texel 1,15) at the pivot
         c.pop();
     }

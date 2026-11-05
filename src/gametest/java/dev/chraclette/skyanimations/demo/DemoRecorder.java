@@ -42,10 +42,6 @@ public class DemoRecorder implements FabricClientGameTest {
             marker("intro");
             record(0.6f);
 
-            marker("scatha");
-            context.runOnClient(c -> Demo.chat("PET DROP! Scatha (+254% ✯ Magic Find)"));
-            record(10.0f);
-
             marker("corpse");
             context.runOnClient(c -> Demo.corpse());
             record(12.0f);
