@@ -36,6 +36,7 @@ public final class CorpseScene implements Scene {
     private final Random random = new Random(21);
     private final Iso iso = new Iso();
     private final RevealText text = new RevealText();
+    private final Diorama place = new Diorama(Diorama.Theme.GLACITE, 9);
     private final List<float[][]> cracks = new ArrayList<>();
     private final int normal;           // items knocked out one by one
     private final float shatter, reveal, end;
@@ -112,6 +113,7 @@ public final class CorpseScene implements Scene {
         int rareCol = rare == null ? 0xFFFFFF : dye != null ? dye[0] : rare.color();
 
         c.fill(0, 0, w, h, Fx.alpha(0x05070C, 0.45f * fade));
+        place.draw(c, t, cx, cy + 43 * k, k, fade, 0.3f + 0.3f * Fx.smooth((t - shatter) / 0.4f));
 
         // ---- hits
         int hitIndex = (int) Math.floor((t - HIT0) / GAP + 1e-4);

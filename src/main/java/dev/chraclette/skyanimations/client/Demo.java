@@ -105,6 +105,10 @@ public final class Demo {
         return sb.toString();
     }
 
+    public static void corpse() {
+        Corpse.test(false);
+    }
+
     public static void dungeonChest() {
         DungeonChest.test();
     }

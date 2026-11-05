@@ -37,6 +37,8 @@ public final class HypixelInfo {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             Nucleus.tick();
             ChatHider.tick();
+            String ar = area();
+            dev.chraclette.skyanimations.render.Diorama.area = ar == null ? "" : ar;
             if (LedgerStore.takeRestoredNotice()) {
                 ChatHider.add(net.minecraft.network.chat.Component.literal("§6[SkyAnimations] §7Sticker book restored from your backup (§f"
                         + LedgerStore.get().size() + "§7 stickers)."));

@@ -42,17 +42,21 @@ public class DemoRecorder implements FabricClientGameTest {
             marker("intro");
             record(0.6f);
 
-            marker("chest");
-            context.runOnClient(c -> Demo.dungeonChest());
-            record(20.0f);
+            marker("scatha");
+            context.runOnClient(c -> Demo.chat("PET DROP! Scatha (+254% ✯ Magic Find)"));
+            record(10.0f);
 
-            marker("rngmeter");
-            context.runOnClient(c -> Demo.rngMeter());
-            record(19.5f);
+            marker("corpse");
+            context.runOnClient(c -> Demo.corpse());
+            record(12.0f);
 
-            marker("nucleus");
-            context.runOnClient(c -> Demo.nucleus(true));
-            record(6.0f);
+            marker("blaze");
+            context.runOnClient(c -> Demo.chat("RARE DROP! High Class Archfiend Dice (+312% ✯ Magic Find)"));
+            record(9.0f);
+
+            marker("revenant");
+            context.runOnClient(c -> Demo.chat("RARE DROP! (Scythe Blade) (+300% ✯ Magic Find)"));
+            record(9.0f);
             marker("end");
             System.out.println("DEMO-FRAMES " + frame);
         }

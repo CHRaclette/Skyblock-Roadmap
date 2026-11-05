@@ -60,6 +60,7 @@ public final class Cutscene implements Scene {
     private static final float SPIT = 2.6f;
 
     private final Drop drop;
+    private final Diorama place;
     private final Hooks hooks;
     private final boolean compact;
     private final boolean test;
@@ -90,6 +91,7 @@ public final class Cutscene implements Scene {
         this.drop = drop;
         this.hooks = hooks;
         this.compact = compact;
+        this.place = new Diorama(Diorama.forPlace(drop.category().name(), Diorama.area), drop.name().hashCode());
         this.test = test;
         this.music = music;
         this.skin = Skins.forDrop(drop);
@@ -193,8 +195,9 @@ public final class Cutscene implements Scene {
         float fadeOut = 1 - Fx.smooth((t - (end - 0.5f)) / 0.5f);
         float dim = Fx.smooth(t / 0.3f) * fadeOut;
 
-        // Dark backdrop with a tint of the effect colour.
-        c.fill(0, 0, w, h, Fx.alpha(0x07060C, 0.62f * dim));
+        // Dark backdrop, then the place the drop happened (3D blocks)
+        c.fill(0, 0, w, h, Fx.alpha(0x07060C, (compact ? 0.62f : 0.45f) * dim));
+        if (!compact) place.draw(c, t, w / 2f, h * 0.70f, Math.min(1.6f, Math.max(0.8f, h / 250f)), dim, 0.35f);
 
         if (!compact && t < FLASH + 0.05f) {
             if (pestScene) {

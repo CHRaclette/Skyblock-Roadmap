@@ -33,6 +33,7 @@ public final class BlazeScene implements Scene {
     private final Hooks hooks;
     private final Particles fx = new Particles(5);
     private final Random random = new Random(9);
+    private final Diorama place = new Diorama(Diorama.Theme.CRIMSON, 6);
     private final Iso iso = new Iso();
     private final RevealText text = new RevealText();
     private float lastT = -1;
@@ -67,8 +68,9 @@ public final class BlazeScene implements Scene {
         float fade = Fx.smooth(t / 0.4f) * (1 - Fx.smooth((t - (END - 0.6f)) / 0.6f));
         float cx = w / 2f, cy = h * 0.45f;
 
-        // darken the world, darker at the edges
-        c.fill(0, 0, w, h, Fx.alpha(0x050302, 0.72f * fade));
+        // darken the world, then the Crimson Isle around it
+        c.fill(0, 0, w, h, Fx.alpha(0x050302, 0.5f * fade));
+        place.draw(c, t, cx, cy + 62 * k, k, fade, 0.4f);
         Fx.glow(c, cx, cy, Math.max(w, h) * 0.45f, 0x2A1A10, 0.5f * fade, 4);
 
         // fire pillars (two each side)

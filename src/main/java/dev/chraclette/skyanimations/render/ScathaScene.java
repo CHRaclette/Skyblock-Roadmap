@@ -34,6 +34,7 @@ public final class ScathaScene implements Scene {
     private final Random random = new Random(7);
     private final Iso iso = new Iso();
     private final RevealText text = new RevealText();
+    private final Diorama place = new Diorama(Diorama.Theme.HOLLOWS, 4);
     private final float[] cutAt = new float[SEGMENTS];        // when a segment was cut off (-1 = attached)
     private final float[][] cutPos = new float[SEGMENTS][];
     private float lastT = -1;
@@ -76,7 +77,8 @@ public final class ScathaScene implements Scene {
         float k = Math.min(1.6f, Math.max(0.8f, h / 250f));
         float fade = Fx.smooth(t / 0.35f) * (1 - Fx.smooth((t - (END - 0.6f)) / 0.6f));
         float cy = h * 0.44f;
-        c.fill(0, 0, w, h, Fx.alpha(0x07070C, 0.82f * fade));
+        c.fill(0, 0, w, h, Fx.alpha(0x07070C, 0.55f * fade));
+        place.draw(c, t, w / 2f, cy + 16 * k, k, fade, 0.35f + 0.3f * Fx.smooth((t - REVEAL) / 0.4f));
 
         CubeSkin headSkin = Props.headSkins.apply(name);
         CubeSkin bodySkin = headSkin == null ? null : new CubeSkin(headSkin.back(), headSkin.back(), headSkin.back(),
