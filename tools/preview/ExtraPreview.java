@@ -17,7 +17,7 @@ public class ExtraPreview {
             s = new DyeScene("Necron Dye", "item_redstone.png", new int[]{0xE7413C}, 0xAA00AA, "+312% Magic Find", (cue, p, v) -> { });
             dur = 4.75f;
         } else {
-            s = new ScathaScene("Scatha", "Legendary", "item_totem_of_undying.png", 0xFFAA00, "Crystal Hollows", (cue, p, v) -> { });
+            s = new ScathaScene("Scatha", "Legendary", "item_totem_of_undying.png", 0xFFAA00, "Your 1st Scatha pet", 285_000_000L, (cue, p, v) -> { });
             dur = 6.0f;
         }
         new File(out).mkdirs();

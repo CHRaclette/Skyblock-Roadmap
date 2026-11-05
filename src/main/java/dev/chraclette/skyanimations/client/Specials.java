@@ -4,6 +4,8 @@ import dev.chraclette.skyanimations.core.Drop;
 import dev.chraclette.skyanimations.core.DropTier;
 import dev.chraclette.skyanimations.core.Effect;
 import dev.chraclette.skyanimations.render.DyeScene;
+import dev.chraclette.skyanimations.render.Cutscene;
+import dev.chraclette.skyanimations.render.BlazeScene;
 import dev.chraclette.skyanimations.render.ScathaScene;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -36,6 +38,19 @@ final class Specials {
             dye(drop.name(), icon, bonus);
             return true;
         }
+        if (cfg.blazeScene && drop.category() == dev.chraclette.skyanimations.core.Category.INFERNO) {
+            Cutscene.Price price = Prices.lookup(drop, "");
+            var e = LedgerStore.get().entry(drop.name());
+            int times = e == null ? 1 : Math.max(1, e.times);
+            java.util.List<String> lines = new java.util.ArrayList<>();
+            lines.add("Your " + Runs.ordinal(times) + " " + drop.name());
+            if (!bonus.isEmpty()) lines.add(bonus);
+            int rarity = ItemCatalog.tierColor(Runs.tier(drop.name()));
+            if (rarity == 0xFFFFFF) rarity = drop.tier().color;
+            CutsceneManager.play(new BlazeScene(drop.name(), icon, rarity, price == null ? 0 : price.coins(), lines,
+                    (cue, pitch, volume) -> Sounds.play(cue, Effect.INFERNO, pitch, volume)));
+            return true;
+        }
         String area = HypixelInfo.area();
         boolean hollows = area != null && area.toLowerCase(Locale.ROOT).contains("crystal hollows");
         if (cfg.scathaScene && drop.tier() == DropTier.PET && (lower.contains("scatha") || hollows)) {
@@ -47,8 +62,13 @@ final class Specials {
                 ItemCatalog.tagPet(head, "SCATHA", label.isEmpty() ? "LEGENDARY" : label.toUpperCase(Locale.ROOT), "Scatha", rarity);
                 icon = head;
             }
+            var e = LedgerStore.get().entry(drop.name());
+            int times = e == null ? 1 : Math.max(1, e.times);
+            Cutscene.Price price = Prices.lookup(drop, "");
+            String what = lower.contains("scatha") ? "Scatha pet" : drop.name();
             CutsceneManager.play(new ScathaScene(drop.name(), rarityLabel(rarity), icon, rarity,
-                    hollows ? "Crystal Hollows" + (bonus.isEmpty() ? "" : "  ·  " + bonus) : bonus,
+                    "Your " + Runs.ordinal(times) + " " + what + (bonus.isEmpty() ? "" : "  ·  " + bonus),
+                    price == null ? 0 : price.coins(),
                     (cue, pitch, volume) -> Sounds.play(cue, Effect.STARS, pitch, volume)));
             return true;
         }

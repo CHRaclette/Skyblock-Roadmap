@@ -153,6 +153,10 @@ public final class Ledger {
         return n;
     }
 
+    public Entry entry(String name) {
+        return stickers.get(key(name));
+    }
+
     public void addRun(String key) {
         if (runs == null) runs = new LinkedHashMap<>();
         runs.merge(key, 1L, Long::sum);

@@ -42,6 +42,7 @@ final class Commands {
         PRESETS.put("feverdrop", "PRAY TO RNGESUS DROP! You dropped 12x Enchanted Hay Bale!");
         PRESETS.put("pet", "PET DROP! Ender Dragon (+200% ✯ Magic Find)");
         PRESETS.put("scatha", "PET DROP! Scatha (+254% ✯ Magic Find)");
+        PRESETS.put("hcblaze", "RARE DROP! High Class Archfiend Dice (+312% ✯ Magic Find)");
         PRESETS.put("necrondye", "RARE DROP! Necron Dye (+312% ✯ Magic Find)");
     }
 
@@ -107,6 +108,15 @@ final class Commands {
                                     return 1;
                                 })));
             }
+            test.then(ClientCommands.literal("corpse").executes(ctx -> {
+                Corpse.test(false);
+                say(ctx, "§7Mining a §fVanguard corpse§7 (Shattered Locket)...");
+                return 1;
+            }).then(ClientCommands.literal("dye").executes(ctx -> {
+                Corpse.test(true);
+                say(ctx, "§7Mining a §fVanguard corpse§7 (Frostbitten Dye)...");
+                return 1;
+            })));
             test.then(ClientCommands.literal("wow").executes(ctx -> {
                 Specials.onWow("WOW! [MVP+] You found a Rose Dye #12!", "You", true);
                 say(ctx, "§7Simulating §dWOW! You found a Rose Dye§7 (an animated dye)...");
@@ -187,6 +197,8 @@ final class Commands {
                             }))
                     .then(ClientCommands.literal("hidechat").executes(ctx -> toggle(ctx, "hideChat")))
                     .then(ClientCommands.literal("dice").executes(ctx -> toggle(ctx, "diceSlot")))
+                    .then(ClientCommands.literal("corpse").executes(ctx -> toggle(ctx, "corpse")))
+                    .then(ClientCommands.literal("blaze").executes(ctx -> toggle(ctx, "blazeScene")))
                     .then(ClientCommands.literal("apikey")
                             .executes(ctx -> {
                                 say(ctx, ProfileApi.hasKey() ? "§7API key set: §f" + ProfileApi.mask(Config.get().apiKey) + " §8(/sa apikey clear)"
@@ -294,6 +306,8 @@ final class Commands {
             case "prices" -> c.prices = !c.prices;
             case "hideChat" -> c.hideChat = !c.hideChat;
             case "diceSlot" -> c.diceSlot = !c.diceSlot;
+            case "corpse" -> c.corpse = !c.corpse;
+            case "blazeScene" -> c.blazeScene = !c.blazeScene;
             default -> !(c.onlyOnHypixel = !c.onlyOnHypixel);
         };
         Config.save();
@@ -393,7 +407,7 @@ final class Commands {
 
     private static int help(CommandContext<FabricClientCommandSource> ctx) {
         say(ctx, "§6§lSkyAnimations §7— rare-drop cutscenes");
-        say(ctx, "§f/sa test §7[" + String.join(", ", PRESETS.keySet()) + ", fever, pests, stickers, nucleus, chest, rngmeter, wow, dice, hcdice]");
+        say(ctx, "§f/sa test §7[" + String.join(", ", PRESETS.keySet()) + ", fever, pests, stickers, nucleus, chest, rngmeter, wow, dice, hcdice, corpse, hcblaze]");
         say(ctx, "§f/sa ironman §7prices as NPC sell prices (auto / on / off)");
         say(ctx, "§f/sa nucleus §7Crystal Nucleus scene every run or only for rare drops");
         say(ctx, "§f/sa farming §7Crop Fever + pest settings");

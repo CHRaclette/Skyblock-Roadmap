@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
  * ▬▬▬▬▬▬▬▬ (64x)
  * </pre>
  * Rewards are indented with 4 spaces (same rule SkyHanni uses).
+ * The same layout is used for Glacite Mineshaft corpses ("  VANGUARD CORPSE LOOT!"), see {@link #corpses()}.
  */
 public final class NucleusLoot {
 
@@ -26,7 +27,27 @@ public final class NucleusLoot {
     private static final Pattern SUFFIX = Pattern.compile("^(.+?) x([\\d,]+)$");
     private static final Pattern PREFIX = Pattern.compile("^([\\d,]+)x (.+)$");
 
+    private final Pattern header;
+    private String type = "";
     private boolean collecting;
+
+    public NucleusLoot() {
+        this(Pattern.compile("^CRYSTAL NUCLEUS LOOT BUNDLE.*$"));
+    }
+
+    private NucleusLoot(Pattern header) {
+        this.header = header;
+    }
+
+    /** Parser for corpse loot: "  VANGUARD CORPSE LOOT!" (pattern as in SkyHanni's CorpseLoot). */
+    public static NucleusLoot corpses() {
+        return new NucleusLoot(Pattern.compile("^([A-Z]+) CORPSE LOOT! ?$"));
+    }
+
+    /** The header's first group, e.g. VANGUARD. */
+    public String type() {
+        return type;
+    }
     private long startedAt;
     private final List<Item> items = new ArrayList<>();
 
@@ -35,7 +56,9 @@ public final class NucleusLoot {
         String text = FORMATTING.matcher(line).replaceAll("").replace(' ', ' ');
         String trimmed = text.trim();
         if (trimmed.contains(":")) return null; // player chat
-        if (trimmed.startsWith("CRYSTAL NUCLEUS LOOT BUNDLE")) {
+        Matcher hm = header.matcher(trimmed);
+        if (hm.matches()) {
+            type = hm.groupCount() >= 1 ? hm.group(1) : "";
             collecting = true;
             startedAt = nowMillis;
             items.clear();
@@ -72,7 +95,7 @@ public final class NucleusLoot {
             count = parseCount(m.group(1));
             name = m.group(2);
         }
-        name = name.trim();
+        name = name.trim().replaceAll("^[^A-Za-z0-9\\[(]+", "").trim(); // "☠ Fine Onyx Gemstone"
         if (name.isEmpty()) return null;
         return new Item(name, count, name.endsWith(" Powder"));
     }

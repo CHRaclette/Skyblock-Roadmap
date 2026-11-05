@@ -40,13 +40,13 @@ final class ChatHider {
         String t = text.trim();
 
         // ---- Crystal Nucleus bundle (starts with a ▬ line we only recognise afterwards)
-        if (cfg.nucleus) {
+        if (cfg.nucleus || cfg.corpse) {
             if (inNucleus) {
                 nucleusLines.add(message);
                 if (isBar(t)) inNucleus = false; // the closing line; Nucleus decides what to do
                 return true;
             }
-            if (t.startsWith("CRYSTAL NUCLEUS LOOT BUNDLE")) {
+            if ((cfg.nucleus && t.startsWith("CRYSTAL NUCLEUS LOOT BUNDLE")) || (cfg.corpse && t.matches("^[A-Z]+ CORPSE LOOT! ?$"))) {
                 nucleusLines.clear();
                 if (pendingBar != null) nucleusLines.add(pendingBar);
                 pendingBar = null;
@@ -86,7 +86,11 @@ final class ChatHider {
         return t.length() >= 20 && t.chars().allMatch(ch -> ch == BAR.charAt(0) || ch == ' ');
     }
 
-    /** Called by Nucleus when the bundle ended: put the lines back if no scene played. */
+    /** Called by Nucleus / Corpse when the bundle ended: put the lines back if no scene played. */
+    static void bundleDone(boolean played) {
+        nucleusDone(played);
+    }
+
     static void nucleusDone(boolean played) {
         if (!played) {
             for (Component c : nucleusLines) add(c);

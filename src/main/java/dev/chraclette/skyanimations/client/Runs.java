@@ -100,6 +100,13 @@ final class Runs {
         return new ArrayList<>(new java.util.LinkedHashSet<>(names));
     }
 
+    /** 1st, 2nd, 3rd, 4th ... */
+    static String ordinal(long n) {
+        long m100 = n % 100, m10 = n % 10;
+        String suf = (m100 >= 11 && m100 <= 13) ? "th" : m10 == 1 ? "st" : m10 == 2 ? "nd" : m10 == 3 ? "rd" : "th";
+        return n + suf;
+    }
+
     static RunScene.Hooks hooks() {
         return (cue, pitch, volume) -> Sounds.play(cue, Effect.STARS, pitch, volume);
     }

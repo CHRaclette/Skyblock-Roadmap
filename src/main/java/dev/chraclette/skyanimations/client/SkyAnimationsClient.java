@@ -71,6 +71,7 @@ public final class SkyAnimationsClient implements ClientModInitializer {
         Nucleus.onChat(message.getString(), false);
         RngMeter.onChat(message.getString(), false);
         Dice.onChat(message.getString(), false);
+        Corpse.onChat(message.getString(), false);
         DungeonRun.onChat(message.getString());
         if (Specials.onWow(message.getString(), ownName(), false)) return;
         Specials.current = message;

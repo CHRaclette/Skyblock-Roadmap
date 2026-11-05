@@ -34,6 +34,18 @@ Client-side and purely visual: it only reads chat and draws on your screen.
 - **Dyes:** a paint bomb in the exact colour of the dye, big name, paint drips.
 - **Scatha / Crystal Hollows pets:** something burrows through a sand strip, the pet bursts out, slides across and snaps in with its rarity glow.
 
+## More scenes
+- **Inferno Demonlord drops:** the world goes dark, the blaze floats between four fire pillars that ignite one by one,
+  hit markers flash, the blaze glows white and bursts into gold, and the drop (e.g. the High Class Archfiend Dice) appears
+  with a gold fountain, typed-in name and a coin counter. `/sa blaze`, test: `/sa test hcblaze`.
+- **Glacite Mineshaft corpses:** the corpse frozen in ice, every pickaxe hit spreads the cracks and knocks an item into
+  the hotbar. Before a Shattered Locket / Frostbitten Dye (or anything big) the ice glows, then shatters; golden stars
+  (paint for dyes) pull together and the item appears with "1 in N corpses", your count and the coins. `/sa corpse`,
+  test: `/sa test corpse` / `/sa test corpse dye`.
+- **Scatha:** a worm of Scatha segments gets sliced by a cleaver, the head flies to the middle: PET DROP!, rarity,
+  coins and "Your Nth Scatha pet". Test: `/sa test scatha`.
+- **Archfiend Dice:** slot machine; a 6 pays out with a coin counter, a 7 is the Archfiend Dye. `/sa test dice 6`.
+
 ## Ironman
 On an Ironman profile (♲ in the tab list) every price is the item's NPC sell price. `/sa ironman` = auto / on / off.
 

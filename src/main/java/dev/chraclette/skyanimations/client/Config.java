@@ -33,6 +33,10 @@ public final class Config {
         public boolean hideChat = true;
         /** Archfiend Dice rolls as a slot machine. */
         public boolean diceSlot = true;
+        /** Glacite Mineshaft corpse scene. */
+        public boolean corpse = true;
+        /** Inferno Demonlord (Blaze slayer) drop scene. */
+        public boolean blazeScene = true;
         /** Personal Hypixel API key (developer.hypixel.net), only used to read your own run totals. */
         public String apiKey = "";
         public boolean dyeScene = true;

@@ -40,7 +40,7 @@ public final class Cutscene implements Scene {
     }
 
     public enum Cue { WHOOSH, THUMP, CHOP, SQUISH, SPLIT, MAGIC, REVEAL, LEVELUP, FIREWORK, TWINKLE, NOTE, BELL, TOTEM, POP,
-        BUZZ, SUCK, SLURP, RATTLE, SPIT, FEVER, FEVER_END, TOAST, PEST_ALERT, PAGE, SLAP, TICK, CASE_OPEN, SPLASH, DIG, CASE_WIN, SWOOSH }
+        BUZZ, SUCK, SLURP, RATTLE, SPIT, FEVER, FEVER_END, TOAST, PEST_ALERT, PAGE, SLAP, TICK, CASE_OPEN, SPLASH, DIG, CASE_WIN, SWOOSH, ICE_HIT, ICE_BREAK }
 
     private record SoundAt(float time, Cue cue, float pitch, float volume) {
     }

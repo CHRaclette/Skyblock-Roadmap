@@ -1,15 +1,17 @@
 package dev.chraclette.skyanimations.render;
 
 import dev.chraclette.skyanimations.render.Cutscene.Cue;
-import dev.chraclette.skyanimations.render.Particles.Kind;
-import dev.chraclette.skyanimations.render.Particles.P;
+import dev.chraclette.skyanimations.render.Iso.Piece;
+import dev.chraclette.skyanimations.render.Iso.Pose;
+import dev.chraclette.skyanimations.render.Skins.CubeSkin;
 
+import java.util.List;
 import java.util.Random;
 
 /**
- * Scatha / Crystal Hollows pet drop: a strip of sand across the screen, something burrows through
- * it, the pet bursts out and slides across the screen CS-style, then snaps hard onto its spot with
- * a glow in its rarity colour.
+ * Scatha pet drop: a worm of Scatha segments wriggles across the dark screen, a cleaver slices it
+ * apart in a few quick cuts, the head is left, flies to the middle, grows, flashes, and sits in a
+ * burst of purple light with PET DROP!, the rarity, a coin counter and how many you have.
  */
 public final class ScathaScene implements Scene {
 
@@ -17,33 +19,53 @@ public final class ScathaScene implements Scene {
         void sound(Cue cue, float pitch, float volume);
     }
 
-    private static final float DIG = 1.7f, SLIDE = 0.9f, SNAP = DIG + SLIDE, END = SNAP + 3.4f;
-    private static final int[] SAND = {0xDBCF8E, 0xD3C27A, 0xE6DBA3, 0xC9B76E, 0xB8A660};
+    private static final int SEGMENTS = 9;
+    private static final float[] SLICES = {1.5f, 1.85f, 2.2f, 2.55f};
+    private static final float ZOOM = 2.85f, REVEAL = 3.5f, END = 9.5f;
 
     private final String name;
     private final String rarityLabel;
     private final Object icon;
     private final int rarity;
-    private final String subtitle;
+    private final String countLine;
+    private final long coins;
     private final Hooks hooks;
     private final Particles fx = new Particles(99);
     private final Random random = new Random(7);
+    private final Iso iso = new Iso();
+    private final RevealText text = new RevealText();
+    private final float[] cutAt = new float[SEGMENTS];        // when a segment was cut off (-1 = attached)
+    private final float[][] cutPos = new float[SEGMENTS][];
     private float lastT = -1;
-    private int lastDigStep = -1;
-    private boolean burst, snapped;
+    private int slicesDone;
+    private boolean revealed;
 
-    public ScathaScene(String name, String rarityLabel, Object icon, int rarity, String subtitle, Hooks hooks) {
+    public ScathaScene(String name, String rarityLabel, Object icon, int rarity, String countLine, long coins, Hooks hooks) {
         this.name = name;
         this.rarityLabel = rarityLabel == null ? "" : rarityLabel;
         this.icon = icon;
         this.rarity = rarity;
-        this.subtitle = subtitle == null ? "" : subtitle;
+        this.countLine = countLine == null ? "" : countLine;
+        this.coins = coins;
         this.hooks = hooks;
+        java.util.Arrays.fill(cutAt, -1);
     }
 
     @Override
     public boolean finished(float t) {
         return t >= END;
+    }
+
+    private float headX(int w, float k, float t) {
+        return -30 * k + (w * 0.85f) * Fx.easeOut(Fx.clamp01(t / 2.4f));
+    }
+
+    private float segX(int j, int w, float k, float t) {
+        return headX(w, k, t) - (j + 1) * 30 * k;
+    }
+
+    private float segY(float x, float cy, float k, float t) {
+        return cy + (float) Math.sin(x / (60 * k) - t * 5) * 14 * k;
     }
 
     @Override
@@ -52,119 +74,135 @@ public final class ScathaScene implements Scene {
         lastT = t;
         int w = c.width(), h = c.height();
         float k = Math.min(1.6f, Math.max(0.8f, h / 250f));
-        float fade = Fx.smooth(t / 0.3f) * (1 - Fx.smooth((t - (END - 0.6f)) / 0.6f));
-        c.fill(0, 0, w, h, Fx.alpha(0x07050A, 0.55f * fade));
+        float fade = Fx.smooth(t / 0.35f) * (1 - Fx.smooth((t - (END - 0.6f)) / 0.6f));
+        float cy = h * 0.44f;
+        c.fill(0, 0, w, h, Fx.alpha(0x07070C, 0.82f * fade));
 
-        // shake right after the snap
-        float shake = snapped ? (1 - Fx.smooth((t - SNAP) / 0.35f)) * 3 * k : 0;
-        float ox = shake > 0 ? (random.nextFloat() - 0.5f) * shake * 2 : 0;
-        float oy = shake > 0 ? (random.nextFloat() - 0.5f) * shake * 2 : 0;
-        c.push();
-        c.translate(ox, oy);
+        CubeSkin headSkin = Props.headSkins.apply(name);
+        CubeSkin bodySkin = headSkin == null ? null : new CubeSkin(headSkin.back(), headSkin.back(), headSkin.back(),
+                headSkin.back(), headSkin.back(), headSkin.back(), null, 1, 1, 1, 0x3B4054, 0x22242E);
 
-        float cy = h * 0.5f;
-        float bandH = 40 * k;
-        float bandIn = Fx.easeOut(t / 0.35f);
-        float bandA = fade * (1 - 0.5f * Fx.smooth((t - SNAP) / 0.5f));
-        // sand band made of pixel blocks
-        float bs = 5 * k;
-        int cols = (int) (w / bs) + 1, rows = Math.max(2, Math.round(bandH / bs));
-        float top = cy - rows * bs / 2;
-        for (int r = 0; r < rows; r++) {
-            for (int col = 0; col < cols; col++) {
-                if (col > cols * bandIn) break;
-                int shade = SAND[Math.floorMod(col * 31 + r * 17, SAND.length)];
-                if (r == 0) shade = Fx.brighten(shade, 0.12f);
-                if (r == rows - 1) shade = Fx.darken(shade, 0.2f);
-                c.fill(Math.round(col * bs), Math.round(top + r * bs), Math.round((col + 1) * bs), Math.round(top + (r + 1) * bs), Fx.alpha(shade, bandA));
+        // ---- slices
+        while (slicesDone < SLICES.length && t >= SLICES[slicesDone]) {
+            int s = slicesDone++;
+            hooks.sound(Cue.CHOP, 1.1f + s * 0.1f, 0.9f);
+            hooks.sound(Cue.SWOOSH, 1.4f, 0.6f);
+            // cut the tail-most attached segments off (2-3 per slice)
+            int cut = 0;
+            for (int j = SEGMENTS - 1; j >= 0 && cut < (s == SLICES.length - 1 ? SEGMENTS : 3); j--) {
+                if (cutAt[j] >= 0) continue;
+                cutAt[j] = t;
+                float x = segX(j, w, k, t);
+                cutPos[j] = new float[]{x, segY(x, cy, k, t), (random.nextFloat() - 0.5f) * 80 * k, -40 * k - random.nextFloat() * 50 * k, (random.nextFloat() - 0.5f) * 6};
+                cut++;
             }
-        }
-        // the burrowing tunnel: a dark trail that grows from left to right under the sand
-        float digP = Fx.clamp01((t - 0.3f) / (DIG - 0.3f));
-        float headX = w * (0.05f + 0.85f * Fx.easeInOut(digP));
-        if (t > 0.3f) {
-            float tunnelY = cy + (float) Math.sin(headX / (30 * k)) * 4 * k;
-            for (float x = 0; x < headX; x += bs) {
-                float ty = cy + (float) Math.sin(x / (30 * k)) * 4 * k;
-                c.fill(Math.round(x), Math.round(ty - 3 * k), Math.round(x + bs), Math.round(ty + 3 * k), Fx.alpha(0x4A3B22, bandA * 0.85f));
-            }
-            if (t < DIG) {
-                // dust kicked up at the digging head
-                if (random.nextFloat() < 0.8f) {
-                    P d = fx.add(headX, top, (random.nextFloat() - 0.7f) * 60 * k, -40 * k - random.nextFloat() * 50 * k, 0.6f, 2 * k + random.nextFloat() * 2 * k, SAND[random.nextInt(SAND.length)]);
-                    d.ay = 150 * k;
-                }
-                int step = (int) (t * 7);
-                if (step != lastDigStep) {
-                    lastDigStep = step;
-                    hooks.sound(Cue.DIG, 0.8f + random.nextFloat() * 0.3f, 0.6f);
-                }
-                Fx.glow(c, headX, tunnelY, 14 * k, 0xFFE8A0, 0.35f * fade, 2);
-            }
+            fx.burst(segX(SEGMENTS / 2, w, k, t), cy, 18, 30 * k, 110 * k, 120 * k, 0.6f, k, 2.5f * k, 0x8C1A2A, 0x3B4054, 0xFFFFFF);
         }
 
-        // burst out at the right and slide to the centre (fast, decelerating, motion-blur ghosts)
-        float slideP = Fx.clamp01((t - DIG) / SLIDE);
-        if (t >= DIG && !burst) {
-            burst = true;
-            hooks.sound(Cue.SWOOSH, 0.8f, 1.0f);
-            hooks.sound(Cue.DIG, 0.6f, 1.0f);
-            fx.burst(headX, cy, 50, 40 * k, 160 * k, 200 * k, 0.9f, 2 * k, 4 * k, SAND);
-        }
-        if (t >= DIG) {
-            float eased = 1 - (float) Math.pow(1 - slideP, 4);
-            float x = headX + (w / 2f - headX) * eased;
-            float y = cy - 6 * k - (float) Math.sin(Math.min(1, slideP * 1.4f) * Math.PI) * 10 * k * (1 - slideP);
-            float sc = 2.8f * k;
-            if (!snapped) {
-                // speed streaks behind the sliding pet
-                float len = 90 * k * (1 - slideP);
-                for (int i = -3; i <= 3; i++) {
-                    float sy = y + i * 4 * k;
-                    float l = len * (1 - Math.abs(i) * 0.18f);
-                    c.fill(Math.round(x + 8 * k), Math.round(sy), Math.round(x + 8 * k + l), Math.round(sy + Math.max(1, k)),
-                            Fx.alpha(i == 0 ? 0xFFFFFF : rarity, 0.7f * fade * (1 - slideP)));
+        // ---- the worm (until the head flies to the middle)
+        float zoom = Fx.easeInOut(Fx.clamp01((t - ZOOM) / (REVEAL - ZOOM)));
+        if (t < REVEAL + 0.1f) {
+            for (int j = SEGMENTS - 1; j >= 0; j--) {
+                float x, y, rot = 0, a = fade;
+                if (cutAt[j] >= 0) {
+                    float ct = t - cutAt[j];
+                    float[] p = cutPos[j];
+                    x = p[0] + p[2] * ct;
+                    y = p[1] + p[3] * ct + 160 * k * ct * ct;
+                    rot = p[4] * ct;
+                    a *= 1 - Fx.smooth(ct / 0.9f);
+                } else {
+                    x = segX(j, w, k, t);
+                    y = segY(x, cy, k, t);
                 }
+                if (a > 0.03f) segment(c, bodySkin, false, x, y, 26 * k * (0.4f + 0.6f * a), rot, 0.6f, 1);
             }
-            if (slideP >= 1 && !snapped) {
-                snapped = true;
-                hooks.sound(Cue.SLAP, 0.8f, 1.0f);
-                hooks.sound(Cue.REVEAL, 1.0f, 0.9f);
-                hooks.sound(Cue.TOTEM, 1.3f, 0.5f);
-                fx.burst(x, y, 70, 40 * k, 200 * k, 60 * k, 1.1f, 2 * k, 4 * k, rarity, 0xFFFFFF, Fx.brighten(rarity, 0.3f));
-                P ring = fx.add(x, y, 0, 0, 0.7f, 70 * k, rarity);
-                ring.kind = Kind.RING;
+            float hx = headX(w, k, t), hy = segY(hx, cy, k, t);
+            float tx = w / 2f, ty = h * 0.40f;
+            float x = hx + (tx - hx) * zoom, y = hy + (ty - hy) * zoom;
+            float size = (28 + 17 * zoom) * k;
+            if (t < REVEAL) segment(c, headSkin, true, x, y, size, 0, (1 - zoom) * 0.7f, fade);
+        }
+
+        // ---- slash lines (the cleaver)
+        for (int s = 0; s < slicesDone; s++) {
+            float st = t - SLICES[s];
+            if (st > 0.35f) continue;
+            float sx = w * (0.25f + 0.14f * s), a = 1 - st / 0.35f;
+            float x1 = sx - 50 * k, y1 = cy - 80 * k, x2 = sx + 40 * k, y2 = cy + 80 * k;
+            if (s % 2 == 1) {
+                float tmp = x1;
+                x1 = x2;
+                x2 = tmp;
             }
-            float st = t - SNAP;
-            if (snapped) {
-                float flash = 1 - Fx.smooth(st / 0.25f);
-                if (flash > 0) c.fill(0, 0, w, h, Fx.alpha(0xFFFFFF, 0.5f * flash * fade));
-                Fx.glow(c, x, y, 40 * k, rarity, 0.9f * fade, 2);
-                Fx.rays(c, x, y, 85 * k, 12, st * 0.4f, Fx.brighten(rarity, 0.4f), 0.6f * fade);
-                float pulse = 1 + 0.04f * (float) Math.sin(st * 5);
-                sc *= pulse * (1 + 0.25f * (1 - Fx.smooth(st / 0.2f)));
+            Fx.line(c, x1, y1, x2, y2, 3 * k * a, Fx.alpha(0xFFFFFF, a * fade));
+            // the cleaver sweeping along the cut
+            float p = Fx.clamp01(st / 0.12f);
+            float bx = x1 + (x2 - x1) * p, by = y1 + (y2 - y1) * p;
+            if (st < 0.2f) cleaver(c, bx, by, k, (float) Math.atan2(y2 - y1, x2 - x1), fade);
+        }
+
+        // ---- reveal
+        if (t >= REVEAL) {
+            float rt = t - REVEAL;
+            if (!revealed) {
+                revealed = true;
+                hooks.sound(Cue.CASE_WIN, 1.0f, 1.0f);
+                hooks.sound(Cue.TOTEM, 1.2f, 0.5f);
+                fx.burst(w / 2f, h * 0.40f, 50, 40 * k, 180 * k, 40 * k, 1.1f, 2 * k, 4 * k, rarity, 0xFFFFFF, 0xC040E0);
             }
-            if (!Props.draw(c, name, x, y, 16 * sc, t - SNAP)) {
+            float flash = 1 - Fx.smooth(rt / 0.3f);
+            if (flash > 0) c.fill(0, 0, w, h, Fx.alpha(0xFFFFFF, 0.55f * flash * fade));
+            float x = w / 2f, y = h * 0.40f;
+            Fx.glow(c, x, y, 80 * k, 0x6A1A9A, 0.8f * fade, 3);
+            Fx.rays(c, x, y, 130 * k, 20, t * 0.25f, 0x9A3ACC, 0.55f * fade);
+            float pulse = 1 + 0.03f * (float) Math.sin(rt * 4);
+            if (headSkin != null || icon == null) {
+                segment(c, headSkin, true, x, y, 45 * k * pulse, 0, (float) Math.sin(rt * 0.8f) * 0.25f, fade);
+            } else {
                 c.push();
                 c.translate(x, y);
-                c.scale(sc, sc);
-                if (icon != null) c.item(icon, -8, -8);
+                c.scale(3.4f * k, 3.4f * k);
+                c.item(icon, -8, -8);
                 c.pop();
             }
-            if (snapped) {
-                float ta = Fx.smooth((t - SNAP) / 0.25f) * fade;
-                float tp = Fx.backOut(Fx.clamp01((t - SNAP) / 0.3f));
-                Fx.centered(c, "PET DROP!", w / 2f, top - 34 * k, 1.6f * k * tp, Fx.alpha(0xFFAA00, ta), true);
-                Fx.centered(c, (rarityLabel.isEmpty() ? "" : rarityLabel + " ") + name, w / 2f, top + rows * bs + 10 * k, 1.4f * k * tp, Fx.alpha(rarity, ta), true);
-                if (!subtitle.isEmpty()) Fx.centered(c, subtitle, w / 2f, top + rows * bs + 26 * k, 0.85f * k, Fx.alpha(0xD8D8E0, ta), false);
-                if (random.nextFloat() < 0.4f) {
-                    P sp = fx.add(x + (random.nextFloat() - 0.5f) * 50 * k, y + (random.nextFloat() - 0.5f) * 40 * k, 0, -18 * k, 0.8f, 2 * k, rarity);
-                    sp.kind = Kind.SPARKLE;
-                }
-            }
+            float ta = Fx.smooth(rt / 0.3f) * fade;
+            Fx.centered(c, "PET DROP!", x, y - 42 * k, 1.3f * k * Fx.backOut(Fx.clamp01(rt / 0.3f)), Fx.alpha(0xFFAA00, ta), true);
+            text.draw(c, (rarityLabel.isEmpty() ? "" : rarityLabel + " ") + name, rarity, coins, List.of(countLine),
+                    x, y + 38 * k, k, rt - 0.2f, fade, () -> hooks.sound(Cue.TICK, 1.7f, 0.25f), () -> hooks.sound(Cue.POP, 1.5f, 0.25f));
         }
-        c.pop();
         fx.update(dt);
         fx.render(c, fade);
+    }
+
+    /** One worm segment (a cube); the head shows the Scatha face. */
+    private void segment(Canvas c, CubeSkin skin, boolean head, float x, float y, float size, float rot, float yaw, float a) {
+        if (a < 0.03f) return;
+        iso.cx = x;
+        iso.cy = y + size * 0.5f;
+        iso.scale = size;
+        iso.yaw = yaw;
+        iso.pitch = (float) Math.toRadians(14);
+        iso.begin();
+        Pose pose = Pose.identity().pivot(0, 0.5f, 0).rollZ(rot);
+        if (skin != null) {
+            iso.box(c, skin, Piece.WHOLE, pose, 0, 0, 0, 1, 0.8f, 0, 0);
+        } else {
+            iso.solidBox(c, pose, -0.5f, 0, -0.5f, 0.5f, 1, 0.5f, head ? 0x2A2E3D : 0x3B4054, a, 0.8f);
+        }
+    }
+
+    /** A cleaver: wide pale blade, dark spine, wooden handle. */
+    private void cleaver(Canvas c, float x, float y, float k, float angle, float a) {
+        c.push();
+        c.translate(x, y);
+        c.rotate(angle - 1.2f);
+        c.scale(k, k);
+        c.fill(-2, -26, 14, -2, Fx.alpha(0xE8ECEF, a));
+        c.fill(-2, -26, 14, -24, Fx.alpha(0x8A9096, a));
+        c.fill(12, -26, 14, -2, Fx.alpha(0xFFFFFF, a));
+        c.fill(0, -2, 5, 14, Fx.alpha(0x7A4A24, a));
+        c.fill(0, 4, 5, 6, Fx.alpha(0x4A2A14, a));
+        c.pop();
     }
 }

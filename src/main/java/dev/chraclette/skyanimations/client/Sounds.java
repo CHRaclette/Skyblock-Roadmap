@@ -59,6 +59,14 @@ final class Sounds {
                 sound(SoundEvents.UI_TOAST_CHALLENGE_COMPLETE, 1.2f, v * 0.4f);
             }
             case SWOOSH -> sound(WHOOSH, pitch, v);
+            case ICE_HIT -> {
+                sound(SoundEvents.GLASS_HIT, pitch, v);
+                sound(SoundEvents.AMETHYST_BLOCK_HIT, pitch * 1.2f, v * 0.7f);
+            }
+            case ICE_BREAK -> {
+                sound(SoundEvents.GLASS_BREAK, pitch, v);
+                sound(SoundEvents.AMETHYST_CLUSTER_BREAK, 0.8f, v);
+            }
             case SLAP -> {
                 sound(SoundEvents.SLIME_BLOCK_PLACE, 1.2f, v);
                 sound(SoundEvents.PLAYER_LEVELUP, 1.6f, v * 0.6f);

@@ -143,6 +143,12 @@ public final class LedgerStore {
         return n;
     }
 
+    /** A Glacite Mineshaft corpse was looted. */
+    static void corpse() {
+        ledger.addRun("corpse");
+        save();
+    }
+
     /** A Crystal Nucleus run finished (loot bundle seen). */
     static void nucleusRun() {
         ledger.addRun("nucleus");
