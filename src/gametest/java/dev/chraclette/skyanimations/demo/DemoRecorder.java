@@ -44,8 +44,15 @@ public class DemoRecorder implements FabricClientGameTest {
                 c.getSoundManager().play(net.minecraft.client.resources.sounds.SimpleSoundInstance.forUI(
                         net.minecraft.sounds.SoundEvent.createVariableRangeEvent(net.minecraft.resources.Identifier.parse("skyanimations:case_tick")), 1f, 1f));
                 c.getSoundManager().play(net.minecraft.client.resources.sounds.SimpleSoundInstance.forUI(
-                        net.minecraft.sounds.SoundEvents.NOTE_BLOCK_PLING, 1f, 1f));
+                        net.minecraft.sounds.SoundEvents.NOTE_BLOCK_PLING.value(), 1f, 1f));
                 System.out.println("SOUNDCHECK played");
+                var inst = net.minecraft.client.resources.sounds.SimpleSoundInstance.forUI(
+                        net.minecraft.sounds.SoundEvent.createVariableRangeEvent(net.minecraft.resources.Identifier.parse("skyanimations:case_win")), 1f, 1f);
+                var w = inst.resolve(c.getSoundManager());
+                System.out.println("SOUNDCHECK resolve " + (w == null ? "NULL" : "ok") + " sound=" + inst.getSound() + " src=" + inst.getSource() + " vol=" + inst.getVolume());
+                if (inst.getSound() != null) System.out.println("SOUNDCHECK path " + inst.getSound().getPath());
+                System.out.println("SOUNDCHECK res " + c.getResourceManager().getResource(net.minecraft.resources.Identifier.parse("skyanimations:sounds/case_win.ogg")).isPresent()
+                        + " json " + c.getResourceManager().getResource(net.minecraft.resources.Identifier.parse("skyanimations:sounds.json")).isPresent());
             });
             context.waitTicks(20);
             if (true) return;
