@@ -42,7 +42,8 @@ final class ChatHider {
     /** True while the chat HUD should be hidden: an animation plays (or is about to). */
     static boolean hideWholeChat() {
         Config.Data cfg = Config.get();
-        if (Minecraft.getInstance().screen instanceof net.minecraft.client.gui.screens.ChatScreen) return false; // typing: show it
+        Object open = Minecraft.getInstance().gui.screen();
+        if (open != null && open.getClass().getSimpleName().contains("Chat")) return false; // typing: show it
         return cfg.enabled && cfg.hideChatInScene && (CutsceneManager.busy()
                 || (!held.isEmpty() && System.currentTimeMillis() - heldAt < 2500));
     }
