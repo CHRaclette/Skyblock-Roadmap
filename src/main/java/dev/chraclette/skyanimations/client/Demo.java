@@ -102,21 +102,6 @@ public final class Demo {
         } catch (ReflectiveOperationException e) {
             sb.append(" chat error ").append(e);
         }
-        if (true) return sb.toString();
-        Object gui = Minecraft.getInstance().gui;
-        sb.append(" gui=").append(gui.getClass().getName());
-        for (var m : gui.getClass().getMethods()) {
-            if (m.getReturnType().getName().toLowerCase().contains("chat")) sb.append(" | ").append(m.getName()).append("()->").append(m.getReturnType().getName()).append(" params=").append(m.getParameterCount());
-        }
-        for (var f : gui.getClass().getDeclaredFields()) {
-            if (f.getType().getName().toLowerCase().contains("chat")) sb.append(" | field ").append(f.getName()).append(":").append(f.getType().getName());
-        }
-        try {
-            Class<?> cc = Class.forName("net.minecraft.client.gui.components.ChatComponent");
-            for (var m : cc.getMethods()) if (m.getName().contains("add")) sb.append(" | CC.").append(m.getName()).append(java.util.Arrays.toString(m.getParameterTypes()));
-        } catch (ClassNotFoundException e) {
-            sb.append(" | no ChatComponent class");
-        }
         return sb.toString();
     }
 
