@@ -148,11 +148,9 @@ public final class DyeScene implements Scene {
             Fx.rays(c, cx, cy + bob, 90 * k * pop, 14, bt * 0.35f, Fx.brighten(now, 0.4f), 0.55f * fade);
             float sc = 3.2f * k * pop;
             if (sc > 0.05f) {
-                c.push();
-                c.translate(cx, cy + bob);
-                c.scale(sc, sc);
-                DyePot.draw(c, -8, -8, now, 0, 1f);
-                c.pop();
+                // the pot keeps slowly turning so you see it is 3D
+                float turn = (float) Math.toRadians(-35 + 25 * Math.sin(bt * 1.3f)) + bt * 0.9f;
+                DyePot.draw3d(c, cx, cy + bob, sc * 1.1f, turn, (float) Math.toRadians(4 * Math.sin(bt * 2.1f)), now, 1f);
             }
             if (random.nextFloat() < 0.5f) {
                 P sp = fx.add(cx + (random.nextFloat() - 0.5f) * 60 * k, cy + (random.nextFloat() - 0.5f) * 40 * k, 0, -20 * k, 0.8f, 2 * k, now);
@@ -182,20 +180,9 @@ public final class DyeScene implements Scene {
         float px = (h * 0.44f) * size / 225f / 16f;   // pixels per item texel
         double yaw = Math.toRadians(900 * Math.abs(Math.sin(f5)));
         float roll = (float) Math.toRadians(6 * Math.cos(f * 8));
-        float sx = (float) Math.cos(yaw), depth = (float) Math.sin(yaw);
-        // soft light behind it in the dye colour
+                // soft light behind it in the dye colour
         Fx.glow(c, x, y, 9 * px * 1.2f, col(f * POP_IN), 0.5f * fade, 2);
-        c.push();
-        c.translate(x, y);
-        c.rotate(roll);
-        // one texel thick, like the 3D item: back layers first
-        for (int i = 4; i >= 0; i--) {
-            c.push();
-            c.translate(depth * i * 0.25f * px, 0);
-            c.scale(px * (Math.abs(sx) < 0.06f ? 0.06f * Math.signum(sx == 0 ? 1 : sx) : sx), px);
-            DyePot.draw(c, -8, -8, col(f * POP_IN), i == 0 ? 0 : 0.6f, 1f);
-            c.pop();
-        }
-        c.pop();
+        // the 3D paint pot, spinning like the item activation (900 degrees while it grows)
+        DyePot.draw3d(c, x, y, px * 1.15f, (float) yaw, roll, col(f * POP_IN), 1f);
     }
 }

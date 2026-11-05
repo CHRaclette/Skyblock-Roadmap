@@ -172,6 +172,35 @@ public final class Iso {
         c.pop();
     }
 
+    /**
+     * A quad covered with a grid of pixel colours (rows top to bottom along V, columns along U), lit like
+     * the other faces. colors[row][col] = 0xRRGGBB, or -1 for a hole. Returns false if it faces away.
+     */
+    public boolean pixelQuad(Canvas c, Pose pose, float[] o, float[] u, float[] v, float[] n, int[][] colors, float alpha) {
+        float[] q = quad(pose, o, u, v, n, true);
+        if (q == null) return false;
+        int rows = colors.length, cols = colors[0].length;
+        float dark = shade(pose, n) / 255f;
+        int a = Math.max(0, Math.min(255, Math.round(alpha * 255))) << 24;
+        c.push();
+        c.transform(q[0] / K, q[1] / K, q[2] / K, q[3] / K, q[4], q[5]);
+        for (int r = 0; r < rows; r++) {
+            int y0 = r * K / rows, y1 = (r + 1) * K / rows;
+            int start = 0;
+            for (int col = 1; col <= cols; col++) {
+                if (col < cols && colors[r][col] == colors[r][start]) continue;
+                int rgb = colors[r][start];
+                if (rgb >= 0) {
+                    // overlap by a hair so no seams show between pixels
+                    c.fill(start * K / cols - 2, y0 - 2, col * K / cols + 2, y1 + 2, a | Fx.lerpColor(rgb, 0, dark));
+                }
+                start = col;
+            }
+        }
+        c.pop();
+        return true;
+    }
+
     // ------------------------------------------------------------------ boxes
 
     /**
